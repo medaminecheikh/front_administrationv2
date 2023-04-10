@@ -22,6 +22,7 @@
     "@angular/router": "^15.1.0",
     "admin-lte": "3.1",
     "crypto-js": "^4.1.1",
+    "jwt-decode": "^3.1.2",
     "ngx-toastr": "^16.1.0",
     "rxjs": "~7.8.0",
     "toastr": "^2.1.4",
