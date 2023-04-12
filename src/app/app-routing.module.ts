@@ -42,6 +42,7 @@ const routes: Routes = [
   { path: 'update-profil/:id',   component: UpdateProfilComponent },
   { path: 'detail-profil/:id',   component: DetailProfilComponent },
   { path: 'login',   component: LoginComponent },
+  { path: '',   component: LoginComponent },
   { path: 'dashboard',   component: DashboardComponent,canActivate:[LoginGuard] },
   { path: 'list-zone',   component: ListZoneComponent,canActivate:[LoginGuard] },
   { path: 'add-zone',   component: AddZoneComponent,canActivate:[LoginGuard] },
