@@ -1,1 +1,47 @@
-<p>login works!</p>
+<div class="hold-transition login-page">
+  <div class="login-box">
+
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <a  class="h1"><b>Service</b> TT</a>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+        <form (ngSubmit)="onSubmit()" >
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Username" [(ngModel)]="form.username" name="username" >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="Password"  [(ngModel)]="form.password" name="password" >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+
+            <div class="social-auth-links text-center mt-2 mb-3">
+              <button href="#" class="btn btn-block btn-primary">
+                 Login    <i class="fas fa-arrow-right-to-bracket "></i>
+              </button>
+            </div>
+          <div >
+            <div class="alert alert-danger" *ngIf="isLoginFailed">
+             {{ errorMessage }} <i class="fas fa-triangle-exclamation fa-beat-fade"></i>
+            </div>
+          </div>
+
+        </form>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

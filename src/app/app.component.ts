@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'front-administration';
+  title = 'Tunisie Telecom';
+
+  showNav = true;
 }

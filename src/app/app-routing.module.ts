@@ -27,6 +27,10 @@ import {AddProfilComponent} from "./components/profil/add-profil/add-profil.comp
 import {UpdateProfilComponent} from "./components/profil/update-profil/update-profil.component";
 import {DetailProfilComponent} from "./components/profil/detail-profil/detail-profil.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {ListModelComponent} from "./components/model/list-model/list-model.component";
+import {AddModelComponent} from "./components/model/add-model/add-model.component";
+import {DetailModelComponent} from "./components/model/detail-model/detail-model.component";
+import {UpdateModelComponent} from "./components/model/update-model/update-model.component";
 
 const routes: Routes = [
   { path: 'list-user',   component: ListUserComponent },
@@ -38,7 +42,6 @@ const routes: Routes = [
   { path: 'update-profil/:id',   component: UpdateProfilComponent },
   { path: 'detail-profil/:id',   component: DetailProfilComponent },
   { path: 'login',   component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard',   component: DashboardComponent,canActivate:[LoginGuard] },
   { path: 'list-zone',   component: ListZoneComponent,canActivate:[LoginGuard] },
   { path: 'add-zone',   component: AddZoneComponent,canActivate:[LoginGuard] },
@@ -56,11 +59,16 @@ const routes: Routes = [
   { path: 'detail-fonc/:id',   component: DetailFoncComponent,canActivate:[LoginGuard] },
   { path: 'update-fonc/:id',   component: UpdateFoncComponent,canActivate:[LoginGuard] },
   { path: 'add-fonc',   component: AddFoncComponent,canActivate:[LoginGuard] },
-  { path: 'list-fonction',   component: ListFoncComponent,canActivate:[LoginGuard] },
+  { path: 'list-fonc',   component: ListFoncComponent,canActivate:[LoginGuard] },
+  { path: 'list-model',   component: ListModelComponent,canActivate:[LoginGuard] },
+  { path: 'detail-model',   component: DetailModelComponent,canActivate:[LoginGuard] },
+  { path: 'add-model',   component: AddModelComponent,canActivate:[LoginGuard] },
+  { path: 'update-model',   component: UpdateModelComponent,canActivate:[LoginGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
