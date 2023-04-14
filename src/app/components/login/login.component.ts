@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit{
   };
 
   constructor(private authService: AuthService,private toastr: ToastrService,
-              private router: Router,private appComponent: AppComponent) {
-    appComponent.showNav = false;
+              private router: Router) {
+
 
     authService.logout();
   }
@@ -38,8 +38,11 @@ export class LoginComponent implements OnInit{
 
         this.isLoggedIn = true;
         this.isLoginFailed = false;
-        this.appComponent.showNav = true;
-        this.router.navigate(['dashboard']);
+
+        this.router.navigate(['admin']).then(() => {
+          // Reload the current URL
+          window.location.reload();
+        });
 
       },
       (error) => {
@@ -62,6 +65,6 @@ export class LoginComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
+this.authService.logout();
   }
 }

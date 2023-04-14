@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class AuthService {
+
   host = "http://localhost:8088/POS/auth/";
   private currentUserSubject: BehaviorSubject<CurrentUser | null>;
   public currentUser: Observable<CurrentUser | null>;

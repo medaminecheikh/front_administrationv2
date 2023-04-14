@@ -1,21 +1,4 @@
-<div class="wrapper">
 
 
-  <app-navbar *ngIf="showNav"></app-navbar>
+  <router-outlet></router-outlet>
 
-
-  <app-sidebar *ngIf="showNav"></app-sidebar>
-
-
-
-    <router-outlet></router-outlet>
-
-
-
-
-  <aside *ngIf="showNav" class="control-sidebar control-sidebar-dark">
-
-  </aside>
-
-  <app-footer *ngIf="showNav"></app-footer>
-</div>
