@@ -11,6 +11,7 @@ import {LayoutsModule} from "../../layouts/layouts/layouts.module";
     AdminComponent,
 
 
+
   ],
   imports: [
     CommonModule,

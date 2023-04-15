@@ -1,30 +1,37 @@
- import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './admin.component';
- import {DashboardComponent} from "./dashboard/dashboard.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
-  { path: '',
-    component: AdminComponent,
-    children: [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'dashboard'
+  },
 
-      {
-        path: 'user',
-        loadChildren: () =>
-          import('./user/user.module').then((m) => m.UserModule)
-      },
-      {
-        path: 'ett',
-        loadChildren: () => import('./ett/ett.module').then((m) => m.EttModule)
-      },
-      {
-        path: 'model',
-        loadChildren: () =>
-          import('./model/model.module').then((m) => m.ModelModule)
-      }
-    ]
-  }
-  ]
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboardadmin/dashboardadmin.module').then(m => m.DashboardadminModule)
+  },
+  {
+    path: 'zone',
+    loadChildren: () => import('./zone/zone.module').then(m => m.ZoneModule)
+  },
+  {
+    path: 'fonction',
+    loadChildren: () => import('./fonction/fonction.module').then(m => m.FonctionModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+  },
+  {
+    path: 'ett',
+    loadChildren: () => import('./ett/ett.module').then(m => m.EttModule)
+  },
+  {
+    path: 'model',
+    loadChildren: () => import('./model/model.module').then(m => m.ModelModule)
+  }]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

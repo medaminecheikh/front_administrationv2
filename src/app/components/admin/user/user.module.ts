@@ -25,7 +25,7 @@ import {LayoutsModule} from "../../../layouts/layouts/layouts.module";
     UserRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    LayoutsModule,
+
 
   ]
 })

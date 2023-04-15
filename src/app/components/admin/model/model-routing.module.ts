@@ -5,7 +5,8 @@ import {ListModelComponent} from "./list-model/list-model.component";
 import {AddModelComponent} from "./add-model/add-model.component";
 import {UpdateModelComponent} from "./update-model/update-model.component";
 
-const routes: Routes = [ {path: '',
+const routes: Routes = [
+  {path: '',
   children: [
   { path: 'add', component: AddModelComponent },
   { path: 'update/:id', component: UpdateModelComponent },
