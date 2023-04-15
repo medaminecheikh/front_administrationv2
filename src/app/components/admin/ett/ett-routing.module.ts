@@ -1,10 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EttComponent } from './ett.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {UpdateEttComponent} from "./update-ett/update-ett.component";
 import {ListEttComponent} from "./list-ett/list-ett.component";
 import {AddEttComponent} from "./add-ett/add-ett.component";
-import {DetailEttComponent} from "./detail-ett/detail-ett.component";
 
 const routes: Routes = [
   {

@@ -31,7 +31,11 @@ const routes: Routes = [
   {
     path: 'model',
     loadChildren: () => import('./model/model.module').then(m => m.ModelModule)
-  }]
+  },
+  { path: 'profil',
+    loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
+  { path: 'dr', loadChildren: () => import('./dr/dr.module').then(m => m.DrModule) }
+]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
