@@ -6,6 +6,8 @@ import {ListFoncComponent} from "./list-fonc/list-fonc.component";
 import {DetailFoncComponent} from "./detail-fonc/detail-fonc.component";
 import {AddFoncComponent} from "./add-fonc/add-fonc.component";
 import {UpdateFoncComponent} from "./update-fonc/update-fonc.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import {UpdateFoncComponent} from "./update-fonc/update-fonc.component";
   ],
   imports: [
     CommonModule,
-    FonctionRoutingModule
+    FonctionRoutingModule,
+    ReactiveFormsModule,
+    MatInputModule
   ]
 })
 export class FonctionModule { }
