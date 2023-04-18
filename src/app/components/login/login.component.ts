@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit{
           this.errorMessage="Le compte a expiré";
         } else {
           this.toastr.error('Une erreur est survenue.', 'error');
-          this.errorMessage="Une erreur est survenue !";
+          this.errorMessage="Une erreur est survenue ";
         }
         this.isLoginFailed = true;
       }

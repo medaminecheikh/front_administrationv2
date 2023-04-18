@@ -19,8 +19,55 @@
 
   <div class="content">
     <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card card-outline card-info">
+            <div class="card-header">
+              <h3 class="card-title">
+                Model Form
+              </h3>
+              <div class="card-tools">
+                <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
+                  class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
+              </div>
+            </div>
+            <form [formGroup]="modelForm" >
+              <div class="card-body">
+                <div class="row ml-2">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Obs</label>
+                      <input formControlName="obs" placeholder="Obs " type="text" class="form-control  "
+                             [ngClass]="{'is-invalid': modelForm.get('obs')?.invalid && showError,'is-valid':modelForm.get('obs')?.valid && showError}">
+                      <span *ngIf="modelForm.get('obs')?.hasError('required')" class="error invalid-feedback">Obs is required.</span>
+                      <span *ngIf="modelForm.get('obs')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
+                     characters.</span>
+                    </div>
+                  </div>
 
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label>Description</label>
+                      <input formControlName="desMOD" placeholder="Description" type="text" class="form-control "
+                             [ngClass]="{'is-invalid': modelForm.get('desMOD')?.invalid && showError,'is-valid':modelForm.get('desMOD')?.valid && showError}">
+                      <span *ngIf="modelForm.get('desMOD')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
+                      <span *ngIf="modelForm.get('desMOD')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
+                     characters.</span>
+                    </div>
+                  </div>
+                </div>
 
+              </div>
+              <div class="card-footer">
+                <div class="">
+                  <button class="btn  bg-gradient-success" type="button" (click)="addModel()">Save <i
+                    class="fa-regular fa-circle-check"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

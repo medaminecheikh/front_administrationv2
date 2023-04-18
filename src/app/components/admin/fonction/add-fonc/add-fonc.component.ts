@@ -32,7 +32,7 @@ export class AddFoncComponent implements OnInit{
       desF: ['', [Validators.required, Validators.maxLength(100)]],
       f_ADM: ['', Validators.required],
       f_DROIT_ACCES: ['', Validators.required],
-      fon_COD_F: ['', [Validators.required, Validators.maxLength(30)]],
+      fon_COD_F: [null, [ Validators.maxLength(30)]],
       nomF: ['', [Validators.required, Validators.maxLength(50)]],
       nomMENU: ['', [Validators.required, Validators.maxLength(30)]],
 
@@ -52,7 +52,7 @@ export class AddFoncComponent implements OnInit{
       ).subscribe((response) => {
         const foncId = response.idFonc;
         const id = CryptoJS.AES.encrypt(foncId.trim(), SECRET_KEY).toString();
-        this.router.navigate(['detail', id]);
+        this.router.navigate(['/fonction/detail', id]);
         this.toastr.success('Function added successfully!', 'Success');
       });
     }

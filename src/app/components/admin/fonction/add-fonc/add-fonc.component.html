@@ -73,11 +73,10 @@
                 </div>
                 <div class="row ml-2">
                   <div class="col-md-3">
-
                     <div class="form-group">
                       <label>Nom Menu</label>
                       <input formControlName="nomMENU" placeholder="Nom Menu" type="text" class="form-control "
-                             [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError}">
+                             [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
                       <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
                       <span *ngIf="foncForm.get('nomMENU')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
                      characters.</span>
@@ -88,7 +87,6 @@
                       <label>Type Menu</label>
                       <input formControlName="fon_COD_F" placeholder="Type Menu" type="text" class="form-control "
                              [ngClass]="{'is-invalid': foncForm.get('fon_COD_F')?.invalid && showError,'is-valid':foncForm.get('fon_COD_F')?.valid && showError}">
-                      <span *ngIf="foncForm.get('fon_COD_F')?.hasError('required')" class="error invalid-feedback">Type Menu is required.</span>
                       <span *ngIf="foncForm.get('fon_COD_F')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
                      characters.</span>
                     </div>
