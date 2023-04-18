@@ -31,7 +31,7 @@
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
               </div>
             </div>
-            <form [formGroup]="modelForm" >
+            <form [formGroup]="modelForm">
               <div class="card-body">
                 <div class="row ml-2">
                   <div class="col-md-4">
@@ -66,6 +66,46 @@
               </div>
             </form>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-outline card-indigo">
+            <div class="card-header">
+              <h3 class="card-title">Affecter Fonctions</h3>
+            </div>
+            <div class="card-body">
+              <table>
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Main Menu Item</th>
+                  <th>Submenu Item</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let mainMenu of mainMenus">
+                  <tr>
+                    <td><input type="checkbox" [(ngModel)]="mainMenu.checked" (change)="toggleSubMenu(mainMenu)"></td>
+                    <td>{{ mainMenu.name }}</td>
+                    <td></td>
+                  </tr>
+                  <ng-container *ngFor="let subMenu of mainMenu.subMenus">
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td><input type="checkbox" [(ngModel)]="subMenu.checked"> {{ subMenu.nomF }}</td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+                </tbody>
+              </table>
+
+            </div>
+
+
+          </div>
+
         </div>
       </div>
     </div>
