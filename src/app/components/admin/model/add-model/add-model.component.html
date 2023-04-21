@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+<div class="content-wrapper ">
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
@@ -75,9 +75,9 @@
               <h3 class="card-title text-bold ">Affecter Fonctions</h3>
             </div>
             <div class="card-body">
-              <div class="card flex flex-column align-items-center justify-content-center">
-                <p-tree [value]="files" selectionMode="checkbox" class="w-full md:w-30rem" [(selection)]="selectedFiles"  (selectionChange)="onFileSelectionChange($event)"></p-tree>
-              </div>
+
+                <p-tree [value]="files" selectionMode="checkbox"  [filter]="true" filterMode="strict" class="w-full md:w-30rem" [(selection)]="selectedFiles"  (selectionChange)="onFileSelectionChange($event)"></p-tree>
+
 
             </div>
 

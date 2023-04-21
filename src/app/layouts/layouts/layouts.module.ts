@@ -5,6 +5,10 @@ import { LayoutsRoutingModule } from './layouts-routing.module';
 import {FooterComponent} from "../footer/footer.component";
 import {NavbarComponent} from "../navbar/navbar.component";
 import {SidebarComponent} from "../sidebar/sidebar.component";
+import {TieredMenuModule} from "primeng/tieredmenu";
+import {ButtonModule} from "primeng/button";
+import {MenuModule} from "primeng/menu";
+import {MenubarModule} from "primeng/menubar";
 
 
 @NgModule({
@@ -15,7 +19,11 @@ import {SidebarComponent} from "../sidebar/sidebar.component";
   ],
   imports: [
     CommonModule,
-    LayoutsRoutingModule
+    LayoutsRoutingModule,
+    TieredMenuModule,
+    ButtonModule,
+    MenuModule,
+    MenubarModule
   ],
   exports: [
     NavbarComponent,

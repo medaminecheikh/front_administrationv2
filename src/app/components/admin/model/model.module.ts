@@ -11,6 +11,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TreeTableModule} from "primeng/treetable";
 import {MultiSelectModule} from "primeng/multiselect";
 import {TreeModule} from "primeng/tree";
+import {FieldsetModule} from "primeng/fieldset";
 
 
 
@@ -30,6 +31,7 @@ import {TreeModule} from "primeng/tree";
     TreeTableModule,
     MultiSelectModule,
     TreeModule,
+    FieldsetModule,
 
   ]
 })

@@ -15,6 +15,7 @@ import {ToastrModule} from "ngx-toastr";
 import {AdminModule} from "./components/admin/admin.module";
 import {LayoutsModule} from "./layouts/layouts/layouts.module";
 import {TokenInterceptorService} from "./services/token-interceptor.service";
+import {ScrollTopModule} from "primeng/scrolltop";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {TokenInterceptorService} from "./services/token-interceptor.service";
     }),
     AdminModule,
     LayoutsModule,
+    ScrollTopModule,
 
 
   ],
