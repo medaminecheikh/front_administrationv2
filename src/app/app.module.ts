@@ -44,6 +44,7 @@ import {TokenInterceptorService} from "./services/token-interceptor.service";
     AdminModule,
     LayoutsModule,
 
+
   ],
   providers: [ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}],
   exports: [],

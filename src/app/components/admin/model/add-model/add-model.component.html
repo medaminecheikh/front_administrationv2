@@ -23,8 +23,8 @@
         <div class="col-md-12 ">
           <div class="card card-outline card-info">
             <div class="card-header">
-              <h3 class="card-title">
-                Model Form
+              <h3 class="card-title text-bold">
+               Model Form
               </h3>
               <div class="card-tools">
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
@@ -72,34 +72,12 @@
         <div class="col-12">
           <div class="card card-outline card-indigo">
             <div class="card-header">
-              <h3 class="card-title">Affecter Fonctions</h3>
+              <h3 class="card-title text-bold ">Affecter Fonctions</h3>
             </div>
             <div class="card-body">
-              <table>
-                <thead>
-                <tr>
-                  <th></th>
-                  <th>Main Menu Item</th>
-                  <th>Submenu Item</th>
-                </tr>
-                </thead>
-                <tbody>
-                <ng-container *ngFor="let mainMenu of mainMenus">
-                  <tr>
-                    <td><input type="checkbox" [(ngModel)]="mainMenu.checked" (change)="toggleSubMenu(mainMenu)"></td>
-                    <td>{{ mainMenu.name }}</td>
-                    <td></td>
-                  </tr>
-                  <ng-container *ngFor="let subMenu of mainMenu.subMenus">
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td><input type="checkbox" [(ngModel)]="subMenu.checked"> {{ subMenu.nomF }}</td>
-                    </tr>
-                  </ng-container>
-                </ng-container>
-                </tbody>
-              </table>
+              <div class="card flex flex-column align-items-center justify-content-center">
+                <p-tree [value]="files" selectionMode="checkbox" class="w-full md:w-30rem" [(selection)]="selectedFiles"  (selectionChange)="onFileSelectionChange($event)"></p-tree>
+              </div>
 
             </div>
 

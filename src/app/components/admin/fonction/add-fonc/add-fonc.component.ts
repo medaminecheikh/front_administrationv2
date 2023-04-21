@@ -32,7 +32,7 @@ export class AddFoncComponent implements OnInit{
       desF: ['', [Validators.required, Validators.maxLength(100)]],
       f_ADM: ['', Validators.required],
       f_DROIT_ACCES: ['', Validators.required],
-      fon_COD_F: [null, [ Validators.maxLength(30)]],
+      fon_COD_F: ['', [ Validators.maxLength(30)]],
       nomF: ['', [Validators.required, Validators.maxLength(50)]],
       nomMENU: ['', [Validators.required, Validators.maxLength(30)]],
 

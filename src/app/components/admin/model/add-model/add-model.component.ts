@@ -6,6 +6,7 @@ import {ModelService} from "../../../../services/model.service";
 import {FonctionService} from "../../../../services/fonction.service";
 import {Fonctionalite} from "../../../../modules/Fonctionalite";
 import {Model} from "../../../../modules/Model";
+import {TreeNode} from "primeng/api";
 
 
 @Component({
@@ -13,168 +14,76 @@ import {Model} from "../../../../modules/Model";
   templateUrl: './add-model.component.html',
   styleUrls: ['./add-model.component.scss']
 })
+
 export class AddModelComponent implements OnInit{
   showError:boolean =false;
   modelForm !: FormGroup;
   model!:Model;
   functions:Fonctionalite[]=[];
+  selectedFiles!: TreeNode[];
+
   selectedFonc :Fonctionalite[]=[];
-  mainMenus: any[] = [];
-  fonctions : Fonctionalite[] = [
-    {
-      codF: '1',
-      desF: 'Main menu item 1',
-      f_ADM: 1,
-      f_DROIT_ACCES: 1,
-      fon_COD_F: "",
-      idFonc: '1',
-      models: [],
-      nomF: 'Main menu item 1',
-      nomMENU: 'Main Menu',
-      profils: [],
-      totalElements: 0,
-    },
-    {
-      codF: '2',
-      desF: 'Submenu item 1 of Main menu item 2',
-      f_ADM: 1,
-      f_DROIT_ACCES: 1,
-      fon_COD_F: 'Main menu item 2',
-      idFonc: '2',
-      models: [],
-      nomF: 'Submenu item 1 of Main menu item 2',
-      nomMENU: 'Main Menu',
-      profils: [],
-      totalElements: 0,
-    },
-    {
-      codF: '3',
-      desF: 'Submenu item 2 of Main menu item 2',
-      f_ADM: 1,
-      f_DROIT_ACCES: 1,
-      fon_COD_F: 'Main menu item 2',
-      idFonc: '3',
-      models: [],
-      nomF: 'Submenu item 2 of Main menu item 2',
-      nomMENU: 'Main Menu',
-      profils: [],
-      totalElements: 0,
-    },
-    {
-      codF: '4',
-      desF: 'Main menu item 2',
-      f_ADM: 1,
-      f_DROIT_ACCES: 1,
-      fon_COD_F: "",
-      idFonc: '4',
-      models: [],
-      nomF: 'Main menu item 2',
-      nomMENU: 'Main Menu',
-      profils: [],
-      totalElements: 0,
-    },
-    {
-      codF: '5',
-      desF: 'Submenu item 1 of Main menu item 3',
-      f_ADM: 1,
-      f_DROIT_ACCES: 1,
-      fon_COD_F: 'Main menu item 3',
-      idFonc: '5',
-      models: [],
-      nomF: 'Submenu item 1 of Main menu item 3',
-      nomMENU: 'Main Menu',
-      profils: [],
-      totalElements: 0,
-    },
-    {
-      codF: '6',
-      desF: 'Submenu item 2 of Main menu item 3',
-      f_ADM: 1,
-      f_DROIT_ACCES: 1,
-      fon_COD_F: 'Main menu item 3',
-      idFonc: '6',
-      models: [],
-      nomF: 'Submenu item 2 of Main menu item 3',
-      nomMENU: 'Main Menu',
-      profils: [],
-      totalElements: 0,
-    },
-    {
-      codF: '7',
-      desF: 'Main menu item 3',
-      f_ADM: 1,
-      f_DROIT_ACCES: 1,
-      fon_COD_F: "",
-      idFonc: '7',
-      models: [],
-      nomF: 'Main menu item 3',
-      nomMENU: 'Main Menu',
-      profils: [],
-      totalElements: 0,
-    },
+  functionalites  : Fonctionalite[] = [
+    {codF: "1", desF: "Fonctionalite 1", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "", idFonc: "1", models: [], nomF: "Fonctionalite 1", nomMENU: "Menu 1",profils:[],totalElements:0},
+    {codF: "2", desF: "Fonctionalite 2", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "", idFonc: "2", models: [], nomF: "Fonctionalite 2", nomMENU: "Menu 2",profils:[],totalElements:0},
+    {codF: "3", desF: "Sous-fonctionalite 1 de Menu 1", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "Menu 1_1", idFonc: "3", models: [], nomF: "Sous-fonctionalite 1 de Menu 1", nomMENU: "Menu 1",profils:[],totalElements:0},
+    {codF: "4", desF: "Sous-fonctionalite 2 de Menu 1", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "Menu 1_2", idFonc: "4", models: [], nomF: "Sous-fonctionalite 2 de Menu 1", nomMENU: "Menu 1",profils:[],totalElements:0},
+    {codF: "5", desF: "Sous-fonctionalite 1 de Menu 2", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "Menu 2_1", idFonc: "5", models: [], nomF: "Sous-fonctionalite 1 de Menu 2", nomMENU: "Menu 2",profils:[],totalElements:0}
+
   ];
+  files!: TreeNode[];
+
+
+  cols = [
+    { field: 'name', header: 'Name' },
+    { field: 'size', header: 'Size' },
+    { field: 'type', header: 'Type' }
+  ];
+
 
   constructor(private router: Router,private formBuilder: FormBuilder,
               private toastr: ToastrService,private modelService:ModelService,
               private foncService:FonctionService) {}
 
-
-
   ngOnInit(): void {
-
-      this.storeMenus();
-      console.log('Final main menus:', this.mainMenus);
-      console.log('Functions:', this.functions);
-
 
 
     this.modelForm = this.formBuilder.group({
       obs: ['', [Validators.required, Validators.maxLength(30)]],
       desMOD: ['', [Validators.required, Validators.maxLength(100)]]
     });
+    this.files = this.transformToTreeNode(this.functionalites);
   }
-  toggleSubMenu(mainMenu: any) {
-    for (let subMenu of mainMenu.subMenus) {
-      subMenu.checked = mainMenu.checked;
-      if (subMenu.checked) {
-        const index = this.selectedFonc.findIndex((f: Fonctionalite) => f.idFonc === subMenu.idFonc);
-        if (index === -1) {
-          this.selectedFonc.push(subMenu);
-        }
+
+  transformToTreeNode(data: Fonctionalite[]): TreeNode[] {
+    const roots: TreeNode[] = [];
+
+    // Create a map of nodes indexed by their IDs
+    const nodeMap = new Map<string, TreeNode>();
+
+    // Create tree nodes from data and add them to the map and the appropriate list
+    for (const item of data) {
+      const treeNode = {
+        key: item.fon_COD_F || item.nomMENU,
+        label: item.nomF,
+        data: item,
+        children: []
+      };
+      nodeMap.set(treeNode.key, treeNode);
+
+      if (!item.fon_COD_F) {
+        roots.push(treeNode);
       } else {
-        const index = this.selectedFonc.findIndex((f: Fonctionalite) => f.idFonc === subMenu.idFonc);
-        if (index !== -1) {
-          this.selectedFonc.splice(index, 1);
+        const parentNode = nodeMap.get(item.nomMENU);
+        if (parentNode) {
+          parentNode.children?.push(treeNode);
         }
       }
     }
 
-    // Remove submenu items that belong to unchecked main menu item
-    if (!mainMenu.checked) {
-      this.selectedFonc = this.selectedFonc.filter((f: Fonctionalite) => {
-        return !mainMenu.subMenus.some((sm: any) => sm.idFonc === f.idFonc);
-      });
-    }
+    return roots;
+  }
 
-    console.log(this.selectedFonc);
-  }
-  storeMenus() {
-    this.mainMenus = [];
-    this.fonctions.forEach((func: Fonctionalite) => {
-      if (!func.fon_COD_F) {
-        const mainMenu = {
-          name: func.nomF,
-          subMenus: [] as Fonctionalite[]
-        };
-        this.fonctions.forEach((subFunc: Fonctionalite) => {
-          if (subFunc.fon_COD_F && subFunc.fon_COD_F === func.nomF) {
-            mainMenu.subMenus.push(subFunc);
-          }
-        });
-        this.mainMenus.push(mainMenu);
-      }
-    });
-  }
 
 
   addModel() {
@@ -187,4 +96,13 @@ export class AddModelComponent implements OnInit{
   }
   }
 
+
+  onFileSelectionChange(event: any) {
+
+    console.log(this.selectedFiles)
+
+     this.selectedFonc =this.selectedFiles.map(node => node.data);
+      console.log('Selected Fonctionalites:', this.selectedFonc);
+
+  }
 }
