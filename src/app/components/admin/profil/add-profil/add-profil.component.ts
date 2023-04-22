@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Profil} from "../../../../modules/Profil";
 import {Fonctionalite} from "../../../../modules/Fonctionalite";
 import {Model} from "../../../../modules/Model";
@@ -11,6 +11,7 @@ import {FonctionService} from "../../../../services/fonction.service";
 import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SECRET_KEY} from "../../../../guards/constants";
+import {TreeNode} from "primeng/api";
 
 @Component({
   selector: 'app-add-profil',
@@ -20,8 +21,10 @@ import {SECRET_KEY} from "../../../../guards/constants";
 export class AddProfilComponent implements OnInit{
   profilForm !: FormGroup;
   profil!: Profil;
-  foncCtrl = new FormControl();
-  model = new FormControl();
+  showError:boolean =false;
+  functions:Fonctionalite[]=[];
+  selectedFiles!: TreeNode[];
+
   foncs:Fonctionalite[]=[];
   selectedFonc :Fonctionalite[]=[];
   models:Model[]=[];
@@ -39,17 +42,11 @@ export class AddProfilComponent implements OnInit{
     this.foncService.getAllFoncs().subscribe((data:Fonctionalite[])=>{this.foncs= data});
 
     this.profilForm= this.formBuilder.group({
-      nomP: ['', Validators.required],
-      des_P: ['', Validators.required]
+      nomP: ['', [Validators.required, Validators.maxLength(30)]],
+      des_P: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
-  onSelectionfonc() {
-    this.selectedFonc=this.foncCtrl.value;
-  }
 
-  onSelectionmodel() {
-    this.selectedModel=this.model.value;
-  }
 
   addProfil() {
     if (this.profilForm.valid) {
@@ -123,6 +120,7 @@ export class AddProfilComponent implements OnInit{
         }
       );
     } else {
+      this.showError=true;
       this.toastr.warning('Please fill form correctly.', 'Warning');
     }
   }

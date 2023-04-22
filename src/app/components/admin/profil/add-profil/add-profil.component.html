@@ -18,6 +18,139 @@
 
   <div class="content">
     <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card card-outline card-info">
+            <div class="card-header">
+              <h3 class="card-title text-bold">
+                Model Form
+              </h3>
+              <div class="card-tools">
+                <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
+                  class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
+              </div>
+            </div>
+            <form [formGroup]="profilForm">
+              <div class="card-body">
+                <div class="row ml-2">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Nom Profil</label>
+                      <input formControlName="nomP" placeholder="Nom " type="text" class="form-control  "
+                             [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
+                      <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Obs is required.</span>
+                      <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
+                     characters.</span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label>Description</label>
+                      <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
+                             [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
+                      <span *ngIf="profilForm.get('des_P')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
+                      <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
+                     characters.</span>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="ml-2 col-md-auto">
+                  <div class="card collapsed-card ">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <h5><i class=" fas fa-info"></i> Liste des Fonctions</h5>
+                      </div>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                          class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body" style="display: none;">
+                      <div class="card-body table-responsive p-0" style="height: 200px;">
+                        <table class="table table-head-fixed text-nowrap">
+                          <thead>
+                          <tr>
+                            <th>Code Fonction</th>
+                            <th>Nom Fonction</th>
+                            <th>Admin</th>
+                            <th>Droit Acces</th>
+                            <th>Description</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let selected of selectedFonc">
+                            <td>{{selected.codF}}</td>
+                            <td>{{selected.nomF}}</td>
+                            <td>{{selected.f_ADM}}</td>
+                            <td><span class="tag tag-success">{{selected.f_DROIT_ACCES}}</span></td>
+                            <td>{{selected.desF}}</td>
+                          </tr>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="card-footer">
+                <div class="">
+                  <button class="btn  bg-gradient-success" type="button" (click)="addProfil()">Save <i
+                    class="fa-regular fa-circle-check"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card collapsed-card card-outline card-indigo">
+            <div class="card-header">
+
+              <h3 class="card-title text-bold ">Affecter Model</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                  class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body" style="display: none;">
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card collapsed-card card-outline card-indigo">
+            <div class="card-header">
+
+              <h3 class="card-title text-bold ">Affecter des Fonctions</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                  class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body" style="display: none;">
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
     </div>
   </div>
 </div>
