@@ -122,7 +122,6 @@
             </div>
             <div class="card-body" style="display: none;">
 
-
             </div>
           </div>
 
@@ -143,6 +142,9 @@
             </div>
             <div class="card-body" style="display: none;">
 
+              <p-tree [value]="files" selectionMode="checkbox" [filter]="true" filterMode="strict"
+                      class="w-min md:w-30rem" [(selection)]="selectedFiles"
+                      (selectionChange)="onFileSelectionChange($event)"></p-tree>
 
             </div>
           </div>

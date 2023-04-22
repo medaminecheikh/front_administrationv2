@@ -52,7 +52,7 @@ export class AddFoncComponent implements OnInit{
       ).subscribe((response) => {
         const foncId = response.idFonc;
         const id = CryptoJS.AES.encrypt(foncId.trim(), SECRET_KEY).toString();
-        this.router.navigate(['/fonction/detail', id]);
+        this.router.navigate(['admin/fonction/detail', id]);
         this.toastr.success('Function added successfully!', 'Success');
       });
     }
