@@ -31,14 +31,9 @@ export class AddModelComponent implements OnInit{
     {codF: "5", desF: "Sous-fonctionalite 1 de Menu 2", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "Menu 2_1", idFonc: "5", models: [], nomF: "Sous-fonctionalite 1 de Menu 2", nomMENU: "Menu 2",profils:[],totalElements:0}
 
   ];
-  files!: TreeNode[];
+  files : TreeNode[] = [];
 
 
-  cols = [
-    { field: 'name', header: 'Name' },
-    { field: 'size', header: 'Size' },
-    { field: 'type', header: 'Type' }
-  ];
 
 
   constructor(private router: Router,private formBuilder: FormBuilder,
@@ -46,7 +41,6 @@ export class AddModelComponent implements OnInit{
               private foncService:FonctionService) {}
 
   ngOnInit(): void {
-
 
     this.modelForm = this.formBuilder.group({
       obs: ['', [Validators.required, Validators.maxLength(30)]],
@@ -63,15 +57,18 @@ export class AddModelComponent implements OnInit{
 
     // Create tree nodes from data and add them to the map and the appropriate list
     for (const item of data) {
+      const isParent = !item.fon_COD_F;
+      const icon = isParent ? 'pi pi-fw pi-list' : 'pi pi-fw pi-cog';
       const treeNode = {
         key: item.fon_COD_F || item.nomMENU,
         label: item.nomF,
         data: item,
+        icon: icon,
         children: []
       };
       nodeMap.set(treeNode.key, treeNode);
 
-      if (!item.fon_COD_F) {
+      if (isParent) {
         roots.push(treeNode);
       } else {
         const parentNode = nodeMap.get(item.nomMENU);
@@ -85,18 +82,6 @@ export class AddModelComponent implements OnInit{
   }
 
 
-
-  addModel() {
-  if (this.modelForm.valid)
-  {
-
-  }else {
-    this.showError=true;
-    this.toastr.warning('Please fill the form correctly.', 'Warning');
-  }
-  }
-
-
   onFileSelectionChange(event: any) {
 
     console.log(this.selectedFiles)
@@ -105,4 +90,15 @@ export class AddModelComponent implements OnInit{
       console.log('Selected Fonctionalites:', this.selectedFonc);
 
   }
+
+  addModel() {
+    if (this.modelForm.valid)
+    {
+
+    }else {
+      this.showError=true;
+      this.toastr.warning('Please fill the form correctly.', 'Warning');
+    }
+  }
+
 }
