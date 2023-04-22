@@ -24,7 +24,7 @@
           <div class="card card-outline card-info">
             <div class="card-header">
               <h3 class="card-title text-bold">
-               Model Form
+                Model Form
               </h3>
               <div class="card-tools">
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
@@ -56,6 +56,50 @@
                     </div>
                   </div>
                 </div>
+                <br>
+
+                  <div class="ml-2 col-md-auto">
+                    <div class="card ">
+                      <div class="card-header">
+                        <div class="card-title">
+                          <h5><i class=" fas fa-info"></i> Liste des Fonctions</h5>
+                        </div>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                            class="fas fa-minus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body" style="display: block;">
+                        <div class="card-body table-responsive p-0" style="height: 200px;">
+                          <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                            <tr>
+                              <th>Code Fonction</th>
+                              <th>Nom Fonction</th>
+                              <th>Admin</th>
+                              <th>Droit Acces</th>
+                              <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let selected of selectedFonc">
+                              <td>{{selected.codF}}</td>
+                              <td>{{selected.nomF}}</td>
+                              <td>{{selected.f_ADM}}</td>
+                              <td><span class="tag tag-success">{{selected.f_DROIT_ACCES}}</span></td>
+                              <td>{{selected.desF}}</td>
+                            </tr>
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
 
               </div>
               <div class="card-footer">
@@ -72,11 +116,13 @@
         <div class="col-12">
           <div class="card card-outline card-indigo">
             <div class="card-header">
-              <h3 class="card-title text-bold ">Affecter Fonctions</h3>
+              <h3 class="card-title text-bold ">Affecter des Fonctions</h3>
             </div>
             <div class="card-body">
 
-                <p-tree [value]="files" selectionMode="checkbox"  [filter]="true" filterMode="strict" class="w-full md:w-30rem" [(selection)]="selectedFiles"  (selectionChange)="onFileSelectionChange($event)"></p-tree>
+              <p-tree [value]="files" selectionMode="checkbox" [filter]="true" filterMode="strict"
+                      class="w-min md:w-30rem" [(selection)]="selectedFiles"
+                      (selectionChange)="onFileSelectionChange($event)"></p-tree>
 
 
             </div>
