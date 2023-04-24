@@ -38,4 +38,8 @@ export class FonctionService {
   removeModel(idModel: String, idFonc: String): Observable<any> {
     return this.http.put(`${this.baseUrl}/removeModel/${idModel}/${idFonc}`, null);
   }
+
+  getFonctionsByNomMenu(nomMenu: string): Observable<Fonctionalite[]> {
+    return this.http.get<Fonctionalite[]>(`${this.baseUrl}/bymenu/${nomMenu}`);
+  }
 }

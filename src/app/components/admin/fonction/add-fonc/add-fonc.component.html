@@ -110,21 +110,12 @@
                       <label>Fonction Principale</label>
                       <select [formControl]="menuForm" (change)="onSelectionmenu()" class="form-control select2 select2-hidden-accessible"
                               [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
-                        <option *ngFor="let menu of fonctionmenu" [value]="menu.idFonc">{{ menu.nomF }}</option>
+                        <option *ngFor="let menu of fonctionmenu" [value]="menu.nomMENU">{{ menu.nomF }}</option>
                       </select>
                       <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
                     </div>
                   </div>
-                  <div class="col-md-3" *ngIf="selectedOption === 'false'">
-                    <div class="form-group">
-                      <label>Option Valide</label>
-                      <select formControlName="fon_COD_F" class="form-control select2 select2-hidden-accessible"
-                              [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
-                        <option *ngFor="let menu of fonctionmenu" [value]="menu.idFonc">{{ menu.nomF }}</option>
-                      </select>
-                      <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
-                    </div>
-                  </div>
+
 
                 </div>
 

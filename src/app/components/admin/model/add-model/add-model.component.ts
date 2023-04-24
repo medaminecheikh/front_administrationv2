@@ -42,7 +42,7 @@ export class AddModelComponent implements OnInit{
               private foncService:FonctionService) {}
 
   ngOnInit(): void {
-
+this.foncService.getAllFoncs().subscribe(value => {})
     this.modelForm = this.formBuilder.group({
       obs: ['', [Validators.required, Validators.maxLength(30)]],
       desMOD: ['', [Validators.required, Validators.maxLength(100)]]
