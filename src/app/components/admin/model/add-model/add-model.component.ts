@@ -7,7 +7,9 @@ import {FonctionService} from "../../../../services/fonction.service";
 import {Fonctionalite} from "../../../../modules/Fonctionalite";
 import {Model} from "../../../../modules/Model";
 import {TreeNode} from "primeng/api";
-
+import {SECRET_KEY} from "../../../../guards/constants";
+import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
+import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-add-model',
@@ -78,7 +80,7 @@ this.foncService.getAllFoncs().subscribe(value => {
 
   onFileSelectionChange(event: any) {
 
-    console.log(this.selectedFiles)
+
 
      this.selectedFonc =this.selectedFiles.map(node => node.data);
       console.log('Selected Fonctionalites:', this.selectedFonc);
@@ -87,7 +89,43 @@ this.foncService.getAllFoncs().subscribe(value => {
 
   addModel() {
     if (this.modelForm.valid)
-    {
+    {const model = this.modelForm.value;
+      const selectedFonc: Fonctionalite[] = this.selectedFonc;
+      let modelId: String;
+      this.modelService.addModel(model).pipe(
+        tap((response) => {
+          // Extract the idUser from the response and store it in modelId variable
+          modelId = response.idModel;
+
+        }),switchMap(() => {
+          if (selectedFonc.length === 0) {
+            // Return an empty observable if selectedFonc is empty
+            return of(null);
+          } else {
+            // Emit each Fonc object in selectedFonc as a separate value
+            return from(selectedFonc).pipe(
+              mergeMap((fonc) => {
+                return this.foncService.affecterModelToFonc( modelId,fonc.idFonc).pipe(
+                  catchError((error) => {
+                    this.toastr.error(error.error, 'Error');
+                    return throwError(error);
+                  })
+                );
+              })
+            );
+          }
+        }),
+        catchError((error) => {
+          this.toastr.error(error.error, 'Error');
+
+          return throwError(error);
+        })
+      ).subscribe(() => {
+
+        const id = CryptoJS.AES.encrypt(modelId.trim(), SECRET_KEY).toString();
+        this.router.navigate(['admin/model/detail',id]);
+        this.toastr.success('Model added successfully!', 'Success');
+      });
 
     }else {
       this.showError=true;
