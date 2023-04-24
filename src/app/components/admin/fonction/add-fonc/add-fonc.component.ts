@@ -8,20 +8,21 @@ import {ModelService} from "../../../../services/model.service";
 import {FonctionService} from "../../../../services/fonction.service";
 import CryptoJS from 'crypto-js';
 import {SECRET_KEY} from "../../../../guards/constants";
-
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-add-fonc',
   templateUrl: './add-fonc.component.html',
   styleUrls: ['./add-fonc.component.scss']
 })
 export class AddFoncComponent implements OnInit {
-  typeForm = new FormControl(1);
+  menuForm = new FormControl();
   foncForm !: FormGroup;
   showError: boolean = false;
   fonction!: Fonctionalite;
   fonctionmenu: Fonctionalite[] = [];
-  type!: number | null;
+  selectedmenu!:Fonctionalite;
   selectedOption: String = "true";
+
 
   constructor(private router: Router, private formBuilder: FormBuilder,
               private toastr: ToastrService, private modelService: ModelService,
@@ -51,8 +52,11 @@ export class AddFoncComponent implements OnInit {
   addFonc() {
     if (this.foncForm.valid) {
 
+
+      if (this.selectedOption==="true") {
         const fonc = this.foncForm.value;
-      if (!fonc.fon_COD_F) {
+        fonc.nomMENU = uuidv4().slice(-5);
+        fonc.fon_COD_F='';
         this.foncService.addFonc(fonc).pipe(
           catchError((error) => {
             this.toastr.error(error.error, 'Error');
@@ -71,10 +75,8 @@ export class AddFoncComponent implements OnInit {
     }
   }
 
-  onTypeChange() {
-    const typeValue = this.typeForm.value;
-    console.log(typeValue)
-    this.type = typeValue;
+  onSelectionmenu() {
+console.log("!!!!!!!!!!!!",this.menuForm.value)
 
   }
 }

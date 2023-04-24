@@ -31,7 +31,7 @@
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
               </div>
             </div>
-            <form [formGroup]="foncForm" >
+            <form [formGroup]="foncForm">
               <div class="card-body">
                 <div class="row ml-2">
                   <div class="col-md-3">
@@ -86,7 +86,7 @@
                       <select formControlName="f_DROIT_ACCES" class="form-control select2 select2-hidden-accessible"
                               [ngClass]="{'is-invalid': foncForm.get('f_DROIT_ACCES')?.invalid && showError,'is-valid':foncForm.get('f_DROIT_ACCES')?.valid && showError}"
                               style="width: 100%;" aria-hidden="true">
-                        <option [value]="1" >Oui</option>
+                        <option [value]="1">Oui</option>
                         <option [value]="0">Non</option>
                       </select>
                     </div>
@@ -96,33 +96,34 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Type Fonction</label>
-                      <select [(ngModel)]="selectedOption" [ngModelOptions]="{standalone: true}" name="selectedOption" class="form-control select2 select2-hidden-accessible"
+                      <select [(ngModel)]="selectedOption" [ngModelOptions]="{standalone: true}" name="selectedOption"
+                              class="form-control select2 select2-hidden-accessible"
                               style="width: 100%;" aria-hidden="true">
-                        <option [value]="true" >Menu principal</option>
-                        <option [value]="false">Sous menu</option>
+                        <option [value]="true">Fonction principal</option>
+                        <option [value]="false">Sous fonction</option>
                       </select>
-                    </div>
-                  </div>
-                  <div class="col-md-3" *ngIf="selectedOption === 'true'">
-                    <div class="form-group">
-                      <label>Nom Menu</label>
-                      <input  formControlName="nomMENU" placeholder="Nom Menu" type="text" class="form-control "
-                             [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
-                      <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
-                      <span *ngIf="foncForm.get('nomMENU')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
-                     characters.</span>
                     </div>
                   </div>
 
                   <div class="col-md-3" *ngIf="selectedOption === 'false'">
                     <div class="form-group">
-                    <label>Nom Menu</label>
-                    <select formControlName="nomMENU" class="form-control select2 select2-hidden-accessible"
-                            [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
-                      <option *ngFor="let menu of fonctionmenu" [value]="menu.idFonc">{{ menu.nomF }}</option>
-                    </select>
-                    <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
+                      <label>Fonction Principale</label>
+                      <select [formControl]="menuForm" (change)="onSelectionmenu()" class="form-control select2 select2-hidden-accessible"
+                              [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
+                        <option *ngFor="let menu of fonctionmenu" [value]="menu.idFonc">{{ menu.nomF }}</option>
+                      </select>
+                      <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
+                    </div>
                   </div>
+                  <div class="col-md-3" *ngIf="selectedOption === 'false'">
+                    <div class="form-group">
+                      <label>Option Valide</label>
+                      <select formControlName="fon_COD_F" class="form-control select2 select2-hidden-accessible"
+                              [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
+                        <option *ngFor="let menu of fonctionmenu" [value]="menu.idFonc">{{ menu.nomF }}</option>
+                      </select>
+                      <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
+                    </div>
                   </div>
 
                 </div>
