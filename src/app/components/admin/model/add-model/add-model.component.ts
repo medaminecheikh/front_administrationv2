@@ -23,17 +23,6 @@ export class AddModelComponent implements OnInit{
   selectedFiles!: TreeNode[];
   files : TreeNode[] = [];
   selectedFonc :Fonctionalite[]=[];
-  functionalites  : Fonctionalite[] = [
-    {codF: "1", desF: "Fonctionalite 1", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "", idFonc: "1", models: [], nomF: "Fonctionalite 1", nomMENU: "Menu 1",profils:[],totalElements:0},
-    {codF: "2", desF: "Fonctionalite 2", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "", idFonc: "2", models: [], nomF: "Fonctionalite 2", nomMENU: "Menu 2",profils:[],totalElements:0},
-    {codF: "3", desF: "Sous-fonctionalite 1 de Menu 1", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "Menu 1_1", idFonc: "3", models: [], nomF: "Sous-fonctionalite 1 de Menu 1", nomMENU: "Menu 1",profils:[],totalElements:0},
-    {codF: "4", desF: "Sous-fonctionalite 2 de Menu 1", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "Menu 1_2", idFonc: "4", models: [], nomF: "Sous-fonctionalite 2 de Menu 1", nomMENU: "Menu 1",profils:[],totalElements:0},
-    {codF: "5", desF: "Sous-fonctionalite 1 de Menu 2", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "Menu 2_1", idFonc: "5", models: [], nomF: "Sous-fonctionalite 1 de Menu 2", nomMENU: "Menu 2",profils:[],totalElements:0},
-    {codF: "6", desF: "menu 3", f_ADM: 0, f_DROIT_ACCES: 1, fon_COD_F: "", idFonc: "5", models: [], nomF: "menu 3", nomMENU: "Menu 3",profils:[],totalElements:0}
-
-  ];
-
-
 
 
 
@@ -42,12 +31,16 @@ export class AddModelComponent implements OnInit{
               private foncService:FonctionService) {}
 
   ngOnInit(): void {
-this.foncService.getAllFoncs().subscribe(value => {})
+this.foncService.getAllFoncs().subscribe(value => {
+  this.files = this.transformToTreeNode(value);
+
+})
     this.modelForm = this.formBuilder.group({
       obs: ['', [Validators.required, Validators.maxLength(30)]],
       desMOD: ['', [Validators.required, Validators.maxLength(100)]]
     });
-    this.files = this.transformToTreeNode(this.functionalites);
+
+
   }
 
   transformToTreeNode(data: Fonctionalite[]): TreeNode[] {
