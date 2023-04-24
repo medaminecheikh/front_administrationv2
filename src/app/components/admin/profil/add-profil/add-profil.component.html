@@ -33,7 +33,7 @@
             <form [formGroup]="profilForm">
               <div class="card-body">
                 <div class="row ml-2">
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label>Nom Profil</label>
                       <input formControlName="nomP" placeholder="Nom " type="text" class="form-control  "
@@ -44,7 +44,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-5">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label>Description</label>
                       <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
@@ -112,7 +112,6 @@
         <div class="col-12">
           <div class="card collapsed-card card-outline card-indigo">
             <div class="card-header">
-
               <h3 class="card-title text-bold ">Affecter Model</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
@@ -121,12 +120,62 @@
               </div>
             </div>
             <div class="card-body" style="display: none;">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Choisir un Model</h3>
+                  <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
 
+                      <button class="btn btn-sm btn-outline-primary" (click)="uncheckAll()">Uncheck  <i class="fas fa-remove"></i></button>
+
+
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="card-body table-responsive p-0" style="height: 200px;">
+                  <table class="table table-head-fixed table-hover text-nowrap">
+                    <thead>
+                    <tr>
+                      <th> Pick</th>
+                      <th>obs</th>
+                      <th>Description</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let mod of models">
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input"
+                                 type="radio"
+                                 [id]="mod.idModel"
+                                 [name]="'model'"
+                                 [value]="mod"
+                                 [(ngModel)]="selectedModel">
+                          <label class="form-check-label" [for]="mod.idModel">{{ mod.obs }}</label>
+                        </div>
+                      </td>
+                      <td>{{mod.obs}}</td>
+                      <td>{{mod.desMOD}}</td>
+
+                      <td><span class="badge badge-success">Approved</span></td>
+                    </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
+
       </div>
+
 
       <div class="row">
         <div class="col-12">
@@ -155,4 +204,5 @@
 
     </div>
   </div>
+
 </div>

@@ -50,6 +50,20 @@ export class AddProfilComponent implements OnInit{
       des_P: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
+
+  selectModel(model: any) {
+    if (this.selectedModel === model) {
+      this.selectedModel = null;
+    } else {
+      this.selectedModel = model;
+    }
+  }
+
+
+  uncheckAll() {
+    this.selectedModel = null;
+  }
+
   transformToTreeNode(data: Fonctionalite[]): TreeNode[] {
     const roots: TreeNode[] = [];
 
