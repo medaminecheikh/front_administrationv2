@@ -42,7 +42,7 @@
                           <label>Nom Profil</label>
                           <input formControlName="nomP" placeholder="Nom " type="text" class="form-control  "
                                  [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
-                          <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Obs is required.</span>
+                          <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Nom Profil is required.</span>
                           <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
                      characters.</span>
                         </div>
