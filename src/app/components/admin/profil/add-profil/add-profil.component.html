@@ -109,7 +109,7 @@
                         <h3 class="card-title">Choisir un Model</h3>
                         <div class="card-tools ">
                           <div class="input-group input-group-sm" style="width: 90px;">
-                            <div class="input-group-append">
+                            <div *ngIf="selectedModel" class="input-group-append">
                               <button class="btn bg-gradient-gray-dark" (click)="uncheckAll()">UnCheck <i class="fas fa-remove"></i></button>
                             </div>
                           </div>
@@ -125,7 +125,7 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr *ngFor="let mod of models">
+                          <tr *ngFor="let mod of models" (click)="onRowClick(mod)">
                             <td>
                               <div class="form-check">
                                 <input class="form-check-input"
@@ -133,14 +133,11 @@
                                        [id]="mod.idModel"
                                        [name]="'model'"
                                        [value]="mod"
-                                       [(ngModel)]="selectedModel">
+                                       [checked]="selectedModel === mod">
                                 <label class="form-check-label" [for]="mod.idModel">{{ mod.obs }}</label>
                               </div>
                             </td>
-
                             <td>{{mod.desMOD}}</td>
-
-
                           </tr>
 
                           </tbody>

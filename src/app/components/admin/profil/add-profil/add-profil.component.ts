@@ -51,13 +51,12 @@ export class AddProfilComponent implements OnInit{
     });
   }
 
-  selectModel(model: any) {
+  onRowClick(model: any) {
     if (this.selectedModel === model) {
       this.selectedModel = null;
     } else {
       this.selectedModel = model;
     }
-
   }
 
 
