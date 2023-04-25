@@ -12,7 +12,7 @@ import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SECRET_KEY} from "../../../../guards/constants";
 import {TreeNode} from "primeng/api";
-
+import CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-add-profil',
   templateUrl: './add-profil.component.html',
@@ -57,6 +57,7 @@ export class AddProfilComponent implements OnInit{
     } else {
       this.selectedModel = model;
     }
+
   }
 
 
@@ -154,7 +155,7 @@ console.log("roots",roots)
             this.profilService.affecterModelToProfile(selectedModel.idModel, profilId).subscribe(
               () => {
                 const id = CryptoJS.AES.encrypt(profilId.trim(), SECRET_KEY).toString();
-                this.router.navigate(['/profil/detail', id])
+                this.router.navigate(['admin/profil/detail', id])
                 this.toastr.success('Profil added successfully!', 'Success');
               },
               (error) => {
@@ -163,7 +164,7 @@ console.log("roots",roots)
             );
           } else {
             const id = CryptoJS.AES.encrypt(profilId.trim(), SECRET_KEY).toString();
-            this.router.navigate(['/profil/detail', id])
+            this.router.navigate(['admin/profil/detail', id])
             this.toastr.success('User added successfully!', 'Success');
           }
           // Handle success
@@ -173,9 +174,9 @@ console.log("roots",roots)
             if (error.status === 404) {
               this.toastr.error('The resource could not be found.', 'Error');
             } else if (error.status === 401) {
-              this.toastr.error('Unauthorized request.', 'Error');
-            } else if (error.status === 403) {
               this.toastr.error('Login already exist error.', 'Error');
+            } else if (error.status === 403) {
+              this.toastr.error('403 error.', 'Error');
             }
           }
         }

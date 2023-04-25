@@ -23,173 +23,161 @@
           <div class="card card-outline card-info">
             <div class="card-header">
               <h3 class="card-title text-bold">
-                Model Form
+                Profil Form
               </h3>
               <div class="card-tools">
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
               </div>
             </div>
-            <form [formGroup]="profilForm">
-              <div class="card-body">
-                <div class="row ml-2">
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>Nom Profil</label>
-                      <input formControlName="nomP" placeholder="Nom " type="text" class="form-control  "
-                             [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
-                      <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Obs is required.</span>
-                      <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
-                     characters.</span>
-                    </div>
-                  </div>
 
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>Description</label>
-                      <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
-                             [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
-                      <span *ngIf="profilForm.get('des_P')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
-                      <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
+            <div class="card-body">
+              <div class="row ml-2">
+                <div class="col-md-7">
+                  <form [formGroup]="profilForm">
+                  <div class="row">
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Nom Profil</label>
+                          <input formControlName="nomP" placeholder="Nom " type="text" class="form-control  "
+                                 [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
+                          <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Obs is required.</span>
+                          <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
                      characters.</span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Description</label>
+                          <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
+                                 [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
+                          <span *ngIf="profilForm.get('des_P')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
+                          <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
+                     characters.</span>
+                        </div>
+                      </div>
+
+                  </div>
+                  </form>
+                  <br>
+                  <div class=" col-md-auto">
+                    <div class="card collapsed-card ">
+                      <div class="card-header">
+                        <div class="card-title">
+                          <h5><i class=" fas fa-info"></i> Liste des Fonctions</h5>
+                        </div>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                            class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body" style="display: none;">
+                        <div class="card-body table-responsive p-0" style="height: 200px;">
+                          <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                            <tr>
+                              <th>Code Fonction</th>
+                              <th>Nom Fonction</th>
+                              <th>Admin</th>
+                              <th>Droit Acces</th>
+                              <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let selected of selectedFonc">
+                              <td>{{selected.codF}}</td>
+                              <td>{{selected.nomF}}</td>
+                              <td>{{selected.f_ADM}}</td>
+                              <td><span class="tag tag-success">{{selected.f_DROIT_ACCES}}</span></td>
+                              <td>{{selected.desF}}</td>
+                            </tr>
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <br>
+                <div class="col-md-5">
+                  <div class="col-md-auto">
+                    <div class="card">
+                      <div class="card-header bg-gradient-olive">
+                        <h3 class="card-title">Choisir un Model</h3>
+                        <div class="card-tools">
+                          <div class="input-group input-group-sm" style="width: 150px;">
+                            <button class="btn btn-sm bg-gradient-gray-dark" (click)="uncheckAll()">UnCheck <i
+                              class="fas fa-remove"></i></button>
+                          </div>
 
-                <div class="ml-2 col-md-auto">
-                  <div class="card collapsed-card ">
-                    <div class="card-header">
-                      <div class="card-title">
-                        <h5><i class=" fas fa-info"></i> Liste des Fonctions</h5>
+                        </div>
                       </div>
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                          class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-body" style="display: none;">
+
                       <div class="card-body table-responsive p-0" style="height: 200px;">
-                        <table class="table table-head-fixed text-nowrap">
+                        <table class="table table-head-fixed table-hover text-nowrap">
                           <thead>
                           <tr>
-                            <th>Code Fonction</th>
-                            <th>Nom Fonction</th>
-                            <th>Admin</th>
-                            <th>Droit Acces</th>
+                            <th> Pick</th>
                             <th>Description</th>
+
                           </tr>
                           </thead>
                           <tbody>
-                          <tr *ngFor="let selected of selectedFonc">
-                            <td>{{selected.codF}}</td>
-                            <td>{{selected.nomF}}</td>
-                            <td>{{selected.f_ADM}}</td>
-                            <td><span class="tag tag-success">{{selected.f_DROIT_ACCES}}</span></td>
-                            <td>{{selected.desF}}</td>
+                          <tr *ngFor="let mod of models">
+                            <td>
+                              <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       [id]="mod.idModel"
+                                       [name]="'model'"
+                                       [value]="mod"
+                                       [(ngModel)]="selectedModel">
+                                <label class="form-check-label" [for]="mod.idModel">{{ mod.obs }}</label>
+                              </div>
+                            </td>
+
+                            <td>{{mod.desMOD}}</td>
+
+
                           </tr>
 
                           </tbody>
                         </table>
                       </div>
+
                     </div>
                   </div>
                 </div>
+              </div>
 
-              </div>
-              <div class="card-footer">
-                <div class="">
-                  <button class="btn  bg-gradient-success" type="button" (click)="addProfil()">Save <i
-                    class="fa-regular fa-circle-check"></i></button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="card collapsed-card card-outline card-indigo">
-            <div class="card-header">
-              <h3 class="card-title text-bold ">Affecter Model</h3>
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                  class="fas fa-plus"></i>
-                </button>
-              </div>
             </div>
-            <div class="card-body" style="display: none;">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Choisir un Model</h3>
-                  <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-
-                      <button class="btn btn-sm btn-outline-primary" (click)="uncheckAll()">Uncheck  <i class="fas fa-remove"></i></button>
-
-
-                    </div>
-
-                  </div>
-                </div>
-
-                <div class="card-body table-responsive p-0" style="height: 200px;">
-                  <table class="table table-head-fixed table-hover text-nowrap">
-                    <thead>
-                    <tr>
-                      <th> Pick</th>
-                      <th>obs</th>
-                      <th>Description</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let mod of models">
-                      <td>
-                        <div class="form-check">
-                          <input class="form-check-input"
-                                 type="radio"
-                                 [id]="mod.idModel"
-                                 [name]="'model'"
-                                 [value]="mod"
-                                 [(ngModel)]="selectedModel">
-                          <label class="form-check-label" [for]="mod.idModel">{{ mod.obs }}</label>
-                        </div>
-                      </td>
-                      <td>{{mod.obs}}</td>
-                      <td>{{mod.desMOD}}</td>
-
-                      <td><span class="badge badge-success">Approved</span></td>
-                    </tr>
-
-
-                    </tbody>
-                  </table>
-                </div>
-
+            <div class="card-footer">
+              <div class="">
+                <button class="btn  bg-gradient-success" type="button" (click)="addProfil()">Save <i
+                  class="fa-regular fa-circle-check"></i></button>
               </div>
             </div>
 
           </div>
         </div>
-
       </div>
-
 
       <div class="row">
         <div class="col-12">
-          <div class="card collapsed-card card-outline card-indigo">
+          <div class="card  card-outline card-indigo">
             <div class="card-header">
 
               <h3 class="card-title text-bold ">Affecter des Fonctions</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                  class="fas fa-plus"></i>
+                  class="fas fa-minus"></i>
                 </button>
               </div>
             </div>
-            <div class="card-body" style="display: none;">
+            <div class="card-body" style="display: block;">
 
               <p-tree [value]="files" selectionMode="checkbox" [filter]="true" filterMode="strict"
                       class="w-min md:w-30rem" [(selection)]="selectedFiles"
