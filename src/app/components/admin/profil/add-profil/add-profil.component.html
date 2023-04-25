@@ -35,7 +35,7 @@
               <div class="row ml-2">
                 <div class="col-md-7">
                   <form [formGroup]="profilForm">
-                  <div class="row">
+                    <div class="row">
 
                       <div class="col-md-6">
                         <div class="form-group">
@@ -59,7 +59,7 @@
                         </div>
                       </div>
 
-                  </div>
+                    </div>
                   </form>
                   <br>
                   <div class=" col-md-auto">
@@ -107,12 +107,12 @@
                     <div class="card">
                       <div class="card-header bg-gradient-olive">
                         <h3 class="card-title">Choisir un Model</h3>
-                        <div class="card-tools">
-                          <div class="input-group input-group-sm" style="width: 150px;">
-                            <button class="btn btn-sm bg-gradient-gray-dark" (click)="uncheckAll()">UnCheck <i
-                              class="fas fa-remove"></i></button>
+                        <div class="card-tools ">
+                          <div class="input-group input-group-sm" style="width: 90px;">
+                            <div class="input-group-append">
+                              <button class="btn bg-gradient-gray-dark" (click)="uncheckAll()">UnCheck <i class="fas fa-remove"></i></button>
+                            </div>
                           </div>
-
                         </div>
                       </div>
 
@@ -122,7 +122,6 @@
                           <tr>
                             <th> Pick</th>
                             <th>Description</th>
-
                           </tr>
                           </thead>
                           <tbody>
