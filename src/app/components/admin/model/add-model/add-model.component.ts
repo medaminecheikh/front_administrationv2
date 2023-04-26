@@ -35,7 +35,7 @@ export class AddModelComponent implements OnInit{
   ngOnInit(): void {
 this.foncService.getAllFoncs().subscribe(value => {
   this.files = this.transformToTreeNode(value);
-
+this.expandAll();
 })
     this.modelForm = this.formBuilder.group({
       obs: ['', [Validators.required, Validators.maxLength(30)]],
@@ -44,7 +44,19 @@ this.foncService.getAllFoncs().subscribe(value => {
 
 
   }
-
+  private expandRecursive(node: TreeNode, isExpand: boolean) {
+    node.expanded = isExpand;
+    if (node.children) {
+      node.children.forEach((childNode) => {
+        this.expandRecursive(childNode, isExpand);
+      });
+    }
+  }
+  expandAll() {
+    this.files.forEach((node) => {
+      this.expandRecursive(node, true);
+    });
+  }
   transformToTreeNode(data: Fonctionalite[]): TreeNode[] {
     const roots: TreeNode[] = [];
 
@@ -80,10 +92,7 @@ this.foncService.getAllFoncs().subscribe(value => {
 
   onFileSelectionChange(event: any) {
 
-
-
      this.selectedFonc =this.selectedFiles.map(node => node.data);
-      console.log('Selected Fonctionalites:', this.selectedFonc);
 
   }
 

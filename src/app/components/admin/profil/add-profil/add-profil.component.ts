@@ -13,6 +13,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {SECRET_KEY} from "../../../../guards/constants";
 import {TreeNode} from "primeng/api";
 import CryptoJS from 'crypto-js';
+
+interface CustomTreeNode extends TreeNode {
+  disabled?: boolean;
+}
+
 @Component({
   selector: 'app-add-profil',
   templateUrl: './add-profil.component.html',
@@ -28,6 +33,7 @@ export class AddProfilComponent implements OnInit{
   selectedFonc :Fonctionalite[]=[];
   models:Model[]=[];
   selectedModel !:Model | null;
+
   constructor(private profilService:ProfilService,
               private router: Router,private formBuilder: FormBuilder,
               private toastr: ToastrService,private modelService:ModelService,
@@ -35,35 +41,75 @@ export class AddProfilComponent implements OnInit{
 
 
   ngOnInit(): void {
+
     this.modelService.getAllModels().subscribe((data :Model[]) => {
       this.models = data;
+
     });
     this.foncService.getAllFoncs().subscribe((data:Fonctionalite[])=>{
-
-      console.log("data :",data)
       this.files = this.transformToTreeNode(data);
-      console.log("files :",this.files )
+      this.expandAll();
     });
 
     this.profilForm= this.formBuilder.group({
       nomP: ['', [Validators.required, Validators.maxLength(30)]],
       des_P: ['', [Validators.required, Validators.maxLength(100)]]
     });
+
+
   }
 
-  onRowClick(model: any) {
+
+  onRowClick(model: Model) {
     if (this.selectedModel === model) {
       this.selectedModel = null;
     } else {
       this.selectedModel = model;
+      this.removeFiles(model.fonctions.map(f => f.idFonc));
+      this.removeSelectedFonctions(model.fonctions.map(f => f.idFonc));
     }
+    this.updateFiles();
+
   }
 
+  removeFiles(fileIds: string[]) {
+    this.files = this.files.filter(node => !fileIds.includes(node.data.idFonc));
+    this.selectedFiles = this.selectedFiles.filter(node => !fileIds.includes(node.data.idFonc));
+  }
+
+  removeSelectedFonctions(fonctionIds: string[]) {
+    this.selectedFonc = this.selectedFonc.filter(f => !fonctionIds.includes(f.idFonc));
+  }
+  onFileSelectionChange(event: any) {
+    this.selectedFonc =this.selectedFiles.map(node => node.data);
+  }
+  updateFiles() {
+    this.foncService.getAllFoncs().subscribe((data: Fonctionalite[]) => {
+      if (this.selectedModel) {
+        data = data.filter(f => !this.selectedModel?.fonctions.some(mf => mf.idFonc === f.idFonc));
+      }
+      this.files = this.transformToTreeNode(data);
+      this.expandAll();
+    });
+  }
 
   uncheckAll() {
     this.selectedModel = null;
-  }
 
+  }
+  private expandRecursive(node: TreeNode, isExpand: boolean) {
+    node.expanded = isExpand;
+    if (node.children) {
+      node.children.forEach((childNode) => {
+        this.expandRecursive(childNode, isExpand);
+      });
+    }
+  }
+  expandAll() {
+    this.files.forEach((node) => {
+      this.expandRecursive(node, true);
+    });
+  }
   transformToTreeNode(data: Fonctionalite[]): TreeNode[] {
     const roots: TreeNode[] = [];
 
@@ -72,7 +118,7 @@ export class AddProfilComponent implements OnInit{
 
     // Create tree nodes from data and add them to the map and the appropriate list
     for (const item of data) {
-      console.log("item",item)
+
       const isParent = !item.fon_COD_F;
       const icon = isParent ? 'pi pi-fw pi-list' : 'pi pi-fw pi-cog';
       const treeNode = {
@@ -80,34 +126,25 @@ export class AddProfilComponent implements OnInit{
         label: item.nomF,
         data: item,
         icon: icon,
-        children: []
+        children: [],
       };
       nodeMap.set(treeNode.key, treeNode);
 
       if (isParent) {
-        console.log("treenode parent ",treeNode)
+
         roots.push(treeNode);
       } else {
         const parentNode = nodeMap.get(item.nomMENU);
         if (parentNode) {
-          console.log("treenode child ",parentNode)
-          parentNode.children?.push(treeNode);
 
+          parentNode.children?.push(treeNode);
         }
       }
     }
-console.log("roots",roots)
+
     return roots;
   }
 
-  onFileSelectionChange(event: any) {
-
-    console.log(this.selectedFiles)
-
-    this.selectedFonc =this.selectedFiles.map(node => node.data);
-    console.log('Selected Fonctionalites:', this.selectedFonc);
-
-  }
 
   addProfil() {
     if (this.profilForm.valid) {
