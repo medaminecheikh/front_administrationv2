@@ -74,12 +74,13 @@ export class AddFoncComponent implements OnInit {
         this.showError = true;
         this.toastr.warning('Please fill the form correctly.', 'Warning');
       }
-    } else if (this.selectedOption === "false") {
+    }
+    else if (this.selectedOption === "false") {
       this.foncForm.patchValue({nomMENU: this.menuForm.value});
       this.setFon_COD_F();
       if (this.foncForm.valid && this.foncForm.get('fon_COD_F')?.value !== null ) {
         const sousfonc = this.foncForm.value;
-        this.foncService.addFonc(sousfonc).pipe(
+        this.foncService.addsousFonc(sousfonc).pipe(
           catchError((error) => {
             this.toastr.error(error.error, 'Error');
             return throwError(error);

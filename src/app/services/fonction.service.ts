@@ -18,6 +18,9 @@ export class FonctionService {
   addFonc(foncRequestDTO: Fonctionalite): Observable<Fonctionalite> {
     return this.http.post<Fonctionalite>(`${this.baseUrl}/ajoutefonc`, foncRequestDTO);
   }
+  addsousFonc(foncRequestDTO: Fonctionalite): Observable<Fonctionalite> {
+    return this.http.post<Fonctionalite>(`${this.baseUrl}/ajoutesousfonc`, foncRequestDTO);
+  }
 
   getFoncById(idFonc: String): Observable<Fonctionalite> {
     return this.http.get<Fonctionalite>(`${this.baseUrl}/fonc/${idFonc}`);

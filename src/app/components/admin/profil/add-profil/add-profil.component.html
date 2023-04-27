@@ -40,7 +40,7 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <label>Nom Profil</label>
-                          <input formControlName="nomP" placeholder="Nom " type="text" class="form-control  "
+                          <input formControlName="nomP" placeholder="Nom " type="text" class="form-control  text-sm"
                                  [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
                           <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Nom Profil is required.</span>
                           <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
@@ -110,7 +110,6 @@
                         <div class="card-tools ">
                           <div class="input-group input-group-sm" style="width: 90px;">
                             <div *ngIf="selectedModel" class="input-group-append">
-                              <button class="btn bg-gradient-gray-dark" (click)="uncheckAll()">UnCheck <i class="fas fa-remove"></i></button>
                             </div>
                           </div>
                         </div>
@@ -125,7 +124,7 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr *ngFor="let mod of models" (click)="onRowClick(mod)">
+                          <tr *ngFor="let mod of models" >
                             <td>
                               <div class="form-check">
                                 <input class="form-check-input"
@@ -173,13 +172,13 @@
                 </button>
               </div>
             </div>
-            <div class="card-body" style="display: block;">
+            <div class="card-body  " style="display: block;">
 
-              <p-tree [value]="files" selectionMode="checkbox" [filter]="true" filterMode="strict"
-                      class="w-min md:w-30rem" [(selection)]="selectedFiles"
-                      (selectionChange)="onFileSelectionChange($event)"
-                      [filterPlaceholder]="'Search for Functions...'"
-                      ></p-tree>
+              <p-tree [value]="treeData" [selectionMode]="'checkbox'" [(selection)]="selectedItems"
+                      [filter]="true" filterPlaceholder="Search Functions..."
+                      (selectionChange)="onSelectedItemsChange()" >
+
+              </p-tree>
 
             </div>
           </div>
