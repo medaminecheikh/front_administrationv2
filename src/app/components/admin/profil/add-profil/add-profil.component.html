@@ -48,7 +48,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-6">
+                      <div class="col-md-7">
                         <div class="form-group">
                           <label>Description</label>
                           <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
@@ -63,11 +63,11 @@
                   </form>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="form-group">
                     <label for="model-select">Select Model:</label>
                     <select class="form-control" id="model-select" [formControl]="model">
-                      <option value="null">Clear</option>
+                      <option value="null">-- Clear --</option>
                       <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
                     </select>
                   </div>

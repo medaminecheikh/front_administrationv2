@@ -118,8 +118,10 @@ export class AddModelComponent implements OnInit{
         })
       ).subscribe(() => {
 
-        const id = CryptoJS.AES.encrypt(modelId.trim(), SECRET_KEY).toString();
-        this.router.navigate(['admin/model/detail',id]);
+
+        this.router.navigate(['admin/model/add']).then(() => {
+          // Reload the current page
+          location.reload();});
         this.toastr.success('Model added successfully!', 'Success');
       });
 

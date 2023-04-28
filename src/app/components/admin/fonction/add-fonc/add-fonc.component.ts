@@ -64,10 +64,10 @@ export class AddFoncComponent implements OnInit {
             this.toastr.error(error.error, 'Error');
             return throwError(error);
           })
-        ).subscribe((response) => {
-          const foncId = response.idFonc;
-          const id = CryptoJS.AES.encrypt(foncId.trim(), SECRET_KEY).toString();
-          this.router.navigate(['admin/fonction/detail', id]);
+        ).subscribe(() => {
+          this.router.navigate(['admin/fonction/add']).then(() => {
+            // Reload the current page
+            location.reload();});
           this.toastr.success('Function added successfully!', 'Success');
         });
       } else {
@@ -85,10 +85,11 @@ export class AddFoncComponent implements OnInit {
             this.toastr.error(error.error, 'Error');
             return throwError(error);
           })
-        ).subscribe((response) => {
-          const foncsousId = response.idFonc;
-          const id = CryptoJS.AES.encrypt(foncsousId.trim(), SECRET_KEY).toString();
-          this.router.navigate(['admin/fonction/detail', id]);
+        ).subscribe(() => {
+
+          this.router.navigate(['admin/fonction/add']).then(() => {
+            // Reload the current page
+            location.reload();});
           this.toastr.success('Function added successfully!', 'Success');
         });
       } else {
