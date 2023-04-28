@@ -33,11 +33,11 @@
 
             <div class="card-body">
               <div class="row ml-2">
-                <div class="col-md-7">
+                <div class="col-md-5">
                   <form [formGroup]="profilForm">
                     <div class="row">
 
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <div class="form-group">
                           <label>Nom Profil</label>
                           <input formControlName="nomP" placeholder="Nom " type="text" class="form-control"
@@ -63,10 +63,11 @@
                   </form>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="model-select">Select Model:</label>
                     <select class="form-control" id="model-select" [formControl]="model">
+                      <option value="null">Clear</option>
                       <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
                     </select>
                   </div>

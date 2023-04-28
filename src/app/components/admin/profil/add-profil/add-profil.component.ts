@@ -72,8 +72,38 @@ export class AddProfilComponent implements OnInit{
       this.treeData = parentNodes;
      this.expandAll();
     });
-    this.model.valueChanges.subscribe(() => {
-      this.onSelectionModel();
+    this.model.valueChanges.subscribe(value => {
+      if (value === null || value === "null") {
+        if (this.selectedModel && this.selectedModel.fonctions) {
+          // Remove previously selected functions from selectedFoncs
+          for (const fonc of this.selectedModel.fonctions) {
+            const index = this.selectedFonc.findIndex(selectedFonc => selectedFonc.idFonc === fonc.idFonc);
+            if (index >= 0) {
+              this.selectedFonc.splice(index, 1);
+            }
+          }
+          // Remove selected items that have the same idFonc as model.fonctions[].idFonc
+          this.selectedItems = this.selectedItems.filter(item => !this.selectedModel?.fonctions.some(fonc => fonc.idFonc === item.data.idFonc));
+        }
+        // Clear selected model
+        this.selectedModel = undefined;
+        this.onSelectionModel();
+      } else {
+        if (this.selectedModel && this.selectedModel.fonctions) {
+          // Remove previously selected functions from selectedFoncs
+          for (const fonc of this.selectedModel.fonctions) {
+            const index = this.selectedFonc.findIndex(selectedFonc => selectedFonc.idFonc === fonc.idFonc);
+            if (index >= 0) {
+              this.selectedFonc.splice(index, 1);
+            }
+          }
+          // Remove selected items that have the same idFonc as model.fonctions[].idFonc
+          this.selectedItems = this.selectedItems.filter(item => !this.selectedModel?.fonctions.some(fonc => fonc.idFonc === item.data.idFonc));
+        }
+        // Set selected model
+        this.selectedModel = this.models.find(model => model.idModel === value);
+        this.onSelectionModel();
+      }
     });
   }
   onSelectionModel() {
@@ -94,24 +124,42 @@ export class AddProfilComponent implements OnInit{
       if (node.children && node.children.length > 0) {
         // If the node has children, recursively traverse them
         this.selectNodes(node.children, selectedFonctions);
-        // If all children are selected, select the parent node
-        node.partialSelected = node.children.some(child => child.partialSelected) || selectedFonctions.some(fonc => fonc.idFonc === node.data.idFonc);
-        if (node.partialSelected) {
-          this.selectedItems.push(node);
+        // If any child is selected, add that child to the selected items list, but don't select the parent node unless all his children is selected
+        const allChildrenSelected = node.children.every(child => child.partialSelected);
+        const parentSelected = selectedFonctions.some(fonc => fonc.idFonc === node.data.idFonc);
+        if (allChildrenSelected && parentSelected) {
+          node.partialSelected = false;
+          if (!this.selectedItems.some(item => item.data.idFonc === node.data.idFonc)) {
+            this.selectedItems.push(node);
+          }
+        } else {
+          node.children.forEach(child => {
+            if (child.partialSelected && !this.selectedItems.some(item => item.data.idFonc === child.data.idFonc)) {
+              this.selectedItems.push(child);
+            } else if (!child.partialSelected && this.selectedItems.some(item => item.data.idFonc === child.data.idFonc)) {
+              const index = this.selectedItems.findIndex(item => item.data.idFonc === child.data.idFonc);
+              this.selectedItems.splice(index, 1);
+            } else {
+              child.partialSelected = false; // Set partialSelected to false for child nodes
+            }
+          });
         }
       } else {
         // If the node has no children, select/deselect it based on selectedFonctions
         node.partialSelected = selectedFonctions.some(fonc => fonc.idFonc === node.data.idFonc);
-        if (node.partialSelected) {
+        if (node.partialSelected && !this.selectedItems.some(item => item.data.idFonc === node.data.idFonc)) {
           this.selectedItems.push(node);
+        } else if (!node.partialSelected && this.selectedItems.some(item => item.data.idFonc === node.data.idFonc)) {
+          const index = this.selectedItems.findIndex(item => item.data.idFonc === node.data.idFonc);
+          this.selectedItems.splice(index, 1);
         }
       }
     }
   }
-
-    onSelectedItemsChange() {
-    this.selectedFonc = this.selectedItems.map(value => value.data);
-
+  onSelectedItemsChange() {
+    this.selectedFonc = this.selectedItems
+      .filter(item => !this.selectedModel?.fonctions.some(fonc => fonc.idFonc === item.data.idFonc))
+      .map(item => item.data);
   }
 
   private expandRecursive(node: TreeNode, isExpand: boolean) {
