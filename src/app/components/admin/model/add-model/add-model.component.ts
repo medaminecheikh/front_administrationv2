@@ -24,8 +24,9 @@ export class AddModelComponent implements OnInit{
   functions:Fonctionalite[]=[];
   selectedFiles!: TreeNode[];
   files : TreeNode[] = [];
+  treeData: TreeNode[] = [];
   selectedFonc :Fonctionalite[]=[];
-
+  selectedItems: TreeNode[] = [];
 
 
   constructor(private router: Router,private formBuilder: FormBuilder,
@@ -33,10 +34,28 @@ export class AddModelComponent implements OnInit{
               private foncService:FonctionService) {}
 
   ngOnInit(): void {
-this.foncService.getAllFoncs().subscribe(value => {
-  this.files = this.transformToTreeNode(value);
-this.expandAll();
-})
+    this.foncService.getAllFoncs().subscribe((foncs: Fonctionalite[]) => {
+      const parents = foncs.filter((fonc) => !fonc.fon_COD_F && fonc.nomMENU);
+      const children = foncs.filter((fonc) => fonc.fon_COD_F && fonc.nomMENU);
+      const parentNodes = parents.map((parent) => {
+        const childrenNodes = children.filter(
+          (child) => child.nomMENU === parent.nomMENU
+        );
+        return {
+          label: parent.nomF,
+          data: parent,
+          icon:'pi pi-fw pi-list',
+          children: childrenNodes.map((child) => ({
+            label: child.nomF,
+            data: child,
+            icon:'pi pi-spin pi-cog',
+          })),
+        };
+      });
+
+      this.treeData = parentNodes;
+      this.expandAll();
+    });
     this.modelForm = this.formBuilder.group({
       obs: ['', [Validators.required, Validators.maxLength(30)]],
       desMOD: ['', [Validators.required, Validators.maxLength(100)]]
@@ -53,46 +72,14 @@ this.expandAll();
     }
   }
   expandAll() {
-    this.files.forEach((node) => {
+    this.treeData.forEach((node) => {
       this.expandRecursive(node, true);
     });
   }
-  transformToTreeNode(data: Fonctionalite[]): TreeNode[] {
-    const roots: TreeNode[] = [];
-
-    // Create a map of nodes indexed by their IDs
-    const nodeMap = new Map<string, TreeNode>();
-
-    // Create tree nodes from data and add them to the map and the appropriate list
-    for (const item of data) {
-      const isParent = !item.fon_COD_F;
-      const icon = isParent ? 'pi pi-fw pi-list' : 'pi pi-fw pi-cog';
-      const treeNode = {
-        key: item.fon_COD_F || item.nomMENU,
-        label: item.nomF,
-        data: item,
-        icon: icon,
-        children: []
-      };
-      nodeMap.set(treeNode.key, treeNode);
-
-      if (isParent) {
-        roots.push(treeNode);
-      } else {
-        const parentNode = nodeMap.get(item.nomMENU);
-        if (parentNode) {
-          parentNode.children?.push(treeNode);
-        }
-      }
-    }
-
-    return roots;
-  }
 
 
-  onFileSelectionChange(event: any) {
-
-     this.selectedFonc =this.selectedFiles.map(node => node.data);
+  onSelectedItemsChange() {
+    this.selectedFonc = this.selectedItems.map(value => value.data);
 
   }
 

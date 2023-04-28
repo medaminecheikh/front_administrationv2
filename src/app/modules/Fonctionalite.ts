@@ -12,5 +12,6 @@ export interface Fonctionalite {
   nomF: string;
   nomMENU: string;
   profils: Profil[];
+  children?: Fonctionalite[];
   totalElements: number;
 }

@@ -119,11 +119,11 @@
               <h3 class="card-title text-bold ">Affecter des Fonctions</h3>
             </div>
             <div class="card-body">
+              <p-tree [value]="treeData" [selectionMode]="'checkbox'" [(selection)]="selectedItems"
+                      [filter]="true" filterPlaceholder="Search Functions..."
+                      (selectionChange)="onSelectedItemsChange()">
 
-              <p-tree [value]="files" selectionMode="checkbox" [filter]="true" filterMode="strict"
-                      class="w-min md:w-30rem" [(selection)]="selectedFiles"
-                      (selectionChange)="onFileSelectionChange($event)"
-                      [filterPlaceholder]="'Search for Functions...'"></p-tree>
+              </p-tree>
 
             </div>
           </div>

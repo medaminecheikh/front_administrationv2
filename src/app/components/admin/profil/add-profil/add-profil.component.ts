@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Profil} from "../../../../modules/Profil";
 import {Fonctionalite} from "../../../../modules/Fonctionalite";
 import {Model} from "../../../../modules/Model";
@@ -25,12 +25,13 @@ export class AddProfilComponent implements OnInit{
   profil!: Profil;
   showError:boolean =false;
   functions:Fonctionalite[]=[];
-  files : TreeNode[] = [];
-  models:Model[]=[];
-  selectedModel !:Model | null;
-  treeData: any[] = [];
+  models:Model[]=[] ;
+  selectedModel !:Model | undefined;
+  treeData: TreeNode[] = [];
   selectedFonc :Fonctionalite[]=[];
-  selectedItems: any[] = [];
+  selectedItems: TreeNode[] = [];
+  model= new FormControl();
+
   constructor(private profilService:ProfilService,
               private router: Router,private formBuilder: FormBuilder,
               private toastr: ToastrService,private modelService:ModelService,
@@ -71,10 +72,44 @@ export class AddProfilComponent implements OnInit{
       this.treeData = parentNodes;
      this.expandAll();
     });
-
+    this.model.valueChanges.subscribe(() => {
+      this.onSelectionModel();
+    });
+  }
+  onSelectionModel() {
+    const id = this.model.value;
+    this.selectedModel = this.models.find(model => model.idModel === id)
+    console.log(this.selectedModel)
+    if (this.selectedModel) {
+      const selectedFonctions: Fonctionalite[] = this.selectedModel.fonctions;
+      this.selectedItems = []; // Clear the selected items list
+      this.selectNodes(this.treeData, selectedFonctions); // Traverse the tree and select/deselect nodes
+      this.onSelectedItemsChange();
+      console.log(this.selectedItems)
+    }
   }
 
-  onSelectedItemsChange() {
+  selectNodes(nodes: TreeNode[], selectedFonctions: Fonctionalite[]) {
+    for (const node of nodes) {
+      if (node.children && node.children.length > 0) {
+        // If the node has children, recursively traverse them
+        this.selectNodes(node.children, selectedFonctions);
+        // If all children are selected, select the parent node
+        node.partialSelected = node.children.some(child => child.partialSelected) || selectedFonctions.some(fonc => fonc.idFonc === node.data.idFonc);
+        if (node.partialSelected) {
+          this.selectedItems.push(node);
+        }
+      } else {
+        // If the node has no children, select/deselect it based on selectedFonctions
+        node.partialSelected = selectedFonctions.some(fonc => fonc.idFonc === node.data.idFonc);
+        if (node.partialSelected) {
+          this.selectedItems.push(node);
+        }
+      }
+    }
+  }
+
+    onSelectedItemsChange() {
     this.selectedFonc = this.selectedItems.map(value => value.data);
 
   }
@@ -98,7 +133,7 @@ export class AddProfilComponent implements OnInit{
     if (this.profilForm.valid) {
       const profil = this.profilForm.value;
       const selectedFonc: Fonctionalite[] = this.selectedFonc;
-      const selectedModel: Model | null = this.selectedModel;
+      const selectedModel: Model | undefined = this.selectedModel;
       let profilId: String;
       this.profilService.addProfile(profil).pipe(
         tap((response) => {
@@ -170,4 +205,7 @@ export class AddProfilComponent implements OnInit{
       this.toastr.warning('Please fill form correctly.', 'Warning');
     }
   }
+
+
+
 }
