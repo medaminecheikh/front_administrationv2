@@ -1,1 +1,167 @@
-<p>add-user works!</p>
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Créer Utilisateur</h1>
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Créer Utilisateur</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card card-outline card-info">
+            <div class="card-header">
+              <h3 class="card-title text-bold">
+                Utilisateur Form
+              </h3>
+              <div class="card-tools">
+                <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
+                  class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="row ml-2">
+                <div class="col-md-12">
+                  <form [formGroup]="utilisateurForm">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Login</label>
+                          <input formControlName="login" placeholder="Login" type="text" class="form-control"
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('login')?.invalid && showError,'is-valid':utilisateurForm.get('login')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('login')?.hasError('required')"
+                                class="error invalid-feedback">Login is required.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Nom</label>
+                          <input formControlName="nomU" placeholder="Nom" type="text" class="form-control"
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('nomU')?.invalid && showError,'is-valid':utilisateurForm.get('nomU')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('nomU')?.hasError('required')"
+                                class="error invalid-feedback">Nom is required.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Prénom</label>
+                          <input formControlName="prenU" placeholder="Prénom" type="text" class="form-control"
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('prenU')?.invalid && showError,'is-valid':utilisateurForm.get('prenU')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('prenU')?.hasError('required')"
+                                class="error invalid-feedback">Prénom is required.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Description Utilisateur</label>
+                          <input formControlName="descU" placeholder="Description" type="text" class="form-control"
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('descU')?.invalid && showError,'is-valid':utilisateurForm.get('descU')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('descU')?.hasError('required')"
+                                class="error invalid-feedback">Description Utilisateur est obligatoire.</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Mot de passe</label>
+                          <input formControlName="pwdU" placeholder="Mot de passe" type="password" class="form-control"
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('pwdU')?.invalid && showError,'is-valid':utilisateurForm.get('pwdU')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('pwdU')?.hasError('required')"
+                                class="error invalid-feedback">Mot de passe is required.</span>
+                          <span *ngIf="utilisateurForm.get('pwdU')?.hasError('minlength')"
+                                class="error invalid-feedback">Minimum length is 8 characters.</span>
+                          <span *ngIf="utilisateurForm.get('pwdU')?.hasError('pattern')" class="error invalid-feedback">Password must contain at least one uppercase letter and one special character.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Confirmation</label>
+                          <input formControlName="confirmedpassword" placeholder="Confirmation" type="password"
+                                 class="form-control"
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('confirmedpassword')?.invalid && showError,'is-valid':utilisateurForm.get('confirmedpassword')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('confirmedpassword')?.hasError('required')"
+                                class="error invalid-feedback">Confirmation is required.</span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Matricule</label>
+                          <input formControlName="matricule" placeholder="Matricule" type="text" class="form-control"
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('matricule')?.invalid && showError,'is-valid':utilisateurForm.get('matricule')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('matricule')?.hasError('required')"
+                                class="error invalid-feedback">Matricule est obligatoire.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Actif</label>
+                          <select formControlName="estActif" class="form-control"
+                                  [ngClass]="{'is-invalid': utilisateurForm.get('estActif')?.invalid && showError,'is-valid':utilisateurForm.get('estActif')?.valid && showError}">
+                            <option value="" disabled>-- Choisir --</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                          </select>
+                          <span *ngIf="utilisateurForm.get('estActif')?.hasError('required')"
+                                class="error invalid-feedback">Actif est obligatoire.</span>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>f_ADM_LOC</label>
+                          <select formControlName="f_ADM_LOC" class="form-control"
+                                  [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_LOC')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_LOC')?.valid && showError}">
+                            <option value="">-- Choisir --</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                          </select>
+                          <span *ngIf="utilisateurForm.get('f_ADM_LOC')?.hasError('required')"
+                                class="error invalid-feedback">Emplacement Administratif est obligatoire.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>f_ADM_CEN</label>
+                          <select formControlName="f_ADM_CEN" class="form-control"
+                                  [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_CEN')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_CEN')?.valid && showError}">
+                            <option value="">-- Choisir --</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                          </select>
+                          <span *ngIf="utilisateurForm.get('f_ADM_CEN')?.hasError('required')"
+                                class="error invalid-feedback">Centre Administratif est obligatoire.</span>
+                        </div>
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn  bg-gradient-success" type="button" (click)="addUser()">Save <i
+                class="fa-regular fa-circle-check"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

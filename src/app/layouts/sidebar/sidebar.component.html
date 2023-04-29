@@ -32,7 +32,32 @@
             </p>
           </a>
         </li>
+        <li class="nav-item ">
+          <a href="javascript:void(0)"  class="nav-link">
+            <i class="nav-icon fas fa-address-card"></i>
+            <p>
+              Gestion Utilisateur
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
 
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a routerLink="user/list" routerLinkActive="active" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Dashboard Utilisateur</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="user/add" routerLinkActive="active" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Créer Utilisateur</p>
+              </a>
+            </li>
+
+
+          </ul>
+        </li>
 
         <li class="nav-item ">
           <a href="javascript:void(0)"  class="nav-link">
@@ -56,12 +81,7 @@
                 <p>Créer Profil</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a routerLink="profil/update" routerLinkActive="active" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Update Profil</p>
-              </a>
-            </li>
+
 
           </ul>
         </li>
@@ -86,46 +106,20 @@
                 <p>Créer Model</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a routerLink="model/update" routerLinkActive="active" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Update Model</p>
-              </a>
-            </li>
+
 
           </ul>
         </li>
-
         <li class="nav-item ">
-          <a href="javascript:void(0)" role="button" class="nav-link ">
+          <a routerLink="fonction/add" routerLinkActive="active" class="nav-link ">
             <i class="nav-icon fas fa-screwdriver-wrench"></i>
             <p>
               Gestion Fonction
-              <i class="right fas fa-angle-left"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a routerLink="fonction/list" routerLinkActive="active" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Dashboard Fonction</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a routerLink="fonction/add" routerLinkActive="active" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Créer Fonction</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a routerLink="fonc/update" routerLinkActive="active" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Update Fonction</p>
-              </a>
-            </li>
-
-          </ul>
         </li>
+
+
 
       </ul>
     </nav>
