@@ -16,6 +16,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {SECRET_KEY} from "../../../../guards/constants";
 import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
 
+
+
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -35,6 +37,9 @@ export class AddUserComponent implements OnInit {
   etts: Ett[] = [];
   ettselected !: Ett | null;
 
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
               private ettService: EttService,
@@ -44,7 +49,10 @@ export class AddUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Fetch the list of zones on component initialization
+
+
+
+      // Fetch the list of zones on component initialization
     this.zoneService.getZones().subscribe(
       zones => this.zones = zones,
       error => console.error(error)
@@ -95,21 +103,25 @@ export class AddUserComponent implements OnInit {
     date_EXPIRED: ['', Validators.required]
   }, {validator: this.passwordMatchValidator});
 }
-  passwordMatchValidator(formGroup: FormGroup) {
-    const passwordControl = formGroup.get('pwdU');
-    const confirmPasswordControl = formGroup.get('confirmedpassword');
+passwordMatchValidator(formGroup: FormGroup) {
+  const passwordControl = formGroup.get('pwdU');
+  const confirmPasswordControl = formGroup.get('confirmedpassword');
 
-    if (!passwordControl || !confirmPasswordControl) {
-      return; // One or both controls are null, so return early
-    }
-    const password = passwordControl.value;
-    const confirmPassword = confirmPasswordControl.value;
-    if (passwordControl.touched && confirmPasswordControl.touched && password !== confirmPassword) {
-      confirmPasswordControl.setErrors({matchPassword: true});
-    } else {
-      confirmPasswordControl.setErrors(null);
-    }
+  if (!passwordControl || !confirmPasswordControl) {
+    return; // One or both controls are null, so return early
   }
+  const password = passwordControl.value;
+  const confirmPassword = confirmPasswordControl.value;
+  if (passwordControl.touched && confirmPasswordControl.touched && password !== confirmPassword) {
+    confirmPasswordControl.setErrors({matchPassword: true});
+  } else {
+    confirmPasswordControl.setErrors(null);
+  }
+}
+
+
+
+
   addUser():void {
 
     if (this.utilisateurForm.valid) {

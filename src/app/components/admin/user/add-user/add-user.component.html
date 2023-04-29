@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
@@ -38,97 +38,153 @@
                     <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label>Login</label>
-                          <input formControlName="login" placeholder="Login" type="text" class="form-control"
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('login')?.invalid && showError,'is-valid':utilisateurForm.get('login')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('login')?.hasError('required')"
-                                class="error invalid-feedback">Login is required.</span>
+                          <label> Login</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input formControlName="login" placeholder="Login" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('login')?.invalid && showError,'is-valid':utilisateurForm.get('login')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('login')?.hasError('required')"
+                                  class="error invalid-feedback">Login is required.</span>
+                          </div>
                         </div>
                       </div>
+
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label>Nom</label>
-                          <input formControlName="nomU" placeholder="Nom" type="text" class="form-control"
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('nomU')?.invalid && showError,'is-valid':utilisateurForm.get('nomU')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('nomU')?.hasError('required')"
-                                class="error invalid-feedback">Nom is required.</span>
+                          <label><i class="fas fa-signature"></i> Nom</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                            </div>
+                            <input formControlName="nomU" placeholder="Nom" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('nomU')?.invalid && showError,'is-valid':utilisateurForm.get('nomU')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('nomU')?.hasError('required')"
+                                  class="error invalid-feedback">Nom is required.</span>
+                          </div>
                         </div>
                       </div>
+
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label>Prénom</label>
-                          <input formControlName="prenU" placeholder="Prénom" type="text" class="form-control"
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('prenU')?.invalid && showError,'is-valid':utilisateurForm.get('prenU')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('prenU')?.hasError('required')"
-                                class="error invalid-feedback">Prénom is required.</span>
+                          <label><i class="fas fa-signature"></i> Prénom</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                            </div>
+                            <input formControlName="prenU" placeholder="Prénom" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('prenU')?.invalid && showError,'is-valid':utilisateurForm.get('prenU')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('prenU')?.hasError('required')"
+                                  class="error invalid-feedback">Prénom is required.</span>
+                          </div>
                         </div>
                       </div>
+
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label>Description Utilisateur</label>
-                          <input formControlName="descU" placeholder="Description" type="text" class="form-control"
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('descU')?.invalid && showError,'is-valid':utilisateurForm.get('descU')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('descU')?.hasError('required')"
-                                class="error invalid-feedback">Description Utilisateur est obligatoire.</span>
+                          <label> Description </label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <input formControlName="descU" placeholder="Description" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('descU')?.invalid && showError,'is-valid':utilisateurForm.get('descU')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('descU')?.hasError('required')"
+                                  class="error invalid-feedback">Description Utilisateur est obligatoire.</span>
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div class="row">
+
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label>Mot de passe</label>
-                          <input formControlName="pwdU" placeholder="Mot de passe" type="password" class="form-control"
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('pwdU')?.invalid && showError,'is-valid':utilisateurForm.get('pwdU')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('pwdU')?.hasError('required')"
-                                class="error invalid-feedback">Mot de passe is required.</span>
-                          <span *ngIf="utilisateurForm.get('pwdU')?.hasError('minlength')"
-                                class="error invalid-feedback">Minimum length is 8 characters.</span>
-                          <span *ngIf="utilisateurForm.get('pwdU')?.hasError('pattern')" class="error invalid-feedback">Password must contain at least one uppercase letter and one special character.</span>
+                          <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"
+                                                                                          class="fas fa-lock"></i> Mot
+                            de passe</label>
+                          <div class="input-group">
+                            <input formControlName="pwdU" placeholder="Mot de passe"
+                                   type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('pwdU')?.invalid && showError,'is-valid':utilisateurForm.get('pwdU')?.valid && showError}">
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-info" (click)="showPassword = !showPassword">
+                                <i class="{{ showPassword ? 'fa fa-eye-slash' : 'fa fa-eye' }}"></i>
+                              </button>
+                            </div>
+                            <span *ngIf="utilisateurForm.get('pwdU')?.hasError('required')"
+                                  class="error invalid-feedback">Mot de passe is required.</span>
+                            <span *ngIf="utilisateurForm.get('pwdU')?.hasError('minlength')"
+                                  class="error invalid-feedback">Minimum length is 8 characters.</span>
+                            <span *ngIf="utilisateurForm.get('pwdU')?.hasError('pattern')"
+                                  class="error invalid-feedback">Password must contain at least one uppercase letter and one special character.</span>
+
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label>Confirmation</label>
-                          <input formControlName="confirmedpassword" placeholder="Confirmation" type="password"
-                                 class="form-control"
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('confirmedpassword')?.invalid && showError,'is-valid':utilisateurForm.get('confirmedpassword')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('confirmedpassword')?.hasError('required')"
-                                class="error invalid-feedback">Confirmation is required.</span>
+                          <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"
+                                                                                          class="fas fa-lock"></i>
+                            Confirmation</label>
+                          <div class="input-group">
+                            <input formControlName="confirmedpassword" placeholder="Confirmation"
+                                   type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('confirmedpassword')?.invalid && (utilisateurForm.get('confirmedpassword')?.touched || showError),'is-valid':utilisateurForm.get('confirmedpassword')?.valid && showError}">
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-info" (click)="showPassword = !showPassword">
+                                <i class="{{ showPassword ? 'fa fa-eye-slash' : 'fa fa-eye' }}"></i>
+                              </button>
+                            </div>
+                            <span
+                              *ngIf="utilisateurForm.get('confirmedpassword')?.hasError('required') && (utilisateurForm.get('confirmedpassword')?.touched || showError)"
+                              class="error invalid-feedback">Confirmation required.</span>
+                            <span
+                              *ngIf="utilisateurForm.get('confirmedpassword')?.hasError('matchPassword') && (utilisateurForm.get('confirmedpassword')?.touched || showError)"
+                              class="error invalid-feedback">Confirm password.</span>
+                          </div>
+
                         </div>
                       </div>
+
 
                       <div class="col-md-3">
                         <div class="form-group">
                           <label>Matricule</label>
-                          <input formControlName="matricule" placeholder="Matricule" type="text" class="form-control"
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('matricule')?.invalid && showError,'is-valid':utilisateurForm.get('matricule')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('matricule')?.hasError('required')"
-                                class="error invalid-feedback">Matricule est obligatoire.</span>
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label>Actif</label>
-                          <select formControlName="estActif" class="form-control"
-                                  [ngClass]="{'is-invalid': utilisateurForm.get('estActif')?.invalid && showError,'is-valid':utilisateurForm.get('estActif')?.valid && showError}">
-                            <option value="" disabled>-- Choisir --</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                          </select>
-                          <span *ngIf="utilisateurForm.get('estActif')?.hasError('required')"
-                                class="error invalid-feedback">Actif est obligatoire.</span>
+                          <div class="input-group ">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-bars"></i></span>
+                            </div>
+                            <input formControlName="matricule" placeholder="Matricule" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('matricule')?.invalid && showError,'is-valid':utilisateurForm.get('matricule')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('matricule')?.hasError('required')"
+                                  class="error invalid-feedback">Matricule est obligatoire.</span>
+                          </div>
                         </div>
                       </div>
 
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label> Date d'expiration</label>
+                          <input formControlName="date_EXPIRED" placeholder="Date d'expiration" type="date"
+                                 class="form-control "
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('date_EXPIRED')?.invalid && showError, 'is-valid':utilisateurForm.get('date_EXPIRED')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('date_EXPIRED')?.hasError('required')"
+                                class="error invalid-feedback">Date d'expiration est obligatoire.</span>
+                        </div>
+                      </div>
+
+
                     </div>
+
                     <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label>f_ADM_LOC</label>
                           <select formControlName="f_ADM_LOC" class="form-control"
                                   [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_LOC')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_LOC')?.valid && showError}">
-                            <option value="">-- Choisir --</option>
+                            <option value="" disabled>-- Choisir --</option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                           </select>
@@ -136,12 +192,12 @@
                                 class="error invalid-feedback">Emplacement Administratif est obligatoire.</span>
                         </div>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label>f_ADM_CEN</label>
                           <select formControlName="f_ADM_CEN" class="form-control"
                                   [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_CEN')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_CEN')?.valid && showError}">
-                            <option value="">-- Choisir --</option>
+                            <option value="" disabled>-- Choisir --</option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                           </select>
@@ -150,9 +206,50 @@
                         </div>
 
                       </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Actif</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                            </div>
+                            <select formControlName="estActif" class="form-control"
+                                    [ngClass]="{'is-invalid': utilisateurForm.get('estActif')?.invalid && showError,'is-valid':utilisateurForm.get('estActif')?.valid && showError}">
+                              <option value="" disabled>-- Choisir --</option>
+                              <option value="0">0</option>
+                              <option value="1">1</option>
+                            </select>
+                            <span *ngIf="utilisateurForm.get('estActif')?.hasError('required')"
+                                  class="error invalid-feedback">Actif est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label> Status</label>
+                          <div class="input-group">
+
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-toggle-on"></i></span>
+                            </div>
+                            <select formControlName="is_EXPIRED" class="form-control"
+                                    [ngClass]="{'is-invalid': utilisateurForm.get('is_EXPIRED')?.invalid && showError,'is-valid':utilisateurForm.get('is_EXPIRED')?.valid && showError}">
+                              <option value="" disabled>-- Choisir --</option>
+                              <option value="0">Valid</option>
+                              <option value="1">Expired</option>
+                            </select>
+                            <span *ngIf="utilisateurForm.get('is_EXPIRED')?.hasError('required')"
+                                  class="error invalid-feedback">Actif est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </div>
+              </div>
+              <div class="row ml-2">
               </div>
             </div>
             <div class="card-footer">
