@@ -245,86 +245,104 @@
                   </form>
                 </div>
               </div>
-              <p-divider align="left">
-                <div class="inline-flex align-items-center">
-                  <i class="fas fa-shop mr-2"></i>
-                  <b>Espace TT</b>
-                </div>
-              </p-divider>
-
-              <div class="row ml-2">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label>Zone</label>
-                    <div class="input-group input-group-sm">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
-                      </div>
-                      <select class="form-control" [formControl]="zone">
-                        <option value="">-- Clear --</option>
-                        <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE}}</option>
-                      </select>
+              <div class="row">
+                <div class="col-md-4">
+                  <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                      <i class="fas fa-shop mr-2"></i>
+                      <b>Espace TT</b>
                     </div>
-                  </div>
+                  </p-divider>
                 </div>
-
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label>Direction Regionale</label>
-                    <div class="input-group input-group-sm">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-city"></i></span>
-                      </div>
-                      <select class="form-control" [formControl]="dreg">
-                        <option value="">-- Clear --</option>
-                        <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr}}</option>
-                      </select>
+                <div class="col-md-8">
+                  <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                      <i class="fas fa-address-card mr-2"></i>
+                      <b>Profils</b>
                     </div>
-                  </div>
-                </div>
-
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label>Espace TT</label>
-                    <div class="input-group input-group-sm">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-shop"></i></span>
-                      </div>
-                      <select class="form-control" [formControl]="ett">
-                        <option value="">-- Clear --</option>
-                        <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <p-divider align="left">
-                <div class="inline-flex align-items-center">
-                  <i class="fas fa-address-card mr-2"></i>
-                  <b>Profils</b>
-                </div>
-              </p-divider>
-              <div class="row ml-2">
-                <div class="card col-md-3 flex-lg-fill ">
-                  <p-multiSelect  [options]="profils" [(ngModel)]="profilSelected" defaultLabel="Select profil" optionLabel="nomP" display="chip"></p-multiSelect>
+                  </p-divider>
                 </div>
               </div>
 
-              <div class="row col-sm-12">
-                <p-pickList  [source]="profils"  [target]="profilSelected" sourceHeader="Available Profils" targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '3rem' } "
-                            [targetStyle]="{ height: '3rem' }" filterBy="nomP" sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil" breakpoint="500px">
-                  <ng-template let-profil pTemplate="item">
-                    <div class="flex flex-wrap p-2 align-items-center gap-3">
-                      <div class="flex-1 flex flex-column gap-2">
-                        <span class="font-bold">{{ profil.nomP }}</span>
+            <div class="row">
+                <div class="col-md-3">
 
+                  <div class=" col-md-10 ">
+                    <div class="form-group">
+                      <label>Zone</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                        </div>
+                        <select class="form-control" [formControl]="zone">
+                          <option value="">-- Clear --</option>
+                          <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE}}</option>
+                        </select>
                       </div>
-                      <span class="font-bold text-900">{{ '$' + profil.des_P }}</span>
                     </div>
-                  </ng-template>
-                </p-pickList>
+                  </div>
+
+                  <div class=" col-md-10 ">
+                    <div class="form-group">
+                      <label>Direction Regionale</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-city"></i></span>
+                        </div>
+                        <select class="form-control" [formControl]="dreg">
+                          <option value="">-- Clear --</option>
+                          <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-10 ">
+                    <div class="form-group">
+                      <label>Espace TT</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-shop"></i></span>
+                        </div>
+                        <select class="form-control" [formControl]="ett">
+                          <option value="">-- Clear --</option>
+                          <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              <div class="col-1">
+                <p-divider layout="vertical">
+
+                </p-divider>
               </div>
+                <div class=" col-md-8" >
+                  <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
+                              targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
+                              [sourceStyle]="{ height: '3rem' } "
+                              [targetStyle]="{ height: '3rem' }" filterBy="nomP"
+                              sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil"
+                              breakpoint="500px">
+                    <ng-template let-profil pTemplate="item">
+                      <div class="flex flex-wrap  align-items-center gap-3">
+                        <div class="flex-1 flex flex-column gap-1">
+                          <div class="flex align-products-center gap-2 font-weight-bold">
+                            <i class="fas fa-address-card "></i>
+                            <span>  {{ profil.nomP }} :</span>
+                          </div>
+                        </div>
+                        <span class="font-bold text-900"> {{ profil.des_P }}</span>
+                      </div>
+                    </ng-template>
+                  </p-pickList>
+                </div>
+
+            </div>
+
+
+
             </div>
             <div class="card-footer">
               <button class="btn  bg-gradient-success" type="button" (click)="addUser()">Save <i
