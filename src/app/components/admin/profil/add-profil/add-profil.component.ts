@@ -40,6 +40,7 @@ export class AddProfilComponent implements OnInit{
 
   ngOnInit(): void {
 
+
     this.modelService.getAllModels().subscribe((data :Model[]) => {
       this.models = data;
 

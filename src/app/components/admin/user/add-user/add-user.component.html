@@ -36,10 +36,10 @@
                 <div class="col-md-12">
                   <form [formGroup]="utilisateurForm">
                     <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label> Login</label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
@@ -51,10 +51,10 @@
                         </div>
                       </div>
 
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label><i class="fas fa-signature"></i> Nom</label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-signature"></i></span>
                             </div>
@@ -66,10 +66,10 @@
                         </div>
                       </div>
 
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label><i class="fas fa-signature"></i> Prénom</label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-signature"></i></span>
                             </div>
@@ -80,11 +80,26 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Matricule</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-bars"></i></span>
+                            </div>
+                            <input formControlName="matricule" placeholder="Matricule" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('matricule')?.invalid && showError,'is-valid':utilisateurForm.get('matricule')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('matricule')?.hasError('required')"
+                                  class="error invalid-feedback">Matricule est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
 
-                      <div class="col-md-3">
+
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label> Description </label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
                             </div>
@@ -99,12 +114,12 @@
 
                     <div class="row">
 
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"
                                                                                           class="fas fa-lock"></i> Mot
                             de passe</label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
                             <input formControlName="pwdU" placeholder="Mot de passe"
                                    type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
                                    [ngClass]="{'is-invalid': utilisateurForm.get('pwdU')?.invalid && showError,'is-valid':utilisateurForm.get('pwdU')?.valid && showError}">
@@ -123,12 +138,12 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-2">
                         <div class="form-group">
                           <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"
                                                                                           class="fas fa-lock"></i>
                             Confirmation</label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
                             <input formControlName="confirmedpassword" placeholder="Confirmation"
                                    type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
                                    [ngClass]="{'is-invalid': utilisateurForm.get('confirmedpassword')?.invalid && (utilisateurForm.get('confirmedpassword')?.touched || showError),'is-valid':utilisateurForm.get('confirmedpassword')?.valid && showError}">
@@ -149,38 +164,14 @@
                       </div>
 
 
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <label>Matricule</label>
-                          <div class="input-group ">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-bars"></i></span>
-                            </div>
-                            <input formControlName="matricule" placeholder="Matricule" type="text" class="form-control"
-                                   [ngClass]="{'is-invalid': utilisateurForm.get('matricule')?.invalid && showError,'is-valid':utilisateurForm.get('matricule')?.valid && showError}">
-                            <span *ngIf="utilisateurForm.get('matricule')?.hasError('required')"
-                                  class="error invalid-feedback">Matricule est obligatoire.</span>
-                          </div>
-                        </div>
-                      </div>
 
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label> Date d'expiration</label>
-                          <input formControlName="date_EXPIRED" placeholder="Date d'expiration" type="date"
-                                 class="form-control "
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('date_EXPIRED')?.invalid && showError, 'is-valid':utilisateurForm.get('date_EXPIRED')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('date_EXPIRED')?.hasError('required')"
-                                class="error invalid-feedback">Date d'expiration est obligatoire.</span>
-                        </div>
-                      </div>
 
 
                     </div>
 
                     <div class="row">
                       <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-group input-group-sm">
                           <label>f_ADM_LOC</label>
                           <select formControlName="f_ADM_LOC" class="form-control"
                                   [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_LOC')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_LOC')?.valid && showError}">
@@ -193,7 +184,7 @@
                         </div>
                       </div>
                       <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="form-group input-group-sm">
                           <label>f_ADM_CEN</label>
                           <select formControlName="f_ADM_CEN" class="form-control"
                                   [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_CEN')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_CEN')?.valid && showError}">
@@ -209,15 +200,15 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>Actif</label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
                             </div>
                             <select formControlName="estActif" class="form-control"
                                     [ngClass]="{'is-invalid': utilisateurForm.get('estActif')?.invalid && showError,'is-valid':utilisateurForm.get('estActif')?.valid && showError}">
                               <option value="" disabled>-- Choisir --</option>
-                              <option value="0">0</option>
-                              <option value="1">1</option>
+                              <option value="0">Oui</option>
+                              <option value="1">Non</option>
                             </select>
                             <span *ngIf="utilisateurForm.get('estActif')?.hasError('required')"
                                   class="error invalid-feedback">Actif est obligatoire.</span>
@@ -229,12 +220,12 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label> Status</label>
-                          <div class="input-group">
+                          <div class="input-group input-group-sm">
 
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-toggle-on"></i></span>
                             </div>
-                            <select formControlName="is_EXPIRED" class="form-control"
+                            <select formControlName="is_EXPIRED" class="form-control "
                                     [ngClass]="{'is-invalid': utilisateurForm.get('is_EXPIRED')?.invalid && showError,'is-valid':utilisateurForm.get('is_EXPIRED')?.valid && showError}">
                               <option value="" disabled>-- Choisir --</option>
                               <option value="0">Valid</option>
@@ -245,11 +236,85 @@
                           </div>
                         </div>
                       </div>
+
+                      <div class="col-md-2">
+                        <div class="form-group input-group-sm">
+                          <label> Date d'expiration</label>
+                          <input formControlName="date_EXPIRED" placeholder="Date d'expiration" type="date"
+                                 class="form-control "
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('date_EXPIRED')?.invalid && showError, 'is-valid':utilisateurForm.get('date_EXPIRED')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('date_EXPIRED')?.hasError('required')"
+                                class="error invalid-feedback">Date d'expiration est obligatoire.</span>
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </div>
               </div>
+              <p-divider align="left">
+                <div class="inline-flex align-items-center">
+                  <i class="fas fa-shop mr-2"></i>
+                  <b>Espace TT</b>
+                </div>
+              </p-divider>
+
               <div class="row ml-2">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Zone</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                      </div>
+                      <select class="form-control" [formControl]="zone">
+                        <option value="">-- Clear --</option>
+                        <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>DREG</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                      </div>
+                      <select class="form-control" [formControl]="dreg">
+                        <option value="">-- Clear --</option>
+                        <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>ETT</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-users"></i></span>
+                      </div>
+                      <select class="form-control" [formControl]="ett">
+                        <option value="">-- Clear --</option>
+                        <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <p-divider align="left">
+                <div class="inline-flex align-items-center">
+                  <i class="fas fa-address-card mr-2"></i>
+                  <b>Profils</b>
+                </div>
+              </p-divider>
+              <div class="row ml-2">
+                <div class="card flex justify-content-center">
+                  <p-multiSelect  [options]="profils" [(ngModel)]="profilSelected" defaultLabel="Select profil" optionLabel="nomP" display="chip"></p-multiSelect>
+                </div>
               </div>
             </div>
             <div class="card-footer">

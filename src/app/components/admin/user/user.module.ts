@@ -7,6 +7,9 @@ import {ListUserComponent} from "./list-user/list-user.component";
 import {DetailUserComponent} from "./detail-user/detail-user.component";
 import {UpdateUserComponent} from "./update-user/update-user.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DividerModule} from "primeng/divider";
+import {MultiSelectModule} from "primeng/multiselect";
+import {DropdownModule} from "primeng/dropdown";
 
 
 @NgModule({
@@ -22,6 +25,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     UserRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    DividerModule,
+    MultiSelectModule,
+    DropdownModule,
 
 
   ]

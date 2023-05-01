@@ -15,8 +15,7 @@ import {DrService} from "../../../../services/dr.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SECRET_KEY} from "../../../../guards/constants";
 import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
-
-
+import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-add-user',
@@ -35,10 +34,10 @@ export class AddUserComponent implements OnInit {
   zones: Zone[] = [];
   dreginals: Dregional[] = [];
   etts: Ett[] = [];
-  ettselected !: Ett | null;
+  ettselected: any;
 
   showPassword: boolean = false;
-  showConfirmPassword: boolean = false;
+
 
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
@@ -59,29 +58,54 @@ export class AddUserComponent implements OnInit {
     );
     // Subscribe to the value changes of the zone form control
     this.zone.valueChanges.subscribe(
-      zone => {
+      zoneId => {
+        this.onSelectionzone();
         // Fetch the associated dreginals when the zone value changes
-        if (zone) {
-          this.dregionalService.getDregionalsByZone(zone.idZone).subscribe(
-            dreginals => this.dreginals = dreginals,
+        if (zoneId) {
+          const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
+          if (selectedZone){this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
+            dreginals => {
+              this.dreginals = dreginals;
+              this.dreg.reset();
+              this.ett.reset();
+            },
             error => console.error(error)
-          );
+          );}
+        } else {
+          this.dreg.reset();
+          this.ett.reset();
+          this.dreginals = [];
+          this.etts = [];
         }
       }
     );
     // Subscribe to the value changes of the dreg form control
     this.dreg.valueChanges.subscribe(
-      dreg => {
+      dregId => {
+        this.onSelectionzone();
         // Fetch the associated etts when the dreg value changes
-        if (dreg) {
-          this.ettService.getEttsByDrId(dreg.idDr).subscribe(
-            etts => this.etts = etts,
+        if (dregId) {
+          const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
+          if(selectedDreg){
+            this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
+            etts => {
+              this.etts = etts;
+              this.ett.reset(); // reset the ett form control
+              this.ettselected = null; // reset the selected ett
+            },
             error => console.error(error)
-          );
+          );}
+          else {
+            this.dreg.reset();
+            this.ett.reset();
+            this.dreginals = [];
+            this.etts = [];
+          }
         }
       }
     );
-
+    // Subscribe to the value changes of the dreg form control
+    this.ett.valueChanges.subscribe(value => this.ettselected=value);
 
     this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
       this.profils = data;
@@ -119,7 +143,11 @@ passwordMatchValidator(formGroup: FormGroup) {
   }
 }
 
-
+  onSelectionzone() {
+    this.ett.reset();
+    this.ettselected = null;
+    this.etts = [];
+  }
 
 
   addUser():void {
@@ -127,7 +155,7 @@ passwordMatchValidator(formGroup: FormGroup) {
     if (this.utilisateurForm.valid) {
       const utilisateur = this.utilisateurForm.value;
       const profilSelected: Profil[] = this.profilSelected;
-      const ettSelected : Ett | null = this.ettselected;
+      const ettSelected: Ett | undefined | null = this.ettselected ? this.etts.find(e => e.idEtt === this.ettselected) : null; // use the find method to get the selected Ett object
       let userId: String;
       this.userService.addUser(utilisateur).pipe(
         tap((response) => {
@@ -155,7 +183,7 @@ passwordMatchValidator(formGroup: FormGroup) {
         }),
         catchError((error) => {
           if (error instanceof HttpErrorResponse) {
-            if (error.status === 403) {
+            if (error.status === 401) {
               this.toastr.error('Login already exists !', 'Error');
               return throwError('Login already exists error !');
             }
@@ -168,7 +196,7 @@ passwordMatchValidator(formGroup: FormGroup) {
             this.userService.affecterUserToEtt(userId,ettSelected.idEtt).subscribe(
               () => {
                 const id = CryptoJS.AES.encrypt(userId.trim(), SECRET_KEY).toString();
-                this.router.navigate(['detail-user',id])
+                this.router.navigate(['admin/user/detail', id])
                 this.toastr.success('User added successfully!', 'Success');
               },
               (error) => {
@@ -177,7 +205,7 @@ passwordMatchValidator(formGroup: FormGroup) {
             );
           } else {
             const id = CryptoJS.AES.encrypt(userId.trim(), SECRET_KEY).toString();
-            this.router.navigate(['detail-user',id])
+            this.router.navigate(['admin/user/detail', id])
             this.toastr.success('User added successfully!', 'Success');
           }
           // Handle success
@@ -187,8 +215,6 @@ passwordMatchValidator(formGroup: FormGroup) {
             if (error.status === 404) {
               this.toastr.error('The resource could not be found.', 'Error');
             } else if (error.status === 401) {
-              this.toastr.error('Unauthorized request.', 'Error');
-            } else if (error.status === 403) {
               this.toastr.error('Login already exist error.', 'Error');
             }
           }

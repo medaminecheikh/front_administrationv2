@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ListUserComponent} from "./list-user/list-user.component";
 import {AddUserComponent} from "./add-user/add-user.component";
 import {UpdateUserComponent} from "./update-user/update-user.component";
+import {DetailUserComponent} from "./detail-user/detail-user.component";
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
   children: [
   { path: 'add', component: AddUserComponent },
   { path: 'update/:id', component: UpdateUserComponent },
+  { path: 'detail/:id', component: DetailUserComponent },
   { path: 'list', component: ListUserComponent },
   { path: '', redirectTo: 'list', pathMatch: 'full' },
 ]
