@@ -20,7 +20,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 ">
-          <div class="card card-outline card-info">
+          <div class="card card-outline card-info collapsed-card">
             <div class="card-header">
               <h3 class="card-title text-bold">
                 Utilisateur Form
@@ -28,10 +28,12 @@
               <div class="card-tools">
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                  class="fas fa-plus"></i></button>
               </div>
             </div>
 
-            <div class="card-body">
+            <div class="card-body" style="display: none;">
               <div class="row ml-2">
                 <div class="col-md-12">
                   <form [formGroup]="utilisateurForm">
@@ -318,7 +320,7 @@
 
                 </p-divider>
               </div>
-                <div class=" col-md-8" >
+                <div class=" col-md-8 w" >
                   <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
                               targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
                               [sourceStyle]="{ height: '3rem' } "
@@ -344,13 +346,63 @@
 
 
             </div>
-            <div class="card-footer">
+            <div class="card-footer" style="display: none;">
               <button class="btn  bg-gradient-success" type="button" (click)="addUser()">Save <i
                 class="fa-regular fa-circle-check"></i></button>
             </div>
           </div>
         </div>
       </div>
+
+
+
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-outline card-indigo">
+            <div class="card-header ">
+              <h3 class="card-title text-bold"> Table Utilisateurs</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool"><i class="fas fa-sync-alt"></i> </button>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>User</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Reason</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-widget="expandable-table" aria-expanded="false">
+                  <td>183</td>
+                  <td>John Doe</td>
+                  <td>11-7-2014</td>
+                  <td>Approved</td>
+                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                </tr>
+                <tr class="expandable-body d-none">
+                  <td colspan="5">
+                    <p style="display: none;">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                  </td>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
