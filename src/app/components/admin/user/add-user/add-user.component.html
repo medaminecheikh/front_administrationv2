@@ -110,10 +110,21 @@
                           </div>
                         </div>
                       </div>
+
+                      <div class="col-md-2">
+                        <div class="form-group input-group-sm">
+                          <label> Date d'expiration</label>
+                          <input formControlName="date_EXPIRED" placeholder="Date d'expiration" type="date"
+                                 class="form-control "
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('date_EXPIRED')?.invalid && showError, 'is-valid':utilisateurForm.get('date_EXPIRED')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('date_EXPIRED')?.hasError('required')"
+                                class="error invalid-feedback">Date d'expiration est obligatoire.</span>
+                        </div>
+                      </div>
                     </div>
 
-                    <div class="row">
 
+                    <div class="row">
                       <div class="col-md-2">
                         <div class="form-group">
                           <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"
@@ -162,14 +173,6 @@
 
                         </div>
                       </div>
-
-
-
-
-
-                    </div>
-
-                    <div class="row">
                       <div class="col-md-2">
                         <div class="form-group input-group-sm">
                           <label>f_ADM_LOC</label>
@@ -237,16 +240,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-2">
-                        <div class="form-group input-group-sm">
-                          <label> Date d'expiration</label>
-                          <input formControlName="date_EXPIRED" placeholder="Date d'expiration" type="date"
-                                 class="form-control "
-                                 [ngClass]="{'is-invalid': utilisateurForm.get('date_EXPIRED')?.invalid && showError, 'is-valid':utilisateurForm.get('date_EXPIRED')?.valid && showError}">
-                          <span *ngIf="utilisateurForm.get('date_EXPIRED')?.hasError('required')"
-                                class="error invalid-feedback">Date d'expiration est obligatoire.</span>
-                        </div>
-                      </div>
+
                     </div>
                   </form>
                 </div>
@@ -264,7 +258,7 @@
                     <label>Zone</label>
                     <div class="input-group input-group-sm">
                       <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
                       </div>
                       <select class="form-control" [formControl]="zone">
                         <option value="">-- Clear --</option>
@@ -276,10 +270,10 @@
 
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label>DREG</label>
+                    <label>Direction Regionale</label>
                     <div class="input-group input-group-sm">
                       <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                        <span class="input-group-text"><i class="fas fa-city"></i></span>
                       </div>
                       <select class="form-control" [formControl]="dreg">
                         <option value="">-- Clear --</option>
@@ -291,10 +285,10 @@
 
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label>ETT</label>
+                    <label>Espace TT</label>
                     <div class="input-group input-group-sm">
                       <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-users"></i></span>
+                        <span class="input-group-text"><i class="fas fa-shop"></i></span>
                       </div>
                       <select class="form-control" [formControl]="ett">
                         <option value="">-- Clear --</option>
@@ -312,9 +306,24 @@
                 </div>
               </p-divider>
               <div class="row ml-2">
-                <div class="card flex justify-content-center">
+                <div class="card col-md-3 flex-lg-fill ">
                   <p-multiSelect  [options]="profils" [(ngModel)]="profilSelected" defaultLabel="Select profil" optionLabel="nomP" display="chip"></p-multiSelect>
                 </div>
+              </div>
+
+              <div class="row col-sm-12">
+                <p-pickList  [source]="profils"  [target]="profilSelected" sourceHeader="Available" targetHeader="Selected" [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '3rem' } "
+                            [targetStyle]="{ height: '3rem' }" filterBy="nomP" sourceFilterPlaceholder="Search by name" targetFilterPlaceholder="Search by name" breakpoint="700px">
+                  <ng-template let-profil pTemplate="item">
+                    <div class="flex flex-wrap p-2 align-items-center gap-3">
+                      <div class="flex-1 flex flex-column gap-2">
+                        <span class="font-bold">{{ profil.nomP }}</span>
+
+                      </div>
+                      <span class="font-bold text-900">{{ '$' + profil.nomP }}</span>
+                    </div>
+                  </ng-template>
+                </p-pickList>
               </div>
             </div>
             <div class="card-footer">

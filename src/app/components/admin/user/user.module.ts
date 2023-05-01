@@ -10,6 +10,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DividerModule} from "primeng/divider";
 import {MultiSelectModule} from "primeng/multiselect";
 import {DropdownModule} from "primeng/dropdown";
+import {PickListModule} from "primeng/picklist";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {DropdownModule} from "primeng/dropdown";
     DividerModule,
     MultiSelectModule,
     DropdownModule,
+    PickListModule,
 
 
   ]
