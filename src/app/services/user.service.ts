@@ -33,4 +33,7 @@ export class UserService {
   public affecterUserToEtt(idUser: String, idEtt: String): Observable<any> {
     return this.http.put(`${this.host}affecterUserToEtt/${idUser}/${idEtt}`, {});
   }
+  public getUserBylogin(login:String):Observable<Utilisateur>{
+    return this.http.get<Utilisateur>(this.host+"utilisateurlogin/"+login);
+  }
 }

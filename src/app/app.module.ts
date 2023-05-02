@@ -16,6 +16,8 @@ import {AdminModule} from "./components/admin/admin.module";
 import {LayoutsModule} from "./layouts/layouts/layouts.module";
 import {TokenInterceptorService} from "./services/token-interceptor.service";
 import {ScrollTopModule} from "primeng/scrolltop";
+import {EncaissementlayoutsModule} from "./layouts/encaissementlayouts/encaissementlayouts.module";
+import {EncaissementModule} from "./components/encaissement/encaissement.module";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import {ScrollTopModule} from "primeng/scrolltop";
     HttpClientModule,
     RouterModule,
     ToastrModule.forRoot({
-      timeOut: 4000,
+      timeOut: 5000,
       progressBar: true,
       progressAnimation: 'increasing',
       positionClass: 'toast-bottom-right',
@@ -45,6 +47,8 @@ import {ScrollTopModule} from "primeng/scrolltop";
     AdminModule,
     LayoutsModule,
     ScrollTopModule,
+    EncaissementlayoutsModule,
+    EncaissementModule,
 
 
   ],

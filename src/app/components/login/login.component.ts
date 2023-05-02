@@ -39,32 +39,40 @@ export class LoginComponent implements OnInit{
         this.isLoggedIn = true;
         this.isLoginFailed = false;
 
-        this.router.navigate(['admin']).then(() => {
-          // Reload the current URL
-          window.location.reload();
-        });
+        if (this.roles.includes('ADMIN')) {
+          this.router.navigate(['admin']).then(() => {
+            // Reload the current URL
+            window.location.reload();
+          });
+        } else {
+          this.router.navigate(['encaissement']).then(() => {
+            // Reload the current URL
+            window.location.reload();
+
+          });
+        }
 
       },
       (error) => {
         if (error.status === 401) {
           this.toastr.error('Login ou mot de passe incorrect.', 'error');
-          this.errorMessage="Login ou mot de passe incorrect";
+          this.errorMessage = "Login ou mot de passe incorrect";
         } else if (error.status === 403) {
           this.toastr.error('Le compte est désactivé.', 'error');
-          this.errorMessage="Le compte est désactivé";
+          this.errorMessage = "Le compte est désactivé";
         } else if (error.status === 419) {
           this.toastr.error('Le compte a expiré.', 'error');
-          this.errorMessage="Le compte a expiré";
+          this.errorMessage = "Le compte a expiré";
         } else {
           this.toastr.error('Une erreur est survenue.', 'error');
-          this.errorMessage="Une erreur est survenue ";
+          this.errorMessage = "Une erreur est survenue ";
         }
         this.isLoginFailed = true;
       }
     );
   }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
 this.authService.logout();
   }
 }

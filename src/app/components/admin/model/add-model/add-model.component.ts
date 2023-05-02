@@ -7,9 +7,7 @@ import {FonctionService} from "../../../../services/fonction.service";
 import {Fonctionalite} from "../../../../modules/Fonctionalite";
 import {Model} from "../../../../modules/Model";
 import {TreeNode} from "primeng/api";
-import {SECRET_KEY} from "../../../../guards/constants";
 import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
-import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-add-model',
@@ -22,8 +20,7 @@ export class AddModelComponent implements OnInit{
   modelForm !: FormGroup;
   model!:Model;
   functions:Fonctionalite[]=[];
-  selectedFiles!: TreeNode[];
-  files : TreeNode[] = [];
+
   treeData: TreeNode[] = [];
   selectedFonc :Fonctionalite[]=[];
   selectedItems: TreeNode[] = [];
