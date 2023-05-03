@@ -51,7 +51,7 @@ export class AddUserComponent implements OnInit {
     content:[]
   };
   page: number = 0;
-  size: number=5;
+  size: number=8;
   pages: number[] = [];
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,

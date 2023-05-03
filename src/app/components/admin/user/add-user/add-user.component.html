@@ -266,7 +266,7 @@
                 </div>
               </div>
 
-            <div class="row">
+              <div class="row">
                 <div class="col-md-3">
 
                   <div class=" col-md-10 ">
@@ -315,12 +315,12 @@
                   </div>
 
                 </div>
-              <div class="col-1">
-                <p-divider layout="vertical">
+                <div class="col-1">
+                  <p-divider layout="vertical">
 
-                </p-divider>
-              </div>
-                <div class=" col-md-8 w-min" >
+                  </p-divider>
+                </div>
+                <div class=" col-md-8 w-min">
                   <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
                               targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
 
@@ -342,8 +342,7 @@
                   </p-pickList>
                 </div>
 
-            </div>
-
+              </div>
 
 
             </div>
@@ -355,7 +354,24 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card card-outline card-yellow collapsed-card">
+            <div class="card-header">
+              <h3 class="card-title text-bold">
+                Update Utilisateur
+              </h3>
+              <div class="card-tools">
 
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                  class="fas fa-plus"></i></button>
+              </div>
+            </div>
+
+            <div class="card-body" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
 
 
       <div class="row">
@@ -364,16 +380,19 @@
             <div class="card-header ">
               <h3 class="card-title text-bold"> Table Utilisateurs</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool bg-gradient-info" disabled><i class="fas fa-info-circle"></i> </button>
+                <button type="button" class="btn btn-tool bg-gradient-info" disabled><i class="fas fa-info-circle"></i>
+                </button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-warning" disabled><i class="fas fa-pen-to-square"></i> </button>
+                <button type="button" class="btn btn-tool bg-gradient-warning" ><i
+                  class="fas fa-pen-to-square"></i></button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-danger" disabled><i class="fas fa-trash-can"></i> </button>
+                <button type="button" class="btn btn-tool bg-gradient-danger" disabled><i class="fas fa-trash-can"></i>
+                </button>
 
               </div>
             </div>
 
-            <div class="card-body">
+            <div class="card-body ">
               <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
@@ -381,40 +400,51 @@
                   <th>Nom</th>
                   <th>Prenom</th>
                   <th>Etat</th>
-                  <th>date expiration</th>
-
+                  <th>Date expiration</th>
+                  <th>Description</th>
                 </tr>
                 </thead>
                 <tbody>
                 <ng-container *ngFor="let user of utlisateurs">
-                <tr data-widget="expandable-table" aria-expanded="false">
-                  <td>{{user.login}}</td>
-                  <td>{{user.nomU}}</td>
-                  <td>{{user.prenU}}</td>
-                  <td>{{user.estActif}}</td>
-                  <td>{{user.date_EXPIRED | date :'MMMM d, y'}}</td>
-
-                </tr>
-                <tr class="expandable-body d-none">
-                  <td colspan="5">
-                    <p style="display: none;">
-                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                  </td>
-                </tr>
+                  <tr data-widget="expandable-table" aria-expanded="false">
+                    <td>{{user.login}}</td>
+                    <td>{{user.nomU}}</td>
+                    <td>{{user.prenU}}</td>
+                    <td>{{user.estActif}}</td>
+                    <td>{{user.date_EXPIRED | date :'MMMM d, y'}}</td>
+                    <td>{{user.descU}}</td>
+                  </tr>
+                  <tr class="expandable-body d-none">
+                    <td colspan="6">
+                      <p style="display: none;">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+                        of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+                        but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                        popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                        and more recently with desktop publishing software like Aldus PageMaker including versions of
+                        Lorem Ipsum.
+                      </p>
+                    </td>
+                  </tr>
                 </ng-container>
                 </tbody>
               </table>
             </div>
-            <div class="card-footer"> <ul class="pagination pagination-sm m-0 float-right">
-              <li class="page-item"><button class="page-link" [disabled]="userPage.first" (click)="onPrev()">«</button></li>
+            <div class="card-footer">
+              <ul class="pagination pagination-sm m-0 float-right">
+                <li class="page-item">
+                  <button class="page-link" [disabled]="userPage.first" (click)="onPrev()">«</button>
+                </li>
 
-              <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
-                <button class="page-link" [disabled]="p === page" (click)="goToPage(p)">{{p + 1}}</button>
-              </li>
+                <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
+                  <button class="page-link" [disabled]="p === page" (click)="goToPage(p)">{{p + 1}}</button>
+                </li>
 
-              <li class="page-item"><button class="page-link" [disabled]="userPage.last" (click)="onNext()">»</button></li>
-            </ul>
+                <li class="page-item">
+                  <button class="page-link" [disabled]="userPage.last" (click)="onNext()">»</button>
+                </li>
+              </ul>
             </div>
 
           </div>
