@@ -3,9 +3,13 @@ import {Router} from "@angular/router";
 import {UserService} from "../../../services/user.service";
 
 import {Profil} from "../../../modules/Profil";
+import {Model} from "../../../modules/Model";
 import {TokenStorageService} from "../../../services/auth/token-storage.service";
 import {Utilisateur} from "../../../modules/Utilisateur";
 import {Fonctionalite} from "../../../modules/Fonctionalite";
+import {ProfilService} from "../../../services/profil.service";
+import {combineLatest, forkJoin, Observable, of, Subject, takeUntil} from "rxjs";
+import {ModelService} from "../../../services/model.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -15,9 +19,15 @@ import {Fonctionalite} from "../../../modules/Fonctionalite";
 export class SidebarComponent implements OnInit{
   fonctions:Fonctionalite[]=[];
   profils: Profil[] = [];
+  profilfinal: Profil[] = []
   currentUser!:any;
   user!:Utilisateur;
-  constructor(private router: Router,private userService:UserService,private token:TokenStorageService) {
+  // Declare the Subject for unsubscribing
+  private unsubscribe$ = new Subject<void>();
+  constructor(private router: Router,
+              private userService:UserService,
+              private token:TokenStorageService,private profilService:ProfilService
+              , private modelService:ModelService) {
   }
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
@@ -31,16 +41,47 @@ export class SidebarComponent implements OnInit{
         ...this.user.profilUser.map((profilUser) => profilUser.profil)
       ];
       console.log(this.profils)
-      this.getFonctions();
+      this. getFunctions();
     });
 
   }
-  getFonctions() {
-    this.fonctions = []; // initialize fonctions to an empty array
-    this.profils.forEach(profil => {
-      this.fonctions = this.fonctions.concat(profil.functions, profil.model.fonctions);
-      console.log(this.fonctions)
-    });
-  }
+  async getFunctions() {
+    const modelFonc: Fonctionalite[] = []; // Array to hold fonctions from all models
+    const profilFonc: Fonctionalite[] = []; // Array to hold fonctions from all profils
 
+    for (const profil of this.profils) {
+      // Fetch the profile
+      const profileData = await this.profilService.getProfileById(profil.idProfil).toPromise();
+      if (profileData) {
+        profil.fonctions = profileData.fonctions;
+      }
+
+      // Fetch the model and add its fonctions to the modelFonc array
+      if (profil.model) {
+        const modelData = await this.modelService.getModel(profil.model.idModel).toPromise();
+        if (modelData && modelData.fonctions) {
+          for (const fonction of modelData.fonctions) {
+            if (!modelFonc.find(f => f.idFonc === fonction.idFonc)) {
+              modelFonc.push(fonction);
+            }
+          }
+        }
+      }
+      console.log("get PROFIL  FUNCTION !!!!!!!!", profilFonc);
+      console.log("get MODELL FUNCTION !!!!!!!!", modelFonc);
+      // Add the profil's fonctions to the profilFonc array
+      if (profil.fonctions) {
+        for (const fonction of profil.fonctions) {
+          if (!profilFonc.find(f => f.idFonc === fonction.idFonc)) {
+            profilFonc.push(fonction);
+          }
+        }
+      }
+    }
+
+    // Combine the modelFonc and profilFonc arrays, removing duplicates
+    const functionsSet = new Set([...modelFonc, ...profilFonc]);
+    this.fonctions = Array.from(functionsSet);
+    console.log("get FUNCTION !!!!!!!!", this.fonctions);
+  }
 }

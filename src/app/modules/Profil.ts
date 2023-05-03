@@ -8,10 +8,10 @@ class CategProfil {
 export interface Profil {
   categProfil: CategProfil;
   des_P: string
-  functions: Fonctionalite[];
-  idProfil: string
-  model: Model
-  nomP: string
-  profilUsers: ProfilUser[]
-  totalElements: number
+  fonctions: Fonctionalite[];
+  idProfil: string;
+  model: Model;
+  nomP: string;
+  profilUsers: ProfilUser[];
+  totalElements: number;
 }

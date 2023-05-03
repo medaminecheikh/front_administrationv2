@@ -32,26 +32,28 @@
             </p>
           </a>
         </li>
-        <li *ngFor="let function of fonctions" class="nav-item">
-          <ng-container *ngIf="!function.fon_COD_F">
-            <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-address-card"></i>
-              <p>
-                {{function.nomF}}
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-
-            <ul class="nav nav-treeview">
-              <li *ngFor="let subFunction of fonctions" class="nav-item" [hidden]="subFunction.fon_COD_F || subFunction.nomMENU != function.nomMENU">
-                <a [routerLink]="[subFunction.nomF]" routerLinkActive="active" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{subFunction.nomF}}</p>
-                </a>
-              </li>
-            </ul>
+        <ng-container *ngFor="let function of fonctions">
+          <ng-container *ngIf="function.fon_COD_F===''">
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="nav-icon fas fa-list"></i>
+                <p>
+                  {{function.nomF}}
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li *ngFor="let subFunction of fonctions" class="nav-item" [hidden]="!subFunction.fon_COD_F || subFunction.nomMENU != function.nomMENU ">
+                  <a routerLinkActive="active" class="nav-link">
+                    <i class="fas fa-cog nav-icon"></i>
+                    <p>{{subFunction.nomF}}</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           </ng-container>
-        </li>
+        </ng-container>
+
 
 
 
