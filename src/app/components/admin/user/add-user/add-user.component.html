@@ -364,11 +364,11 @@
             <div class="card-header ">
               <h3 class="card-title text-bold"> Table Utilisateurs</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool bg-gradient-info"><i class="fas fa-info-circle"></i> </button>
+                <button type="button" class="btn btn-tool bg-gradient-info" disabled><i class="fas fa-info-circle"></i> </button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-warning"><i class="fas fa-pen-to-square"></i> </button>
+                <button type="button" class="btn btn-tool bg-gradient-warning" disabled><i class="fas fa-pen-to-square"></i> </button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-danger"><i class="fas fa-trash-can"></i> </button>
+                <button type="button" class="btn btn-tool bg-gradient-danger" disabled><i class="fas fa-trash-can"></i> </button>
 
               </div>
             </div>
@@ -377,20 +377,23 @@
               <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>#</th>
-                  <th>User</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Reason</th>
+                  <th>login</th>
+                  <th>Nom</th>
+                  <th>Prenom</th>
+                  <th>Etat</th>
+                  <th>date expiration</th>
+
                 </tr>
                 </thead>
                 <tbody>
+                <ng-container *ngFor="let user of utlisateurs">
                 <tr data-widget="expandable-table" aria-expanded="false">
-                  <td>183</td>
-                  <td>John Doe</td>
-                  <td>11-7-2014</td>
-                  <td>Approved</td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                  <td>{{user.login}}</td>
+                  <td>{{user.nomU}}</td>
+                  <td>{{user.prenU}}</td>
+                  <td>{{user.estActif}}</td>
+                  <td>{{user.date_EXPIRED | date :'MMMM d, y'}}</td>
+
                 </tr>
                 <tr class="expandable-body d-none">
                   <td colspan="5">
@@ -399,9 +402,19 @@
                     </p>
                   </td>
                 </tr>
-
+                </ng-container>
                 </tbody>
               </table>
+            </div>
+            <div class="card-footer"> <ul class="pagination pagination-sm m-0 float-right">
+              <li class="page-item"><button class="page-link" [disabled]="userPage.first" (click)="onPrev()">«</button></li>
+
+              <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
+                <button class="page-link" [disabled]="p === page" (click)="goToPage(p)">{{p + 1}}</button>
+              </li>
+
+              <li class="page-item"><button class="page-link" [disabled]="userPage.last" (click)="onNext()">»</button></li>
+            </ul>
             </div>
 
           </div>
