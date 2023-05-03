@@ -70,8 +70,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
           }
         }
       }
-      console.log("get PROFIL  FUNCTION !!!!!!!!", profilFonc);
-      console.log("get MODELL FUNCTION !!!!!!!!", modelFonc);
+
       // Add the profil's fonctions to the profilFonc array
       if (profil.fonctions) {
         for (const fonction of profil.fonctions) {
@@ -84,8 +83,11 @@ export class SidebarComponent implements OnInit,OnDestroy{
 
     // Combine the modelFonc and profilFonc arrays, removing duplicates
     const functionsSet = new Set([...modelFonc, ...profilFonc]);
-    this.fonctions = Array.from(functionsSet);
-    console.log("get FUNCTION !!!!!!!!", this.fonctions);
+    const uniqueFunctions = Array.from(functionsSet).filter((value, index, self) => self.findIndex(v => v.idFonc === value.idFonc) === index);
+
+    console.log('SETT', uniqueFunctions);
+    this.fonctions = uniqueFunctions;
+    console.log('get FUNCTION !!!!!!!!', this.fonctions);
   }
 
 
