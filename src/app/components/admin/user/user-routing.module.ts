@@ -13,8 +13,8 @@ const routes: Routes = [
   { path: 'add', component: AddUserComponent },
   { path: 'update/:id', component: UpdateUserComponent },
   { path: 'detail/:id', component: DetailUserComponent },
-  { path: 'list', component: ListUserComponent },
-  { path: '', redirectTo: 'list', pathMatch: 'full' },
+  { path: 'dashboard', component: ListUserComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 ]
 }
 ];

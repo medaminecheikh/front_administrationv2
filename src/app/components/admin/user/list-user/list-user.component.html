@@ -1,1 +1,431 @@
-<p>list-user works!</p>
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Créer Utilisateur</h1>
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard Utilisateur</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="card card-outline card-warning collapsed-card">
+            <div class="card-header">
+              <h3 class="card-title text-bold">
+                Update Utilisateur
+              </h3>
+              <div class="card-tools">
+                <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
+                  class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                  class="fas fa-plus"></i></button>
+              </div>
+            </div>
+
+            <div class="card-body" style="display: none;">
+              <div class="row ml-2">
+                <div class="col-md-12">
+                  <form [formGroup]="utilisateurForm">
+                    <div class="row">
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label> Login</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input formControlName="login" placeholder="Login" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('login')?.invalid && showError,'is-valid':utilisateurForm.get('login')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('login')?.hasError('required')"
+                                  class="error invalid-feedback">Login is required.</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label><i class="fas fa-signature"></i> Nom</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                            </div>
+                            <input formControlName="nomU" placeholder="Nom" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('nomU')?.invalid && showError,'is-valid':utilisateurForm.get('nomU')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('nomU')?.hasError('required')"
+                                  class="error invalid-feedback">Nom is required.</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label><i class="fas fa-signature"></i> Prénom</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                            </div>
+                            <input formControlName="prenU" placeholder="Prénom" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('prenU')?.invalid && showError,'is-valid':utilisateurForm.get('prenU')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('prenU')?.hasError('required')"
+                                  class="error invalid-feedback">Prénom is required.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Matricule</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-bars"></i></span>
+                            </div>
+                            <input formControlName="matricule" placeholder="Matricule" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('matricule')?.invalid && showError,'is-valid':utilisateurForm.get('matricule')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('matricule')?.hasError('required')"
+                                  class="error invalid-feedback">Matricule est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label> Description </label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                            </div>
+                            <input formControlName="descU" placeholder="Description" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('descU')?.invalid && showError,'is-valid':utilisateurForm.get('descU')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('descU')?.hasError('required')"
+                                  class="error invalid-feedback">Description Utilisateur est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-group input-group-sm">
+                          <label> Date d'expiration</label>
+                          <input formControlName="date_EXPIRED" placeholder="Date d'expiration" type="date"
+                                 class="form-control "
+                                 [ngClass]="{'is-invalid': utilisateurForm.get('date_EXPIRED')?.invalid && showError, 'is-valid':utilisateurForm.get('date_EXPIRED')?.valid && showError}">
+                          <span *ngIf="utilisateurForm.get('date_EXPIRED')?.hasError('required')"
+                                class="error invalid-feedback">Date d'expiration est obligatoire.</span>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"
+                                                                                          class="fas fa-lock"></i> Mot
+                            de passe</label>
+                          <div class="input-group input-group-sm">
+                            <input formControlName="pwdU" placeholder="Mot de passe"
+                                   type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('pwdU')?.invalid && showError,'is-valid':utilisateurForm.get('pwdU')?.valid && showError}">
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-info" (click)="showPassword = !showPassword">
+                                <i class="{{ showPassword ? 'fa fa-eye-slash' : 'fa fa-eye' }}"></i>
+                              </button>
+                            </div>
+                            <span *ngIf="utilisateurForm.get('pwdU')?.hasError('required')"
+                                  class="error invalid-feedback">Mot de passe is required.</span>
+                            <span *ngIf="utilisateurForm.get('pwdU')?.hasError('minlength')"
+                                  class="error invalid-feedback">Minimum length is 8 characters.</span>
+                            <span *ngIf="utilisateurForm.get('pwdU')?.hasError('pattern')"
+                                  class="error invalid-feedback">Password must contain at least one uppercase letter and one special character.</span>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"
+                                                                                          class="fas fa-lock"></i>
+                            Confirmation</label>
+                          <div class="input-group input-group-sm">
+                            <input formControlName="confirmedpassword" placeholder="Confirmation"
+                                   type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('confirmedpassword')?.invalid && (utilisateurForm.get('confirmedpassword')?.touched || showError),'is-valid':utilisateurForm.get('confirmedpassword')?.valid && showError}">
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-info" (click)="showPassword = !showPassword">
+                                <i class="{{ showPassword ? 'fa fa-eye-slash' : 'fa fa-eye' }}"></i>
+                              </button>
+                            </div>
+                            <span
+                              *ngIf="utilisateurForm.get('confirmedpassword')?.hasError('required') && (utilisateurForm.get('confirmedpassword')?.touched || showError)"
+                              class="error invalid-feedback">Confirmation required.</span>
+                            <span
+                              *ngIf="utilisateurForm.get('confirmedpassword')?.hasError('matchPassword') && (utilisateurForm.get('confirmedpassword')?.touched || showError)"
+                              class="error invalid-feedback">Confirm password.</span>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-group input-group-sm">
+                          <label>Administrateur</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-user-shield"></i></span>
+                            </div>
+                            <select formControlName="f_ADM_CEN" class="form-control"
+                                    [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_CEN')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_CEN')?.valid && showError}">
+                              <option value="" disabled>-- Choisir --</option>
+                              <option value="0">Non</option>
+                              <option value="1">Oui</option>
+                            </select>
+                            <span *ngIf="utilisateurForm.get('f_ADM_CEN')?.hasError('required')"
+                                  class="error invalid-feedback">Centre Administratif est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Actif</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                            </div>
+                            <select formControlName="estActif" class="form-control"
+                                    [ngClass]="{'is-invalid': utilisateurForm.get('estActif')?.invalid && showError,'is-valid':utilisateurForm.get('estActif')?.valid && showError}">
+                              <option value="" disabled>-- Choisir --</option>
+                              <option value="1">Oui</option>
+                              <option value="0">Non</option>
+                            </select>
+                            <span *ngIf="utilisateurForm.get('estActif')?.hasError('required')"
+                                  class="error invalid-feedback">Actif est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label> Status</label>
+                          <div class="input-group input-group-sm">
+
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-toggle-on"></i></span>
+                            </div>
+                            <select formControlName="is_EXPIRED" class="form-control "
+                                    [ngClass]="{'is-invalid': utilisateurForm.get('is_EXPIRED')?.invalid && showError,'is-valid':utilisateurForm.get('is_EXPIRED')?.valid && showError}">
+                              <option value="" disabled>-- Choisir --</option>
+                              <option value="0">Valid</option>
+                              <option value="1">Expired</option>
+                            </select>
+                            <span *ngIf="utilisateurForm.get('is_EXPIRED')?.hasError('required')"
+                                  class="error invalid-feedback">Actif est obligatoire.</span>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                      <i class="fas fa-shop mr-2"></i>
+                      <b>Espace TT</b>
+                    </div>
+                  </p-divider>
+                </div>
+                <div class="col-md-8">
+                  <p-divider align="left">
+                    <div class="inline-flex align-items-center">
+                      <i class="fas fa-address-card mr-2"></i>
+                      <b>Profils</b>
+                    </div>
+                  </p-divider>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+
+                  <div class=" col-md-10 ">
+                    <div class="form-group">
+                      <label>Zone</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                        </div>
+                        <select class="form-control" [formControl]="zone">
+                          <option value="">-- Clear --</option>
+                          <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class=" col-md-10 ">
+                    <div class="form-group">
+                      <label>Direction Regionale</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-city"></i></span>
+                        </div>
+                        <select class="form-control" [formControl]="dreg">
+                          <option value="">-- Clear --</option>
+                          <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-10 ">
+                    <div class="form-group">
+                      <label>Espace TT</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-shop"></i></span>
+                        </div>
+                        <select class="form-control" [formControl]="ett">
+                          <option value="">-- Clear --</option>
+                          <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-1">
+                  <p-divider layout="vertical">
+
+                  </p-divider>
+                </div>
+                <div class=" col-md-8 w-min">
+                  <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
+                              targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
+
+                              [sourceStyle]="{ height: '5rem' } "
+                              [targetStyle]="{ height: '5rem' }" filterBy="nomP"
+                              sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil"
+                              breakpoint="500px">
+                    <ng-template let-profil pTemplate="item">
+                      <div class="flex flex-wrap  align-items-center gap-3">
+                        <div class="flex-1 flex flex-column gap-1">
+                          <div class="flex align-products-center gap-2 font-weight-bold">
+                            <i class="fas fa-address-card "></i>
+                            <span>  {{ profil.nomP }} :</span>
+                          </div>
+                        </div>
+                        <span class="font-bold text-900"> {{ profil.des_P }}</span>
+                      </div>
+                    </ng-template>
+                  </p-pickList>
+                </div>
+
+              </div>
+
+
+            </div>
+            <div class="card-footer" style="display: none;">
+              <button class="btn  bg-gradient-success" type="button" (click)="update()">Save <i
+                class="fa-regular fa-circle-check"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+
+        <div class="col-12">
+          <div class="card card-outline card-indigo">
+            <div class="card-header ">
+              <h3 class="card-title text-bold"> Table Utilisateurs</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool bg-gradient-info" disabled><i class="fas fa-info-circle"></i>
+                </button>
+                |
+                <button type="button" class="btn btn-tool bg-gradient-warning"><i
+                  class="fas fa-pen-to-square"></i></button>
+                |
+                <button type="button" class="btn btn-tool bg-gradient-danger" disabled><i class="fas fa-trash-can"></i>
+                </button>
+
+              </div>
+            </div>
+
+            <div class="card-body ">
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>login</th>
+                  <th>Nom</th>
+                  <th>Prenom</th>
+                  <th>Etat</th>
+                  <th>Date expiration</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let user of utlisateurs">
+                  <tr data-widget="expandable-table" aria-expanded="false">
+                    <td>{{user.login}}</td>
+                    <td>{{user.nomU}}</td>
+                    <td>{{user.prenU}}</td>
+                    <td>{{user.estActif}}</td>
+                    <td>{{user.date_EXPIRED | date :'MMMM d, y'}}</td>
+                    <td>{{user.descU}}</td>
+                  </tr>
+                  <tr class="expandable-body d-none">
+                    <td colspan="6">
+                      <p style="display: none;">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+                        of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+                        but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                        popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                        and more recently with desktop publishing software like Aldus PageMaker including versions of
+                        Lorem Ipsum.
+                      </p>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              <ul class="pagination pagination-sm m-0 float-right">
+                <li class="page-item">
+                  <button class="page-link" [disabled]="userPage.first" (click)="onPrev()">«</button>
+                </li>
+
+                <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
+                  <button class="page-link" [disabled]="p === page" (click)="goToPage(p)">{{p + 1}}</button>
+                </li>
+
+                <li class="page-item">
+                  <button class="page-link" [disabled]="userPage.last" (click)="onNext()">»</button>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

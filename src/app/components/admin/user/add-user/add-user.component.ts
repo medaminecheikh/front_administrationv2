@@ -16,7 +16,6 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {SECRET_KEY} from "../../../../guards/constants";
 import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
 import CryptoJS from 'crypto-js';
-import {Page} from "../../../../modules/Page";
 
 @Component({
   selector: 'app-add-user',
@@ -37,22 +36,9 @@ export class AddUserComponent implements OnInit {
   etts: Ett[] = [];
   ettselected: any;
   showPassword: boolean = false;
+// Declare filteredProfils array
+  filteredProfils: Profil[] = [];
 
-  utlisateurs!:Utilisateur[];
-  keyword: string = '';
-  userPage: Page = {
-    totalPages: 0,
-    totalElements: 0,
-    last: false,
-    first: false,
-    size: 0,
-    number: 0,
-    numberOfElements: 0,
-    content:[]
-  };
-  page: number = 0;
-  size: number=8;
-  pages: number[] = [];
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
               private ettService: EttService,
@@ -63,7 +49,7 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.searchUsers();
+
       // Fetch the list of zones on component initialization
     this.zoneService.getZones().subscribe(
       zones => this.zones = zones,
@@ -120,12 +106,17 @@ export class AddUserComponent implements OnInit {
     // Subscribe to the value changes of the dreg form control
     this.ett.valueChanges.subscribe(value => this.ettselected=value);
 
+    // Fetch all profiles
     this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
       this.profils = data;
+      // Initialize filteredProfils with all profiles
+      this.filteredProfils = data.filter(profil => profil.nomP !== 'ADMIN');
     });
 
 
-  this.utilisateurForm = this.formBuilder.group({
+
+
+    this.utilisateurForm = this.formBuilder.group({
     login: ['', Validators.required],
     nomU: ['', Validators.required],
     pwdU: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
@@ -134,12 +125,26 @@ export class AddUserComponent implements OnInit {
     descU: ['', Validators.required],
     matricule: ['', Validators.required],
     estActif: ['', Validators.required],
-    f_ADM_LOC: ['', Validators.required],
-    f_ADM_CEN: ['', Validators.required],
+    f_ADM_CEN: ["0", Validators.required],
     is_EXPIRED: ['', Validators.required],
     date_EXPIRED: ['', Validators.required]
   }, {validator: this.passwordMatchValidator});
-}
+
+
+    // Create valueChanges subscription for f_ADM_CEN
+    this.utilisateurForm.get('f_ADM_CEN')?.valueChanges.subscribe(value => {
+      if (value === "1") {
+        // Filter and assign filteredProfils array
+        this.filteredProfils = this.profils.filter(profil => profil.nomP === 'ADMIN');
+      } else if (value === "0") {
+        // Filter and assign filteredProfils array
+        this.filteredProfils = this.profils.filter(profil => profil.nomP !== 'ADMIN');
+      }
+      // Reset the selected profil
+      this.profilSelected = [];
+    });
+
+  }
 passwordMatchValidator(formGroup: FormGroup) {
   const passwordControl = formGroup.get('pwdU');
   const confirmPasswordControl = formGroup.get('confirmedpassword');
@@ -241,62 +246,5 @@ passwordMatchValidator(formGroup: FormGroup) {
 
 
 
-  searchUsers() {
-    this.userService.searchUserpage(this.keyword, this.page, this.size)
-      .subscribe(data => {
-        this.utlisateurs = data;
-        this.userPage.content = data;
-        if (data.length > 0) {
-          this.userPage.totalPages = Math.ceil(data[0].totalElements / this.size);
-        }
-        this.updatePages();
-      });
 
-
-  }
-
-  updatePages() {
-    if (this.userPage.totalPages <= 5) {
-      this.pages = Array(this.userPage.totalPages).fill(0).map((x, i) => i);
-    } else if (this.page < 3) {
-      this.pages = [0, 1, 2, 3, -1, this.userPage.totalPages - 1];
-    } else if (this.page >= this.userPage.totalPages - 3) {
-      this.pages = [0, -1, this.userPage.totalPages - 4, this.userPage.totalPages - 3, this.userPage.totalPages - 2, this.userPage.totalPages - 1];
-    } else {
-      this.pages = [0, -1, this.page - 1, this.page, this.page + 1, -1, this.userPage.totalPages - 1];
-    }
-
-    if (this.page == 0) {
-      this.userPage.first = true;
-    } else {
-      this.userPage.first = false;
-    }
-    if (this.page == this.userPage.totalPages - 1) {
-      this.userPage.last = true;
-    } else {
-      this.userPage.last = false;
-    }
-  }
-  goToPage(n: number) {
-    this.page = n;
-    this.searchUsers();
-  }
-
-  onNext() {
-    this.page++;
-    this.searchUsers();
-  }
-
-  onPrev() {
-    this.page--;
-    this.searchUsers();
-  }
-
-  onPageChange(event: any) {
-    this.page = event.target.value;
-    this.searchUsers();
-  }
-  ChangeSize() {
-    this.searchUsers();
-  }
 }
