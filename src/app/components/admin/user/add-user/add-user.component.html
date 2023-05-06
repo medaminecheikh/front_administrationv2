@@ -314,9 +314,9 @@
                 <div class=" col-md-8 w-min">
                   <p-pickList [source]="filteredProfils" [target]="profilSelected" sourceHeader="Available Profils"
                               targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
-
-                              [sourceStyle]="{ height: '5rem' } "
-                              [targetStyle]="{ height: '5rem' }" filterBy="nomP"
+                              class="p-inputtext-sm "
+                              [sourceStyle]="{ height: '10rem' } "
+                              [targetStyle]="{ height: '10rem' }" filterBy="nomP"
                               sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil"
                               breakpoint="500px">
                     <ng-template let-profil pTemplate="item">

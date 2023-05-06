@@ -51,38 +51,58 @@ export class AddProfilComponent implements OnInit{
       des_P: ['', [Validators.required, Validators.maxLength(100)]]
     });
 
+    // Subscribe to the observable returned by the foncService's getAllFoncs method
     this.foncService.getAllFoncs().subscribe((foncs: Fonctionalite[]) => {
+      // Filter the foncs to get only the parent nodes
       const parents = foncs.filter((fonc) => !fonc.fon_COD_F && fonc.nomMENU);
+      // Filter the foncs to get only the child nodes
       const children = foncs.filter((fonc) => fonc.fon_COD_F && fonc.nomMENU);
+
+      // Map the parent nodes to an array of parent node objects
       const parentNodes = parents.map((parent) => {
-        const childrenNodes = children.filter((child) => child.nomMENU === parent.nomMENU);
+        // Filter the child nodes to get only those that belong to the current parent node
+        const childrenNodes = children.filter((child) => child.nomMENU === parent.nomMENU && !child.fon_COD_F?.includes("-"));
+
+        // Map the child nodes to an array of child node objects
         return {
-          label: parent.nomF,
-          data: parent,
-          icon: 'pi pi-fw pi-list',
+          label: parent.nomF, // The label to display for the parent node
+          data: parent, // The data to associate with the parent node
+          icon: 'pi pi-fw pi-list', // The icon to display for the parent node
           children: childrenNodes.map((child) => {
+            // Filter the grandchild nodes to get only those that belong to the current child node
             const grandchildrenNodes = children.filter(grandchild => {
               const childPrefix = `${child.fon_COD_F}-`;
               return grandchild.fon_COD_F && grandchild.fon_COD_F.startsWith(childPrefix) && grandchild.nomMENU === child.nomMENU;
             });
+
+            // Remove any duplicate grandchildren based on their nomF property
+            const uniqueGrandchildren = Array.from(new Set(grandchildrenNodes.map(grandchild => grandchild.nomF)))
+              .map(nomF => grandchildrenNodes.find(grandchild => grandchild.nomF === nomF));
+
+            // Map the grandchild nodes to an array of grandchild node objects
             return {
-              label: child.nomF,
-              data: child,
-              icon: 'pi pi-spin pi-cog',
-              children: grandchildrenNodes.map((grandchild) => ({
-                label: grandchild.nomF,
-                data: grandchild,
-                icon: 'pi pi-spin pi-cog',
+              label: child.nomF, // The label to display for the child node
+              data: child, // The data to associate with the child node
+              icon: 'pi pi-spin pi-cog', // The icon to display for the child node
+              children: uniqueGrandchildren.map((grandchild) => ({
+                label: grandchild?.nomF, // The label to display for the grandchild node
+                data: grandchild, // The data to associate with the grandchild node
+                icon: 'pi pi-spin pi-cog', // The icon to display for the grandchild node
               })),
             };
           }),
         };
       });
 
+      // Assign the parent nodes to the treeData property of the component
       this.treeData = parentNodes;
-      console.log(this.treeData)
+      console.log(this.treeData);
+
+      // Expand all nodes in the tree
       this.expandAll();
     });
+
+
 
 
 
