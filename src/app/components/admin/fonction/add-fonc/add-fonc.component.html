@@ -34,15 +34,20 @@
             <form [formGroup]="foncForm">
               <div class="card-body">
                 <div class="row ml-2">
-                  <div class="col-md-3">
+                  <div class="col-md-2">
 
                     <div class="form-group">
                       <label>Code Fonction</label>
-                      <input formControlName="codF" placeholder="Code " type="text" class="form-control "
-                             [ngClass]="{'is-invalid': foncForm.get('codF')?.invalid && showError}">
-                      <span *ngIf="foncForm.get('codF')?.hasError('required')" class="error invalid-feedback">Code is required.</span>
-                      <span *ngIf="foncForm.get('codF')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+                        <input formControlName="codF" placeholder="Code " type="text" class="form-control "
+                               [ngClass]="{'is-invalid': foncForm.get('codF')?.invalid && showError}">
+                        <span *ngIf="foncForm.get('codF')?.hasError('required')" class="error invalid-feedback">Code is required.</span>
+                        <span *ngIf="foncForm.get('codF')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
                      characters.</span>
+                      </div>
                     </div>
 
 
@@ -50,72 +55,124 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Nom Fonction</label>
-                      <input formControlName="nomF" placeholder="Nom" type="text" class="form-control "
-                             [ngClass]="{'is-invalid': foncForm.get('nomF')?.invalid && showError}">
-                      <span *ngIf="foncForm.get('nomF')?.hasError('required')" class="error invalid-feedback">Nom is required.</span>
-                      <span *ngIf="foncForm.get('nomF')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 50
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+
+                        <input formControlName="nomF" placeholder="Nom" type="text" class="form-control "
+                               [ngClass]="{'is-invalid': foncForm.get('nomF')?.invalid && showError}">
+                        <span *ngIf="foncForm.get('nomF')?.hasError('required')" class="error invalid-feedback">Nom is required.</span>
+                        <span *ngIf="foncForm.get('nomF')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 50
                      characters.</span>
+                      </div>
                     </div>
 
 
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label>Description</label>
-                      <input formControlName="desF" placeholder="Description" type="text" class="form-control "
-                             [ngClass]="{'is-invalid': foncForm.get('desF')?.invalid && showError}">
-                      <span *ngIf="foncForm.get('desF')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
-                      <span *ngIf="foncForm.get('desF')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+
+                        <input formControlName="desF" placeholder="Description" type="text" class="form-control "
+                               [ngClass]="{'is-invalid': foncForm.get('desF')?.invalid && showError}">
+                        <span *ngIf="foncForm.get('desF')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
+                        <span *ngIf="foncForm.get('desF')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
                      characters.</span>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-auto">
                     <div class="form-group">
                       <label>Admin</label>
-                      <select formControlName="f_ADM" class="form-control select2 select2-hidden-accessible "
-                              [ngClass]="{'is-invalid': foncForm.get('f_ADM')?.invalid && showError,'is-valid':foncForm.get('f_ADM')?.valid && showError}"
-                              style="width: 100%;" aria-hidden="true">
-                        <option [value]="1">Oui</option>
-                        <option [value]="0">Non</option>
-                      </select>
+                      <div class="input-group input-group-sm ">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-horse-head"></i></span>
+                        </div>
+                        <select formControlName="f_ADM" class="form-control "
+                                [ngClass]="{'is-invalid': foncForm.get('f_ADM')?.invalid && showError,'is-valid':foncForm.get('f_ADM')?.valid && showError}">
+                          <option value="" disabled>-- Choisir --</option>
+                          <option [value]="1">Oui</option>
+                          <option [value]="0">Non</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-auto">
                     <div class="form-group">
-                      <label>Droit Acces</label>
-                      <select formControlName="f_DROIT_ACCES" class="form-control select2 select2-hidden-accessible"
-                              [ngClass]="{'is-invalid': foncForm.get('f_DROIT_ACCES')?.invalid && showError,'is-valid':foncForm.get('f_DROIT_ACCES')?.valid && showError}"
-                              style="width: 100%;" aria-hidden="true">
-                        <option [value]="1">Oui</option>
-                        <option [value]="0">Non</option>
-                      </select>
+                      <label>Droit Accès</label>
+                      <div class="input-group input-group-sm ">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <select formControlName="f_DROIT_ACCES" class="form-control"
+                                [ngClass]="{'is-invalid': foncForm.get('droitAcces')?.invalid && showError, 'is-valid':foncForm.get('droitAcces')?.valid && showError}">
+                          <option value="" disabled>-- Choisir --</option>
+                          <option value="1">Oui</option>
+                          <option value="0">Non</option>
+                        </select>
+                        <span *ngIf="foncForm.get('droitAcces')?.hasError('required')" class="error invalid-feedback">Droit d'accès est obligatoire.</span>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div class="row ml-2">
-                  <div class="col-md-3">
+                  <div class="col-md-auto">
                     <div class="form-group">
                       <label>Type Fonction</label>
-                      <select [(ngModel)]="selectedOption" [ngModelOptions]="{standalone: true}" name="selectedOption"
-                              class="form-control select2 select2-hidden-accessible"
-                              style="width: 100%;" aria-hidden="true">
-                        <option [value]="true">Fonction principal</option>
-                        <option [value]="false">Sous fonction</option>
-                      </select>
+                      <div class="input-group input-group-sm ">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-list"></i></span>
+                        </div>
+                        <select [(ngModel)]="selectedOption" [ngModelOptions]="{standalone: true}" name="selectedOption"
+                                class="form-control ">
+                          <option value="" disabled>-- Choisir --</option>
+                          <option [value]="true">Fonction principal</option>
+                          <option [value]="false">Sous fonction</option>
+                          <option [value]="'abc'">Third sous fonction</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-
-                  <div class="col-md-3" *ngIf="selectedOption === 'false'">
+                  <div class="col-md-auto" *ngIf="selectedOption === 'false'||selectedOption ==='abc'">
                     <div class="form-group">
                       <label>Fonction Principale</label>
-                      <select [formControl]="menuForm" (change)="onSelectionmenu()" class="form-control select2 select2-hidden-accessible"
-                              [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
-                        <option *ngFor="let menu of fonctionmenu" [value]="menu.nomMENU">{{ menu.nomF }}</option>
-                      </select>
-                      <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-bars"></i></span>
+                        </div>
+                        <select [formControl]="menuForm" (change)="onSelectionmenu()"
+                                class="form-control"
+                                [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
+                          <option value="" disabled>-- Choisir --</option>
+                          <option *ngFor="let menu of fonctionmenu" [value]="menu.nomMENU">{{ menu.nomF }}</option>
+                        </select>
+                        <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
+                      </div>
                     </div>
                   </div>
 
+                  <div class="col-md-auto" *ngIf="selectedOption === 'abc'">
+                    <div class="form-group">
+                      <label>Sous Fonction </label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-bars"></i></span>
+                        </div>
+                        <select [formControl]="sousmenuForm"
+                                class="form-control"
+                                [ngClass]="{'is-invalid': foncForm.get('nomMENU')?.invalid && showError,'is-valid':foncForm.get('nomMENU')?.valid && showError}">
+                          <option value="" disabled>-- Choisir --</option>
+                          <option *ngFor="let menu of sousmenu" [value]="menu.fon_COD_F">{{ menu.nomF }}</option>
+                        </select>
+                        <span *ngIf="foncForm.get('nomMENU')?.hasError('required')" class="error invalid-feedback">Menu is required.</span>
+                      </div>
+                    </div>
+                  </div>
 
                 </div>
 

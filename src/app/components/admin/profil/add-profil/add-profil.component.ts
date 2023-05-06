@@ -55,24 +55,38 @@ export class AddProfilComponent implements OnInit{
       const parents = foncs.filter((fonc) => !fonc.fon_COD_F && fonc.nomMENU);
       const children = foncs.filter((fonc) => fonc.fon_COD_F && fonc.nomMENU);
       const parentNodes = parents.map((parent) => {
-        const childrenNodes = children.filter(
-          (child) => child.nomMENU === parent.nomMENU
-        );
+        const childrenNodes = children.filter((child) => child.nomMENU === parent.nomMENU);
         return {
           label: parent.nomF,
           data: parent,
-          icon:'pi pi-fw pi-list',
-          children: childrenNodes.map((child) => ({
-            label: child.nomF,
-            data: child,
-            icon:'pi pi-spin pi-cog',
-          })),
+          icon: 'pi pi-fw pi-list',
+          children: childrenNodes.map((child) => {
+            const grandchildrenNodes = children.filter(grandchild => {
+              const childPrefix = `${child.fon_COD_F}-`;
+              return grandchild.fon_COD_F && grandchild.fon_COD_F.startsWith(childPrefix) && grandchild.nomMENU === child.nomMENU;
+            });
+            return {
+              label: child.nomF,
+              data: child,
+              icon: 'pi pi-spin pi-cog',
+              children: grandchildrenNodes.map((grandchild) => ({
+                label: grandchild.nomF,
+                data: grandchild,
+                icon: 'pi pi-spin pi-cog',
+              })),
+            };
+          }),
         };
       });
 
       this.treeData = parentNodes;
-     this.expandAll();
+      console.log(this.treeData)
+      this.expandAll();
     });
+
+
+
+
     this.model.valueChanges.subscribe(value => {
       if (value === null || value === "null") {
         if (this.selectedModel && this.selectedModel.fonctions) {

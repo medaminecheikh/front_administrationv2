@@ -1,5 +1,4 @@
-
-<aside class="main-sidebar sidebar-dark-primary elevation-4 ">
+<aside class="main-sidebar sidebar-dark-primary main-sidebar-custom elevation-4 ">
 
   <a routerLink="dashboard" class="brand-link">
     <img src="assets/img/logo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -43,7 +42,8 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li *ngFor="let subFunction of fonctions" class="nav-item" [hidden]="!subFunction.fon_COD_F || subFunction.nomMENU != function.nomMENU ">
+                <li *ngFor="let subFunction of fonctions" class="nav-item"
+                    [hidden]="!subFunction.fon_COD_F || subFunction.nomMENU != function.nomMENU ">
                   <a routerLinkActive="active" class="nav-link">
                     <i class="fas fa-cog nav-icon"></i>
                     <p>{{subFunction.nomF}}</p>
@@ -53,15 +53,148 @@
             </li>
           </ng-container>
         </ng-container>
-
-
-
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link">
+            <i class="nav-icon fas fa-magnifying-glass"></i>
+            <p>
+              Recherche
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-magnifying-glass-dollar nav-icon"></i>
+                <p>Recherche Encaissement</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-credit-card nav-icon"></i>
+                <p>Recheche Facture</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-file-invoice nav-icon"></i>
+                <p>Journal Encaissement</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link">
+            <i class="nav-icon  fas fa-cash-register"></i>
+            <p>
+              Encaissement
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-coins nav-icon"></i>
+                <p>Encaissement Facture</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-credit-card nav-icon"></i>
+                <p>Paiement Avance</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link">
+            <i class="nav-icon  fas fa-arrow-right-arrow-left"></i>
+            <p>
+              Etat d'edition
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-coins nav-icon"></i>
+                <p>E1 Journal Encaissement</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-credit-card nav-icon"></i>
+                <p>E2 Journal Modification</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="fas fa-credit-card nav-icon"></i>
+                <p>E3 Bordereau de versement</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link">
+            <i class="nav-icon fas fa-shop"></i>
+            <p>
+              Gestion ETT
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Gestion des paiement</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>
+                  Gestion Bordereau
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                  <a href="javascript:void(0)" class="nav-link">
+                    <i class="far fa-dot-circle nav-icon"></i>
+                    <p>Generation Bordereau</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void(0)" class="nav-link">
+                    <i class="far fa-dot-circle nav-icon"></i>
+                    <p>Consultation Bordereau</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Gestion des caisses</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0)" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Validation journée</p>
+              </a>
+            </li>
+          </ul>
+        </li>
 
       </ul>
     </nav>
 
   </div>
-
+  <div class="sidebar-custom">
+    <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
+    <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
+  </div>
 </aside>
 
 

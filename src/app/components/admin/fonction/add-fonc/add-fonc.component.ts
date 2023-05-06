@@ -24,7 +24,8 @@ export class AddFoncComponent implements OnInit {
   sousmenu: Fonctionalite [] = [];
   selectedOption: String = "true";
   availableOptions: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
+  childrenmenuForm:any;
+  sousmenuForm=new FormControl();
   constructor(private router: Router, private formBuilder: FormBuilder,
               private toastr: ToastrService, private modelService: ModelService,
               private foncService: FonctionService) {
@@ -35,6 +36,7 @@ export class AddFoncComponent implements OnInit {
     this.foncService.getAllFoncs().subscribe((menus) => {
       // filter out menus with non-empty fon_COD_F
       this.fonctionmenu = menus.filter(menu => !menu.fon_COD_F);
+      this.childrenmenuForm=menus.filter(menu =>menu.fon_COD_F);
     });
 
     this.foncForm = this.formBuilder.group({
@@ -96,7 +98,33 @@ export class AddFoncComponent implements OnInit {
         this.showError = true;
         this.toastr.warning('Please fill the form correctly.', 'Warning');
       }
-    } else {
+    }else if (this.selectedOption === "abc") {
+      const randomNum = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
+      const newFonCODF = this.sousmenuForm + randomNum.toString(); // Append the random number to the value of sousmenuForm
+
+      this.foncForm.patchValue({nomMENU: this.menuForm.value ,fon_COD_F:newFonCODF});
+      if (this.foncForm.valid && this.foncForm.get('fon_COD_F')?.value !== null ) {
+        const sousfonc = this.foncForm.value;
+        this.foncService.addsousFonc(sousfonc).pipe(
+          catchError((error) => {
+            this.toastr.error(error.error, 'Error');
+            return throwError(error);
+          })
+        ).subscribe(() => {
+
+          this.router.navigate(['admin/fonction/add']).then(() => {
+            // Reload the current page
+            location.reload();});
+          this.toastr.success('Function added successfully!', 'Success');
+        });
+      } else {
+        this.showError = true;
+        this.toastr.warning('Please fill the form correctly.', 'Warning');
+      }
+
+    }
+
+    else {
       this.showError = true;
       this.toastr.warning('Please fill the form correctly.', 'Warning');
     }
@@ -108,6 +136,7 @@ export class AddFoncComponent implements OnInit {
     this.foncService.getFonctionsByNomMenu(menu).subscribe(value => {
         this.sousmenu = value;
         console.log("SOUS MENU OPTIONS !!!!!", this.sousmenu);
+
       }
     );
 
