@@ -9,26 +9,31 @@ import {Fonctionalite} from "../../../modules/Fonctionalite";
 import {ProfilService} from "../../../services/profil.service";
 import {Subject, takeUntil} from "rxjs";
 import {ModelService} from "../../../services/model.service";
+import {AuthService} from "../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit,OnDestroy{
-  fonctions:Fonctionalite[]=[];
+export class SidebarComponent implements OnInit, OnDestroy {
+  fonctions: Fonctionalite[] = [];
   profils: Profil[] = [];
-  currentUser!:any;
-  user!:Utilisateur;
+  currentUser!: any;
+  user!: Utilisateur;
   private unsubscribe = new Subject<void>();
-  constructor(private router: Router,
-              private userService:UserService,
-              private token:TokenStorageService,private profilService:ProfilService
-              , private modelService:ModelService) {
+  username!: any;
+
+
+  constructor(private router: Router, private authService: AuthService,
+              private userService: UserService,
+              private token: TokenStorageService, private profilService: ProfilService
+    , private modelService: ModelService) {
   }
+
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
-
+    this.username = this.authService.getCurrentUser()?.username;
     const username = this.currentUser.username;
     console.log(username);
     this.userService
@@ -44,6 +49,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
         this.getFunctions();
       });
   }
+
   async getFunctions() {
     const modelFonc: Fonctionalite[] = []; // Array to hold fonctions from all models
     const profilFonc: Fonctionalite[] = []; // Array to hold fonctions from all profils
@@ -53,7 +59,7 @@ export class SidebarComponent implements OnInit,OnDestroy{
       const profileData = await this.profilService.getProfileById(profil.idProfil).toPromise();
       if (profileData) {
         profil.fonctions = profileData.fonctions;
-        profil.model=profileData.model;
+        profil.model = profileData.model;
 
       }
 
@@ -83,14 +89,13 @@ export class SidebarComponent implements OnInit,OnDestroy{
 
     // Combine the modelFonc and profilFonc arrays, removing duplicates
     const functionsSet = new Set([...modelFonc, ...profilFonc]);
-    const uniqueFunctions = Array.from(functionsSet).filter((value, index, self) => self.findIndex(v => v.idFonc === value.idFonc) === index);
+    this.fonctions = Array.from(functionsSet).filter((value, index, self) => self.findIndex(v => v.idFonc === value.idFonc) === index);
 
-    console.log('SETT', uniqueFunctions);
-    this.fonctions = uniqueFunctions;
-    console.log('get FUNCTION !!!!!!!!', this.fonctions);
   }
 
-
+  Logout() {
+    this.authService.logout();
+  }
 
   ngOnDestroy(): void {
     this.unsubscribe.next();

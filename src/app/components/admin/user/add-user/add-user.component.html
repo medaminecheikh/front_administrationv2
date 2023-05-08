@@ -198,7 +198,7 @@
                           <label>Actif</label>
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                              <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
                             </div>
                             <select formControlName="estActif" class="form-control"
                                     [ngClass]="{'is-invalid': utilisateurForm.get('estActif')?.invalid && showError,'is-valid':utilisateurForm.get('estActif')?.valid && showError}">
@@ -219,7 +219,7 @@
                           <div class="input-group input-group-sm">
 
                             <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-toggle-on"></i></span>
+                              <span class="input-group-text"><i class="fas fa-user-clock"></i></span>
                             </div>
                             <select formControlName="is_EXPIRED" class="form-control "
                                     [ngClass]="{'is-invalid': utilisateurForm.get('is_EXPIRED')?.invalid && showError,'is-valid':utilisateurForm.get('is_EXPIRED')?.valid && showError}">

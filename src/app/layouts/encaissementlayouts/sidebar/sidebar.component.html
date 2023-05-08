@@ -7,7 +7,13 @@
   </a>
 
   <div class="sidebar">
-    <div><br>
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="assets/img/cashier.png" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a href="javascript:void(0)" class="d-block text-uppercase">{{username}}</a>
+      </div>
     </div>
     <div class="form-inline">
       <div class="input-group" data-widget="sidebar-search">
@@ -53,7 +59,7 @@
             </li>
           </ng-container>
         </ng-container>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="profils">
           <a href="javascript:void(0)" class="nav-link">
             <i class="nav-icon fas fa-magnifying-glass"></i>
             <p>
@@ -192,8 +198,9 @@
 
   </div>
   <div class="sidebar-custom">
-    <a href="javascript:void(0)" class="btn btn-link"><i class="fas fa-cogs"></i></a>
-    <a href="javascript:void(0)" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
+    <a href="javascript:void(0)" class="btn btn-link text-sm"><i class="fas fa-cogs"> </i> Password</a>
+    <a (click)="Logout()" class="btn btn-secondary hide-on-collapse pos-right"><i class="fas fa-person-running"></i> Logout</a>
+
   </div>
 </aside>
 

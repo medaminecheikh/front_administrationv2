@@ -8,7 +8,15 @@
   </a>
 
   <div class="sidebar">
-    <div><br>
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="assets/img/admin.jpg" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a href="javascript:void(0)" class="d-block text-uppercase">{{username}}</a>
+      </div>
+    </div>
+    <div>
     </div>
     <div class="form-inline">
       <div class="input-group" data-widget="sidebar-search">
@@ -126,7 +134,7 @@
   </div>
   <div class="sidebar-custom">
     <a href="javascript:void(0)" class="btn btn-link text-sm"><i class="fas fa-cogs"> </i> Password</a>
-    <a href="javascript:void(0)" class="btn btn-secondary hide-on-collapse pos-right"><i class="fas fa-person-running"></i> Logout</a>
+    <a (click)="Logout()" class="btn btn-secondary hide-on-collapse pos-right"><i class="fas fa-person-running"></i> Logout</a>
   </div>
 </aside>
 

@@ -56,59 +56,17 @@
                     </div>
                   </div>
                 </div>
-                <br>
-
-                  <div class="ml-2 col-md-auto">
-                    <div class="card collapsed-card ">
-                      <div class="card-header">
-                        <div class="card-title">
-                          <h5><i class=" fas fa-info"></i> Liste des Fonctions</h5>
-                        </div>
-                        <div class="card-tools">
-                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                            class="fas fa-plus"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="card-body" style="display: none;">
-                        <div class="card-body table-responsive p-0" style="height: 200px;">
-                          <table class="table table-head-fixed text-nowrap">
-                            <thead>
-                            <tr>
-                              <th>Code Fonction</th>
-                              <th>Nom Fonction</th>
-                              <th>Admin</th>
-                              <th>Droit Acces</th>
-                              <th>Description</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr *ngFor="let selected of selectedFonc">
-                              <td>{{selected.codF}}</td>
-                              <td>{{selected.nomF}}</td>
-                              <td>{{selected.f_ADM}}</td>
-                              <td><span class="tag tag-success">{{selected.f_DROIT_ACCES}}</span></td>
-                              <td>{{selected.desF}}</td>
-                            </tr>
-
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
 
 
               </div>
+            </form>
               <div class="card-footer">
                 <div class="">
                   <button class="btn  bg-gradient-success" type="button" (click)="addModel()">Save <i
                     class="fa-regular fa-circle-check"></i></button>
                 </div>
               </div>
-            </form>
+
           </div>
         </div>
       </div>
@@ -119,8 +77,10 @@
               <h3 class="card-title text-bold ">Affecter des Fonctions</h3>
             </div>
             <div class="card-body">
+
               <p-tree [value]="treeData" [selectionMode]="'checkbox'" [(selection)]="selectedItems"
                       [filter]="true" filterPlaceholder="Search Functions..."
+                      class=" p-inputtext-sm "
                       (selectionChange)="onSelectedItemsChange()">
 
               </p-tree>

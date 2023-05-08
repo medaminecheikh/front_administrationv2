@@ -244,5 +244,6 @@ export class ListUserComponent implements OnInit{
 
   Clear() {
     this.utilisateurUpdate=null;
+    this.utilisateurForm.reset();
   }
 }
