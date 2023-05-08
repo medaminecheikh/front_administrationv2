@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Page} from "../../../../modules/Page";
 import {ZoneService} from "../../../../services/zone.service";
@@ -20,12 +20,14 @@ import {Ett} from "../../../../modules/Ett";
   styleUrls: ['./list-user.component.scss']
 })
 export class ListUserComponent implements OnInit{
+
+
   showError: boolean = false;
   zone = new FormControl();
   dreg = new FormControl();
   ett = new FormControl();
   utilisateurForm !: FormGroup;
-  utilisateur!: Utilisateur;
+  utilisateurUpdate!: Utilisateur |null;
   profils: Profil[] = [];
   profilSelected: Profil[] = [];
   zones: Zone[] = [];
@@ -155,6 +157,26 @@ export class ListUserComponent implements OnInit{
       confirmPasswordControl.setErrors(null);
     }
   }
+
+  onRowDoubleClick(user: Utilisateur) {
+    this.utilisateurUpdate = user;
+    this.utilisateurForm.patchValue({
+      login:user.login,
+      idUser:user.idUser,
+      nomU: user.nomU,
+      prenU: user.prenU,
+      descU: user.descU,
+      matricule: user.matricule,
+      estActif: user.estActif,
+      f_ADM_LOC: user.f_ADM_LOC,
+      f_ADM_CEN: user.f_ADM_CEN,
+      is_EXPIRED: user.is_EXPIRED,
+      date_EXPIRED: user.date_EXPIRED
+    });
+
+  }
+
+
   onSelectionzone() {
     this.ett.reset();
     this.ettselected = null;
@@ -218,5 +240,9 @@ export class ListUserComponent implements OnInit{
   }
   ChangeSize() {
     this.searchUsers();
+  }
+
+  Clear() {
+    this.utilisateurUpdate=null;
   }
 }

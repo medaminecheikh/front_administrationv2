@@ -45,10 +45,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input formControlName="login" placeholder="Login" type="text" class="form-control"
-                                   [ngClass]="{'is-invalid': utilisateurForm.get('login')?.invalid && showError,'is-valid':utilisateurForm.get('login')?.valid && showError}">
-                            <span *ngIf="utilisateurForm.get('login')?.hasError('required')"
-                                  class="error invalid-feedback">Login is required.</span>
+                            <input formControlName="login" placeholder="Login" type="text" class="form-control ">
                           </div>
                         </div>
                       </div>
@@ -316,19 +313,21 @@
                   <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
                               targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
 
-                              [sourceStyle]="{ height: '5rem' } "
-                              [targetStyle]="{ height: '5rem' }" filterBy="nomP"
+                              [sourceStyle]="{ height: '10rem' } "
+                              [targetStyle]="{ height: '10rem' }" filterBy="nomP"
                               sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil"
                               breakpoint="500px">
                     <ng-template let-profil pTemplate="item">
-                      <div class="flex flex-wrap  align-items-center gap-3">
+                      <div class="flex flex-wrap p-2 align-items-center gap-3">
                         <div class="flex-1 flex flex-column gap-1">
-                          <div class="flex align-products-center gap-2 font-weight-bold">
-                            <i class="fas fa-address-card "></i>
-                            <span>  {{ profil.nomP }} :</span>
+                          <div class="flex align-items-center gap-1">
+                            <i class="pi pi-id-card text-sm"></i>
+                            <span class="font-bold">{{profil.nomP }}</span>
                           </div>
+                          <span>{{ profil.des_P}}</span>
+
                         </div>
-                        <span class="font-bold text-900"> {{ profil.des_P }}</span>
+
                       </div>
                     </ng-template>
                   </p-pickList>
@@ -354,19 +353,19 @@
             <div class="card-header ">
               <h3 class="card-title text-bold"> Table Utilisateurs</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool bg-gradient-info" disabled><i class="fas fa-info-circle"></i>
+                <button type="button" class="btn btn-tool bg-gradient-info" [disabled]="!utilisateurUpdate" (click)="Clear()"><i class="fas fa-info-circle"></i>
                 </button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-warning"><i
+                <button type="button" class="btn btn-tool bg-gradient-warning" [disabled]="!utilisateurUpdate"><i
                   class="fas fa-pen-to-square"></i></button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-danger" disabled><i class="fas fa-trash-can"></i>
+                <button type="button" class="btn btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate"><i class="fas fa-trash-can"></i>
                 </button>
 
               </div>
             </div>
 
-            <div class="card-body ">
+            <div class="card-body table-responsive p-1 ">
               <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
@@ -375,32 +374,29 @@
                   <th>Prenom</th>
                   <th>Etat</th>
                   <th>Date expiration</th>
+                  <th>Matricule</th>
                   <th>Description</th>
+                  <th>Profils</th>
                 </tr>
                 </thead>
                 <tbody>
                 <ng-container *ngFor="let user of utlisateurs">
-                  <tr data-widget="expandable-table" aria-expanded="false">
+                  <tr class="" [class.bg-gradient-lightblue]="user.idUser === utilisateurUpdate?.idUser"  (dblclick)="onRowDoubleClick(user)"  >
                     <td>{{user.login}}</td>
                     <td>{{user.nomU}}</td>
                     <td>{{user.prenU}}</td>
                     <td>{{user.estActif}}</td>
                     <td>{{user.date_EXPIRED | date :'MMMM d, y'}}</td>
+                    <td>{{user.matricule}}</td>
                     <td>{{user.descU}}</td>
-                  </tr>
-                  <tr class="expandable-body d-none">
-                    <td colspan="6">
-                      <p style="display: none;">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-                        of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-                        but also the leap into electronic typesetting, remaining essentially unchanged. It was
-                        popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                        and more recently with desktop publishing software like Aldus PageMaker including versions of
-                        Lorem Ipsum.
-                      </p>
+                    <td><ng-container class="ml-auto"  *ngFor="let profilee of user.profilUser">
+                      <p-chip label="{{profilee.profil.nomP}}" icon="pi pi-check-circle" ></p-chip>
+
+                    </ng-container>
                     </td>
+
                   </tr>
+
                 </ng-container>
                 </tbody>
               </table>

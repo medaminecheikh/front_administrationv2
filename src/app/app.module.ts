@@ -18,6 +18,8 @@ import {TokenInterceptorService} from "./services/token-interceptor.service";
 import {ScrollTopModule} from "primeng/scrolltop";
 import {EncaissementlayoutsModule} from "./layouts/encaissementlayouts/encaissementlayouts.module";
 import {EncaissementModule} from "./components/encaissement/encaissement.module";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import {EncaissementModule} from "./components/encaissement/encaissement.module"
     ScrollTopModule,
     EncaissementlayoutsModule,
     EncaissementModule,
+    ButtonModule,
+    RippleModule,
 
 
   ],

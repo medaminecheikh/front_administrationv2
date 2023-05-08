@@ -11,6 +11,8 @@ import {DividerModule} from "primeng/divider";
 import {MultiSelectModule} from "primeng/multiselect";
 import {DropdownModule} from "primeng/dropdown";
 import {PickListModule} from "primeng/picklist";
+import {ChipsModule} from "primeng/chips";
+import {ChipModule} from "primeng/chip";
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import {PickListModule} from "primeng/picklist";
     MultiSelectModule,
     DropdownModule,
     PickListModule,
+    ChipsModule,
+    ChipModule,
 
 
   ]

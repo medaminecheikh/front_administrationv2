@@ -320,14 +320,16 @@
                               sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil"
                               breakpoint="500px">
                     <ng-template let-profil pTemplate="item">
-                      <div class="flex flex-wrap  align-items-center gap-3">
+                      <div class="flex flex-wrap p-2 align-items-center gap-3">
                         <div class="flex-1 flex flex-column gap-1">
-                          <div class="flex align-products-center gap-2 font-weight-bold">
-                            <i class="fas fa-address-card "></i>
-                            <span>  {{ profil.nomP }} :</span>
+                          <div class="flex align-items-center gap-1">
+                            <i class="pi pi-id-card text-sm"></i>
+                          <span class="font-bold">{{profil.nomP }}</span>
                           </div>
+                            <span>{{ profil.des_P}}</span>
+
                         </div>
-                        <span class="font-bold text-900"> {{ profil.des_P }}</span>
+
                       </div>
                     </ng-template>
                   </p-pickList>
