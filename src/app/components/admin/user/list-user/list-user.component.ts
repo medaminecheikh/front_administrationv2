@@ -20,7 +20,8 @@ import {Ett} from "../../../../modules/Ett";
   styleUrls: ['./list-user.component.scss']
 })
 export class ListUserComponent implements OnInit{
-
+  addedProfils: Profil[] = [];
+  removedProfils: Profil[] = [];
 
   showError: boolean = false;
   zone = new FormControl();
@@ -58,9 +59,7 @@ export class ListUserComponent implements OnInit{
               private profilService: ProfilService) {
   }
 
-  update() {
 
-  }
 
   ngOnInit(): void {
     this.searchUsers();
@@ -122,9 +121,7 @@ export class ListUserComponent implements OnInit{
     // Subscribe to the value changes of the dreg form control
     this.ett.valueChanges.subscribe(value => this.ettselected=value);
 
-    this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
-      this.profils = data;
-    });
+    this.getAllProfils();
 
 
 
@@ -157,7 +154,11 @@ export class ListUserComponent implements OnInit{
       confirmPasswordControl.setErrors(null);
     }
   }
-
+ getAllProfils(){
+   this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
+     this.profils = data;
+   });
+ }
   onRowDoubleClick(user: Utilisateur) {
     this.utilisateurUpdate = user;
     this.utilisateurForm.patchValue({
@@ -173,9 +174,27 @@ export class ListUserComponent implements OnInit{
       is_EXPIRED: user.is_EXPIRED,
       date_EXPIRED: user.date_EXPIRED
     });
-
+    this.profilSelected=user.profilUser.map(value => value.profil)
+    this.profils = this.profils.filter(profil => !this.profilSelected.some(selected => selected.idProfil === profil.idProfil));
   }
 
+  onAddProfil(event: any) {
+    console.log('onAddProfil called');
+    if (event.items && event.items.length) {
+      const addedProfil = event.items[0];
+      this.addedProfils.push(addedProfil);
+      console.log(this.addedProfils);
+    }
+  }
+
+  onRemoveProfil(event: any) {
+    console.log('onremoveProfil called');
+    if (event.items && event.items.length) {
+      const removedProfil = event.items[0];
+      this.removedProfils.push(removedProfil);
+      console.log(this.removedProfils);
+    }
+  }
 
   onSelectionzone() {
     this.ett.reset();
@@ -245,5 +264,14 @@ export class ListUserComponent implements OnInit{
   Clear() {
     this.utilisateurUpdate=null;
     this.utilisateurForm.reset();
+    this.profilSelected=[];
+    this.getAllProfils();
   }
+
+
+  update() {
+
+  }
+
+
 }

@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Créer Utilisateur</h1>
+          <h1 class="m-0">Dashboard Utilisateur</h1>
         </div>
 
         <div class="col-sm-6">
@@ -225,8 +225,7 @@
                               <option value="0">Valid</option>
                               <option value="1">Expired</option>
                             </select>
-                            <span *ngIf="utilisateurForm.get('is_EXPIRED')?.hasError('required')"
-                                  class="error invalid-feedback">Actif est obligatoire.</span>
+
                           </div>
                         </div>
                       </div>
@@ -312,13 +311,14 @@
                 <div class=" col-md-8 w-min">
                   <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
                               targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
-
+                              (onMoveToTarget)="onAddProfil($event.items)"
+                              (onMoveToSource)="onRemoveProfil($event.items)"
                               [sourceStyle]="{ height: '10rem' } "
                               [targetStyle]="{ height: '10rem' }" filterBy="nomP"
                               sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil"
                               breakpoint="500px">
                     <ng-template let-profil pTemplate="item">
-                      <div class="flex flex-wrap p-2 align-items-center gap-3">
+                      <div class="flex flex-wrap p-2 align-items-center gap-2">
                         <div class="flex-1 flex flex-column gap-1">
                           <div class="flex align-items-center gap-1">
                             <i class="pi pi-id-card text-sm"></i>
