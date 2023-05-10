@@ -213,8 +213,9 @@ passwordMatchValidator(formGroup: FormGroup) {
           if (ettSelected) {
             this.userService.affecterUserToEtt(userId,ettSelected.idEtt).subscribe(
               () => {
-                const id = CryptoJS.AES.encrypt(userId.trim(), SECRET_KEY).toString();
-                this.router.navigate(['admin/user/detail', id])
+                this.router.navigate(['admin/user/add']).then(() => {
+                  // Reload the current page
+                  location.reload();});
                 this.toastr.success('User added successfully!', 'Success');
               },
               (error) => {
@@ -222,8 +223,9 @@ passwordMatchValidator(formGroup: FormGroup) {
               }
             );
           } else {
-            const id = CryptoJS.AES.encrypt(userId.trim(), SECRET_KEY).toString();
-            this.router.navigate(['admin/user/detail', id])
+            this.router.navigate(['admin/user/add']).then(() => {
+              // Reload the current page
+              location.reload();});
             this.toastr.success('User added successfully!', 'Success');
           }
           // Handle success

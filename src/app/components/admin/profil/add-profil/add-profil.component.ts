@@ -256,8 +256,10 @@ export class AddProfilComponent implements OnInit{
           if (selectedModel) {
             this.profilService.affecterModelToProfile(selectedModel.idModel, profilId).subscribe(
               () => {
-                const id = CryptoJS.AES.encrypt(profilId.trim(), SECRET_KEY).toString();
-                this.router.navigate(['admin/profil/detail', id])
+
+                this.router.navigate(['admin/profil/add']).then(() => {
+                  // Reload the current page
+                  location.reload();});
                 this.toastr.success('Profil added successfully!', 'Success');
               },
               (error) => {
@@ -265,9 +267,10 @@ export class AddProfilComponent implements OnInit{
               }
             );
           } else {
-            const id = CryptoJS.AES.encrypt(profilId.trim(), SECRET_KEY).toString();
-            this.router.navigate(['admin/profil/detail', id])
-            this.toastr.success('User added successfully!', 'Success');
+            this.router.navigate(['admin/profil/add']).then(() => {
+              // Reload the current page
+              location.reload();});
+            this.toastr.success('profil added successfully!', 'Success');
           }
           // Handle success
         },

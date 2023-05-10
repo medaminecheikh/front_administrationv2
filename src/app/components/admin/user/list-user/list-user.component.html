@@ -40,12 +40,11 @@
                     <div class="row">
                       <div class="col-md-2">
                         <div class="form-group">
-                          <label> Login</label>
+                          <label> Login :</label>
                           <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            </div>
-                            <input formControlName="login" placeholder="Login" type="text" class="form-control ">
+
+                            <p class="text-bold "> <i class="fas fa-circle-user"></i> - {{ utilisateurForm.get('login')?.value }}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -309,7 +308,7 @@
                   </p-divider>
                 </div>
                 <div class=" col-md-8 w-min">
-                  <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
+                  <p-pickList [source]="filtredProfils" [target]="profilSelected" sourceHeader="Available Profils"
                               targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
                               (onMoveToTarget)="onAddProfil($event)"
                               (onMoveToSource)="onRemoveProfil($event)"

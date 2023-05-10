@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Page} from "../../../../modules/Page";
 import {ZoneService} from "../../../../services/zone.service";
@@ -14,22 +14,23 @@ import {Zone} from "../../../../modules/Zone";
 import {Dregional} from "../../../../modules/Dregional";
 import {Ett} from "../../../../modules/Ett";
 import {ProfilUser} from "../../../../modules/ProfilUser";
+import {catchError, forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-list-user',
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.scss']
 })
-export class ListUserComponent implements OnInit{
+export class ListUserComponent implements OnInit {
   addedProfils: Profil[] = [];
   removedProfils: Profil[] = [];
-
+  filtredProfils: Profil[] = [];
   showError: boolean = false;
   zone = new FormControl();
   dreg = new FormControl();
   ett = new FormControl();
   utilisateurForm !: FormGroup;
-  utilisateurUpdate!: Utilisateur |null;
+  utilisateurUpdate!: Utilisateur | null;
   profils: Profil[] = [];
   profilSelected: Profil[] = [];
   zones: Zone[] = [];
@@ -37,7 +38,7 @@ export class ListUserComponent implements OnInit{
   etts: Ett[] = [];
   ettselected: any;
   showPassword: boolean = false;
-  utlisateurs!:Utilisateur[];
+  utlisateurs!: Utilisateur[];
   keyword: string = '';
   userPage: Page = {
     totalPages: 0,
@@ -47,11 +48,12 @@ export class ListUserComponent implements OnInit{
     size: 0,
     number: 0,
     numberOfElements: 0,
-    content:[]
+    content: []
   };
   page: number = 0;
-  size: number=8;
+  size: number = 8;
   pages: number[] = [];
+
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
               private ettService: EttService,
@@ -59,7 +61,6 @@ export class ListUserComponent implements OnInit{
               private toastr: ToastrService, private userService: UserService,
               private profilService: ProfilService) {
   }
-
 
 
   ngOnInit(): void {
@@ -78,14 +79,16 @@ export class ListUserComponent implements OnInit{
         // Fetch the associated dreginals when the zone value changes
         if (zoneId) {
           const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
-          if (selectedZone){this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
-            dreginals => {
-              this.dreginals = dreginals;
-              this.dreg.reset();
-              this.ett.reset();
-            },
-            error => console.error(error)
-          );}
+          if (selectedZone) {
+            this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
+              dreginals => {
+                this.dreginals = dreginals;
+                this.dreg.reset();
+                this.ett.reset();
+              },
+              error => console.error(error)
+            );
+          }
         } else {
           this.dreg.reset();
           this.ett.reset();
@@ -101,7 +104,7 @@ export class ListUserComponent implements OnInit{
         // Fetch the associated etts when the dreg value changes
         if (dregId) {
           const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
-          if(selectedDreg){
+          if (selectedDreg) {
             this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
               etts => {
                 this.etts = etts;
@@ -109,8 +112,8 @@ export class ListUserComponent implements OnInit{
                 this.ettselected = null; // reset the selected ett
               },
               error => console.error(error)
-            );}
-          else {
+            );
+          } else {
             this.dreg.reset();
             this.ett.reset();
             this.dreginals = [];
@@ -120,26 +123,25 @@ export class ListUserComponent implements OnInit{
       }
     );
     // Subscribe to the value changes of the dreg form control
-    this.ett.valueChanges.subscribe(value => this.ettselected=value);
-
-    this.getAllProfils();
-
-
+    this.ett.valueChanges.subscribe(value => this.ettselected = value);
+this.getAllProfils();
 
     this.utilisateurForm = this.formBuilder.group({
-      login: ['', Validators.required],
-      nomU: ['', Validators.required],
-      pwdU: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
-      confirmedpassword: ['', Validators.required],
-      prenU: ['', Validators.required],
-      descU: ['', Validators.required],
-      matricule: ['', Validators.required],
-      estActif: ['', Validators.required],
-      f_ADM_CEN: ['', Validators.required],
-      is_EXPIRED: ['', Validators.required],
-      date_EXPIRED: ['', Validators.required]
+      login: [''],
+      idUser: [''],
+      nomU: [''],
+      pwdU: [null, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
+      confirmedpassword: [null, Validators.required],
+      prenU: [''],
+      descU: [''],
+      matricule: [''],
+      estActif: [''],
+      f_ADM_CEN: [''],
+      is_EXPIRED: [''],
+      date_EXPIRED: ['']
     }, {validator: this.passwordMatchValidator});
   }
+
   passwordMatchValidator(formGroup: FormGroup) {
     const passwordControl = formGroup.get('pwdU');
     const confirmPasswordControl = formGroup.get('confirmedpassword');
@@ -155,16 +157,19 @@ export class ListUserComponent implements OnInit{
       confirmPasswordControl.setErrors(null);
     }
   }
- getAllProfils(){
-   this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
-     this.profils = data;
-   });
- }
+
+  getAllProfils() {
+    this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
+      this.profils = data;
+    });
+  }
+
   onRowDoubleClick(user: Utilisateur) {
+    this.Clear();
     this.utilisateurUpdate = user;
     this.utilisateurForm.patchValue({
-      login:user.login,
-      idUser:user.idUser,
+      login: user.login,
+      idUser: user.idUser,
       nomU: user.nomU,
       prenU: user.prenU,
       descU: user.descU,
@@ -175,8 +180,12 @@ export class ListUserComponent implements OnInit{
       is_EXPIRED: user.is_EXPIRED,
       date_EXPIRED: user.date_EXPIRED
     });
-    this.profilSelected=user.profilUser.map(value => value.profil)
-    this.profils = this.profils.filter(profil => !this.profilSelected.some(selected => selected.idProfil === profil.idProfil));
+    this.profilSelected = user.profilUser.map(value => value.profil);
+    this.profils = this.profils.filter(profil => {
+      return !this.profilSelected.some(selected => selected.idProfil === profil.idProfil);
+    });
+    this.filtredProfils = this.profils;
+
   }
 
   onAddProfil(event: any) {
@@ -221,7 +230,6 @@ export class ListUserComponent implements OnInit{
   }
 
 
-
   AllAdd($event: any) {
     console.log('AllToAdd called');
 
@@ -238,6 +246,7 @@ export class ListUserComponent implements OnInit{
     this.removedProfils = [];
 
   }
+
   onSelectionzone() {
     this.ett.reset();
     this.ettselected = null;
@@ -280,6 +289,7 @@ export class ListUserComponent implements OnInit{
       this.userPage.last = false;
     }
   }
+
   goToPage(n: number) {
     this.page = n;
     this.searchUsers();
@@ -299,22 +309,81 @@ export class ListUserComponent implements OnInit{
     this.page = event.target.value;
     this.searchUsers();
   }
+
   ChangeSize() {
     this.searchUsers();
   }
 
   Clear() {
-    this.utilisateurUpdate=null;
+    this.utilisateurUpdate = null;
     this.utilisateurForm.reset();
-    this.profilSelected=[];
+    this.profilSelected = [];
     this.getAllProfils();
+    this.addedProfils = [];
+    this.removedProfils = [];
   }
 
 
   update() {
+    const utilisateur = this.utilisateurForm.value;
+    const pwd = this.utilisateurForm.controls['pwdU'].value;
+    const confirmedPwd = this.utilisateurForm.controls['confirmedpassword'].value;
 
+    if ((pwd && confirmedPwd) || (!pwd && !confirmedPwd)) {
+      // Password and confirmed password are both present or both absent
+      if (this.utilisateurForm.valid || (!pwd && !confirmedPwd)) {
+        // Form is valid or password and confirmed password are both absent
+        const requests: Observable<any>[] = [];
+
+
+        if (this.addedProfils) {
+          for (const profil of this.addedProfils) {
+            requests.push(this.userService.affectProfilToUser(utilisateur.idUser, profil.idProfil));
+          }
+        }
+
+        if (this.removedProfils) {
+          for (const profil of this.removedProfils) {
+            requests.push(this.userService.removeProfil(utilisateur.idUser, profil.idProfil));
+          }
+        }
+
+        if (this.ettselected) {
+          requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected.idEtt));
+        }
+        if (utilisateur) {
+          requests.push(this.userService.updateUser(utilisateur));
+        }
+
+
+        forkJoin(requests).pipe(
+          catchError((err) => {
+            // Error handling logic here
+            return err;
+          })
+        ).subscribe((res) => {
+          // Success logic here
+          this.router.navigate(['admin/user/list']).then(() => {
+            // Reload the current page
+            location.reload();
+          });
+          this.toastr.success('Utilisateur modifié avec succès.');
+
+        }, (err) => {
+          // Revert all sends and show error message
+          this.toastr.error('Une erreur s\'est produite lors de la modification de l\'utilisateur.');
+          for (const request of requests) {
+            request.subscribe(() => {
+            }, () => {
+            });
+          }
+        });
+      } else {
+        this.toastr.error('Veuillez remplir tous les champs obligatoires et respecter les contraintes de validation.');
+      }
+    } else {
+      this.toastr.error('Veuillez confirmer votre mot de passe.');
+    }
   }
-
-
 
 }
