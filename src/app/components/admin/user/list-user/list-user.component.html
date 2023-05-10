@@ -311,8 +311,10 @@
                 <div class=" col-md-8 w-min">
                   <p-pickList [source]="profils" [target]="profilSelected" sourceHeader="Available Profils"
                               targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
-                              (onMoveToTarget)="onAddProfil($event.items)"
-                              (onMoveToSource)="onRemoveProfil($event.items)"
+                              (onMoveToTarget)="onAddProfil($event)"
+                              (onMoveToSource)="onRemoveProfil($event)"
+                              (onMoveAllToSource)="AllRemove($event)"
+                              (onMoveAllToTarget)="AllAdd($event)"
                               [sourceStyle]="{ height: '10rem' } "
                               [targetStyle]="{ height: '10rem' }" filterBy="nomP"
                               sourceFilterPlaceholder="Search by Profil" targetFilterPlaceholder="Search by Profil"
@@ -353,13 +355,15 @@
             <div class="card-header ">
               <h3 class="card-title text-bold"> Table Utilisateurs</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool bg-gradient-info" [disabled]="!utilisateurUpdate" (click)="Clear()"><i class="fas fa-remove"></i>
+                <button type="button" class="btn btn-tool bg-gradient-info" [disabled]="!utilisateurUpdate"
+                        (click)="Clear()"><i class="fas fa-remove"></i>
                 </button>
                 |
                 <button type="button" class="btn btn-tool bg-gradient-warning" [disabled]="!utilisateurUpdate"><i
                   class="fas fa-pen-to-square"></i></button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate"><i class="fas fa-trash-can"></i>
+                <button type="button" class="btn btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate"><i
+                  class="fas fa-trash-can"></i>
                 </button>
 
               </div>
@@ -381,20 +385,23 @@
                 </thead>
                 <tbody>
                 <ng-container *ngFor="let user of utlisateurs">
-                  <tr class="" [class.bg-gradient-lightblue]="user.idUser === utilisateurUpdate?.idUser"  (dblclick)="onRowDoubleClick(user)"  >
+                  <tr class="" [class.bg-gradient-lightblue]="user.idUser === utilisateurUpdate?.idUser"
+                      (dblclick)="onRowDoubleClick(user)">
                     <td>{{user.login}}</td>
                     <td>{{user.nomU}}</td>
                     <td>{{user.prenU}}</td>
-                    <td> <span *ngIf="user.estActif===1" class="badge badge-success"> Activer</span>
-                      <span *ngIf="user.estActif===0" class="badge badge-secondary"> Desactiver</span> </td>
+                    <td><span *ngIf="user.estActif===1" class="badge badge-success"> Activer</span>
+                      <span *ngIf="user.estActif===0" class="badge badge-secondary"> Desactiver</span></td>
 
-                    <td><i class=" text-oliver fas fa-clock-rotate-left"></i> {{user.date_EXPIRED | date :'MMMM d, y'}}</td>
+                    <td><i class=" text-oliver fas fa-clock-rotate-left"></i> {{user.date_EXPIRED | date :'MMMM d, y'}}
+                    </td>
                     <td>{{user.matricule}}</td>
                     <td>{{user.descU}}</td>
-                    <td><ng-container class="ml-auto"  *ngFor="let profilee of user.profilUser">
-                      <p-chip label="{{profilee.profil.nomP}}" icon="pi pi-check-circle" ></p-chip>
+                    <td>
+                      <ng-container class="ml-auto" *ngFor="let profilee of user.profilUser">
+                        <p-chip label="{{profilee.profil.nomP}}" icon="pi pi-check-circle"></p-chip>
 
-                    </ng-container>
+                      </ng-container>
                     </td>
 
                   </tr>

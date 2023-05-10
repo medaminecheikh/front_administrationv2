@@ -13,6 +13,7 @@ import {Profil} from "../../../../modules/Profil";
 import {Zone} from "../../../../modules/Zone";
 import {Dregional} from "../../../../modules/Dregional";
 import {Ett} from "../../../../modules/Ett";
+import {ProfilUser} from "../../../../modules/ProfilUser";
 
 @Component({
   selector: 'app-list-user',
@@ -180,22 +181,63 @@ export class ListUserComponent implements OnInit{
 
   onAddProfil(event: any) {
     console.log('onAddProfil called');
-    if (event.items && event.items.length) {
-      const addedProfil = event.items[0];
-      this.addedProfils.push(addedProfil);
-      console.log(this.addedProfils);
+    console.log('event:', event);
+    console.log('this.profilSelected:', this.profilSelected);
+    if (event && event.items && event.items.length) {
+      const addedProfils = event.items.filter((item: Profil) =>
+        !this.utilisateurUpdate?.profilUser.some(
+          (profilUser: ProfilUser) => profilUser.profil.idProfil === item.idProfil
+        )
+      );
+      console.log('addedProfils:', addedProfils);
+      this.addedProfils.push(...addedProfils);
+      console.log('this.addedProfils:', this.addedProfils);
     }
   }
 
   onRemoveProfil(event: any) {
-    console.log('onremoveProfil called');
-    if (event.items && event.items.length) {
-      const removedProfil = event.items[0];
-      this.removedProfils.push(removedProfil);
-      console.log(this.removedProfils);
+    console.log('onRemoveProfil called');
+    console.log('event:', event);
+    console.log('this.profilSelected:', this.profilSelected);
+    if (event && event.items && event.items.length) {
+      const removedProfils = event.items;
+      console.log('removedProfils:', removedProfils);
+      this.removedProfils.push(...removedProfils);
+      console.log('this.removedProfils:', this.removedProfils);
     }
   }
 
+  AllRemove($event: any) {
+    console.log('AllRemove called');
+
+    console.log('this.profilSelected:', this.profilSelected);
+    const removedProfils = this.utilisateurUpdate?.profilUser.filter((profilUser: ProfilUser) =>
+      !this.profilSelected.some((item: Profil) => item.idProfil === profilUser.profil.idProfil)
+    ).map((profilUser: ProfilUser) => profilUser.profil); // only pass Profil objects to this.removedProfils
+    console.log('removedProfils:', removedProfils);
+    this.removedProfils.push(...(removedProfils ?? []));
+    console.log('this.removedProfils:', this.removedProfils);
+    this.addedProfils = [];
+  }
+
+
+
+  AllAdd($event: any) {
+    console.log('AllToAdd called');
+
+    console.log('this.profilSelected:', this.profilSelected);
+    const addedProfils = this.profilSelected.filter((item: Profil) =>
+      !this.utilisateurUpdate?.profilUser.some(
+        (profilUser: ProfilUser) => profilUser.profil.idProfil === item.idProfil
+      )
+    );
+    console.log('addedProfils:', addedProfils);
+    this.addedProfils.push(...addedProfils);
+    console.log('this.addedProfils:', this.addedProfils);
+
+    this.removedProfils = [];
+
+  }
   onSelectionzone() {
     this.ett.reset();
     this.ettselected = null;
@@ -272,6 +314,7 @@ export class ListUserComponent implements OnInit{
   update() {
 
   }
+
 
 
 }
