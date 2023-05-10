@@ -140,6 +140,9 @@ this.getAllProfils();
       is_EXPIRED: [''],
       date_EXPIRED: ['']
     }, {validator: this.passwordMatchValidator});
+
+
+
   }
 
   passwordMatchValidator(formGroup: FormGroup) {
@@ -181,11 +184,22 @@ this.getAllProfils();
       date_EXPIRED: user.date_EXPIRED
     });
     this.profilSelected = user.profilUser.map(value => value.profil);
-    this.profils = this.profils.filter(profil => {
-      return !this.profilSelected.some(selected => selected.idProfil === profil.idProfil);
+    this.updateFiltredProfils();
+    // Create valueChanges subscription for f_ADM_CEN
+    this.utilisateurForm.get('f_ADM_CEN')?.valueChanges.subscribe(value => {
+      this.updateFiltredProfils();
     });
-    this.filtredProfils = this.profils;
+  }
 
+  private updateFiltredProfils() {
+    this.filtredProfils = this.profils.filter(profil => {
+      if (this.utilisateurForm.get('f_ADM_CEN')?.value === "1") {
+        
+        return profil.nomP === 'ADMIN' && !this.profilSelected.some(selected => selected.idProfil === profil.idProfil);
+      } else {
+        return profil.nomP !== 'ADMIN' && !this.profilSelected.some(selected => selected.idProfil === profil.idProfil);
+      }
+    });
   }
 
   onAddProfil(event: any) {
@@ -338,7 +352,9 @@ this.getAllProfils();
 
         if (this.addedProfils) {
           for (const profil of this.addedProfils) {
-            requests.push(this.userService.affectProfilToUser(utilisateur.idUser, profil.idProfil));
+            if (!(this.utilisateurForm.get('f_ADM_CEN')?.value === '0' && profil.nomP === 'ADMIN')) {
+              requests.push(this.userService.affectProfilToUser(utilisateur.idUser, profil.idProfil));
+            }
           }
         }
 
@@ -363,7 +379,7 @@ this.getAllProfils();
           })
         ).subscribe((res) => {
           // Success logic here
-          this.router.navigate(['admin/user/list']).then(() => {
+          this.router.navigate(['admin/user/dashboard']).then(() => {
             // Reload the current page
             location.reload();
           });
