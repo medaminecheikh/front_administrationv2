@@ -194,7 +194,7 @@ this.getAllProfils();
   private updateFiltredProfils() {
     this.filtredProfils = this.profils.filter(profil => {
       if (this.utilisateurForm.get('f_ADM_CEN')?.value === "1") {
-        
+
         return profil.nomP === 'ADMIN' && !this.profilSelected.some(selected => selected.idProfil === profil.idProfil);
       } else {
         return profil.nomP !== 'ADMIN' && !this.profilSelected.some(selected => selected.idProfil === profil.idProfil);
@@ -360,6 +360,7 @@ this.getAllProfils();
 
         if (this.removedProfils) {
           for (const profil of this.removedProfils) {
+            console.log("sssssssssssss",profil);
             requests.push(this.userService.removeProfil(utilisateur.idUser, profil.idProfil));
           }
         }
@@ -371,7 +372,6 @@ this.getAllProfils();
           requests.push(this.userService.updateUser(utilisateur));
         }
 
-
         forkJoin(requests).pipe(
           catchError((err) => {
             // Error handling logic here
@@ -379,10 +379,8 @@ this.getAllProfils();
           })
         ).subscribe((res) => {
           // Success logic here
-          this.router.navigate(['admin/user/dashboard']).then(() => {
-            // Reload the current page
-            location.reload();
-          });
+
+
           this.toastr.success('Utilisateur modifié avec succès.');
 
         }, (err) => {
