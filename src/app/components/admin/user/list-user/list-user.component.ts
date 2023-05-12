@@ -379,7 +379,9 @@ this.getAllProfils();
           })
         ).subscribe((res) => {
           // Success logic here
-
+          this.router.navigate(['admin/user/dashboard']).then(() => {
+            // Reload the current page
+            location.reload();});
 
           this.toastr.success('Utilisateur modifié avec succès.');
 

@@ -17,14 +17,30 @@ import {AuthService} from "../../../services/auth/auth.service";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+
   fonctions: Fonctionalite[] = [];
   profils: Profil[] = [];
   currentUser!: any;
   user!: Utilisateur;
   private unsubscribe = new Subject<void>();
   username!: any;
-
-
+  Encaissement_Facture:boolean=false;
+  Encaissement:boolean=false;
+  Paiement_Avance:boolean=false;
+  Recherche:boolean=false;
+  Recherche_Encaissement:boolean=false;
+  Recherche_Facture:boolean=false;
+  Etat_edition:boolean=false;
+  E1:boolean=false;
+  E2:boolean=false;
+  E3:boolean=false;
+  ETT:boolean=false;
+  paiement:boolean=false;
+  Bordereau:boolean=false;
+  Generation:boolean=false;
+  Consultation:boolean=false;
+  caisses:boolean=false;
+  journe:boolean=false;
   constructor(private router: Router, private authService: AuthService,
               private userService: UserService,
               private token: TokenStorageService, private profilService: ProfilService
@@ -90,7 +106,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Combine the modelFonc and profilFonc arrays, removing duplicates
     const functionsSet = new Set([...modelFonc, ...profilFonc]);
     this.fonctions = Array.from(functionsSet).filter((value, index, self) => self.findIndex(v => v.idFonc === value.idFonc) === index);
-
+    this.sidebarFonctions();
   }
 
   Logout() {
@@ -100,5 +116,64 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+  sidebarFonctions() {
+    for (const item of this.fonctions) {
+      switch (item.codF) {
+        case '2':
+         this.Encaissement_Facture = true;
+          break;
+        case '1':
+          this.Encaissement = true;
+          break;
+        case '3':
+          this.Paiement_Avance = true;
+          break;
+        case '4':
+          this.Recherche = true;
+          break;
+        case '5':
+          this.Recherche_Encaissement = true;
+          break;
+        case '6':
+          this.Recherche_Facture = true;
+          break;
+        case '7':
+          this.Etat_edition = true;
+          break;
+        case '8':
+          this.E1 = true;
+          break;
+        case '9':
+          this.E2 = true;
+          break;
+        case '10':
+          this.E3 = true;
+          break;
+        case '11':
+          this.ETT = true;
+          break;
+        case '12':
+          this.paiement = true;
+          break;
+        case '13':
+          this.Bordereau = true;
+          break;
+        case '14':
+          this.Generation = true;
+          break;
+        case '15':
+          this.Consultation = true;
+          break;
+        case '16':
+          this.caisses = true;
+          break;
+        case '17':
+          this.journe = true;
+          break;
+        default:
+          break;
+      }
+    }
   }
 }

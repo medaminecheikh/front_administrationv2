@@ -8,15 +8,12 @@ import {LoginComponent} from "./components/login/login.component";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  currentRoute!: string;
 
-  constructor(public router: Router) {}
+
+  constructor() {
+  }
 
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.url;
-      }
-    });
+
   }
 }
