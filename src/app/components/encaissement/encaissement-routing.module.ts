@@ -13,7 +13,22 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent
   },
-
+  {
+    path: 'caisse',
+    loadChildren: () => import('./caisse/caisse.module').then(m => m.CaisseModule)
+  },
+  {
+    path: 'etat',
+    loadChildren: () => import('./etat/etat.module').then(m => m.EtatModule)
+  },
+  {
+    path: 'ett',
+    loadChildren: () => import('./ett/ett.module').then(m => m.EttModule)
+  },
+  {
+    path: 'recherche',
+    loadChildren: () => import('./recherche/recherche.module').then(m => m.RechercheModule)
+  },
 ];
 
 @NgModule({

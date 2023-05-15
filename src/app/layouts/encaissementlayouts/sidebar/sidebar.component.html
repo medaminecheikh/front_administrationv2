@@ -38,7 +38,7 @@
           </a>
         </li>
 
-        <li class="nav-item" >
+        <li class="nav-item" *ngIf="Recherche">
           <a href="javascript:void(0)" class="nav-link">
             <i class="nav-icon fas fa-magnifying-glass"></i>
             <p>
@@ -47,19 +47,19 @@
             </p>
           </a>
           <ul class="nav nav-treeview" style="display: none;">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="Recherche_Encaissement">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-magnifying-glass-dollar nav-icon"></i>
                 <p>Recherche Encaissement</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="Recherche_Facture">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>Recheche Facture</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="journal">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-file-invoice nav-icon"></i>
                 <p>Journal Encaissement</p>
@@ -67,7 +67,7 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="Encaissement">
           <a href="javascript:void(0)" class="nav-link">
             <i class="nav-icon  fas fa-cash-register"></i>
             <p>
@@ -76,13 +76,13 @@
             </p>
           </a>
           <ul class="nav nav-treeview" style="display: none;">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="Encaissement_Facture">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-coins nav-icon"></i>
                 <p>Encaissement Facture</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="Paiement_Avance">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>Paiement Avance</p>
@@ -90,7 +90,7 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="Etat_edition">
           <a href="javascript:void(0)" class="nav-link">
             <i class="nav-icon  fas fa-arrow-right-arrow-left"></i>
             <p>
@@ -99,19 +99,19 @@
             </p>
           </a>
           <ul class="nav nav-treeview" style="display: none;">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="E1">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-coins nav-icon"></i>
                 <p>E1 Journal Encaissement</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="E2">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>E2 Journal Modification</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="E3">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>E3 Bordereau de versement</p>
@@ -119,7 +119,7 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="ETT">
           <a href="javascript:void(0)" class="nav-link">
             <i class="nav-icon fas fa-shop"></i>
             <p>
@@ -128,13 +128,13 @@
             </p>
           </a>
           <ul class="nav nav-treeview" style="display: none;">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="paiement">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Gestion des paiement</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="Bordereau">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>
@@ -143,13 +143,13 @@
                 </p>
               </a>
               <ul class="nav nav-treeview" style="display: none;">
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="Generation">
                   <a href="javascript:void(0)" class="nav-link">
                     <i class="far fa-dot-circle nav-icon"></i>
                     <p>Generation Bordereau</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="Consultation">
                   <a href="javascript:void(0)" class="nav-link">
                     <i class="far fa-dot-circle nav-icon"></i>
                     <p>Consultation Bordereau</p>
@@ -157,13 +157,13 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="caisses">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Gestion des caisses</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="journe">
               <a href="javascript:void(0)" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Validation journée</p>

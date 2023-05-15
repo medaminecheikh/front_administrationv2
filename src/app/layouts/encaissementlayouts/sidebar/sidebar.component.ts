@@ -41,6 +41,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   Consultation:boolean=false;
   caisses:boolean=false;
   journe:boolean=false;
+  journal:boolean=false;
   constructor(private router: Router, private authService: AuthService,
               private userService: UserService,
               private token: TokenStorageService, private profilService: ProfilService
@@ -122,6 +123,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       switch (item.codF) {
         case '2':
          this.Encaissement_Facture = true;
+          break;
+          case '30':
+         this.journal = true;
           break;
         case '1':
           this.Encaissement = true;
