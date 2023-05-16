@@ -402,4 +402,9 @@ this.getAllProfils();
     }
   }
 
+  refresh() {
+    this.router.navigate(['admin/user/dashboard']).then(() => {
+      // Reload the current page
+      location.reload();});
+  }
 }

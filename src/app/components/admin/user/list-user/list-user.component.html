@@ -43,7 +43,8 @@
                           <label> Login :</label>
                           <div class="input-group input-group-sm">
 
-                            <p class="text-bold "> <i class="fas fa-circle-user"></i> - {{ utilisateurForm.get('login')?.value }}
+                            <p class="text-bold "><i class="fas fa-circle-user"></i>
+                              - {{ utilisateurForm.get('login')?.value }}
                             </p>
                           </div>
                         </div>
@@ -224,7 +225,6 @@
                               <option value="0">Valid</option>
                               <option value="1">Expired</option>
                             </select>
-
                           </div>
                         </div>
                       </div>
@@ -350,86 +350,159 @@
       <div class="row">
 
         <div class="col-12">
-          <div class="card card-outline card-indigo">
-            <div class="card-header ">
-              <h3 class="card-title text-bold"> Table Utilisateurs</h3>
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title text-bold">Table Utilisateur</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool bg-gradient-info" [disabled]="!utilisateurUpdate"
+                <button type="button" class="btn  btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate">
+                  <i class="far fa-trash-alt"></i>
+                </button>
+                |
+                <button type="button" class="btn  btn-tool  bg-gradient-warning" [disabled]="!utilisateurUpdate"
                         (click)="Clear()"><i class="fas fa-remove"></i>
                 </button>
                 |
-                <button type="button" class="btn btn-tool bg-gradient-warning" [disabled]="!utilisateurUpdate"><i
-                  class="fas fa-pen-to-square"></i></button>
-                |
-                <button type="button" class="btn btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate"><i
-                  class="fas fa-trash-can"></i>
+                <button type="button" class="btn  btn-tool bg-gradient-info" (click)="refresh()">
+                  <i class="fas fa-sync-alt"></i>
                 </button>
+              </div>
+
+            </div>
+
+            <div class="card-body p-0">
+
+              <div class="mailbox-controls">
+
+
+                <div class="btn-group col-md-2">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-circle-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Login">
+
+                  </div>
+                </div>
+                <div class="btn-group col-md-2">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="nom">
+
+                  </div>
+                </div>
+                <div class="btn-group col-md-2">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                    </div>
+                    <input type="text" class="form-control " placeholder="prenom">
+                  </div>
+                </div>
+                <div class="btn-group col-md-auto">
+                  <div class="input-group input-group-sm">
+
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
+                    </div>
+                    <select class="form-control ">
+                      <option value="" selected>-- Status --</option>
+                      <option value="0">Desactiver</option>
+                      <option value="1">Activer</option>
+                    </select>
+                  </div>
+                </div>
+
+
+
+                <div class="float-md-right">
+
+                  <button type="button" class="btn bg-gradient-lightblue btn-sm mr-3 ">
+                    <i class="fas fa-filter"></i> Search Filter
+                  </button>
+
+                  <button type="button" class="btn btn-default btn-sm  ">
+                    Reset <i class="fas fa-filter-circle-xmark"></i>
+                  </button>
+
+                </div>
 
               </div>
-            </div>
 
-            <div class="card-body table-responsive p-0 ">
-              <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>login</th>
-                  <th>Nom</th>
-                  <th>Prenom</th>
-                  <th>Etat</th>
-                  <th>Date expiration</th>
-                  <th>Matricule</th>
-                  <th>Description</th>
-                  <th>Profils</th>
-                </tr>
-                </thead>
-                <tbody>
-                <ng-container *ngFor="let user of utlisateurs">
-                  <tr class="" [class.bg-gradient-lightblue]="user.idUser === utilisateurUpdate?.idUser"
-                      (dblclick)="onRowDoubleClick(user)">
-                    <td>{{user.login}}</td>
-                    <td>{{user.nomU}}</td>
-                    <td>{{user.prenU}}</td>
-                    <td><span *ngIf="user.estActif===1" class="badge badge-success"> Activer</span>
-                      <span *ngIf="user.estActif===0" class="badge badge-secondary"> Desactiver</span></td>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
 
-                    <td><i class=" text-oliver fas fa-clock-rotate-left"></i> {{user.date_EXPIRED | date :'MMMM d, y'}}
-                    </td>
-                    <td>{{user.matricule}}</td>
-                    <td>{{user.descU}}</td>
-                    <td>
-                      <ng-container class="ml-auto" *ngFor="let profilee of user.profilUser">
-                        <p-chip label="{{profilee.profil.nomP}}" icon="pi pi-check-circle"></p-chip>
-
-                      </ng-container>
-                    </td>
-
+                  <thead>
+                  <tr>
+                    <th>login</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Etat</th>
+                    <th>Date expiration</th>
+                    <th>Matricule</th>
+                    <th>Description</th>
+                    <th>Profils</th>
                   </tr>
+                  </thead>
+                  <tbody>
+                  <ng-container *ngFor="let user of utlisateurs">
+                    <tr class="" [class.bg-gradient-lightblue]="user.idUser === utilisateurUpdate?.idUser"
+                        (dblclick)="onRowDoubleClick(user)">
+                      <td>{{user.login}}</td>
+                      <td>{{user.nomU}}</td>
+                      <td>{{user.prenU}}</td>
+                      <td><span *ngIf="user.estActif===1" class="badge badge-success"> Activer</span>
+                        <span *ngIf="user.estActif===0" class="badge badge-secondary"> Desactiver</span></td>
 
-                </ng-container>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer">
-              <ul class="pagination pagination-sm m-0 float-right">
-                <li class="page-item">
-                  <button class="page-link" [disabled]="userPage.first" (click)="onPrev()">«</button>
-                </li>
+                      <td><i
+                        class=" text-oliver fas fa-clock-rotate-left"></i> {{user.date_EXPIRED | date :'MMMM d, y'}}
+                      </td>
+                      <td>{{user.matricule}}</td>
+                      <td class="mailbox-subject-">{{user.descU}}</td>
+                      <td class="mailbox-attachment">
+                        <ng-container class="ml-auto" *ngFor="let profilee of user.profilUser">
+                          <p-chip class="mr-2" label="{{profilee.profil.nomP}}" icon="pi pi-check-circle"></p-chip>
 
-                <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
-                  <button class="page-link" [disabled]="p === page" (click)="goToPage(p)">{{p + 1}}</button>
-                </li>
+                        </ng-container>
+                      </td>
 
-                <li class="page-item">
-                  <button class="page-link" [disabled]="userPage.last" (click)="onNext()">»</button>
-                </li>
-              </ul>
+                    </tr>
+
+                  </ng-container>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <div class="float-right">
+
+                  <div class="btn-group ">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                      <li class="page-item">
+                        <button class="page-link btn-default btn-sm" [disabled]="userPage.first" (click)="onPrev()"><i
+                          class="fas fa-chevron-left"></i></button>
+                      </li>
+
+                      <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
+                        <button class="page-link btn-default btn-sm" [disabled]="p === page"
+                                (click)="goToPage(p)">{{p + 1}}</button>
+                      </li>
+
+                      <li class="page-item">
+                        <button class="page-link btn-default btn-sm" [disabled]="userPage.last" (click)="onNext()"><i
+                          class="fas fa-chevron-right"></i></button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
           </div>
-
         </div>
       </div>
     </div>
   </div>
-</div>
 
+</div>

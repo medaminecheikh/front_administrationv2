@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AES, enc } from 'crypto-js';
 import jwtDecode from "jwt-decode";
+import {SECRET_KEY} from "../../guards/constants";
 const TOKEN_KEY = 'accessToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 const USER_KEY = 'currentUser';
@@ -8,27 +10,38 @@ const USER_KEY = 'currentUser';
 })
 export class TokenStorageService {
   constructor() { }
-
   public saveToken(token: string): void {
-    sessionStorage.setItem(TOKEN_KEY, token);
+    const encryptedToken = AES.encrypt(token,SECRET_KEY ).toString();
+    sessionStorage.setItem(TOKEN_KEY, encryptedToken);
   }
 
   public getToken(): string | null {
-    return sessionStorage.getItem(TOKEN_KEY);
+    const encryptedToken = sessionStorage.getItem(TOKEN_KEY);
+    if (encryptedToken) {
+      const decryptedToken = AES.decrypt(encryptedToken, SECRET_KEY).toString(enc.Utf8);
+      return decryptedToken || null;
+    }
+    return null;
   }
 
   public saveRefreshToken(refreshToken: string): void {
-    sessionStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+    const encryptedRefreshToken = AES.encrypt(refreshToken, SECRET_KEY).toString();
+    sessionStorage.setItem(REFRESH_TOKEN_KEY, encryptedRefreshToken);
   }
 
   public getRefreshToken(): string | null {
-    return sessionStorage.getItem(REFRESH_TOKEN_KEY);
+    const encryptedRefreshToken = sessionStorage.getItem(REFRESH_TOKEN_KEY);
+    if (encryptedRefreshToken) {
+      const decryptedRefreshToken = AES.decrypt(encryptedRefreshToken, SECRET_KEY).toString(enc.Utf8);
+      return decryptedRefreshToken || null;
+    }
+    return null;
   }
 
   public saveUser(user: any): void {
     sessionStorage.setItem(USER_KEY, JSON.stringify(user));
-
   }
+
   public isTokenExpired(): boolean {
     const token = this.getToken();
     if (token !== null) {
@@ -54,3 +67,5 @@ export class TokenStorageService {
     sessionStorage.removeItem(USER_KEY);
   }
 }
+
+

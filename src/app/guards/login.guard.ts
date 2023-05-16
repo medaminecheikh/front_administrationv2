@@ -12,14 +12,13 @@ export class LoginGuard implements CanActivate {
   }
   canActivate()
   {
-    if (this.authService.getCurrentUser()!=null || !this.storage.isTokenExpired())
+    if (this.storage.getUser()!=null || !this.storage.isTokenExpired())
     {
 
       return true;
     }
     else
     {
-
       this.route.navigate(['login'])
       return false;
     }

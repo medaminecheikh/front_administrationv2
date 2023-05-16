@@ -3,6 +3,7 @@ import {CurrentUser} from "../../modules/TokenResponse";
 import {BehaviorSubject, map, Observable, throwError} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {TokenStorageService} from "./token-storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<CurrentUser | null>;
   public currentUser: Observable<CurrentUser | null>;
 
-  constructor(private http: HttpClient,private router: Router) {
+  constructor(private http: HttpClient,private router: Router,private tokenStorage:TokenStorageService) {
     this.currentUserSubject = new BehaviorSubject<CurrentUser | null>(this.getCurrentUser());
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -23,29 +24,38 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    console.log("Logging in with username: " + username + " and password: " + password);
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
-    return this.http.post<any>(this.host+'authenticate?password='+password+'&username='+username, null, { headers })
-      .pipe(map(response => {
-        const user = {
-          username: response.username || '',
-          roles: response.roles || [],
-          accessToken: response.accessToken || '',
-          refreshToken: response.refreshToken || ''
-        };
-        sessionStorage.setItem('accessToken', response.accessToken);
-        sessionStorage.setItem('refreshToken', response.refreshToken);
-        this.setCurrentUser(user);
-        return user;
-      }));
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa(username + ':' + password)
+    });
+    return this.http
+      .post<any>(
+        this.host + 'authenticate?password=' + password + '&username=' + username,
+        null,
+        { headers }
+      )
+      .pipe(
+        map((response) => {
+          const user = {
+            username: response.username || '',
+            roles: response.roles || [],
+            accessToken: response.accessToken || '',
+            refreshToken: response.refreshToken || '',
+
+          };
+          this.tokenStorage.saveToken(response.accessToken);
+          this.tokenStorage.saveRefreshToken(response.refreshToken);
+          this.tokenStorage.saveUser(user);
+          return user;
+        })
+      );
   }
 
   logout() {
     this.setCurrentUser(null);
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
+    this.tokenStorage.clear();
     this.router.navigate(['/login']);
   }
+
 
   refreshToken(){
     const refreshToken = sessionStorage.getItem('refreshToken');
@@ -68,16 +78,10 @@ export class AuthService {
   }
 
   setCurrentUser(user: CurrentUser | null): void {
-    if (user) {
-      sessionStorage.setItem('currentUser', JSON.stringify(user));
-    } else {
-      sessionStorage.removeItem('currentUser');
-    }
     this.currentUserSubject.next(user);
   }
 
-  public getCurrentUser(): CurrentUser | null {
-    const storedUser = sessionStorage.getItem('currentUser');
-    return storedUser ? JSON.parse(storedUser) : null;
+  getCurrentUser(): CurrentUser | null {
+    return this.tokenStorage.getUser();
   }
 }
