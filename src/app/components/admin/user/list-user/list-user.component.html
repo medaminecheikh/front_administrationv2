@@ -371,6 +371,7 @@
 
             <div class="card-body p-0">
 
+
               <div class="mailbox-controls">
 
 
@@ -407,9 +408,23 @@
                       <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
                     </div>
                     <select class="form-control ">
-                      <option value="" selected>-- Status --</option>
+                      <option value="" selected>-- Etat --</option>
                       <option value="0">Desactiver</option>
                       <option value="1">Activer</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="btn-group col-md-auto">
+                  <div class="input-group input-group-sm">
+
+                    <div class="input-group-prepend">
+                      <span class="input-group-text text-bold">Size</span>
+                    </div>
+                    <select class="form-control ">
+                      <option value="10" selected>10</option>
+                      <option value="15">15</option>
+                      <option value="20">20</option>
                     </select>
                   </div>
                 </div>
@@ -452,8 +467,9 @@
                       <td>{{user.login}}</td>
                       <td>{{user.nomU}}</td>
                       <td>{{user.prenU}}</td>
-                      <td><span *ngIf="user.estActif===1" class="badge badge-success"> Activer</span>
-                        <span *ngIf="user.estActif===0" class="badge badge-secondary"> Desactiver</span></td>
+                      <td><span *ngIf="user.estActif===1" > <p-tag icon="pi pi-check" severity="success" value=" Activer "></p-tag></span>
+
+                        <span *ngIf="user.estActif===0" > <p-tag icon="pi pi-exclamation-triangle" severity="warning" value=" Desactiver "></p-tag></span></td>
 
                       <td><i
                         class=" text-oliver fas fa-clock-rotate-left"></i> {{user.date_EXPIRED | date :'MMMM d, y'}}

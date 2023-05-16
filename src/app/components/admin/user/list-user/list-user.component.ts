@@ -51,9 +51,10 @@ export class ListUserComponent implements OnInit {
     content: []
   };
   page: number = 0;
-  size: number = 8;
+  size: number = 10;
   pages: number[] = [];
-
+  nom!:string;
+  prenom!:string;
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
               private ettService: EttService,
@@ -268,7 +269,7 @@ this.getAllProfils();
   }
 
   searchUsers() {
-    this.userService.searchUserpage(this.keyword, this.page, this.size)
+    this.userService.searchUserpage(this.keyword,this.nom,this.prenom, this.page, this.size)
       .subscribe(data => {
         this.utlisateurs = data;
         this.userPage.content = data;

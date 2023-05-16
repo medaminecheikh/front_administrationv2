@@ -13,6 +13,7 @@ import {DropdownModule} from "primeng/dropdown";
 import {PickListModule} from "primeng/picklist";
 import {ChipsModule} from "primeng/chips";
 import {ChipModule} from "primeng/chip";
+import {TagModule} from "primeng/tag";
 
 
 @NgModule({
@@ -23,19 +24,20 @@ import {ChipModule} from "primeng/chip";
     ListUserComponent,
     UpdateUserComponent,
   ],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DividerModule,
-    MultiSelectModule,
-    DropdownModule,
-    PickListModule,
-    ChipsModule,
-    ChipModule,
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DividerModule,
+        MultiSelectModule,
+        DropdownModule,
+        PickListModule,
+        ChipsModule,
+        ChipModule,
+        TagModule,
 
 
-  ]
+    ]
 })
 export class UserModule { }
