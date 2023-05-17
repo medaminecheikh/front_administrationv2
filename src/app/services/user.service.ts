@@ -9,11 +9,12 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 export class UserService {
   host = "http://localhost:8088/POS/";
   constructor(private http: HttpClient) { }
-  public searchUserpage(kw: string, nom: string, prenom: string, page: number, size: number):Observable<Utilisateur[]>{
+  public searchUserpage(kw: string, nom: string, prenom: string, actif:string, page: number, size: number):Observable<Utilisateur[]>{
     const params = new HttpParams()
       .set('Keyword', kw)
       .set('nom', nom)
       .set('prenom', prenom)
+      .set('estActif', actif)
       .set('page', page.toString())
       .set('size', size.toString());
 
