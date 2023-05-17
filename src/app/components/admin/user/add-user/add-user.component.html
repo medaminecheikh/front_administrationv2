@@ -49,6 +49,9 @@
                                    [ngClass]="{'is-invalid': utilisateurForm.get('login')?.invalid && showError,'is-valid':utilisateurForm.get('login')?.valid && showError}">
                             <span *ngIf="utilisateurForm.get('login')?.hasError('required')"
                                   class="error invalid-feedback">Login is required.</span>
+                            <span *ngIf="utilisateurForm.get('login')?.hasError('required') || utilisateurForm.get('login')?.hasError('whitespace')"
+                                  class="error invalid-feedback">Login is required and should not contain whitespace.</span>
+
                           </div>
                         </div>
                       </div>
@@ -108,7 +111,7 @@
                             <input formControlName="descU" placeholder="Description" type="text" class="form-control"
                                    [ngClass]="{'is-invalid': utilisateurForm.get('descU')?.invalid && showError,'is-valid':utilisateurForm.get('descU')?.valid && showError}">
                             <span *ngIf="utilisateurForm.get('descU')?.hasError('required')"
-                                  class="error invalid-feedback">Description Utilisateur est obligatoire.</span>
+                                  class="error invalid-feedback">Description est obligatoire.</span>
                           </div>
                         </div>
                       </div>
@@ -228,7 +231,7 @@
                               <option value="1">Expired</option>
                             </select>
                             <span *ngIf="utilisateurForm.get('is_EXPIRED')?.hasError('required')"
-                                  class="error invalid-feedback">Actif est obligatoire.</span>
+                                  class="error invalid-feedback">Status est obligatoire.</span>
                           </div>
                         </div>
                       </div>

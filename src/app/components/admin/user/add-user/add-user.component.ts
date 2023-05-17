@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Profil} from "../../../../modules/Profil";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Ett} from "../../../../modules/Ett";
 import {Dregional} from "../../../../modules/Dregional";
@@ -117,7 +117,7 @@ export class AddUserComponent implements OnInit {
 
 
     this.utilisateurForm = this.formBuilder.group({
-    login: ['', Validators.required],
+      login: ['', [Validators.required, this.noWhitespaceValidator]],
     nomU: ['', Validators.required],
     pwdU: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
     confirmedpassword: ['', Validators.required],
@@ -144,6 +144,11 @@ export class AddUserComponent implements OnInit {
       this.profilSelected = [];
     });
 
+  }
+  noWhitespaceValidator(control: FormControl): ValidationErrors | null {
+    const value = control.value || '';
+    const hasWhitespace = value.includes(' ');
+    return hasWhitespace ? { whitespace: true } : null;
   }
 passwordMatchValidator(formGroup: FormGroup) {
   const passwordControl = formGroup.get('pwdU');

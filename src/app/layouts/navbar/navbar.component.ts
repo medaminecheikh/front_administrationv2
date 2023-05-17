@@ -9,15 +9,13 @@ import {MenuItem} from "primeng/api";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit{
-
+  currentDate: Date = new Date();
   username!:any;
   constructor(private router: Router,private authService:AuthService) {}
 
-  Logout() {
-    this.authService.logout();
-  }
+
   ngOnInit(): void {
-    this.username= this.authService.getCurrentUser()?.username;
+
 
 
   }

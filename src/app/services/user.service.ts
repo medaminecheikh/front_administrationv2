@@ -12,8 +12,8 @@ export class UserService {
   public searchUserpage(kw: string, nom: string, prenom: string, page: number, size: number):Observable<Utilisateur[]>{
     const params = new HttpParams()
       .set('Keyword', kw)
-      .set('Nom', nom)
-      .set('Prenom', prenom)
+      .set('nom', nom)
+      .set('prenom', prenom)
       .set('page', page.toString())
       .set('size', size.toString());
 

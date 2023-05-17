@@ -380,7 +380,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-circle-user"></i></span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Login">
+                    <input type="text" class="form-control" placeholder="Login" [(ngModel)]="keyword">
 
                   </div>
                 </div>
@@ -389,7 +389,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-signature"></i></span>
                     </div>
-                    <input type="text" class="form-control" placeholder="nom">
+                    <input type="text" class="form-control" placeholder="nom" [(ngModel)]="nom">
 
                   </div>
                 </div>
@@ -398,7 +398,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-signature"></i></span>
                     </div>
-                    <input type="text" class="form-control " placeholder="prenom">
+                    <input type="text" class="form-control " placeholder="prenom" [(ngModel)]="prenom">
                   </div>
                 </div>
                 <div class="btn-group col-md-auto">
@@ -421,7 +421,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text text-bold">Size</span>
                     </div>
-                    <select class="form-control ">
+                    <select class="form-control " [(ngModel)]="size" >
                       <option value="10" selected>10</option>
                       <option value="15">15</option>
                       <option value="20">20</option>
@@ -433,11 +433,11 @@
 
                 <div class="float-md-right">
 
-                  <button type="button" class="btn bg-gradient-lightblue btn-sm mr-3 ">
+                  <button type="button" class="btn bg-gradient-lightblue btn-sm mr-3 " (click)="searchUsers()">
                     <i class="fas fa-filter"></i> Search Filter
                   </button>
 
-                  <button type="button" class="btn btn-default btn-sm  ">
+                  <button type="button" class="btn btn-default btn-sm  " (click)="resetFilter()">
                     Reset <i class="fas fa-filter-circle-xmark"></i>
                   </button>
 

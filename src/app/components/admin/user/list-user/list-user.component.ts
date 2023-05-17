@@ -53,8 +53,9 @@ export class ListUserComponent implements OnInit {
   page: number = 0;
   size: number = 10;
   pages: number[] = [];
-  nom!:string;
-  prenom!:string;
+  nom: string = '';
+  prenom: string = '';
+
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
               private ettService: EttService,
@@ -125,7 +126,7 @@ export class ListUserComponent implements OnInit {
     );
     // Subscribe to the value changes of the dreg form control
     this.ett.valueChanges.subscribe(value => this.ettselected = value);
-this.getAllProfils();
+    this.getAllProfils();
 
     this.utilisateurForm = this.formBuilder.group({
       login: [''],
@@ -141,7 +142,6 @@ this.getAllProfils();
       is_EXPIRED: [''],
       date_EXPIRED: ['']
     }, {validator: this.passwordMatchValidator});
-
 
 
   }
@@ -269,7 +269,8 @@ this.getAllProfils();
   }
 
   searchUsers() {
-    this.userService.searchUserpage(this.keyword,this.nom,this.prenom, this.page, this.size)
+    console.log(this.keyword, this.nom, this.prenom, this.page, this.size)
+    this.userService.searchUserpage(this.keyword, this.nom, this.prenom, this.page, this.size)
       .subscribe(data => {
         this.utlisateurs = data;
         this.userPage.content = data;
@@ -325,9 +326,6 @@ this.getAllProfils();
     this.searchUsers();
   }
 
-  ChangeSize() {
-    this.searchUsers();
-  }
 
   Clear() {
     this.utilisateurUpdate = null;
@@ -361,7 +359,7 @@ this.getAllProfils();
 
         if (this.removedProfils) {
           for (const profil of this.removedProfils) {
-            console.log("sssssssssssss",profil);
+            console.log("sssssssssssss", profil);
             requests.push(this.userService.removeProfil(utilisateur.idUser, profil.idProfil));
           }
         }
@@ -382,7 +380,8 @@ this.getAllProfils();
           // Success logic here
           this.router.navigate(['admin/user/dashboard']).then(() => {
             // Reload the current page
-            location.reload();});
+            location.reload();
+          });
 
           this.toastr.success('Utilisateur modifié avec succès.');
 
@@ -406,6 +405,16 @@ this.getAllProfils();
   refresh() {
     this.router.navigate(['admin/user/dashboard']).then(() => {
       // Reload the current page
-      location.reload();});
+      location.reload();
+    });
+  }
+
+
+  resetFilter() {
+    this.nom = '';
+    this.prenom = '';
+    this.keyword = '';
+    this.size = 10;
+
   }
 }
