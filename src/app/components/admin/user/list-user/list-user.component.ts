@@ -415,6 +415,7 @@ export class ListUserComponent implements OnInit {
     this.nom = '';
     this.prenom = '';
     this.keyword = '';
+    this.estActif = '';
     this.size = 10;
 
   }

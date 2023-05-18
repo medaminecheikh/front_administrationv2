@@ -1,1 +1,152 @@
-<p>list-profil works!</p>
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Dashboard Profil</h1>
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/profil/list">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard Profil</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 ">
+
+          <section class="content">
+            <div class="row">
+              <div class="col-md-3">
+
+                  <button type="button"  class="btn btn-primary btn-block mb-3">Search  </button>
+
+
+
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title"> <i class="fas fa-filter"></i> Filters</h3>
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body p-0" style="display: block;">
+                    <ul class="nav nav-pills flex-column">
+                      <li class="nav-item active">
+                      <li class="nav-item">
+                        <a  class="nav-link">
+                          <i class="far fa-file-alt"></i> Nom Profil
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a  class="nav-link">
+                          <i class="fas fa-text-width"></i> Description
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a  class="nav-link">
+                          <i class="fas fa-arrows-up-down"></i> Sort
+                        </a>
+                      </li>
+                      <li class="nav-item" >
+                        <button  class="btn bg-transparent float-right" (click)="resetFilter()">
+                           Reset <i class="fas fa-xmark-circle"></i>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-9">
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title text-bold">Table Profils</h3>
+                    <div class="card-tools">
+                      <button type="button" class="btn  btn-tool bg-gradient-danger" [disabled]="!profilUpdate">
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                      |
+                      <button type="button" class="btn  btn-tool  bg-gradient-warning" [disabled]="!profilUpdate"
+                              (click)="Clear()"><i class="fas fa-remove"></i>
+                      </button>
+                      |
+                      <button type="button" class="btn  btn-tool bg-gradient-info" (click)="refresh()">
+                        <i class="fas fa-sync-alt"></i>
+                      </button>
+                    </div>
+
+                  </div>
+
+                  <div class="card-body p-0">
+                    <div class="mailbox-controls">
+                      <div class="float-right">
+
+                        <div class="btn-group ">
+                          <ul class="pagination pagination-sm  m-1 ">
+                            <li class="page-item">
+                              <button class="page-link btn-default btn-sm" [disabled]="userPage.first" (click)="onPrev()"><i
+                                class="fas fa-chevron-left"></i></button>
+                            </li>
+
+                            <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
+                              <button class="page-link btn-default btn-sm" [disabled]="p === page"
+                                      (click)="goToPage(p)">{{p + 1}}</button>
+                            </li>
+
+                            <li class="page-item">
+                              <button class="page-link btn-default btn-sm" [disabled]="userPage.last" (click)="onNext()"><i
+                                class="fas fa-chevron-right"></i></button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="table-responsive mailbox-messages">
+                      <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+
+                          <th>Nom Profil</th>
+                          <th>Description</th>
+                          <th>Fonctions</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+
+                          <td class="mailbox-name"><a>Alexander Pierce</a></td>
+                          <td class="mailbox-date">5 mins ago</td>
+                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
+                            problem...
+                          </td>
+                        </tr>
+
+
+                        </tbody>
+                      </table>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
