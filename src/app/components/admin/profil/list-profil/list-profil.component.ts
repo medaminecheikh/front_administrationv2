@@ -1,6 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Profil} from "../../../../modules/Profil";
 import {Page} from "../../../../modules/Page";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Fonctionalite} from "../../../../modules/Fonctionalite";
+import {Model} from "../../../../modules/Model";
+import {TreeNode} from "primeng/api";
+import {ProfilService} from "../../../../services/profil.service";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import {ModelService} from "../../../../services/model.service";
+import {FonctionService} from "../../../../services/fonction.service";
 
 @Component({
   selector: 'app-list-profil',
@@ -8,6 +17,17 @@ import {Page} from "../../../../modules/Page";
   styleUrls: ['./list-profil.component.scss']
 })
 export class ListProfilComponent implements OnInit{
+  profilForm !: FormGroup;
+  profil!: Profil;
+  showError:boolean =false;
+  functions:Fonctionalite[]=[];
+  models:Model[]=[] ;
+  selectedModel !:Model | undefined;
+  treeData: TreeNode[] = [];
+  selectedFonc :Fonctionalite[]=[];
+  selectedItems: TreeNode[] = [];
+  model= new FormControl();
+
   userPage: Page = {
     totalPages: 0,
     totalElements: 0,
@@ -23,10 +43,18 @@ export class ListProfilComponent implements OnInit{
   pages: number[] = [];
   profilUpdate!: Profil;
 
-  constructor() {
-  }
+  constructor(private profilService:ProfilService,
+              private router: Router,private formBuilder: FormBuilder,
+              private toastr: ToastrService,private modelService:ModelService,
+              private foncService:FonctionService) {}
+
 
   ngOnInit(): void {
+
+    this.profilForm= this.formBuilder.group({
+      nomP: ['',  Validators.maxLength(30)],
+      des_P: ['', Validators.maxLength(100)]
+    });
   }
   Clear() {
 
@@ -81,6 +109,10 @@ export class ListProfilComponent implements OnInit{
   }
 
   resetFilter() {
+
+  }
+
+  updateProfil() {
 
   }
 }
