@@ -5,7 +5,7 @@ import {ZoneService} from "../../../../services/zone.service";
 import {DrService} from "../../../../services/dr.service";
 import {EttService} from "../../../../services/ett.service";
 import {Router} from "@angular/router";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../../services/user.service";
 import {ProfilService} from "../../../../services/profil.service";
@@ -132,12 +132,12 @@ export class ListUserComponent implements OnInit {
     this.utilisateurForm = this.formBuilder.group({
       login: [''],
       idUser: [''],
-      nomU: [''],
+      nomU: ['',this.noWhitespaceStartorEnd],
       pwdU: [null, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
       confirmedpassword: [null, Validators.required],
-      prenU: [''],
-      descU: [''],
-      matricule: [''],
+      prenU: ['',this.noWhitespaceStartorEnd],
+      descU: ['',this.noWhitespaceStartorEnd],
+      matricule: ['',this.noWhitespaceStartorEnd],
       estActif: [''],
       f_ADM_CEN: [''],
       is_EXPIRED: [''],
@@ -163,6 +163,12 @@ export class ListUserComponent implements OnInit {
     }
   }
 
+  noWhitespaceStartorEnd(control: FormControl): ValidationErrors | null {
+    const value = control.value || '';
+    const trimmedValue = value.trim();
+    const isValid = value === trimmedValue;
+    return isValid ? null : { whitespace: true };
+  }
   getAllProfils() {
     this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
       this.profils = data;

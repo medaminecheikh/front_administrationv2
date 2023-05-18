@@ -118,12 +118,12 @@ export class AddUserComponent implements OnInit {
 
     this.utilisateurForm = this.formBuilder.group({
       login: ['', [Validators.required, this.noWhitespaceValidator]],
-    nomU: ['', Validators.required],
+    nomU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
     pwdU: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
     confirmedpassword: ['', Validators.required],
-    prenU: ['', Validators.required],
-    descU: ['', Validators.required],
-    matricule: ['', Validators.required],
+    prenU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+    descU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+    matricule: ['', [Validators.required, this.noWhitespaceStartorEnd]],
     estActif: ['', Validators.required],
     f_ADM_CEN: ["0", Validators.required],
     is_EXPIRED: ['', Validators.required],
@@ -149,6 +149,12 @@ export class AddUserComponent implements OnInit {
     const value = control.value || '';
     const hasWhitespace = value.includes(' ');
     return hasWhitespace ? { whitespace: true } : null;
+  }
+  noWhitespaceStartorEnd(control: FormControl): ValidationErrors | null {
+    const value = control.value || '';
+    const trimmedValue = value.trim();
+    const isValid = value === trimmedValue;
+    return isValid ? null : { whitespace: true };
   }
 passwordMatchValidator(formGroup: FormGroup) {
   const passwordControl = formGroup.get('pwdU');

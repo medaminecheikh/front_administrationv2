@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Profil} from "../../../../modules/Profil";
 import {Page} from "../../../../modules/Page";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Fonctionalite} from "../../../../modules/Fonctionalite";
 import {Model} from "../../../../modules/Model";
 import {TreeNode} from "primeng/api";
@@ -52,9 +52,16 @@ export class ListProfilComponent implements OnInit{
   ngOnInit(): void {
 
     this.profilForm= this.formBuilder.group({
-      nomP: ['',  Validators.maxLength(30)],
-      des_P: ['', Validators.maxLength(100)]
+      nomP: ['',  [Validators.maxLength(30),this.noWhitespaceStartorEnd]],
+      des_P: ['', [Validators.maxLength(100),this.noWhitespaceStartorEnd]]
     });
+  }
+
+  noWhitespaceStartorEnd(control: FormControl): ValidationErrors | null {
+    const value = control.value || '';
+    const trimmedValue = value.trim();
+    const isValid = value === trimmedValue;
+    return isValid ? null : { whitespace: true };
   }
   Clear() {
 
@@ -113,6 +120,10 @@ export class ListProfilComponent implements OnInit{
   }
 
   updateProfil() {
+
+  }
+
+  onSelectedItemsChange() {
 
   }
 }

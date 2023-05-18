@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Profil} from "../../../../modules/Profil";
 import {Fonctionalite} from "../../../../modules/Fonctionalite";
 import {Model} from "../../../../modules/Model";
@@ -47,8 +47,8 @@ export class AddProfilComponent implements OnInit{
     });
 
     this.profilForm= this.formBuilder.group({
-      nomP: ['', [Validators.required, Validators.maxLength(30)]],
-      des_P: ['', [Validators.required, Validators.maxLength(100)]]
+      nomP: ['', [Validators.required, Validators.maxLength(30),this.noWhitespaceStartorEnd]],
+      des_P: ['', [Validators.required, Validators.maxLength(100),this.noWhitespaceStartorEnd]]
     });
 
     // Subscribe to the observable returned by the foncService's getAllFoncs method
@@ -104,9 +104,6 @@ export class AddProfilComponent implements OnInit{
 
 
 
-
-
-
     this.model.valueChanges.subscribe(value => {
       if (value === null || value === "null") {
         if (this.selectedModel && this.selectedModel.fonctions) {
@@ -140,6 +137,12 @@ export class AddProfilComponent implements OnInit{
         this.onSelectionModel();
       }
     });
+  }
+  noWhitespaceStartorEnd(control: FormControl): ValidationErrors | null {
+    const value = control.value || '';
+    const trimmedValue = value.trim();
+    const isValid = value === trimmedValue;
+    return isValid ? null : { whitespace: true };
   }
   onSelectionModel() {
     const id = this.model.value;

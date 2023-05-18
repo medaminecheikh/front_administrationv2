@@ -25,13 +25,12 @@
             <div class="row">
               <div class="col-md-3">
 
-                  <button type="button"  class="btn btn-primary btn-block mb-3">Search  </button>
-
+                <button type="button" class="btn btn-primary btn-block mb-3">Search</button>
 
 
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title"> <i class="fas fa-filter"></i> Filters</h3>
+                    <h3 class="card-title"><i class="fas fa-filter"></i> Filters</h3>
                     <div class="card-tools">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -42,25 +41,25 @@
                     <ul class="nav nav-pills flex-column">
                       <li class="nav-item active">
                       <li class="nav-item">
-                        <a  class="nav-link">
+                        <a class="nav-link">
 
                           <i class="far fa-file-alt"></i> Nom Profil
 
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a  class="nav-link">
+                        <a class="nav-link">
                           <i class="fas fa-text-width"></i> Description
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a  class="nav-link">
+                        <a class="nav-link">
                           <i class="fas fa-arrows-up-down"></i> Size
                         </a>
                       </li>
-                      <li class="nav-item" >
-                        <button  class="btn bg-transparent float-right" (click)="resetFilter()">
-                           Reset <i class="fas fa-xmark-circle"></i>
+                      <li class="nav-item">
+                        <button class="btn bg-transparent float-right" (click)="resetFilter()">
+                          Reset <i class="fas fa-xmark-circle"></i>
                         </button>
                       </li>
                     </ul>
@@ -97,7 +96,8 @@
                         <div class="btn-group ">
                           <ul class="pagination pagination-sm  m-1 ">
                             <li class="page-item">
-                              <button class="page-link btn-default btn-sm" [disabled]="userPage.first" (click)="onPrev()"><i
+                              <button class="page-link btn-default btn-sm" [disabled]="userPage.first"
+                                      (click)="onPrev()"><i
                                 class="fas fa-chevron-left"></i></button>
                             </li>
 
@@ -107,7 +107,8 @@
                             </li>
 
                             <li class="page-item">
-                              <button class="page-link btn-default btn-sm" [disabled]="userPage.last" (click)="onNext()"><i
+                              <button class="page-link btn-default btn-sm" [disabled]="userPage.last"
+                                      (click)="onNext()"><i
                                 class="fas fa-chevron-right"></i></button>
                             </li>
                           </ul>
@@ -135,7 +136,22 @@
                             problem...
                           </td>
                         </tr>
+                        <tr>
 
+                          <td class="mailbox-name"><a>Alexander Pierce</a></td>
+                          <td class="mailbox-date">5 mins ago</td>
+                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
+                            problem...
+                          </td>
+                        </tr>
+                        <tr>
+
+                          <td class="mailbox-name"><a>Alexander Pierce</a></td>
+                          <td class="mailbox-date">5 mins ago</td>
+                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
+                            problem...
+                          </td>
+                        </tr>
 
                         </tbody>
                       </table>
@@ -150,7 +166,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-md-7">
           <div class="card card-outline card-warning collapsed-card">
             <div class="card-header">
               <h3 class="card-title text-bold">
@@ -166,57 +182,97 @@
 
             <div class="card-body" style="display: none;">
               <div class="row ml-2">
-                <div class="col-md-5">
+                <div class="col-md-12">
                   <form [formGroup]="profilForm">
                     <div class="row">
 
-                      <div class="col-md-5">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label>Nom Profil</label>
-                          <input formControlName="nomP" placeholder="Nom " type="text" class="form-control"
-                                 [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
-                          <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Nom Profil is required.</span>
-                          <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
-                     characters.</span>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            </div>
+                            <input formControlName="nomP" placeholder="Nom " type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
+                            <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30 characters.</span>
+                          </div>
                         </div>
                       </div>
 
-                      <div class="col-md-7">
+                      <div class="col-md-6">
                         <div class="form-group">
                           <label>Description</label>
-                          <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
-                                 [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
-                          <span *ngIf="profilForm.get('des_P')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
-                          <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
-                     characters.</span>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                            </div>
+                            <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
+                                   [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
+                            <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')"
+                                  class="error invalid-feedback">Maximum length is 100 characters.</span>
+                          </div>
                         </div>
                       </div>
-
                     </div>
                   </form>
                 </div>
 
-                <div class="col-md-2">
+              </div>
+              <div class="row ml-2">
+                <div class="col-md-4">
                   <div class="form-group">
-                    <label for="model-select">Select Model:</label>
-                    <select class="form-control" id="model-select" [formControl]="model">
-                      <option value="null">-- Clear --</option>
-                      <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
-                    </select>
+                    <label>Select Model</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-box-archive"></i></span>
+                      </div>
+                      <select class="form-control" id="model-select" [formControl]="model">
+                        <option value="null">-- Clear --</option>
+                        <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="card-footer" style="display: none;">
-              <div class="col-md-2" >
-                <button class="btn btn-sm btn-block bg-gradient-warning" type="button" (click)="updateProfil()">Update <i
-                  class="fa-regular fa-circle-check"></i></button>
+              <div class="col-md-2">
+                <button class="btn btn-sm btn-block bg-gradient-warning" type="button" (click)="updateProfil()">Update
+                  <i
+                    class="fa-regular fa-circle-check"></i></button>
               </div>
             </div>
 
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <div class="card card-outline card-warning collapsed-card">
+            <div class="card-header">
+              <h3 class="card-title text-bold">
+                Liste des Fonctions
+              </h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                  class="fas fa-plus"></i></button>
+              </div>
+            </div>
+
+            <div class="card-body" style="display: none;">
+              <p-tree [value]="treeData" [selectionMode]="'checkbox'" [(selection)]="selectedItems"
+                      [filter]="true" filterPlaceholder="Search Functions..."
+                      class=" p-inputtext-sm "
+                      (selectionChange)="onSelectedItemsChange()"
+                      
+              >
+
+              </p-tree>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+

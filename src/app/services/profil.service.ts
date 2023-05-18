@@ -11,8 +11,8 @@ export class ProfilService {
 
   constructor(private http: HttpClient) { }
 
-  searchPageProfils(kw: String, page: number, size: number): Observable<Profil[]> {
-    return this.http.get<Profil[]>(this.host+"/searchPageProfils?Keyword="+kw+"&page="+page+"&size="+size);
+  searchPageProfils(kw: String,desc: String, page: number, size: number): Observable<Profil[]> {
+    return this.http.get<Profil[]>(this.host+"/searchPageProfils?Keyword="+kw+"&desc="+desc+"&page="+page+"&size="+size);
   }
 
   public getAllProfiles(): Observable<Profil[]> {
