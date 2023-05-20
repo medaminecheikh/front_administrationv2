@@ -191,6 +191,7 @@ export class ListProfilComponent implements OnInit{
       .subscribe(data => {
         this.profils = data;
         console.log(this.profils)
+        console.log("data", data)
         this.userPage.content = data;
         if (data.length > 0) {
           this.userPage.totalPages = Math.ceil(data[0].totalElements / this.size);
