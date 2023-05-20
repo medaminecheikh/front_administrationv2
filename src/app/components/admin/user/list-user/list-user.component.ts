@@ -276,7 +276,7 @@ export class ListUserComponent implements OnInit {
   }
 
   searchUsers() {
-    console.log(this.keyword, this.nom, this.prenom, this.page, this.size)
+
     this.userService.searchUserpage(this.keyword, this.nom, this.prenom,this.estActif, this.page, this.size)
       .subscribe(data => {
         this.utlisateurs = data;

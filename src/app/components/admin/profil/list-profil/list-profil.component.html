@@ -25,7 +25,7 @@
             <div class="row">
               <div class="col-md-3">
 
-                <button type="button" class="btn btn-primary btn-block mb-3">Search</button>
+                <button type="button" class="btn btn-primary btn-block mb-3" (click)="searchProfils()" >Search</button>
 
 
                 <div class="card">
@@ -90,10 +90,11 @@
                   </div>
 
                   <div class="card-body p-0">
-                    <div class="mailbox-controls">
-                      <div class="float-right">
+                    <div class="mailbox-controls with-border text-center">
+                      
 
                         <div class="btn-group ">
+
                           <ul class="pagination pagination-sm  m-1 ">
                             <li class="page-item">
                               <button class="page-link btn-default btn-sm" [disabled]="userPage.first"
@@ -113,7 +114,7 @@
                             </li>
                           </ul>
                         </div>
-                      </div>
+
 
                     </div>
                     <div class="table-responsive mailbox-messages">
@@ -128,30 +129,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <ng-container *ngFor="let profil of profils">
+                          <tr class="" [class.bg-gradient-lightblue]="profil.idProfil === profilUpdate?.idProfil"
+                              (dblclick)="onRowDoubleClick(profil)">
 
-                          <td class="mailbox-name"><a>Alexander Pierce</a></td>
-                          <td class="mailbox-date">5 mins ago</td>
-                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
-                            problem...
-                          </td>
+                          <td class="mailbox-name"><b>{{profil.nomP}}</b></td>
+                          <td class="mailbox-date">{{profil.des_P}}</td>
+                            <td class="mailbox-subject">
+                              <b *ngFor="let fonc of profil.fonctions">
+                                <span *ngIf="fonc.fon_COD_F === ''">{{fonc.nomF}} - </span>
+                              </b>
+                            </td>
                         </tr>
-                        <tr>
-
-                          <td class="mailbox-name"><a>Alexander Pierce</a></td>
-                          <td class="mailbox-date">5 mins ago</td>
-                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
-                            problem...
-                          </td>
-                        </tr>
-                        <tr>
-
-                          <td class="mailbox-name"><a>Alexander Pierce</a></td>
-                          <td class="mailbox-date">5 mins ago</td>
-                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
-                            problem...
-                          </td>
-                        </tr>
+                        </ng-container>
 
                         </tbody>
                       </table>
@@ -247,7 +237,7 @@
           </div>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-5" >
           <div class="card card-outline card-warning collapsed-card">
             <div class="card-header">
               <h3 class="card-title text-bold">
@@ -259,12 +249,12 @@
               </div>
             </div>
 
-            <div class="card-body" style="display: none;">
+            <div class="card-body  table-responsive p-0" style="display: none;height: 350px">
               <p-tree [value]="treeData" [selectionMode]="'checkbox'" [(selection)]="selectedItems"
                       [filter]="true" filterPlaceholder="Search Functions..."
                       class=" p-inputtext-sm "
                       (selectionChange)="onSelectedItemsChange()"
-                      
+
               >
 
               </p-tree>
