@@ -18,6 +18,16 @@
 
   <div class="content">
     <div class="container-fluid">
+      <div class="row ">
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <div class=" text-center">
+              <h2 class="my-4"><i class="fas fa-search mr-2"></i> Recherche Profil</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
       <div class="row">
         <div class="col-md-12 ">
 
@@ -25,7 +35,7 @@
             <div class="row">
               <div class="col-md-3">
 
-                <button type="button" class="btn btn-primary btn-block mb-3" (click)="searchProfils()" >Search</button>
+                <button type="button" class="btn btn-primary btn-block mb-3" (click)="searchProfils()">Search</button>
 
 
                 <div class="card">
@@ -93,27 +103,27 @@
                     <div class="mailbox-controls with-border text-center">
 
 
-                        <div class="btn-group ">
+                      <div class="btn-group ">
 
-                          <ul class="pagination pagination-sm  m-1 ">
-                            <li class="page-item">
-                              <button class="page-link btn-default btn-sm" [disabled]="userPage.first"
-                                      (click)="onPrev()"><i
-                                class="fas fa-chevron-left"></i></button>
-                            </li>
+                        <ul class="pagination pagination-sm  m-1 ">
+                          <li class="page-item">
+                            <button class="page-link btn-default btn-sm" [disabled]="userPage.first"
+                                    (click)="onPrev()"><i
+                              class="fas fa-chevron-left"></i></button>
+                          </li>
 
-                            <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
-                              <button class="page-link btn-default btn-sm" [disabled]="p === page"
-                                      (click)="goToPage(p)">{{p + 1}}</button>
-                            </li>
+                          <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
+                            <button class="page-link btn-default btn-sm" [disabled]="p === page"
+                                    (click)="goToPage(p)">{{p + 1}}</button>
+                          </li>
 
-                            <li class="page-item">
-                              <button class="page-link btn-default btn-sm" [disabled]="userPage.last"
-                                      (click)="onNext()"><i
-                                class="fas fa-chevron-right"></i></button>
-                            </li>
-                          </ul>
-                        </div>
+                          <li class="page-item">
+                            <button class="page-link btn-default btn-sm" [disabled]="userPage.last"
+                                    (click)="onNext()"><i
+                              class="fas fa-chevron-right"></i></button>
+                          </li>
+                        </ul>
+                      </div>
 
 
                     </div>
@@ -133,14 +143,14 @@
                           <tr class="" [class.bg-gradient-lightblue]="profil.idProfil === profilUpdate?.idProfil"
                               (dblclick)="onRowDoubleClick(profil)">
 
-                          <td class="mailbox-name"><b>{{profil.nomP}}</b></td>
-                          <td class="mailbox-date">{{profil.des_P}}</td>
+                            <td class="mailbox-name"><b>{{profil.nomP}}</b></td>
+                            <td class="mailbox-date">{{profil.des_P}}</td>
                             <td class="mailbox-subject">
                               <b *ngFor="let fonc of profil.fonctions">
                                 <span *ngIf="fonc.fon_COD_F === ''">{{fonc.nomF}} - </span>
                               </b>
                             </td>
-                        </tr>
+                          </tr>
                         </ng-container>
 
                         </tbody>
@@ -156,81 +166,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-7">
-          <div class="card card-outline card-warning collapsed-card">
-            <div class="card-header">
-              <h3 class="card-title text-bold">
-                Update Profil
-              </h3>
-              <div class="card-tools">
-                <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
-                  class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                  class="fas fa-plus"></i></button>
-              </div>
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <div class=" text-center">
+              <h2 class="my-4"><i class="fas fa-pen-to-square mr-2"></i> Update Profil</h2>
             </div>
-
-            <div class="card-body" style="display: none;">
-              <div class="row ml-2">
-                <div class="col-md-12">
-                  <form [formGroup]="profilForm">
-                    <div class="row">
-
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label>Nom Profil</label>
-                          <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                            </div>
-                            <input formControlName="nomP" placeholder="Nom " type="text" class="form-control"
-                                   [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
-                            <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30 characters.</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Description</label>
-                          <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-signature"></i></span>
-                            </div>
-                            <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
-                                   [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
-                            <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')"
-                                  class="error invalid-feedback">Maximum length is 100 characters.</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-
-              </div>
-              <div class="row ml-2">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>Select Model</label>
-                    <div class="input-group input-group-sm">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-box-archive"></i></span>
-                      </div>
-                      <select class="form-control" id="model-select" [formControl]="model">
-                        <option value="null">-- Clear --</option>
-                        <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
           </div>
         </div>
-
       </div>
       <div class="row">
         <div class="col-12 ">
@@ -239,16 +181,24 @@
               <ul class="nav nav-tabs " id="custom-tabs-four-tab" role="tablist">
 
                 <li class="nav-item">
-                  <a class="nav-link active text-bold" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Profil Form</a>
+                  <a class="nav-link active text-bold" id="custom-tabs-four-profile-tab" data-toggle="pill"
+                     href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile"
+                     aria-selected="false">Profil Form</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link  text-bold" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true"><i class="fas fa-list-squares"></i> Liste des Fonction </a>
+                  <a class="nav-link  text-bold" id="custom-tabs-four-home-tab" data-toggle="pill"
+                     href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home"
+                     aria-selected="true"><i class="fas fa-list-squares"></i> Liste des Fonction </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Messages</a>
+                  <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill"
+                     href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages"
+                     aria-selected="false">Messages</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Settings</a>
+                  <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill"
+                     href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings"
+                     aria-selected="false">Settings</a>
                 </li>
               </ul>
 
@@ -256,8 +206,9 @@
             <div class="card-body">
               <div class="tab-content" id="custom-tabs-four-tabContent">
 
-                <div class="tab-pane fade show active" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-                  <div class="card-body" >
+                <div class="tab-pane fade show active" id="custom-tabs-four-profile" role="tabpanel"
+                     aria-labelledby="custom-tabs-four-profile-tab">
+                  <div class="card-body">
                     <div class="row ml-2">
                       <div class="col-md-8">
                         <form [formGroup]="profilForm">
@@ -272,7 +223,8 @@
                                   </div>
                                   <input formControlName="nomP" placeholder="Nom " type="text" class="form-control"
                                          [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
-                                  <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30 characters.</span>
+                                  <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')"
+                                        class="error invalid-feedback">Maximum length is 30 characters.</span>
                                 </div>
                               </div>
                             </div>
@@ -284,7 +236,8 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-signature"></i></span>
                                   </div>
-                                  <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
+                                  <input formControlName="des_P" placeholder="Description" type="text"
+                                         class="form-control "
                                          [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
                                   <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')"
                                         class="error invalid-feedback">Maximum length is 100 characters.</span>
@@ -294,35 +247,37 @@
                           </div>
                         </form>
                       </div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <label>Select Model</label>
-                            <div class="input-group input-group-sm">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-box-archive"></i></span>
-                              </div>
-                              <select class="form-control" id="modelselect" [formControl]="model">
-                                <option value="null">-- Clear --</option>
-                                <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
-                              </select>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Select Model</label>
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-box-archive"></i></span>
                             </div>
+                            <select class="form-control" id="modelselect" [formControl]="model">
+                              <option value="null">-- Clear --</option>
+                              <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
+                            </select>
                           </div>
                         </div>
+                      </div>
 
 
                     </div>
 
                   </div>
-                  <div class="card-footer" >
+                  <div class="card-footer">
                     <div class="col-md-3">
-                      <button class="btn btn-sm btn-block bg-gradient-warning" type="button" (click)="updateProfil()">Update
+                      <button class="btn btn-sm btn-block bg-gradient-warning" type="button" (click)="updateProfil()">
+                        Update
                         <i
                           class="fa-regular fa-circle-check"></i>
                       </button>
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane fade " id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                <div class="tab-pane fade " id="custom-tabs-four-home" role="tabpanel"
+                     aria-labelledby="custom-tabs-four-home-tab">
                   <div class=" table-responsive p-0" style="height: 450px">
                     <p-tree [value]="treeData" [selectionMode]="'checkbox'" [(selection)]="selectedItems"
                             [filter]="true" filterPlaceholder="Search Functions..."
@@ -333,12 +288,26 @@
                     >
 
                     </p-tree>
-                  </div>                </div>
-                <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                  Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                  </div>
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
-                  Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel"
+                     aria-labelledby="custom-tabs-four-messages-tab">
+                  Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi
+                  placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique
+                  nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis
+                  urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non
+                  luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla
+                  lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus.
+                  Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel"
+                     aria-labelledby="custom-tabs-four-settings-tab">
+                  Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac,
+                  ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod
+                  molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna
+                  nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut
+                  nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet
+                  facilisis.
                 </div>
               </div>
             </div>

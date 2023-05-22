@@ -10,7 +10,6 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {ModelService} from "../../../../services/model.service";
 import {FonctionService} from "../../../../services/fonction.service";
-import {filter} from "rxjs";
 
 @Component({
   selector: 'app-list-profil',
@@ -139,6 +138,7 @@ export class ListProfilComponent implements OnInit{
   Clear() {
     this.selectedModel=undefined;
     this.profilUpdate=null;
+    this.profilForm.reset();
 
   }
 

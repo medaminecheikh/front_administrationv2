@@ -10,6 +10,8 @@ import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TreeModule} from "primeng/tree";
 import {CheckboxModule} from "primeng/checkbox";
+import {DividerModule} from "primeng/divider";
+import {TooltipModule} from "primeng/tooltip";
 
 
 @NgModule({
@@ -19,13 +21,15 @@ import {CheckboxModule} from "primeng/checkbox";
     UpdateProfilComponent,
     DetailProfilComponent
   ],
-    imports: [
-        CommonModule,
-        ProfilRoutingModule,
-        PaginatorModule,
-        ReactiveFormsModule,
-        TreeModule,
-        CheckboxModule
-    ]
+  imports: [
+    CommonModule,
+    ProfilRoutingModule,
+    PaginatorModule,
+    ReactiveFormsModule,
+    TreeModule,
+    CheckboxModule,
+    DividerModule,
+    TooltipModule
+  ]
 })
 export class ProfilModule { }
