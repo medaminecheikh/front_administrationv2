@@ -8,7 +8,7 @@ class CategProfil {
 export interface Profil {
   categProfil: CategProfil;
   des_P: string
-  fonctions: Fonctionalite[];
+  fonctions:Set<Fonctionalite>;
   idProfil: string;
   model: Model;
   nomP: string;

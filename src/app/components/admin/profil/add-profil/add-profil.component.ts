@@ -8,11 +8,9 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {ModelService} from "../../../../services/model.service";
 import {FonctionService} from "../../../../services/fonction.service";
-import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
+import {catchError, concatMap, finalize, from, last, map, mapTo, of, tap, throwError} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
-import {SECRET_KEY} from "../../../../guards/constants";
 import {TreeNode} from "primeng/api";
-import CryptoJS from 'crypto-js';
 
 
 @Component({
@@ -198,6 +196,7 @@ export class AddProfilComponent implements OnInit{
     this.selectedFonc = this.selectedItems
       .filter(item => !this.selectedModel?.fonctions.some(fonc => fonc.idFonc === item.data.idFonc))
       .map(item => item.data);
+    console.log(this.selectedFonc )
   }
 
   private expandRecursive(node: TreeNode, isExpand: boolean) {
@@ -215,86 +214,92 @@ export class AddProfilComponent implements OnInit{
   }
 
 
-  addProfil() {
+  addProfil(): void {
     if (this.profilForm.valid) {
       const profil = this.profilForm.value;
-      const selectedFonc: Fonctionalite[] = this.selectedFonc;
+      const selectedFonc: Set<Fonctionalite> = new Set(this.selectedFonc);
+      let profilId: string;
       const selectedModel: Model | undefined = this.selectedModel;
-      let profilId: String;
-      this.profilService.addProfile(profil).pipe(
-        tap((response) => {
-          // Extract the idUser from the response and store it in profilId variable
-          profilId = response.idProfil;
 
+      this.profilService.addProfile(profil).pipe(
+        tap((response: Profil) => {
+          profilId = response.idProfil;
         }),
-        switchMap(() => {
-          if (selectedFonc.length === 0) {
-            // Return an empty observable if selectedFonc is empty
-            return of(null);
+        concatMap(() => {
+          if (selectedFonc.size === 0) {
+            return of(profilId);
           } else {
-            // Emit each Fonc object in selectedFonc as a separate value
-            return from(selectedFonc).pipe(
-              mergeMap((fonc) => {
-                return this.profilService.affecterFonctionaliteToProfile(fonc.idFonc, profilId).pipe(
-                  catchError((error) => {
-                    this.toastr.error(error.error, 'Error');
-                    return throwError(error);
-                  })
-                );
-              })
+            const distinctFoncIds = Array.from(new Set([...selectedFonc].map(fonc => fonc.idFonc)));
+            return from(distinctFoncIds).pipe(
+              concatMap((idFonc: string) => {
+                if (!selectedModel?.fonctions.some(fonc => fonc.idFonc === idFonc)) {
+                  return this.profilService.affecterFonctionaliteToProfile(idFonc, profilId).pipe(
+                    catchError((error) => {
+                      this.toastr.error(error.error, 'Error');
+                      return throwError(error);
+                    })
+                  );
+                } else {
+                  return of(null);
+                }
+              }),
+              last(), // Ensure all assignments are completed before moving to the next step
+              mapTo(profilId) // Return the profilId after function assignments
             );
           }
         }),
         catchError((error) => {
           if (error instanceof HttpErrorResponse) {
             if (error.status === 403) {
-              this.toastr.error('Nom Profil already exists !', 'Error');
-              return throwError('Nom Profil already exists error !');
+              this.toastr.error('Nom Profil already exists!', 'Error');
+              return throwError('Nom Profil already exists error!');
             }
           }
           this.toastr.error(error.error, 'Error');
           return throwError(error);
-        })
-      ).subscribe(() => {
+        }),
+        finalize(() => {
           if (selectedModel) {
             this.profilService.affecterModelToProfile(selectedModel.idModel, profilId).subscribe(
               () => {
-
-                this.router.navigate(['admin/profil/add']).then(() => {
-                  // Reload the current page
-                  location.reload();});
+                this.handleSuccessNavigation();
                 this.toastr.success('Profil added successfully!', 'Success');
               },
               (error) => {
-                this.toastr.error(error.error, 'Error');
+                this.handleError(error);
               }
             );
           } else {
-            this.router.navigate(['admin/profil/add']).then(() => {
-              // Reload the current page
-              location.reload();});
+            this.handleSuccessNavigation();
             this.toastr.success('profil added successfully!', 'Success');
           }
-          // Handle success
-        },
-        (error) => {
-          if (error instanceof HttpErrorResponse) {
-            if (error.status === 404) {
-              this.toastr.error('The resource could not be found.', 'Error');
-            } else if (error.status === 401) {
-              this.toastr.error('Login already exist error.', 'Error');
-            } else if (error.status === 403) {
-              this.toastr.error('403 error.', 'Error');
-            }
-          }
-        }
-      );
+        })
+      ).subscribe();
     } else {
-      this.showError=true;
-      this.toastr.warning('Please fill form correctly.', 'Warning');
+      this.showError = true;
+      this.toastr.warning('Please fill the form correctly.', 'Warning');
     }
   }
 
+
+  private handleSuccessNavigation(): void {
+    this.router.navigate(['admin/profil/add']).then(() => {
+      // Reload the current page
+      location.reload();
+    });
+  }
+
+  private handleError(error: any): void {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 404) {
+        this.toastr.error('The resource could not be found.', 'Error');
+      } else if (error.status === 401) {
+        this.toastr.error('Login already exist error.', 'Error');
+      } else if (error.status === 403) {
+        this.toastr.error('403 error.', 'Error');
+      }
+    }
+  }
 
 
 }
