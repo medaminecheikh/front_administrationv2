@@ -31,7 +31,7 @@
       </div>
       <div class="row">
 
-        <div class="col-12">
+        <div class="col-12 mt-3 ">
           <div class="card card-primary card-outline">
             <div class="card-header">
               <h3 class="card-title text-bold">Table Utilisateur</h3>
@@ -210,8 +210,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 ">
-          <div class="card card-outline card-warning collapsed-card">
+        <div class="col-md-12 mt-3  ">
+          <div class="card card-outline card-warning ">
             <div class="card-header">
               <h3 class="card-title text-bold">
                 Update Utilisateur
@@ -220,11 +220,11 @@
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                  class="fas fa-plus"></i></button>
+                  class="fas fa-minus"></i></button>
               </div>
             </div>
 
-            <div class="card-body" style="display: none;">
+            <div class="card-body" style="display: block;">
               <div class="row ml-2">
                 <div class="col-md-12">
                   <form [formGroup]="utilisateurForm">
@@ -321,7 +321,7 @@
                                                                                           class="fas fa-lock"></i> Mot
                             de passe</label>
                           <div class="input-group input-group-sm">
-                            <input formControlName="pwdU" placeholder="Mot de passe"
+                            <input formControlName="pwdU" placeholder="Mot de passe"  pTooltip="leave empty to keep old password" tooltipPosition="bottom"
                                    type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
                                    [ngClass]="{'is-invalid': utilisateurForm.get('pwdU')?.invalid && showError,'is-valid':utilisateurForm.get('pwdU')?.valid && showError}">
                             <div class="input-group-append">
@@ -369,7 +369,7 @@
                           <label>Administrateur</label>
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-user-shield"></i></span>
+                              <span class="input-group-text"><i class="fas fa-crown"></i></span>
                             </div>
                             <select formControlName="f_ADM_CEN" class="form-control"
                                     [ngClass]="{'is-invalid': utilisateurForm.get('f_ADM_CEN')?.invalid && showError,'is-valid':utilisateurForm.get('f_ADM_CEN')?.valid && showError}">
@@ -529,10 +529,20 @@
 
 
             </div>
-            <div class="card-footer" style="display: none;">
-              <div class="col-md-2">
-                <button class="btn btn-sm btn-block bg-gradient-warning " type="button" (click)="update()">Update <i
-                  class="fa-regular fa-circle-check"></i></button>
+            <div class="card-footer" style="display: block;">
+              <div class="btn-group btn-block d-flex justify-content-end">
+                <div class="col-md-2">
+                  <button class="btn btn-sm btn-block bg-gradient-danger" type="button" (click)="Clear()">
+                    Cancel
+                    <i class="fa-regular fa-xmark-circle"></i>
+                  </button>
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-sm btn-block bg-gradient-warning" type="button" (click)="update()">
+                    Update
+                    <i class="fa-regular fa-circle-check"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

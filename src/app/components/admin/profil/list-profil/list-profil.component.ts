@@ -187,7 +187,7 @@ export class ListProfilComponent implements OnInit{
   }
 
   searchProfils() {
-    this.profilService.searchPageProfils(this.keyword, this.desc,this.page, this.size)
+    this.profilService.searchPageProfils(this.keyword.toUpperCase(), this.desc,this.page, this.size)
       .subscribe(data => {
         this.profils = data;
         console.log(this.profils)

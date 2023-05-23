@@ -56,7 +56,7 @@
                             <i class="far fa-file-alt"></i> Nom Profil
                           </a>
 
-                          <input type="text" class="form-control form-control-sm col-md-6 mr-2 ml-auto "/>
+                          <input type="text" class="form-control form-control-sm col-md-6 mr-2 ml-auto " [(ngModel)]="keyword"/>
 
                         </div>
                       </li>
@@ -65,7 +65,7 @@
                           <a class="nav-link">
                             <i class="fas fa-text-width"></i> Description
                           </a>
-                          <input type="text" class="form-control form-control-sm col-md-6 mr-2 ml-auto "/>
+                          <input type="text" class="form-control form-control-sm col-md-6 mr-2 ml-auto " [(ngModel)]="desc"/>
 
                         </div>
                       </li>
@@ -74,7 +74,7 @@
                           <a class="nav-link">
                             <i class="fas fa-arrows-up-down"></i> Size
                           </a>
-                          <select class="form-control form-control-sm col-md-5 mr-2 ml-auto">
+                          <select class="form-control form-control-sm col-md-3 mr-2 ml-auto" [(ngModel)]="size">
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
@@ -149,7 +149,7 @@
 
                           <th>Nom Profil</th>
                           <th>Description</th>
-                          <th>Fonctions</th>
+                          <th>Liste des Fonctions</th>
 
                         </tr>
                         </thead>
@@ -313,13 +313,22 @@
 
                   </dl>
                   <div class="row">
-                    <div class="col-md-3 ml-auto">
-                      <button class="btn btn-sm btn-block bg-gradient-warning" type="button" (click)="updateProfil()">
-                        Update
-                        <i
-                          class="fa-regular fa-circle-check"></i>
-                      </button>
+                    <div class="btn-group btn-block d-flex justify-content-end">
+                      <div class="col-md-2">
+                        <button class="btn btn-sm btn-block bg-gradient-danger" type="button" (click)="Clear()">
+                          Cancel
+                          <i class="fa-regular fa-xmark-circle"></i>
+                        </button>
+                      </div>
+                      <div class="col-md-3">
+                        <button class="btn btn-sm btn-block bg-gradient-warning" type="button" (click)="updateProfil()">
+                          Update
+                          <i class="fa-regular fa-circle-check"></i>
+                        </button>
+                      </div>
                     </div>
+
+
                   </div>
                 </div>
 

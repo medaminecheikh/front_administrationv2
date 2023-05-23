@@ -14,6 +14,7 @@ import {PickListModule} from "primeng/picklist";
 import {ChipsModule} from "primeng/chips";
 import {ChipModule} from "primeng/chip";
 import {TagModule} from "primeng/tag";
+import {TooltipModule} from "primeng/tooltip";
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import {TagModule} from "primeng/tag";
         ChipsModule,
         ChipModule,
         TagModule,
+        TooltipModule,
 
 
     ]
