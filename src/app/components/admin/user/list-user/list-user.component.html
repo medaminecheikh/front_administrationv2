@@ -136,6 +136,7 @@
                     <th>Nom</th>
                     <th>Prenom</th>
                     <th>Etat</th>
+                    <th>Date creation</th>
                     <th>Date expiration</th>
                     <th>Matricule</th>
                     <th>Description</th>
@@ -152,9 +153,11 @@
                       <td><span *ngIf="user.estActif===1" > <p-tag icon="pi pi-check" severity="success" value=" Activer "></p-tag></span>
 
                         <span *ngIf="user.estActif===0" > <p-tag icon="pi pi-exclamation-triangle" severity="warning" value=" Desactiver "></p-tag></span></td>
-
-                      <td><i
-                        class=" text-oliver fas fa-clock-rotate-left"></i> {{user.date_EXPIRED | date :'MMMM d, y'}}
+                      <td><i class="text-oliver fas fa-calendar-plus"></i>
+                        {{user.date_CREATION | date :'MMMM d, y'}}
+                      </td>
+                      <td><i class=" text-oliver fas fa-clock-rotate-left"></i>
+                        {{user.date_EXPIRED | date :'MMMM d, y'}}
                       </td>
                       <td>{{user.matricule}}</td>
                       <td class="mailbox-subject-">{{user.descU}}</td>
