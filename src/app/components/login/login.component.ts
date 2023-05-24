@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth/auth.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
-import {AppComponent} from "../../app.component";
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -45,13 +44,13 @@ export class LoginComponent implements OnInit{
             // Reload the current URL
             window.location.reload();
           });
-        } else if (this.roles.includes('FO')&& data.caisse ){
+        } else if (this.roles.includes('BO')){
           this.router.navigate(['encaissement']).then(() => {
             // Reload the current URL
             window.location.reload();
 
           });
-        }else if (this.roles.includes('BO')){
+        }else if (this.roles.includes('FO') && data.caisse ){
           this.router.navigate(['encaissement']).then(() => {
             // Reload the current URL
             window.location.reload();
