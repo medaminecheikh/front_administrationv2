@@ -38,9 +38,7 @@ export class TokenStorageService {
     return null;
   }
 
-  public saveUser(user: any): void {
-    sessionStorage.setItem(USER_KEY, JSON.stringify(user));
-  }
+
 
   public isTokenExpired(): boolean {
     const token = this.getToken();
@@ -52,11 +50,16 @@ export class TokenStorageService {
     }
     return true;
   }
+  public saveUser(user: any): void {
+    const encryptedUser = AES.encrypt(JSON.stringify(user), SECRET_KEY).toString();
+    sessionStorage.setItem(USER_KEY, encryptedUser);
+  }
 
   public getUser(): any {
-    const user = sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return JSON.parse(user);
+    const encryptedUser = sessionStorage.getItem(USER_KEY);
+    if (encryptedUser) {
+      const decryptedUser = AES.decrypt(encryptedUser, SECRET_KEY).toString(enc.Utf8);
+      return JSON.parse(decryptedUser);
     }
     return {};
   }

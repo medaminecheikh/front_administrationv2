@@ -1,4 +1,5 @@
 import {ProfilUser} from "./ProfilUser";
+import {Caisse} from "./Caisse";
 
 export interface Utilisateur {
   idUser: String;
@@ -17,6 +18,7 @@ export interface Utilisateur {
   is_EXPIRED: number;
   date_EXPIRED: Date;
   profilUser: ProfilUser[];
+  caisse:Caisse;
   totalElements:number;
 }
 

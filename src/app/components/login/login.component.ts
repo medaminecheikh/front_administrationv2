@@ -3,6 +3,7 @@ import {AuthService} from "../../services/auth/auth.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {AppComponent} from "../../app.component";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit{
     password: '',
   };
 
-  constructor(private authService: AuthService,private toastr: ToastrService,
+  constructor(private authService: AuthService,private userService: UserService,private toastr: ToastrService,
               private router: Router) {
 
 
@@ -44,13 +45,19 @@ export class LoginComponent implements OnInit{
             // Reload the current URL
             window.location.reload();
           });
-        } else {
+        } else if (this.roles.includes('FO')&& data.caisse ){
           this.router.navigate(['encaissement']).then(() => {
             // Reload the current URL
             window.location.reload();
 
           });
-        }
+        }else if (this.roles.includes('BO')){
+          this.router.navigate(['encaissement']).then(() => {
+            // Reload the current URL
+            window.location.reload();
+
+          });
+        }else {this.toastr.error('Pas de Caisse pour ce compte !', 'error');}
 
       },
       (error) => {

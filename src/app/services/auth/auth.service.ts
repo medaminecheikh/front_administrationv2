@@ -38,9 +38,7 @@ export class AuthService {
           const user = {
             username: response.username || '',
             roles: response.roles || [],
-            accessToken: response.accessToken || '',
-            refreshToken: response.refreshToken || '',
-
+            caisse:response.caisse ||'',
           };
           this.tokenStorage.saveToken(response.accessToken);
           this.tokenStorage.saveRefreshToken(response.refreshToken);
@@ -57,25 +55,7 @@ export class AuthService {
   }
 
 
-  refreshToken(){
-    const refreshToken = sessionStorage.getItem('refreshToken');
-    if (refreshToken) {
-      return this.http.get<any>(this.host+'refreshtoken', { headers: { 'Authorization': 'Bearer ' + refreshToken } })
-        .pipe(map(response => {
-          const user = {
-            username: response.username,
-            roles: response.roles,
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken
-          };
-          sessionStorage.setItem('accessToken', response.accessToken);
-          sessionStorage.setItem('refreshToken', response.refreshToken);
-          this.setCurrentUser(user);
-          return user;
-        }));
-    }
-    return throwError('No refresh token available');
-  }
+
 
   setCurrentUser(user: CurrentUser | null): void {
     this.currentUserSubject.next(user);

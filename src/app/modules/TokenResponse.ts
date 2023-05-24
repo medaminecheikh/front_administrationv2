@@ -3,4 +3,5 @@ export interface CurrentUser {
   roles: string[];
   accessToken: string;
   refreshToken: string;
+  caisse:any;
 }

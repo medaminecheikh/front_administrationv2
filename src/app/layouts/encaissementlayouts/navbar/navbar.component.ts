@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth/auth.service";
+import {TokenStorageService} from "../../../services/auth/token-storage.service";
 
 @Component({
   selector: 'app-navbar',
@@ -9,14 +10,14 @@ import {AuthService} from "../../../services/auth/auth.service";
 })
 export class NavbarComponent implements OnInit{
   currentDate: Date = new Date();
-
-  constructor(private router: Router,private authService:AuthService) {}
+  caisse:any
+  constructor(private router: Router,private authService:AuthService,private tokenService:TokenStorageService) {}
 
 
   ngOnInit(): void {
+this.caisse=this.tokenService.getUser().caisse;
 
-
-
+console.log('!!!!!!!!',this.caisse)
   }
 
 
