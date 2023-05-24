@@ -48,103 +48,118 @@ export class AddUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchZones();
+    this.subscribeToZoneChanges();
+    this.subscribeToDregChanges();
+    this.subscribeToEttChanges();
+    this.fetchAllProfiles();
+    this.initializeForm();
+  }
 
-
-      // Fetch the list of zones on component initialization
+  fetchZones(): void {
     this.zoneService.getZones().subscribe(
       zones => this.zones = zones,
       error => console.error(error)
     );
-    // Subscribe to the value changes of the zone form control
-    this.zone.valueChanges.subscribe(
-      zoneId => {
-        this.onSelectionzone();
-        // Fetch the associated dreginals when the zone value changes
-        if (zoneId) {
-          const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
-          if (selectedZone){this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
-            dreginals => {
-              this.dreginals = dreginals;
-              this.dreg.reset();
-              this.ett.reset();
-            },
-            error => console.error(error)
-          );}
-        } else {
-          this.dreg.reset();
-          this.ett.reset();
-          this.dreginals = [];
-          this.etts = [];
-        }
-      }
-    );
-    // Subscribe to the value changes of the dreg form control
-    this.dreg.valueChanges.subscribe(
-      dregId => {
-        this.onSelectionzone();
-        // Fetch the associated etts when the dreg value changes
-        if (dregId) {
-          const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
-          if(selectedDreg){
-            this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
-            etts => {
-              this.etts = etts;
-              this.ett.reset(); // reset the ett form control
-              this.ettselected = null; // reset the selected ett
-            },
-            error => console.error(error)
-          );}
-          else {
-            this.dreg.reset();
-            this.ett.reset();
-            this.dreginals = [];
-            this.etts = [];
-          }
-        }
-      }
-    );
-    // Subscribe to the value changes of the dreg form control
-    this.ett.valueChanges.subscribe(value => this.ettselected=value);
+  }
 
-    // Fetch all profiles
+  subscribeToZoneChanges(): void {
+    this.zone.valueChanges.subscribe(zoneId => {
+      this.onSelectionzone();
+      if (zoneId) {
+        const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
+        if (selectedZone) {
+          this.fetchDregionals(selectedZone.idZone);
+        }
+      } else {
+        this.resetDregEttSelections();
+      }
+    });
+  }
+
+  subscribeToDregChanges(): void {
+    this.dreg.valueChanges.subscribe(dregId => {
+      this.onSelectionzone();
+      if (dregId) {
+        const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
+        if (selectedDreg) {
+          this.fetchEtts(selectedDreg.idDr);
+        }
+      } else {
+        this.resetDregEttSelections();
+      }
+    });
+  }
+
+  subscribeToEttChanges(): void {
+    this.ett.valueChanges.subscribe(value => this.ettselected = value);
+  }
+
+  fetchAllProfiles(): void {
     this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
       this.profils = data;
-      // Initialize filteredProfils with all profiles
       this.filteredProfils = data.filter(profil => profil.nomP !== 'ADMIN');
     });
+  }
 
-
-
-
+  initializeForm(): void {
     this.utilisateurForm = this.formBuilder.group({
       login: ['', [Validators.required, this.noWhitespaceValidator]],
-    nomU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
-    pwdU: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
-    confirmedpassword: ['', Validators.required],
-    prenU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
-    descU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
-    matricule: ['', [Validators.required, this.noWhitespaceStartorEnd]],
-    estActif: ['', Validators.required],
-    f_ADM_CEN: ["0", Validators.required],
-    is_EXPIRED: ['', Validators.required],
-    date_EXPIRED: ['', Validators.required]
-  }, {validator: this.passwordMatchValidator});
+      nomU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+      pwdU: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
+      confirmedpassword: ['', Validators.required],
+      prenU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+      descU: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+      matricule: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+      estActif: ['', Validators.required],
+      f_ADM_CEN: ["0", Validators.required],
+      is_EXPIRED: ['', Validators.required],
+      date_EXPIRED: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
 
+    this.subscribeToAdmCenChanges();
+  }
 
-    // Create valueChanges subscription for f_ADM_CEN
+  fetchDregionals(zoneId: string): void {
+    this.dregionalService.getDregionalsByZone(zoneId).subscribe(
+      dreginals => {
+        this.dreginals = dreginals;
+        this.dreg.reset();
+        this.ett.reset();
+      },
+      error => console.error(error)
+    );
+  }
+
+  fetchEtts(dregId: string): void {
+    this.ettService.getEttsByDrId(dregId).subscribe(
+      etts => {
+        this.etts = etts;
+        this.ett.reset();
+        this.ettselected = null;
+      },
+      error => console.error(error)
+    );
+  }
+
+  resetDregEttSelections(): void {
+    this.dreg.reset();
+    this.ett.reset();
+    this.dreginals = [];
+    this.etts = [];
+  }
+
+  subscribeToAdmCenChanges(): void {
     this.utilisateurForm.get('f_ADM_CEN')?.valueChanges.subscribe(value => {
       if (value === "1") {
-        // Filter and assign filteredProfils array
         this.filteredProfils = this.profils.filter(profil => profil.nomP === 'ADMIN');
       } else if (value === "0") {
-        // Filter and assign filteredProfils array
         this.filteredProfils = this.profils.filter(profil => profil.nomP !== 'ADMIN');
       }
-      // Reset the selected profil
       this.profilSelected = [];
     });
-
   }
+
   noWhitespaceValidator(control: FormControl): ValidationErrors | null {
     const value = control.value || '';
     const hasWhitespace = value.includes(' ');
