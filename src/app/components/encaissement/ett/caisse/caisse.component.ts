@@ -19,11 +19,10 @@ import {Ett} from "../../../../modules/Ett";
   styleUrls: ['./caisse.component.scss']
 })
 export class CaisseComponent implements OnInit{
-  showError: boolean = false;
   zone = new FormControl();
   dreg = new FormControl();
   ett = new FormControl();
-
+  listCaisse:Caisse[]=[];
   caisseForm !: FormGroup;
   caisse!:Caisse;
   usersfromett :Utilisateur[]=[] ;
@@ -46,7 +45,9 @@ export class CaisseComponent implements OnInit{
     this.searchCaisse();
     this.initializeForm();
   }
-  searchCaisse(){}
+  searchCaisse(){
+
+  }
 
 
   fetchZones(): void {
