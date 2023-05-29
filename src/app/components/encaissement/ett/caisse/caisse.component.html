@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Dashboard Profil</h1>
+          <h1 class="m-0">Gestion Caisse</h1>
         </div>
 
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a routerLink="/profil/list">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard Profil</li>
+            <li class="breadcrumb-item"><a routerLink="/encaissement/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Gestion Caisse</li>
           </ol>
         </div>
       </div>
@@ -22,147 +22,173 @@
         <div class="col-md-12 ">
 
           <section class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <button type="button"  class="btn btn-primary btn-block mb-3">Search </button>
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title"> Filters</h3>
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="card-body p-0" style="display: block;">
-                    <ul class="nav nav-pills flex-column">
-                      <li class="nav-item active">
-                        <a href="#" class="nav-link">
-                          <i class="fas fa-inbox"></i> Inbox
-                          <span class="badge bg-primary float-right">12</span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="far fa-envelope"></i> Sent
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="far fa-file-alt"></i> Drafts
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="fas fa-filter"></i> Junk
-                          <span class="badge bg-warning float-right">65</span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="far fa-trash-alt"></i> Trash
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-
+            <div class="row ml-1">
+              <div class="card card-primary card-outline col-md-12">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-edit"></i>
+                    Gérer les Caisses
+                  </h3>
                 </div>
+                <div class="card-body">
+                  <h4>Left Sided</h4>
+                  <div class="row">
+                    <div class="col-3 col-sm-2">
+                      <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist"
+                           aria-orientation="vertical">
+                        <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home"
+                           role="tab" aria-controls="vert-tabs-home" aria-selected="true"><i
+                          class="fas fa-list-dots"></i> Liste des Caisses</a>
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile"
+                           role="tab" aria-controls="vert-tabs-profile" aria-selected="false"><i
+                          class="fas fa-cash-register"></i> Creation Caisse</a>
+                        <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages"
+                           role="tab" aria-controls="vert-tabs-messages" aria-selected="false"><i
+                          class="fas fa-arrows-down-to-people"></i> Affecter Caisse</a>
+                        <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings"
+                           role="tab" aria-controls="vert-tabs-settings" aria-selected="false"><i
+                          class="fas fa-pen-fancy"></i> Update Caisse</a>
+                      </div>
+                    </div>
+                    <div class="col-7 col-sm-10">
+                      <div class="tab-content" id="vert-tabs-tabContent">
+                        <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel"
+                             aria-labelledby="vert-tabs-home-tab">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui
+                          molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam
+                          odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt
+                          nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et
+                          netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit.
+                          Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae
+                          lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in
+                          quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum
+                          at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel"
+                             aria-labelledby="vert-tabs-profile-tab">
 
-              </div>
-
-              <div class="col-md-9">
-                <div class="card card-primary card-outline">
-                  <div class="card-header">
-                    <h3 class="card-title">Inbox</h3>
-                    <div class="card-tools">
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" placeholder="Search Mail">
-                        <div class="input-group-append">
-                          <div class="btn btn-primary">
-                            <i class="fas fa-search"></i>
+                          <div class="row">
+                            <div class="col-md-7">
+                              <p-divider align="left">
+                                <div class="inline-flex align-items-center">
+                                  <i class="fas fa-shop mr-2"></i>
+                                  <b>Espace TT</b>
+                                </div>
+                              </p-divider>
+                            </div>
+                            <div class="col-md-5">
+                              <p-divider align="left">
+                                <div class="inline-flex align-items-center">
+                                  <i class="fas fa-user-circle mr-2"></i>
+                                  <b>Choisir Compte</b>
+                                </div>
+                              </p-divider>
+                            </div>
                           </div>
+                          <div class="row">
+                            <div class="col-md-7">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label>Zone</label>
+                                    <div class="input-group input-group-sm">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                                      </div>
+                                      <select class="form-control" [formControl]="zone">
+                                        <option value="">-- Clear --</option>
+                                        <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE}}</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label>Direction Regionale</label>
+                                    <div class="input-group input-group-sm">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-city"></i></span>
+                                      </div>
+                                      <select class="form-control" [formControl]="dreg">
+                                        <option value="">-- Clear --</option>
+                                        <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr}}</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label>Espace TT</label>
+                                    <div class="input-group input-group-sm">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-shop"></i></span>
+                                      </div>
+                                      <select class="form-control" [formControl]="ett">
+                                        <option value="">-- Clear --</option>
+                                        <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-1">
+                              <p-divider layout="vertical"></p-divider>
+                            </div>
+
+                            <div class="col-md-3 ">
+                              <div class="form-group">
+                                <label>Utilisateur</label>
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                                  </div>
+                                  <select class="form-control" [ngModel]="userselected">
+                                    <option value="">-- Clear --</option>
+                                    <option *ngFor="let item of usersfromett" [value]="item.idUser">{{item.login}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="row mr-2">
+                            <div class="col-3 ml-auto">
+                              <button class="btn btn-sm btn-block bg-gradient-success" type="button" (click)="addCaisse()">Save <i
+                                class="fa-regular fa-circle-check"></i></button>
+                            </div>
+                          </div>
+                        <div class="col-md-4">
+
+                        </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel"
+                             aria-labelledby="vert-tabs-messages-tab">
+                          Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat
+                          augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit
+                          sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut
+                          velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus
+                          tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet
+                          sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum
+                          gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt
+                          eleifend ac ornare magna.
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel"
+                             aria-labelledby="vert-tabs-settings-tab">
+                          Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis
+                          ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate.
+                          Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec
+                          interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at
+                          consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst.
+                          Praesent imperdiet accumsan ex sit amet facilisis.
                         </div>
                       </div>
                     </div>
-
                   </div>
 
-                  <div class="card-body p-0">
-                    <div class="mailbox-controls">
-
-                      <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                      </button>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm">
-                          <i class="far fa-trash-alt"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm">
-                          <i class="fas fa-reply"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm">
-                          <i class="fas fa-share"></i>
-                        </button>
-                      </div>
-
-                      <button type="button" class="btn btn-default btn-sm">
-                        <i class="fas fa-sync-alt"></i>
-                      </button>
-                      <div class="float-right">
-                        1-50/200
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-default btn-sm">
-                            <i class="fas fa-chevron-left"></i>
-                          </button>
-                          <button type="button" class="btn btn-default btn-sm">
-                            <i class="fas fa-chevron-right"></i>
-                          </button>
-                        </div>
-
-                      </div>
-
-                    </div>
-                    <div class="table-responsive mailbox-messages">
-                      <table class="table table-hover table-striped">
-                        <tbody>
-                        <tr>
-                          <td>
-                            <div class="icheck-primary">
-                              <input type="checkbox" value="" id="check1">
-                              <label for="check1"></label>
-                            </div>
-                          </td>
-                          <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
-                          <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
-                            problem...
-                          </td>
-                          <td class="mailbox-attachment"></td>
-                          <td class="mailbox-date">5 mins ago</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="icheck-primary">
-                              <input type="checkbox" value="" id="check2">
-                              <label for="check2"></label>
-                            </div>
-                          </td>
-                          <td class="mailbox-star"><a href="#"><i class="fas fa-star-o text-warning"></i></a></td>
-                          <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                          <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this
-                            problem...
-                          </td>
-                          <td class="mailbox-attachment"><i class="fas fa-paperclip"></i></td>
-                          <td class="mailbox-date">28 mins ago</td>
-                        </tr>
-
-
-                        </tbody>
-                      </table>
-
-                    </div>
-
-                  </div>
                 </div>
+
               </div>
             </div>
           </section>

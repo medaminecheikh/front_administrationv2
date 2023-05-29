@@ -23,13 +23,15 @@ export class CaisseComponent implements OnInit{
   zone = new FormControl();
   dreg = new FormControl();
   ett = new FormControl();
+
   caisseForm !: FormGroup;
   caisse!:Caisse;
-  usersfromett :Utilisateur[]=[];
+  usersfromett :Utilisateur[]=[] ;
   zones: Zone[] = [];
   dreginals: Dregional[] = [];
   etts: Ett[] = [];
-  ettselected: any;
+  ettselected !: Ett |null ;
+  userselected!:Utilisateur;
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
               private ettService: EttService,
@@ -41,14 +43,11 @@ export class CaisseComponent implements OnInit{
     this.subscribeToZoneChanges();
     this.subscribeToDregChanges();
     this.subscribeToEttChanges();
-    this.getusersbyEtt();
     this.searchCaisse();
 
   }
   searchCaisse(){}
-  getusersbyEtt(){
 
-  }
 
   fetchZones(): void {
     this.zoneService.getZones().subscribe(
@@ -87,6 +86,9 @@ export class CaisseComponent implements OnInit{
 
   subscribeToEttChanges(): void {
     this.ett.valueChanges.subscribe(value => this.ettselected = value);
+    if (this.ettselected){
+    this.usersfromett=this.ettselected.utilisateurs;
+    }else this.usersfromett=[];
   }
 
   fetchDregionals(zoneId: string): void {
@@ -122,4 +124,10 @@ export class CaisseComponent implements OnInit{
     this.ettselected = null;
     this.etts = [];
   }
+
+  addCaisse() {
+
+  }
+
+
 }

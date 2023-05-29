@@ -5,6 +5,9 @@ import { EttRoutingModule } from './ett-routing.module';
 import { CaisseComponent } from './caisse/caisse.component';
 import { PaiementComponent } from './paiement/paiement.component';
 import { ValidationComponent } from './validation/validation.component';
+import {DividerModule} from "primeng/divider";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DropdownModule} from "primeng/dropdown";
 
 
 @NgModule({
@@ -15,7 +18,11 @@ import { ValidationComponent } from './validation/validation.component';
   ],
   imports: [
     CommonModule,
-    EttRoutingModule
+    EttRoutingModule,
+    DividerModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    FormsModule
   ]
 })
 export class EttModule { }
