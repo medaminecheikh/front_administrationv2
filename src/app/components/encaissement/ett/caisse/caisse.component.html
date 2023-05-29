@@ -25,23 +25,22 @@
             <div class="row ml-1">
               <div class="card card-primary card-outline col-md-12">
                 <div class="card-header">
-                  <h3 class="card-title">
-                    <i class="fas fa-edit"></i>
-                    Gérer les Caisses
-                  </h3>
+                  
                 </div>
                 <div class="card-body">
-                  <h4>Left Sided</h4>
+                  <h4>Barre de Gestion</h4>
                   <div class="row">
                     <div class="col-3 col-sm-2">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist"
                            aria-orientation="vertical">
                         <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home"
-                           role="tab" aria-controls="vert-tabs-home" aria-selected="true"><i
-                          class="fas fa-list-dots"></i> Liste des Caisses</a>
+                           role="tab" aria-controls="vert-tabs-home" aria-selected="true">
+                          <i class="fas fa-cash-register"></i> Creation Caisse
+                        </a>
                         <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile"
-                           role="tab" aria-controls="vert-tabs-profile" aria-selected="false"><i
-                          class="fas fa-cash-register"></i> Creation Caisse</a>
+                           role="tab" aria-controls="vert-tabs-profile" aria-selected="false">
+                          <i class="fas fa-list-dots"></i> Liste des Caisses
+                          </a>
                         <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages"
                            role="tab" aria-controls="vert-tabs-messages" aria-selected="false"><i
                           class="fas fa-arrows-down-to-people"></i> Affecter Caisse</a>
@@ -54,19 +53,53 @@
                       <div class="tab-content" id="vert-tabs-tabContent">
                         <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel"
                              aria-labelledby="vert-tabs-home-tab">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui
-                          molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam
-                          odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt
-                          nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et
-                          netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit.
-                          Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae
-                          lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in
-                          quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum
-                          at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
-                        </div>
-                        <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel"
-                             aria-labelledby="vert-tabs-profile-tab">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p-divider align="left">
+                                <div class="inline-flex align-items-center">
+                                  <i class="fas fa-cash-register mr-2"></i>
+                                  <b>Données du Caisse</b>
+                                </div>
+                              </p-divider>
+                            </div>
+                          </div>
+                          <form [formGroup]="caisseForm">
+                            <div class="row ml-2">
 
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label> N° Caisse : </label>
+                                  <div class="input-group input-group-sm">
+
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-list-numeric"></i></span>
+                                    </div>
+                                    <select formControlName="numCaise" class="form-control ">
+                                      <option value="" disabled>-- Choisir --</option>
+                                      <option value="0">Valid</option>
+                                      <option value="1">Expired</option>
+                                    </select>
+
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 ml-4">
+                                <div class="form-group">
+                                  <label>Status :</label>
+                                  <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                                    </div>
+                                    <select formControlName="f_Actif" class="form-control">
+                                      <option value="" disabled>-- Choisir --</option>
+                                      <option value="1">Activer</option>
+                                      <option value="0">Desactiver</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
                           <div class="row">
                             <div class="col-md-7">
                               <p-divider align="left">
@@ -85,7 +118,7 @@
                               </p-divider>
                             </div>
                           </div>
-                          <div class="row">
+                          <div class="row ml-2">
                             <div class="col-md-7">
                               <div class="row">
                                 <div class="col-md-4">
@@ -97,7 +130,8 @@
                                       </div>
                                       <select class="form-control" [formControl]="zone">
                                         <option value="">-- Clear --</option>
-                                        <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE}}</option>
+                                        <option *ngFor="let item of zones"
+                                                [value]="item.idZone">{{item.cod_ZONE}}</option>
                                       </select>
                                     </div>
                                   </div>
@@ -145,22 +179,33 @@
                                   </div>
                                   <select class="form-control" [ngModel]="userselected">
                                     <option value="">-- Clear --</option>
-                                    <option *ngFor="let item of usersfromett" [value]="item.idUser">{{item.login}}</option>
+                                    <option *ngFor="let item of usersfromett"
+                                            [value]="item.idUser">{{item.login}}</option>
                                   </select>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p-divider></p-divider>
+                            </div>
+                          </div>
                           <br>
                           <div class="row mr-2">
                             <div class="col-3 ml-auto">
-                              <button class="btn btn-sm btn-block bg-gradient-success" type="button" (click)="addCaisse()">Save <i
+                              <button class="btn btn-sm btn-block bg-gradient-success" type="button"
+                                      (click)="addCaisse()">Save <i
                                 class="fa-regular fa-circle-check"></i></button>
                             </div>
                           </div>
-                        <div class="col-md-4">
+                          <div class="col-md-4">
 
+                          </div>
                         </div>
+                        <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel"
+                             aria-labelledby="vert-tabs-profile-tab">
+
 
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel"

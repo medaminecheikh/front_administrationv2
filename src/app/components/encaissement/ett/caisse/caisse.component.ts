@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Caisse} from "../../../../modules/Caisse";
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {ZoneService} from "../../../../services/zone.service";
@@ -44,7 +44,7 @@ export class CaisseComponent implements OnInit{
     this.subscribeToDregChanges();
     this.subscribeToEttChanges();
     this.searchCaisse();
-
+    this.initializeForm();
   }
   searchCaisse(){}
 
@@ -123,6 +123,12 @@ export class CaisseComponent implements OnInit{
     this.ett.reset();
     this.ettselected = null;
     this.etts = [];
+  }
+  initializeForm(): void {
+    this.caisseForm = this.formBuilder.group({
+      numCaise: ['', Validators.required],
+      f_Actif: ['0', Validators.required]
+    })
   }
 
   addCaisse() {
