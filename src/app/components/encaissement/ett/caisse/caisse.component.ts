@@ -46,7 +46,7 @@ export class CaisseComponent implements OnInit{
     this.initializeForm();
   }
   searchCaisse(){
-
+    this.caisseService.listCaisses().subscribe(value => this.listCaisse=value)
   }
 
 

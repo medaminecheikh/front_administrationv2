@@ -209,19 +209,34 @@
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel"
                              aria-labelledby="vert-tabs-profile-tab">
-
+                          <div class="card" style="height: 600px">
+                            <p-table [value]="listCaisse" [tableStyle]="{'min-width': '60rem'}">
+                              <ng-template pTemplate="header">
+                                <tr>
+                                  <th pSortableColumn="numCaise" style="width:20%">N°Caisse <p-sortIcon field="numCaise"></p-sortIcon></th>
+                                  <th pSortableColumn="adr" style="width:20%">Espace TT <p-sortIcon field="adr"></p-sortIcon></th>
+                                  <th pSortableColumn="f_Actif" style="width:20%">Status <p-sortIcon field="f_Actif"></p-sortIcon></th>
+                                  <th pSortableColumn="login" style="width:20%">Compte <p-sortIcon field="login"></p-sortIcon></th>
+                                  <th style="width:20%">Delete </th>
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-caisse>
+                                <tr>
+                                  <td>{{caisse.numCaise}}</td>
+                                  <td>{{caisse.cod_ett.adr}}</td>
+                                  <td>{{caisse.f_Actif}}</td>
+                                  <td>{{caisse.login.login}}</td>
+                                  <td><button></button></td>
+                                </tr>
+                              </ng-template>
+                            </p-table>
+                          </div>
 
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel"
                              aria-labelledby="vert-tabs-messages-tab">
-                          Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat
-                          augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit
-                          sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut
-                          velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus
-                          tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet
-                          sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum
-                          gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt
-                          eleifend ac ornare magna.
+
+
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel"
                              aria-labelledby="vert-tabs-settings-tab">

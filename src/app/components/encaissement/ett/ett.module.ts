@@ -8,6 +8,7 @@ import { ValidationComponent } from './validation/validation.component';
 import {DividerModule} from "primeng/divider";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
+import {TableModule} from "primeng/table";
 
 
 @NgModule({
@@ -16,13 +17,14 @@ import {DropdownModule} from "primeng/dropdown";
     PaiementComponent,
     ValidationComponent
   ],
-  imports: [
-    CommonModule,
-    EttRoutingModule,
-    DividerModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        EttRoutingModule,
+        DividerModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        FormsModule,
+        TableModule
+    ]
 })
 export class EttModule { }
