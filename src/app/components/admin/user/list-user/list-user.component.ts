@@ -68,81 +68,15 @@ export class ListUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchUsers();
+    this.fetchZones();
+    this.subscribeToZoneChanges();
+    this.subscribeToDregChanges();
+    this.subscribeToEttChanges();
+    this.initializeForm();
 
-
-    // Fetch the list of zones on component initialization
-    this.zoneService.getZones().subscribe(
-      zones => this.zones = zones,
-      error => console.error(error)
-    );
-    // Subscribe to the value changes of the zone form control
-    this.zone.valueChanges.subscribe(
-      zoneId => {
-        this.onSelectionzone();
-        // Fetch the associated dreginals when the zone value changes
-        if (zoneId) {
-          const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
-          if (selectedZone) {
-            this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
-              dreginals => {
-                this.dreginals = dreginals;
-                this.dreg.reset();
-                this.ett.reset();
-              },
-              error => console.error(error)
-            );
-          }
-        } else {
-          this.dreg.reset();
-          this.ett.reset();
-          this.dreginals = [];
-          this.etts = [];
-        }
-      }
-    );
-    // Subscribe to the value changes of the dreg form control
-    this.dreg.valueChanges.subscribe(
-      dregId => {
-        this.onSelectionzone();
-        // Fetch the associated etts when the dreg value changes
-        if (dregId) {
-          const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
-          if (selectedDreg) {
-            this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
-              etts => {
-                this.etts = etts;
-                this.ett.reset(); // reset the ett form control
-                this.ettselected = null; // reset the selected ett
-              },
-              error => console.error(error)
-            );
-          } else {
-            this.dreg.reset();
-            this.ett.reset();
-            this.dreginals = [];
-            this.etts = [];
-          }
-        }
-      }
-    );
-    // Subscribe to the value changes of the dreg form control
-    this.ett.valueChanges.subscribe(value => this.ettselected = value);
     this.getAllProfils();
 
-    this.utilisateurForm = this.formBuilder.group({
-      login: [''],
-      idUser: [''],
-      nomU: ['',this.noWhitespaceStartorEnd],
-      pwdU: [null, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
-      confirmedpassword: [null, Validators.required],
-      prenU: ['',this.noWhitespaceStartorEnd],
-      descU: ['',this.noWhitespaceStartorEnd],
-      matricule: ['',this.noWhitespaceStartorEnd],
-      estActif: [''],
-      f_ADM_CEN: [''],
-      is_EXPIRED: [''],
-      date_EXPIRED: ['']
-    }, {validator: this.passwordMatchValidator});
+
 
 
   }
@@ -191,6 +125,7 @@ export class ListUserComponent implements OnInit {
       is_EXPIRED: user.is_EXPIRED,
       date_EXPIRED: user.date_EXPIRED
     });
+
     this.profilSelected = user.profilUser.map(value => value.profil);
     this.updateFiltredProfils();
     // Create valueChanges subscription for f_ADM_CEN
@@ -337,6 +272,9 @@ export class ListUserComponent implements OnInit {
   Clear() {
     this.utilisateurUpdate = null;
     this.utilisateurForm.reset();
+    this.ett.reset();
+    this.zone.reset();
+    this.dreg.reset();
     this.profilSelected = [];
     this.getAllProfils();
     this.addedProfils = [];
@@ -372,7 +310,8 @@ export class ListUserComponent implements OnInit {
         }
 
         if (this.ettselected) {
-          requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected.idEtt));
+          console.log("ettselected",this.ettselected)
+          requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected));
         }
         if (utilisateur) {
           requests.push(this.userService.updateUser(utilisateur));
@@ -425,4 +364,92 @@ export class ListUserComponent implements OnInit {
     this.size = 10;
 
   }
+
+   fetchZones() {
+     // Fetch the list of zones on component initialization
+     this.zoneService.getZones().subscribe(
+       zones => this.zones = zones,
+       error => console.error(error)
+     );
+  }
+
+  private subscribeToZoneChanges() {
+    // Subscribe to the value changes of the zone form control
+    this.zone.valueChanges.subscribe(
+      zoneId => {
+        this.onSelectionzone();
+        // Fetch the associated dreginals when the zone value changes
+        if (zoneId) {
+          const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
+          if (selectedZone) {
+            this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
+              dreginals => {
+                this.dreginals = dreginals;
+                this.dreg.reset();
+                this.ett.reset();
+              },
+              error => console.error(error)
+            );
+          }
+        } else {
+          this.dreg.reset();
+          this.ett.reset();
+          this.dreginals = [];
+          this.etts = [];
+        }
+      }
+    );
+  }
+
+  private subscribeToDregChanges() {
+    // Subscribe to the value changes of the dreg form control
+    this.dreg.valueChanges.subscribe(
+      dregId => {
+        this.onSelectionzone();
+        // Fetch the associated etts when the dreg value changes
+        if (dregId) {
+          const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
+          if (selectedDreg) {
+            this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
+              etts => {
+                this.etts = etts;
+                this.ett.reset(); // reset the ett form control
+                this.ettselected = null; // reset the selected ett
+              },
+              error => console.error(error)
+            );
+          } else {
+            this.dreg.reset();
+            this.ett.reset();
+            this.dreginals = [];
+            this.etts = [];
+          }
+        }
+      }
+    );
+  }
+
+  private subscribeToEttChanges() {
+    // Subscribe to the value changes of the dreg form control
+    this.ett.valueChanges.subscribe(value => this.ettselected = value);
+  }
+
+  private initializeForm() {
+    this.utilisateurForm = this.formBuilder.group({
+      login: [''],
+      idUser: [''],
+      nomU: ['',this.noWhitespaceStartorEnd],
+      pwdU: [null, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
+      confirmedpassword: [null, Validators.required],
+      prenU: ['',this.noWhitespaceStartorEnd],
+      descU: ['',this.noWhitespaceStartorEnd],
+      matricule: ['',this.noWhitespaceStartorEnd],
+      estActif: [''],
+      f_ADM_CEN: [''],
+      is_EXPIRED: [''],
+      date_EXPIRED: ['']
+    }, {validator: this.passwordMatchValidator});
+  }
+
+
 }

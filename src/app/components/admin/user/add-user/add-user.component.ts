@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Profil} from "../../../../modules/Profil";
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Utilisateur} from "../../../../modules/Utilisateur";
@@ -13,26 +13,24 @@ import {Router} from "@angular/router";
 import {EttService} from "../../../../services/ett.service";
 import {DrService} from "../../../../services/dr.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {SECRET_KEY} from "../../../../guards/constants";
 import {catchError, from, mergeMap, of, switchMap, tap, throwError} from "rxjs";
-import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss']
 })
-export class AddUserComponent implements OnInit {
+export class AddUserComponent implements OnInit, OnDestroy {
   showError: boolean = false;
   zone = new FormControl();
-  dreg = new FormControl();
-  ett = new FormControl();
+  directionreg: FormControl = new FormControl();
+  ett: FormControl = new FormControl();
   utilisateurForm !: FormGroup;
   utilisateur!: Utilisateur;
   profils: Profil[] = [];
   profilSelected: Profil[] = [];
   zones: Zone[] = [];
-  dreginals: Dregional[] = [];
+  dregionals: Dregional[] = [];
   etts: Ett[] = [];
   ettselected: any;
   showPassword: boolean = false;
@@ -78,10 +76,10 @@ export class AddUserComponent implements OnInit {
   }
 
   subscribeToDregChanges(): void {
-    this.dreg.valueChanges.subscribe(dregId => {
+    this.directionreg.valueChanges.subscribe(dregId => {
       this.onSelectionzone();
       if (dregId) {
-        const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
+        const selectedDreg = this.dregionals.find(dreg => dreg.idDr === dregId);
         if (selectedDreg) {
           this.fetchEtts(selectedDreg.idDr);
         }
@@ -122,30 +120,30 @@ export class AddUserComponent implements OnInit {
 
   fetchDregionals(zoneId: string): void {
     this.dregionalService.getDregionalsByZone(zoneId).subscribe(
-      dreginals => {
-        this.dreginals = dreginals;
-        this.dreg.reset();
+      (dregionals) => {
+        this.dregionals = dregionals;
+        this.directionreg.reset();
         this.ett.reset();
       },
-      error => console.error(error)
+      (error) => console.error(error)
     );
   }
 
   fetchEtts(dregId: string): void {
     this.ettService.getEttsByDrId(dregId).subscribe(
-      etts => {
+      (etts) => {
         this.etts = etts;
         this.ett.reset();
         this.ettselected = null;
       },
-      error => console.error(error)
+      (error) => console.error(error)
     );
   }
 
   resetDregEttSelections(): void {
-    this.dreg.reset();
+    this.directionreg.reset();
     this.ett.reset();
-    this.dreginals = [];
+    this.ettselected = null;
     this.etts = [];
   }
 
@@ -269,6 +267,10 @@ passwordMatchValidator(formGroup: FormGroup) {
     } else {this.showError=true;
       this.toastr.warning('Please fill form correctly.', 'Warning');
     }
+  }
+
+  ngOnDestroy(): void {
+
   }
 
 

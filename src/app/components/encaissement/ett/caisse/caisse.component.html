@@ -144,9 +144,9 @@
                                       <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-city"></i></span>
                                       </div>
-                                      <select class="form-control" [formControl]="dreg">
+                                      <select class="form-control" [formControl]="directionreg">
                                         <option value="">-- Clear --</option>
-                                        <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr}}</option>
+                                        <option *ngFor="let item of dregionals" [value]="item.idDr">{{item.dr}}</option>
                                       </select>
                                     </div>
                                   </div>
@@ -217,7 +217,7 @@
                                   <th pSortableColumn="adr" style="width:20%">Espace TT <p-sortIcon field="adr"></p-sortIcon></th>
                                   <th pSortableColumn="f_Actif" style="width:20%">Status <p-sortIcon field="f_Actif"></p-sortIcon></th>
                                   <th pSortableColumn="login" style="width:20%">Compte <p-sortIcon field="login"></p-sortIcon></th>
-                                  <th style="width:20%">Delete </th>
+                                  <th style="width:20%">Supprimer </th>
                                 </tr>
                               </ng-template>
                               <ng-template pTemplate="body" let-caisse>
@@ -226,7 +226,7 @@
                                   <td>{{caisse.cod_ett.adr}}</td>
                                   <td>{{caisse.f_Actif}}</td>
                                   <td>{{caisse.login.login}}</td>
-                                  <td><button></button></td>
+                                  <td><button class="btn btn-sm bg-gradient-danger"><i class="fas fa-trash-can"></i></button></td>
                                 </tr>
                               </ng-template>
                             </p-table>

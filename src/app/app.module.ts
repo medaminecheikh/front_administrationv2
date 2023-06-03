@@ -20,6 +20,8 @@ import {EncaissementlayoutsModule} from "./layouts/encaissementlayouts/encaissem
 import {EncaissementModule} from "./components/encaissement/encaissement.module";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
+import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
+import {TokenStorageService} from "./services/auth/token-storage.service";
 
 @NgModule({
   declarations: [
@@ -54,10 +56,10 @@ import {RippleModule} from "primeng/ripple";
     ButtonModule,
     RippleModule,
 
-
   ],
   providers: [ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}],
   exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
