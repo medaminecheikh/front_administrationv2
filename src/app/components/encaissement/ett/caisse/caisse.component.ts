@@ -105,13 +105,15 @@ export class CaisseComponent implements OnInit, OnDestroy {
     this.ettSubscription = this.ett.valueChanges.subscribe((value) => {
       this.ettselected = value
       console.log("values",value)
+      console.log("values",this.ettselected)
     });
 
     this.getusersfromett();
   }
   getusersfromett(){
-    console.log("STARTED §§§§")
+
     if (this.ettselected){
+      console.log("STARTED §§§§")
       this.usersfromett=this.ettselected.utilisateurs;
       console.log(this.usersfromett)}
 
