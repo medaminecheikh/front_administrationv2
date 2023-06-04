@@ -63,10 +63,10 @@
     </li>
     <li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="javascript:void(0)" class="nav-link"><i class="fas fa-city"></i> Dr | {{user.ett.adr | titlecase}} |</a>
+      <a href="javascript:void(0)" class="nav-link  text-bold"><i class="fas fa-city"></i> {{dr?.dr |titlecase}} </a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-    <a href="javascript:void(0)" class="nav-link "><i class="fas fa-clock"></i> {{ currentDate | date:'HH:mm' }}</a>
+    <a href="javascript:void(0)" class="nav-link  text-info"><i class="fas fa-clock"></i> {{ currentDate | date:'HH:mm' }}</a>
     </li>
   </ul>
 </nav>
