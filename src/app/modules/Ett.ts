@@ -1,6 +1,7 @@
 import {Utilisateur} from "./Utilisateur";
 import {Dregional} from "./Dregional";
 import { Zone } from "./Zone";
+import {Caisse} from "./Caisse";
 
 export interface Ett {
   adr: string;
@@ -9,6 +10,7 @@ export interface Ett {
   des_SRC_ENC: string;
   dregional: Dregional;
   idEtt: string;
+  caisses:Caisse[];
   is_BSCS: number;
   prfx_SRC_ENC: string;
   totalElements: number;

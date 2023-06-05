@@ -78,8 +78,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   subscribeToZoneChanges(): void {
     this.zoneSubscription = this.zone.valueChanges.subscribe(zoneId => {
-      this.onSelectionzone();
-      this.directionreg.reset();
+      this.dregionals=[];
       if (zoneId) {
         this.fetchDregionals(zoneId);
       } else {
@@ -105,14 +104,23 @@ export class CaisseComponent implements OnInit, OnDestroy {
       if (typeof value === 'undefined') {
         return;
       }
-
       this.ettselected = value;
       this.userselected = null;
       this.usersfromett = [];
       this.getUsersFromEtt();
+      this.caisseForm.reset();
+      this.caisseDispo();
     });
   }
-
+  caisseDispo(): number[] {
+    const selectedEtt = this.etts.find((ett) => ett.idEtt === this.ettselected);
+    if (selectedEtt) {
+      const assignedNumCaiseValues = selectedEtt.caisses.map((caisse) => caisse.numCaise);
+      const allNumCaiseValues = Array.from({ length: 10 }, (_, i) => i + 1);
+      return allNumCaiseValues.filter((numCaise) => !assignedNumCaiseValues.includes(numCaise));
+    }
+    return [];
+  }
   getUsersFromEtt() {
     if (this.ettselected) {
       this.ettService.getEtt(this.ettselected).subscribe((value) => {
@@ -177,6 +185,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
       f_Actif: ['0', Validators.required]
     });
   }
+
+
 
   addCaisse() {
     // Add your code to handle adding a caisse here
