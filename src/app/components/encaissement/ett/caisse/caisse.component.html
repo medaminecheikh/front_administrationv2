@@ -178,7 +178,7 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
                                   </div>
-                                  <select class="form-control" [ngModel]="userselected">
+                                  <select class="form-control" [ngModel]="userselected" (ngModelChange)="userselected = $event">
                                     <option value="">-- Clear --</option>
                                     <option *ngFor="let item of usersfromett"
                                             [value]="item.idUser">{{item.login}}</option>

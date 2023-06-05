@@ -30,8 +30,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
   zones: Zone[] = [];
   dregionals: Dregional[] = [];
   etts: Ett[] = [];
-  ettselected!: Ett | null;
-  userselected!: Utilisateur;
+  ettselected!: String | null;
+  userselected!: Utilisateur |null;
   zoneSubscription!: Subscription;
   dregSubscription!: Subscription;
   ettSubscription!: Subscription;
@@ -68,7 +68,10 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   fetchZones(): void {
     this.zoneService.getZones().subscribe(
-      zones => this.zones = zones,
+      zones => {
+        this.zones = zones;
+        this.resetDregEttSelections();
+      },
       error => console.error(error)
     );
   }
@@ -76,11 +79,9 @@ export class CaisseComponent implements OnInit, OnDestroy {
   subscribeToZoneChanges(): void {
     this.zoneSubscription = this.zone.valueChanges.subscribe(zoneId => {
       this.onSelectionzone();
+      this.directionreg.reset();
       if (zoneId) {
-        const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
-        if (selectedZone) {
-          this.fetchDregionals(selectedZone.idZone);
-        }
+        this.fetchDregionals(zoneId);
       } else {
         this.resetDregEttSelections();
       }
@@ -89,12 +90,9 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   subscribeToDregChanges(): void {
     this.dregSubscription = this.directionreg.valueChanges.subscribe(dregId => {
-      this.onSelectionzone();
+      this.onSelectionDreg();
       if (dregId) {
-        const selectedDreg = this.dregionals.find(dreg => dreg.idDr === dregId);
-        if (selectedDreg) {
-          this.fetchEtts(selectedDreg.idDr);
-        }
+        this.fetchEtts(dregId);
       } else {
         this.resetDregEttSelections();
       }
@@ -103,27 +101,38 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   subscribeToEttChanges(): void {
     this.ettSubscription = this.ett.valueChanges.subscribe((value) => {
-      this.ettselected = value
-      console.log("values",value)
-      console.log("values",this.ettselected)
+      // Ignore the initial undefined value
+      if (typeof value === 'undefined') {
+        return;
+      }
+
+      this.ettselected = value;
+      this.userselected = null;
+      this.usersfromett = [];
+      this.getUsersFromEtt();
     });
-
-    this.getusersfromett();
   }
-  getusersfromett(){
 
-    if (this.ettselected){
-      console.log("STARTED §§§§")
-      this.usersfromett=this.ettselected.utilisateurs;
-      console.log(this.usersfromett)}
-
+  getUsersFromEtt() {
+    if (this.ettselected) {
+      this.ettService.getEtt(this.ettselected).subscribe((value) => {
+        this.usersfromett = value.utilisateurs.filter((user) => {
+          return user.profilUser.some((profilUser) => profilUser.profil.nomP === 'FO');
+        });
+        this.userselected = null; // Reset the user selection
+        console.log(this.usersfromett);
+      });
+    }
   }
+
   fetchDregionals(zoneId: string): void {
     this.dregionalService.getDregionalsByZone(zoneId).subscribe(
       (dregionals) => {
         this.dregionals = dregionals;
         this.directionreg.reset();
         this.ett.reset();
+        this.userselected = null;
+        this.etts = [];
       },
       (error) => console.error(error)
     );
@@ -135,22 +144,30 @@ export class CaisseComponent implements OnInit, OnDestroy {
         this.etts = etts;
         this.ett.reset();
         this.ettselected = null;
+        this.userselected = null;
       },
       (error) => console.error(error)
     );
   }
 
-  resetDregEttSelections(): void {
 
+  resetDregEttSelections(): void {
+    this.userselected = null;
     this.ett.reset();
     this.ettselected = null;
     this.etts = [];
   }
 
-
   onSelectionzone(): void {
+    this.directionreg.reset();
     this.ett.reset();
-    this.ettselected = null;
+    this.userselected = null;
+    this.etts = [];
+  }
+
+  onSelectionDreg(): void {
+    this.ett.reset();
+    this.userselected = null;
     this.etts = [];
   }
 
