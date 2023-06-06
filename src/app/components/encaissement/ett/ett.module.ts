@@ -10,13 +10,17 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
+import { UpdateCaisseComponent } from './caisse/update-caisse/update-caisse.component';
+import { AffectCaisseComponent } from './caisse/affect-caisse/affect-caisse.component';
 
 
 @NgModule({
   declarations: [
     CaisseComponent,
     PaiementComponent,
-    ValidationComponent
+    ValidationComponent,
+    UpdateCaisseComponent,
+    AffectCaisseComponent
   ],
     imports: [
         CommonModule,
