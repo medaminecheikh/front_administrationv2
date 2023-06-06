@@ -37,7 +37,8 @@
                            role="tab" aria-controls="vert-tabs-home" aria-selected="true">
                           <i class="fas fa-cash-register"></i> Creation Caisse
                         </a>
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile"
+                        <a class="nav-link" (click)="searchCaisse()" id="vert-tabs-profile-tab" data-toggle="pill"
+                           href="#vert-tabs-profile"
                            role="tab" aria-controls="vert-tabs-profile" aria-selected="false">
                           <i class="fas fa-list-dots"></i> Liste des Caisses
                         </a>
@@ -178,7 +179,8 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
                                   </div>
-                                  <select class="form-control" [ngModel]="userselected" (ngModelChange)="userselected = $event">
+                                  <select class="form-control" [ngModel]="userselected"
+                                          (ngModelChange)="userselected = $event">
                                     <option value="">-- Clear --</option>
                                     <option *ngFor="let item of usersfromett" [value]="item?.idUser">
                                       {{ item?.login || 'Select Espace TT' }}
@@ -212,38 +214,66 @@
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel"
                              aria-labelledby="vert-tabs-profile-tab">
-                          <div class="card" style="height: 600px">
-                            <p-table [value]="listCaisse" [tableStyle]="{'min-width': '60rem'}">
-                              <ng-template pTemplate="header">
-                                <tr>
-                                  <th pSortableColumn="numCaise" style="width:20%">N°Caisse
-                                    <p-sortIcon field="numCaise"></p-sortIcon>
-                                  </th>
-                                  <th pSortableColumn="adr" style="width:20%">Espace TT
-                                    <p-sortIcon field="adr"></p-sortIcon>
-                                  </th>
-                                  <th pSortableColumn="f_Actif" style="width:20%">Status
-                                    <p-sortIcon field="f_Actif"></p-sortIcon>
-                                  </th>
-                                  <th pSortableColumn="login" style="width:20%">Compte
-                                    <p-sortIcon field="login"></p-sortIcon>
-                                  </th>
-                                  <th style="width:20%">Supprimer</th>
-                                </tr>
-                              </ng-template>
-                              <ng-template pTemplate="body" let-caisse>
-                                <tr>
-                                  <td>{{caisse.numCaise}}</td>
-                                  <td>{{caisse.cod_ett.adr}}</td>
-                                  <td>{{caisse.f_Actif}}</td>
-                                  <td>{{caisse.login?.login}}</td>
-                                  <td>
-                                    <button class="btn btn-sm bg-gradient-danger"><i class="fas fa-trash-can"></i>
-                                    </button>
-                                  </td>
-                                </tr>
-                              </ng-template>
-                            </p-table>
+                          <div class="card" style="height: 660px">
+                            <div style="overflow-x: auto; max-width: 100%;">
+                              <p-table [value]="listCaisse"
+                                       [paginator]="true"
+                                       [rows]="9"
+                                       [showCurrentPageReport]="true"
+                                       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+
+                                       responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
+                                <ng-template pTemplate="header">
+                                  <tr>
+                                    <th pSortableColumn="numCaise" style="width:20%">N°Caisse
+                                      <p-sortIcon field="numCaise"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="cod_ett.adr" style="width:20%">Espace TT
+                                      <p-sortIcon field="cod_ett.adr"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="f_Actif" style="width:20%">Status
+                                      <p-sortIcon field="f_Actif"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="login.login" style="width:20%">Compte
+                                      <p-sortIcon field="login.login"></p-sortIcon>
+                                    </th>
+                                    <th style="width:20%">Supprimer</th>
+                                  </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-caisse>
+                                  <tr>
+                                    <td><span
+                                      class="flex justify-content-around mr-5 text-bold">N° {{caisse.numCaise}}</span>
+                                    </td>
+                                    <td><span class="flex justify-content-around mr-5 ">{{caisse.cod_ett.adr}}</span>
+                                    </td>
+                                    <td><span *ngIf="caisse.f_Actif==='1'"> <p-tag icon="pi pi-check" severity="success"
+                                                                                   value=" Activer "></p-tag></span>
+
+                                      <span *ngIf="caisse.f_Actif==='0'"> <p-tag icon="pi pi-exclamation-triangle"
+                                                                                 severity="warning"
+                                                                                 value=" Desactiver "></p-tag></span>
+                                    </td>
+                                    <td>
+                                      <ng-container *ngIf="caisse.login">
+                                        <i class="fas fa-user"></i> {{ caisse.login.login }}
+                                      </ng-container>
+                                      <ng-container *ngIf="!caisse.login">
+                                        <i class="fas fa-exclamation-circle text-cyan"></i> Aucun compte
+                                      </ng-container>
+                                    </td>
+
+                                    <td>
+
+                                      <button class="btn btn-sm bg-gradient-danger ml-4"><i
+                                        class="fas fa-trash-can"></i>
+                                      </button>
+
+                                    </td>
+                                  </tr>
+                                </ng-template>
+                              </p-table>
+                            </div>
                           </div>
 
                         </div>

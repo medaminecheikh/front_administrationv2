@@ -54,7 +54,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     this.subscribeToZoneChanges();
     this.subscribeToDregChanges();
     this.subscribeToEttChanges();
-    this.searchCaisse();
+
   }
 
   ngOnDestroy(): void {

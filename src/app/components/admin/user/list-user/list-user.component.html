@@ -103,14 +103,13 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text text-bold">Size</span>
                     </div>
-                    <select class="form-control " [(ngModel)]="size" >
+                    <select class="form-control " [(ngModel)]="size">
                       <option value="10" selected>10</option>
                       <option value="15">15</option>
                       <option value="20">20</option>
                     </select>
                   </div>
                 </div>
-
 
 
                 <div class="float-md-right">
@@ -150,9 +149,12 @@
                       <td>{{user.login}}</td>
                       <td>{{user.nomU}}</td>
                       <td>{{user.prenU}}</td>
-                      <td><span *ngIf="user.estActif===1" > <p-tag icon="pi pi-check" severity="success" value=" Activer "></p-tag></span>
+                      <td><span *ngIf="user.estActif===1"> <p-tag icon="pi pi-check" severity="success"
+                                                                  value=" Activer "></p-tag></span>
 
-                        <span *ngIf="user.estActif===0" > <p-tag icon="pi pi-exclamation-triangle" severity="warning" value=" Desactiver "></p-tag></span></td>
+                        <span *ngIf="user.estActif===0"> <p-tag icon="pi pi-exclamation-triangle" severity="warning"
+                                                                value=" Desactiver "></p-tag></span>
+                      </td>
                       <td><i class="text-oliver fas fa-calendar-plus"></i>
                         {{user.date_CREATION | date :'MMMM d, y'}}
                       </td>
@@ -324,7 +326,8 @@
                                                                                           class="fas fa-lock"></i> Mot
                             de passe</label>
                           <div class="input-group input-group-sm">
-                            <input formControlName="pwdU" placeholder="Mot de passe"  pTooltip="leave empty to keep old password" tooltipPosition="bottom"
+                            <input formControlName="pwdU" placeholder="Mot de passe"
+                                   pTooltip="leave empty to keep old password" tooltipPosition="bottom"
                                    type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
                                    [ngClass]="{'is-invalid': utilisateurForm.get('pwdU')?.invalid && showError,'is-valid':utilisateurForm.get('pwdU')?.valid && showError}">
                             <div class="input-group-append">

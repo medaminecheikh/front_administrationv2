@@ -9,6 +9,7 @@ import {DividerModule} from "primeng/divider";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import {TableModule} from "primeng/table";
+import {TagModule} from "primeng/tag";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {TableModule} from "primeng/table";
         ReactiveFormsModule,
         DropdownModule,
         FormsModule,
-        TableModule
+        TableModule,
+        TagModule
     ]
 })
 export class EttModule { }
