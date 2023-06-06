@@ -28,7 +28,7 @@ export class CaisseService {
     return this.http.put<void>(`${this.baseUrl}/update/${id}`, caisseUpdateDTO);
   }
 
-  affecterCaisseToUser(idCaisse: string, idUser: string): Observable<void> {
+  affecterCaisseToUser(idCaisse: string, idUser: String): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${idCaisse}/utilisateurs/${idUser}`, {});
   }
 
@@ -36,7 +36,7 @@ export class CaisseService {
     return this.http.delete<void>(`${this.baseUrl}/utilisateurs/${idCaisse}`);
   }
 
-  affecterCaisseToEtt(idCaisse: string, idEtt: string): Observable<void> {
+  affecterCaisseToEtt(idCaisse: string, idEtt: String): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/affect/${idCaisse}/etts/${idEtt}`, {});
   }
 

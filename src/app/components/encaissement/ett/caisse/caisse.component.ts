@@ -12,7 +12,7 @@ import {CaisseService} from "../../../../services/caisse.service";
 import {Zone} from "../../../../modules/Zone";
 import {Dregional} from "../../../../modules/Dregional";
 import {Ett} from "../../../../modules/Ett";
-import {Subscription} from "rxjs";
+import {catchError, map, of, Subscription, switchMap, throwError} from "rxjs";
 
 @Component({
   selector: 'app-caisse',
@@ -31,7 +31,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
   dregionals: Dregional[] = [];
   etts: Ett[] = [];
   ettselected!: String | null;
-  userselected!: Utilisateur |null;
+  userselected!: String | null ;
   zoneSubscription!: Subscription;
   dregSubscription!: Subscription;
   ettSubscription!: Subscription;
@@ -45,7 +45,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private userService: UserService,
     private caisseService: CaisseService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -63,7 +64,11 @@ export class CaisseComponent implements OnInit, OnDestroy {
   }
 
   searchCaisse(): void {
-    this.caisseService.listCaisses().subscribe((value) => (this.listCaisse = value));
+    this.caisseService.listCaisses().subscribe((value) => {
+      this.listCaisse = value;
+      console.log("this.listCaisse", value)
+    });
+
   }
 
   fetchZones(): void {
@@ -78,7 +83,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   subscribeToZoneChanges(): void {
     this.zoneSubscription = this.zone.valueChanges.subscribe(zoneId => {
-      this.dregionals=[];
+      this.dregionals = [];
       if (zoneId) {
         this.fetchDregionals(zoneId);
       } else {
@@ -112,15 +117,17 @@ export class CaisseComponent implements OnInit, OnDestroy {
       this.caisseDispo();
     });
   }
+
   caisseDispo(): number[] {
     const selectedEtt = this.etts.find((ett) => ett.idEtt === this.ettselected);
     if (selectedEtt) {
       const assignedNumCaiseValues = selectedEtt.caisses.map((caisse) => caisse.numCaise);
-      const allNumCaiseValues = Array.from({ length: 10 }, (_, i) => i + 1);
+      const allNumCaiseValues = Array.from({length: 10}, (_, i) => i + 1);
       return allNumCaiseValues.filter((numCaise) => !assignedNumCaiseValues.includes(numCaise));
     }
     return [];
   }
+
   getUsersFromEtt() {
     if (this.ettselected) {
       this.ettService.getEtt(this.ettselected).subscribe((value) => {
@@ -187,8 +194,71 @@ export class CaisseComponent implements OnInit, OnDestroy {
   }
 
 
-
   addCaisse() {
-    // Add your code to handle adding a caisse here
+    if (this.caisseForm.valid) {
+      const caisse = this.caisseForm.value;
+      const user = this.userselected;
+      const ettid = this.ettselected;
+
+      this.caisseService.addCaisse(caisse).pipe(
+        switchMap((response) => {
+          const idCaisse = response.idCaisse;
+          let observableChain = of(null);
+
+          if (ettid) {
+            observableChain = observableChain.pipe(
+              switchMap(() => this.caisseService.affecterCaisseToEtt(idCaisse, ettid)),
+              map(() => null) // Transform the emitted value to null
+            );
+          }
+          console.log("user", user)
+          if (user) {
+            observableChain = observableChain.pipe(
+              switchMap(() => this.caisseService.affecterCaisseToUser(idCaisse, user)),
+              map(() => null) // Transform the emitted value to null
+            );
+          }
+
+          return observableChain.pipe(
+            catchError((error) => {
+              // Rollback the changes if an error occurs
+              return this.rollbackChanges(idCaisse, error);
+            })
+          );
+        })
+      ).subscribe(
+        () => {
+          // Success
+
+          this.toastr.success('Caisse added successfully.');
+        },
+        (error) => {
+          // Handle error
+          this.toastr.error('Error occurred while adding caisse.', 'Error');
+        }
+      );
+    } else {
+      this.toastr.warning('Please fill the form correctly.', 'Warning');
+    }
   }
+
+
+  rollbackChanges(idCaisse: string, error: any) {
+    // Delete the caisse if it was created
+    if (idCaisse) {
+      this.caisseService.deleteCaisse(idCaisse).subscribe();
+    }
+
+    // Handle specific error scenarios and display appropriate messages
+    if (error.status === 409) {
+      // Handle conflict error (e.g., profile already assigned to the user)
+      this.toastr.error('Conflict error occurred.', 'Error');
+    } else {
+      // Handle generic errors
+      this.toastr.error('Error occurred.', 'Error');
+    }
+
+    return throwError(error);
+  }
+
 }

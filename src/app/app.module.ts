@@ -38,7 +38,7 @@ import {TokenStorageService} from "./services/auth/token-storage.service";
     HttpClientModule,
     RouterModule,
     ToastrModule.forRoot({
-      timeOut: 5000,
+      timeOut: 7000,
       progressBar: true,
       progressAnimation: 'increasing',
       positionClass: 'toast-bottom-right',

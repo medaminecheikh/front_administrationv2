@@ -40,7 +40,7 @@
                         <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile"
                            role="tab" aria-controls="vert-tabs-profile" aria-selected="false">
                           <i class="fas fa-list-dots"></i> Liste des Caisses
-                          </a>
+                        </a>
                         <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages"
                            role="tab" aria-controls="vert-tabs-messages" aria-selected="false"><i
                           class="fas fa-arrows-down-to-people"></i> Affecter Caisse</a>
@@ -171,7 +171,7 @@
                               <p-divider layout="vertical"></p-divider>
                             </div>
 
-                            <div class="col-md-3 ">
+                            <div class="col-md-3">
                               <div class="form-group">
                                 <label>Utilisateur</label>
                                 <div class="input-group input-group-sm">
@@ -180,12 +180,15 @@
                                   </div>
                                   <select class="form-control" [ngModel]="userselected" (ngModelChange)="userselected = $event">
                                     <option value="">-- Clear --</option>
-                                    <option *ngFor="let item of usersfromett"
-                                            [value]="item.idUser">{{item.login}}</option>
+                                    <option *ngFor="let item of usersfromett" [value]="item?.idUser">
+                                      {{ item?.login || 'Select Espace TT' }}
+                                    </option>
                                   </select>
+
                                 </div>
                               </div>
                             </div>
+
                           </div>
                           <div class="row">
                             <div class="col-md-12">
@@ -213,11 +216,19 @@
                             <p-table [value]="listCaisse" [tableStyle]="{'min-width': '60rem'}">
                               <ng-template pTemplate="header">
                                 <tr>
-                                  <th pSortableColumn="numCaise" style="width:20%">N°Caisse <p-sortIcon field="numCaise"></p-sortIcon></th>
-                                  <th pSortableColumn="adr" style="width:20%">Espace TT <p-sortIcon field="adr"></p-sortIcon></th>
-                                  <th pSortableColumn="f_Actif" style="width:20%">Status <p-sortIcon field="f_Actif"></p-sortIcon></th>
-                                  <th pSortableColumn="login" style="width:20%">Compte <p-sortIcon field="login"></p-sortIcon></th>
-                                  <th style="width:20%">Supprimer </th>
+                                  <th pSortableColumn="numCaise" style="width:20%">N°Caisse
+                                    <p-sortIcon field="numCaise"></p-sortIcon>
+                                  </th>
+                                  <th pSortableColumn="adr" style="width:20%">Espace TT
+                                    <p-sortIcon field="adr"></p-sortIcon>
+                                  </th>
+                                  <th pSortableColumn="f_Actif" style="width:20%">Status
+                                    <p-sortIcon field="f_Actif"></p-sortIcon>
+                                  </th>
+                                  <th pSortableColumn="login" style="width:20%">Compte
+                                    <p-sortIcon field="login"></p-sortIcon>
+                                  </th>
+                                  <th style="width:20%">Supprimer</th>
                                 </tr>
                               </ng-template>
                               <ng-template pTemplate="body" let-caisse>
@@ -225,8 +236,11 @@
                                   <td>{{caisse.numCaise}}</td>
                                   <td>{{caisse.cod_ett.adr}}</td>
                                   <td>{{caisse.f_Actif}}</td>
-                                  <td>{{caisse.login.login}}</td>
-                                  <td><button class="btn btn-sm bg-gradient-danger"><i class="fas fa-trash-can"></i></button></td>
+                                  <td>{{caisse.login?.login}}</td>
+                                  <td>
+                                    <button class="btn btn-sm bg-gradient-danger"><i class="fas fa-trash-can"></i>
+                                    </button>
+                                  </td>
                                 </tr>
                               </ng-template>
                             </p-table>
