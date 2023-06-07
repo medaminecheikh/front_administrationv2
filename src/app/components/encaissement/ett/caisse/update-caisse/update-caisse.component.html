@@ -1,1 +1,140 @@
-<p>update-caisse works!</p>
+<div class="d-flex justify-content-center">
+  <div class=" text-center">
+    <a class=" h2"><i class="fas fa-pencil-square"></i> Update Caisse </a>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-7">
+    <p-divider align="left">
+      <div class="inline-flex align-items-center">
+        <i class="fas fa-shop mr-2"></i>
+        <b>Espace TT</b>
+      </div>
+    </p-divider>
+  </div>
+  <div class="col-md-5">
+    <p-divider align="left">
+      <div class="inline-flex align-items-center">
+        <i class="fas fa-cash-register mr-2"></i>
+        <b>Choisir Caisse</b>
+      </div>
+    </p-divider>
+  </div>
+</div>
+<div class="row ml-2">
+  <div class="col-md-7">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Zone</label>
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-globe"></i></span>
+            </div>
+            <select class="form-control" [formControl]="zone">
+              <option value="">-- Clear --</option>
+              <option *ngFor="let item of zones"
+                      [value]="item.idZone">{{item.cod_ZONE}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Direction Regionale</label>
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-city"></i></span>
+            </div>
+            <select class="form-control" [formControl]="directionreg">
+              <option value="">-- Clear --</option>
+              <option *ngFor="let item of dregionals" [value]="item.idDr">{{item.dr}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Espace TT</label>
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-shop"></i></span>
+            </div>
+            <select class="form-control" [formControl]="ett">
+              <option value="">-- Clear --</option>
+              <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-1">
+    <p-divider layout="vertical"></p-divider>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <label>Caisse</label>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-cash-register"></i></span>
+        </div>
+        <select class="form-control" [ngModel]="selectedcaisse"
+                (ngModelChange)="onSelectedCaisseChange($event)">
+          <option value="">-- Clear --</option>
+          <option *ngFor="let item of caissefromett" [value]="item?.idCaisse">
+            {{ item?.numCaise || 'Select Espace TT' }}
+          </option>
+        </select>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <p-divider align="left">
+      <div class="inline-flex align-items-center">
+        <i class="fas fa-cash-register mr-2"></i>
+        <b>Données de Caisse </b>
+      </div>
+    </p-divider>
+  </div>
+</div>
+<div class="row ml-2">
+  <div class="col-5">
+    <form [formGroup]="caisseForm">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label> Numéro caisse :</label>
+            <div class="input-group input-group-sm">
+
+              <p class="text-bold "><i class="fas fa-columns"></i>
+                - N° {{ caisseForm.get('numCaise')?.value }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Status :</label>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+              </div>
+              <select formControlName="f_Actif" class="form-control">
+                <option value="" disabled selected>-- Choisir --</option>
+                <option value="1">Activer</option>
+                <option value="0">Désactiver</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
