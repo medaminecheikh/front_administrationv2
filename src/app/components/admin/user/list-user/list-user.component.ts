@@ -15,6 +15,7 @@ import {Dregional} from "../../../../modules/Dregional";
 import {Ett} from "../../../../modules/Ett";
 import {ProfilUser} from "../../../../modules/ProfilUser";
 import {catchError, forkJoin, Observable} from "rxjs";
+import {CaisseService} from "../../../../services/caisse.service";
 
 @Component({
   selector: 'app-list-user',
@@ -62,7 +63,8 @@ export class ListUserComponent implements OnInit {
               private ettService: EttService,
               private router: Router, private formBuilder: FormBuilder,
               private toastr: ToastrService, private userService: UserService,
-              private profilService: ProfilService) {
+              private profilService: ProfilService,
+              private caisseService:CaisseService) {
   }
 
 
@@ -312,6 +314,10 @@ export class ListUserComponent implements OnInit {
         if (this.ettselected) {
           console.log("ettselected",this.ettselected)
           requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected));
+          if (this.utilisateurUpdate?.caisse.idCaisse) {
+            requests.push(this.caisseService.removeUser(this.utilisateurUpdate?.caisse?.idCaisse));
+          }
+
         }
         if (utilisateur) {
           requests.push(this.userService.updateUser(utilisateur));
