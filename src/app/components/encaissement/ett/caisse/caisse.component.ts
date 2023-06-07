@@ -229,7 +229,9 @@ export class CaisseComponent implements OnInit, OnDestroy {
       ).subscribe(
         () => {
           // Success
-
+          this.router.navigate(['encaissement/ett/caisse']).then(() => {
+            // Reload the current page
+            location.reload();});
           this.toastr.success('Caisse added successfully.');
         },
         (error) => {
