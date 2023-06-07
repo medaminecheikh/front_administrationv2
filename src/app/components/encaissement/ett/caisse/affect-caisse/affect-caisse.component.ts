@@ -153,7 +153,10 @@ export class AffectCaisseComponent implements OnInit, OnDestroy {
     console.log(this.ettselected)
     if (this.ettselected) {
       this.ettService.getEtt(this.ettselected).subscribe((value) => {
-        this.caissefromett = value.caisses.filter((caisse) => caisse.login === null || caisse.login === undefined);
+
+        this.caissefromett = value.caisses.filter((caisse) => {
+          return !value.utilisateurs.some((user) => user?.caisse?.idCaisse === caisse?.idCaisse);
+        });
         this.usersfromett = value.utilisateurs.filter((user) => user.caisse === null || user.caisse === undefined);
         this.selectedcaisse = null; // Reset the caisse selection
         console.log(this.caissefromett);
