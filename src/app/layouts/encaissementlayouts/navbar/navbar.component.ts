@@ -18,7 +18,7 @@ import {BehaviorSubject} from "rxjs";
 })
 export class NavbarComponent implements OnInit {
   currentDate: Date = new Date();
-  caisse: any;
+  caisse: any ='';
   user!: Utilisateur;
   ett!:Ett;
   dr: Dregional | undefined ;
@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.caisse = this.tokenService.getUser().caisse;
+
     this.getCurrentuser();
     this.getDr();
   }
@@ -49,6 +49,10 @@ export class NavbarComponent implements OnInit {
 
       this.userService.getUserBylogin(username).subscribe(value => {
         this.user = value;
+        if (value.caisse && value.caisse.numCaise) {
+          this.caisse = value.caisse.numCaise;
+        }
+
 
         // Notify that getCurrentuser has completed
         this.currentUserSubject.next(true);

@@ -314,9 +314,10 @@ export class ListUserComponent implements OnInit {
         if (this.ettselected) {
           console.log("ettselected",this.ettselected)
           requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected));
-          if (this.utilisateurUpdate?.caisse.idCaisse) {
-            requests.push(this.caisseService.removeUser(this.utilisateurUpdate?.caisse?.idCaisse));
+          if (this.utilisateurUpdate && this.utilisateurUpdate.caisse && this.utilisateurUpdate.caisse.idCaisse) {
+            requests.push(this.caisseService.removeUser(this.utilisateurUpdate.caisse.idCaisse));
           }
+
 
         }
         if (utilisateur) {
