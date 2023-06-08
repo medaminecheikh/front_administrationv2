@@ -93,14 +93,23 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <p-divider align="left">
       <div class="inline-flex align-items-center">
         <i class="fas fa-cash-register mr-2"></i>
-        <b>Données de Caisse </b>
+        <b>Données de Caisse</b>
       </div>
     </p-divider>
   </div>
+  <div class="col-md-6">
+    <p-divider align="left">
+      <div class="inline-flex align-items-center">
+        <i class="fas fa-user-circle mr-2"></i>
+        <b>Compte</b>
+      </div>
+    </p-divider>
+  </div>
+
 </div>
 <div class="row ml-2">
   <div class="col-5">
@@ -117,7 +126,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
           <div class="form-group">
             <label>Status :</label>
             <div class="input-group input-group-sm">
@@ -134,7 +143,57 @@
         </div>
       </div>
     </form>
+  </div>
+  <div class="col-sm-1">
+    <p-divider layout="vertical"></p-divider>
+  </div>
 
+  <div class="col-md-2 mr-1 ">
+    <div class="form-group">
+      <label> Compte Associé :</label>
+      <div class="input-group input-group-sm">
+
+        <p class="text-bold "><i class="fas fa-user-tag"></i>
+          - {{currentaccount}} -
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 ml-4">
+    <div class="form-group">
+      <label>Modifier Compte </label>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+        </div>
+        <select class="form-control" [ngModel]="userselected"
+                (ngModelChange)="userselected = $event">
+          <option value="">--  Remove Association --</option>
+          <option *ngFor="let item of usersfromett" [value]="item?.idUser">
+            {{ item?.login || 'Select Espace TT' }}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>
 
+<div class="row">
+  <div class="col-md-12">
+    <p-divider></p-divider>
+  </div>
+</div>
+<div class="row">
+
+  <div class="col-sm-auto">
+    <span class="text-info text-sm"><i class="fas fa-exclamation-triangle "></i> Choisissez un espace TT pour obtenir les N°Caisse et les Comptes disponibles </span>
+  </div>
+</div>
+<div class="row ml-2">
+
+  <div class="col-3 ml-auto">
+    <button class="btn btn-sm btn-block bg-gradient-warning" type="button"
+            (click)="updateCaisse()">Update <i
+      class="fa-regular fa-circle-check"></i></button>
+  </div>
+</div>

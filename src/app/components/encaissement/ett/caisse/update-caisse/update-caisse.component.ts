@@ -31,6 +31,7 @@ export class UpdateCaisseComponent implements OnInit ,OnDestroy{
   ettselected!: String | null;
   selectedcaisse!: string | null;
   userselected!: String | null;
+  currentaccount:String='';
   zoneSubscription!: Subscription;
   dregSubscription!: Subscription;
   ettSubscription!: Subscription;
@@ -173,7 +174,9 @@ export class UpdateCaisseComponent implements OnInit ,OnDestroy{
             f_Actif:value.f_Actif
           }
         )
+       this.currentaccount=value.login.login;
       });
+
     } else {
       this.caisseForm.reset();
     }
@@ -183,5 +186,9 @@ export class UpdateCaisseComponent implements OnInit ,OnDestroy{
       numCaise: ['', Validators.required],
       f_Actif: ['0', Validators.required]
     });
+  }
+
+  updateCaisse() {
+
   }
 }
