@@ -24,8 +24,8 @@ export class CaisseService {
     return this.http.get<Caisse[]>(`${this.baseUrl}/getall`);
   }
 
-  updateCaisse(id: string, caisseUpdateDTO: Caisse): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/update/${id}`, caisseUpdateDTO);
+  updateCaisse( caisseUpdateDTO: Caisse): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/update/`, caisseUpdateDTO);
   }
 
   affecterCaisseToUser(idCaisse: string, idUser: String): Observable<void> {

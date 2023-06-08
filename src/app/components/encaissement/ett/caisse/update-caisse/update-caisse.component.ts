@@ -18,7 +18,7 @@ import {Subscription} from "rxjs";
   templateUrl: './update-caisse.component.html',
   styleUrls: ['./update-caisse.component.scss']
 })
-export class UpdateCaisseComponent implements OnInit ,OnDestroy{
+export class UpdateCaisseComponent implements OnInit, OnDestroy {
   caisseForm!: FormGroup;
   zone = new FormControl();
   directionreg: FormControl = new FormControl();
@@ -31,10 +31,11 @@ export class UpdateCaisseComponent implements OnInit ,OnDestroy{
   ettselected!: String | null;
   selectedcaisse!: string | null;
   userselected!: String | null;
-  currentaccount:String='';
+  currentaccount: String = '';
   zoneSubscription!: Subscription;
   dregSubscription!: Subscription;
   ettSubscription!: Subscription;
+
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
               private ettService: EttService,
@@ -56,6 +57,7 @@ export class UpdateCaisseComponent implements OnInit ,OnDestroy{
     this.dregSubscription.unsubscribe();
     this.ettSubscription.unsubscribe();
   }
+
   fetchZones(): void {
     this.zoneService.getZones().subscribe(
       zones => {
@@ -115,6 +117,7 @@ export class UpdateCaisseComponent implements OnInit ,OnDestroy{
       this.usersfromett = [];
       this.getCaissesFromEtt();
       this.caisseForm.reset();
+      this.currentaccount = '';
     });
   }
 
@@ -163,32 +166,84 @@ export class UpdateCaisseComponent implements OnInit ,OnDestroy{
       });
     }
   }
+
   onSelectedCaisseChange(event: any) {
     this.selectedcaisse = event;
-    console.log(this.selectedcaisse )
+    console.log(this.selectedcaisse)
     if (this.selectedcaisse) {
       this.caisseService.getCaisse(this.selectedcaisse).subscribe(value => {
         this.caisseForm.patchValue(
           {
-            numCaise:value.numCaise,
-            f_Actif:value.f_Actif
+            idCaisse:value.idCaisse,
+            numCaise: value.numCaise,
+            f_Actif: value.f_Actif
           }
         )
-       this.currentaccount=value.login.login;
+        this.currentaccount = value.login.login;
       });
 
     } else {
       this.caisseForm.reset();
     }
   }
+
   initializeForm(): void {
     this.caisseForm = this.formBuilder.group({
+      idCaisse:['', Validators.required],
       numCaise: ['', Validators.required],
       f_Actif: ['0', Validators.required]
     });
   }
 
   updateCaisse() {
+    if (this.selectedcaisse && this.caisseForm.valid) {
+      const idcaisse = this.selectedcaisse;
+      const caisse = this.caisseForm.value;
 
+      this.caisseService.updateCaisse(caisse).subscribe(
+        () => {
+          if (this.userselected) {
+            const iduser = this.userselected;
+            this.caisseService.affecterCaisseToUser(idcaisse, iduser).subscribe(
+              () => {
+                this.toastr.success("La caisse a été modifiée avec succès.", "Succès");
+                this.router.navigate(['encaissement/ett/caisse']).then(() => {
+                  // Reload the current page
+                  location.reload();
+                });
+              },
+              (error) => {
+                this.toastr.error("Une erreur est survenue lors de l'affectation de la caisse.", "Erreur");
+              }
+            );
+          } else if (this.userselected === '' && this.currentaccount != '') {
+            this.caisseService.removeUser(idcaisse).subscribe(
+              () => {
+                this.toastr.success("La caisse a été modifiée avec succès.", "Succès");
+                this.router.navigate(['encaissement/ett/caisse']).then(() => {
+                  // Reload the current page
+                  location.reload();
+                });
+              },
+              (error) => {
+                this.toastr.error("Une erreur est survenue lors de la désaffectation de la caisse.", "Erreur");
+              }
+            );
+          } else {
+            this.toastr.success("La caisse a été modifiée avec succès.", "Succès");
+            this.router.navigate(['encaissement/ett/caisse']).then(() => {
+              // Reload the current page
+              location.reload();
+            });
+          }
+        },
+        (error) => {
+          this.toastr.error("Une erreur est survenue lors de la modification de la caisse.", "Erreur");
+        }
+      );
+    } else {
+      this.toastr.info("Veuillez choisir une caisse.", "Info");
+    }
   }
+
 }
