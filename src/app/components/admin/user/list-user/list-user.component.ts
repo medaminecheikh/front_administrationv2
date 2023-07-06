@@ -64,7 +64,7 @@ export class ListUserComponent implements OnInit {
               private router: Router, private formBuilder: FormBuilder,
               private toastr: ToastrService, private userService: UserService,
               private profilService: ProfilService,
-              private caisseService:CaisseService) {
+              private caisseService: CaisseService) {
   }
 
 
@@ -77,8 +77,6 @@ export class ListUserComponent implements OnInit {
     this.initializeForm();
 
     this.getAllProfils();
-
-
 
 
   }
@@ -103,8 +101,9 @@ export class ListUserComponent implements OnInit {
     const value = control.value || '';
     const trimmedValue = value.trim();
     const isValid = value === trimmedValue;
-    return isValid ? null : { whitespace: true };
+    return isValid ? null : {whitespace: true};
   }
+
   getAllProfils() {
     this.profilService.getAllProfiles().subscribe((data: Profil[]) => {
       this.profils = data;
@@ -214,7 +213,7 @@ export class ListUserComponent implements OnInit {
 
   searchUsers() {
 
-    this.userService.searchUserpage(this.keyword, this.nom, this.prenom,this.estActif, this.page, this.size)
+    this.userService.searchUserpage(this.keyword, this.nom, this.prenom, this.estActif, this.page, this.size)
       .subscribe(data => {
         this.utlisateurs = data;
         this.userPage.content = data;
@@ -312,10 +311,10 @@ export class ListUserComponent implements OnInit {
         }
 
         if (this.ettselected) {
-          console.log("ettselected",this.ettselected)
+          console.log("ettselected", this.ettselected)
           requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected));
-          if (this.utilisateurUpdate && this.utilisateurUpdate.caisse && this.utilisateurUpdate.caisse.idCaisse) {
-            requests.push(this.caisseService.removeUser(this.utilisateurUpdate.caisse.idCaisse));
+          if (utilisateur && utilisateur.idUser) {
+            requests.push(this.caisseService.removeUser(utilisateur.idUser));
           }
 
 
@@ -372,12 +371,12 @@ export class ListUserComponent implements OnInit {
 
   }
 
-   fetchZones() {
-     // Fetch the list of zones on component initialization
-     this.zoneService.getZones().subscribe(
-       zones => this.zones = zones,
-       error => console.error(error)
-     );
+  fetchZones() {
+    // Fetch the list of zones on component initialization
+    this.zoneService.getZones().subscribe(
+      zones => this.zones = zones,
+      error => console.error(error)
+    );
   }
 
   private subscribeToZoneChanges() {
@@ -445,12 +444,12 @@ export class ListUserComponent implements OnInit {
     this.utilisateurForm = this.formBuilder.group({
       login: [''],
       idUser: [''],
-      nomU: ['',this.noWhitespaceStartorEnd],
+      nomU: ['', this.noWhitespaceStartorEnd],
       pwdU: [null, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
       confirmedpassword: [null, Validators.required],
-      prenU: ['',this.noWhitespaceStartorEnd],
-      descU: ['',this.noWhitespaceStartorEnd],
-      matricule: ['',this.noWhitespaceStartorEnd],
+      prenU: ['', this.noWhitespaceStartorEnd],
+      descU: ['', this.noWhitespaceStartorEnd],
+      matricule: ['', this.noWhitespaceStartorEnd],
       estActif: [''],
       f_ADM_CEN: [''],
       is_EXPIRED: [''],

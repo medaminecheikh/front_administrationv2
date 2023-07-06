@@ -42,12 +42,6 @@
                            role="tab" aria-controls="vert-tabs-profile" aria-selected="false">
                           <i class="fas fa-list-dots"></i> Liste des Caisses
                         </a>
-                        <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages"
-                           role="tab" aria-controls="vert-tabs-messages" aria-selected="false"><i
-                          class="fas fa-arrows-down-to-people"></i> Affecter Caisse</a>
-                        <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings"
-                           role="tab" aria-controls="vert-tabs-settings" aria-selected="false"><i
-                          class="fas fa-pen-fancy"></i> Update Caisse</a>
                       </div>
                     </div>
                     <div class="col-7 col-sm-10">
@@ -62,58 +56,16 @@
                           <br>
                           <div class="row">
                             <div class="col-md-12">
-                              <p-divider align="left">
-                                <div class="inline-flex align-items-center">
-                                  <i class="fas fa-cash-register mr-2"></i>
-                                  <b>Données de Caisse</b>
-                                </div>
-                              </p-divider>
+
                             </div>
                           </div>
-                          <form [formGroup]="caisseForm">
-                            <div class="row ml-2">
 
-                              <div class="col-md-3">
-                                <div class="form-group">
-                                  <label> N° Caisse : </label>
-                                  <div class="input-group input-group-sm">
-
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-list-numeric"></i></span>
-                                    </div>
-                                    <select formControlName="numCaise" class="form-control ">
-                                      <option value="" disabled>-- Choisir --</option>
-                                      <option *ngFor="let num of caisseDispo()" [value]="num">{{ num }}</option>
-                                    </select>
-
-
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-3 ml-4">
-                                <div class="form-group">
-                                  <label>Status :</label>
-                                  <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
-                                    </div>
-                                    <select formControlName="f_Actif" class="form-control">
-                                      <option value="" disabled>-- Choisir --</option>
-                                      <option value="1">Activer</option>
-                                      <option value="0">Desactiver</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-                          </form>
                           <div class="row">
                             <div class="col-md-7">
                               <p-divider align="left">
                                 <div class="inline-flex align-items-center">
-                                  <i class="fas fa-shop mr-2"></i>
-                                  <b>Espace TT</b>
+                                  <i class="fas fa-cash-register mr-2"></i>
+                                  <b>Données de Caisse</b>
                                 </div>
                               </p-divider>
                             </div>
@@ -127,52 +79,44 @@
                             </div>
                           </div>
                           <div class="row ml-2">
-                            <div class="col-md-7">
-                              <div class="row">
-                                <div class="col-md-4">
-                                  <div class="form-group">
-                                    <label>Zone</label>
-                                    <div class="input-group input-group-sm">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                            <div class="col-md-6">
+
+                              <form [formGroup]="caisseForm">
+                                <div class="row ml-2">
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label> N° Caisse : </label>
+                                      <div class="input-group input-group-sm">
+
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="fas fa-list-numeric"></i></span>
+                                        </div>
+                                        <select formControlName="numCaise" class="form-control ">
+                                          <option value="" disabled>-- Choisir --</option>
+                                          <option *ngFor="let num of caisseDispo()" [value]="num">{{ num }}</option>
+                                        </select>
                                       </div>
-                                      <select class="form-control" [formControl]="zone">
-                                        <option value="">-- Clear --</option>
-                                        <option *ngFor="let item of zones"
-                                                [value]="item.idZone">{{item.cod_ZONE}}</option>
-                                      </select>
                                     </div>
                                   </div>
-                                </div>
-                                <div class="col-md-4">
-                                  <div class="form-group">
-                                    <label>Direction Regionale</label>
-                                    <div class="input-group input-group-sm">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-city"></i></span>
+                                  <div class="col-md-5 ml-4">
+                                    <div class="form-group">
+                                      <label>Status :</label>
+                                      <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                                        </div>
+                                        <select formControlName="f_Actif" class="form-control">
+                                          <option value="" disabled>-- Choisir --</option>
+                                          <option value="1">Activer</option>
+                                          <option value="0">Desactiver</option>
+                                        </select>
                                       </div>
-                                      <select class="form-control" [formControl]="directionreg">
-                                        <option value="">-- Clear --</option>
-                                        <option *ngFor="let item of dregionals" [value]="item.idDr">{{item.dr}}</option>
-                                      </select>
                                     </div>
                                   </div>
+
                                 </div>
-                                <div class="col-md-4">
-                                  <div class="form-group">
-                                    <label>Espace TT</label>
-                                    <div class="input-group input-group-sm">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-shop"></i></span>
-                                      </div>
-                                      <select class="form-control" [formControl]="ett">
-                                        <option value="">-- Clear --</option>
-                                        <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                              </form>
                             </div>
                             <div class="col-1">
                               <p-divider layout="vertical"></p-divider>
@@ -283,22 +227,7 @@
                           </div>
 
                         </div>
-                        <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel"
-                             aria-labelledby="vert-tabs-messages-tab">
-                          <div class="content">
-                            <div class="container-fluid">
-                              <app-affect-caisse></app-affect-caisse>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel"
-                             aria-labelledby="vert-tabs-settings-tab">
-                          <div class="content">
-                            <div class="container-fluid">
-                              <app-update-caisse></app-update-caisse>
-                            </div>
-                          </div>
-                        </div>
+
                       </div>
                     </div>
                   </div>

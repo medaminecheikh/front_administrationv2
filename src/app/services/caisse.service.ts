@@ -32,8 +32,8 @@ export class CaisseService {
     return this.http.put<void>(`${this.baseUrl}/${idCaisse}/utilisateurs/${idUser}`, {});
   }
 
-  removeUser(idCaisse: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/utilisateurs/${idCaisse}`);
+  removeUser(idUser: String): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/utilisateurs/${idUser}`);
   }
 
   affecterCaisseToEtt(idCaisse: string, idEtt: String): Observable<void> {

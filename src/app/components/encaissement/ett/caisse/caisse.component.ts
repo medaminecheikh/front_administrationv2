@@ -13,6 +13,7 @@ import {Zone} from "../../../../modules/Zone";
 import {Dregional} from "../../../../modules/Dregional";
 import {Ett} from "../../../../modules/Ett";
 import {catchError, map, of, Subscription, switchMap, throwError} from "rxjs";
+import {AuthService} from "../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-caisse',
@@ -20,25 +21,21 @@ import {catchError, map, of, Subscription, switchMap, throwError} from "rxjs";
   styleUrls: ['./caisse.component.scss']
 })
 export class CaisseComponent implements OnInit, OnDestroy {
-  zone = new FormControl();
-  directionreg: FormControl = new FormControl();
-  ett: FormControl = new FormControl();
+
   listCaisse: Caisse[] = [];
   caisseForm!: FormGroup;
   caisse!: Caisse;
   usersfromett: Utilisateur[] = [];
-  zones: Zone[] = [];
-  dregionals: Dregional[] = [];
-  etts: Ett[] = [];
-  ettselected!: String | null;
-  userselected!: String | null ;
-  zoneSubscription!: Subscription;
-  dregSubscription!: Subscription;
+  userselected!: String | null;
+  currentUser!: Utilisateur;
+  ett!: Ett;
+  userSubscription!: Subscription;
   ettSubscription!: Subscription;
 
   constructor(
     private zoneService: ZoneService,
     private dregionalService: DrService,
+    private authService: AuthService,
     private ettService: EttService,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -50,76 +47,60 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.fetchZones();
-    this.subscribeToZoneChanges();
-    this.subscribeToDregChanges();
-    this.subscribeToEttChanges();
+    this.getUser();
+
 
   }
 
   ngOnDestroy(): void {
-    this.zoneSubscription.unsubscribe();
-    this.dregSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
     this.ettSubscription.unsubscribe();
+
+  }
+
+  getUser() {
+    const name = this.authService.getCurrentUser()
+    if (name && name.username) {
+      this.userSubscription = this.userService.getUserBylogin(name.username).subscribe(
+        (value) => {
+          this.currentUser = value
+        }
+        , (error) => {
+          this.toastr.error('Could not get user detail !', 'Error')
+        },
+        () => {
+          this.getEtt();
+        });
+    } else
+      this.toastr.error('User resources not found !', 'Error')
+  }
+
+  getEtt() {
+    this.ettSubscription = this.ettService.getEtt(this.currentUser.ett.idEtt).subscribe(value => {
+        this.ett = value;
+        this.usersfromett = [];
+      },
+      error => {
+        this.toastr.error('Ett resources not found !', 'Error')
+      }, () => {
+        this.searchCaisse();
+        this.caisseDispo();
+        this.getUsersFromEtt();
+      });
   }
 
   searchCaisse(): void {
-    this.caisseService.listCaisses().subscribe((value) => {
-      this.listCaisse = value;
-      console.log("this.listCaisse", value)
-    });
+    if (this.ett) {
 
+      this.caisseService.getCaissesByEttId(this.ett.idEtt).subscribe((value) => {
+      this.listCaisse=value;
+      })
+    }
   }
 
-  fetchZones(): void {
-    this.zoneService.getZones().subscribe(
-      zones => {
-        this.zones = zones;
-        this.resetDregEttSelections();
-      },
-      error => console.error(error)
-    );
-  }
-
-  subscribeToZoneChanges(): void {
-    this.zoneSubscription = this.zone.valueChanges.subscribe(zoneId => {
-      this.dregionals = [];
-      if (zoneId) {
-        this.fetchDregionals(zoneId);
-      } else {
-        this.resetDregEttSelections();
-      }
-    });
-  }
-
-  subscribeToDregChanges(): void {
-    this.dregSubscription = this.directionreg.valueChanges.subscribe(dregId => {
-      this.onSelectionDreg();
-      if (dregId) {
-        this.fetchEtts(dregId);
-      } else {
-        this.resetDregEttSelections();
-      }
-    });
-  }
-
-  subscribeToEttChanges(): void {
-    this.ettSubscription = this.ett.valueChanges.subscribe((value) => {
-      // Ignore the initial undefined value
-      if (typeof value === 'undefined') {
-        return;
-      }
-      this.ettselected = value;
-      this.userselected = null;
-      this.usersfromett = [];
-      this.getUsersFromEtt();
-      this.caisseForm.reset();
-      this.caisseDispo();
-    });
-  }
 
   caisseDispo(): number[] {
-    const selectedEtt = this.etts.find((ett) => ett.idEtt === this.ettselected);
+    const selectedEtt = this.ett;
     if (selectedEtt) {
       const assignedNumCaiseValues = selectedEtt.caisses.map((caisse) => caisse.numCaise);
       const allNumCaiseValues = Array.from({length: 10}, (_, i) => i + 1);
@@ -129,62 +110,20 @@ export class CaisseComponent implements OnInit, OnDestroy {
   }
 
   getUsersFromEtt() {
-    if (this.ettselected) {
-      this.ettService.getEtt(this.ettselected).subscribe((value) => {
+    if (this.ett) {
+      const ettselected=this.ett.idEtt
+      this.ettService.getEtt(ettselected).subscribe((value) => {
         this.usersfromett = value.utilisateurs.filter((user) => {
-          return user.profilUser.some((profilUser) => profilUser.profil.nomP === 'FO');
+          return user.profilUser.some((profilUser) => profilUser.profil.nomP === 'FO')
+            && !user.caisse;
         });
         this.userselected = null; // Reset the user selection
         console.log(this.usersfromett);
       });
     }
+
   }
 
-  fetchDregionals(zoneId: string): void {
-    this.dregionalService.getDregionalsByZone(zoneId).subscribe(
-      (dregionals) => {
-        this.dregionals = dregionals;
-        this.directionreg.reset();
-        this.ett.reset();
-        this.userselected = null;
-        this.etts = [];
-      },
-      (error) => console.error(error)
-    );
-  }
-
-  fetchEtts(dregId: string): void {
-    this.ettService.getEttsByDrId(dregId).subscribe(
-      (etts) => {
-        this.etts = etts;
-        this.ett.reset();
-        this.ettselected = null;
-        this.userselected = null;
-      },
-      (error) => console.error(error)
-    );
-  }
-
-
-  resetDregEttSelections(): void {
-    this.userselected = null;
-    this.ett.reset();
-    this.ettselected = null;
-    this.etts = [];
-  }
-
-  onSelectionzone(): void {
-    this.directionreg.reset();
-    this.ett.reset();
-    this.userselected = null;
-    this.etts = [];
-  }
-
-  onSelectionDreg(): void {
-    this.ett.reset();
-    this.userselected = null;
-    this.etts = [];
-  }
 
   initializeForm(): void {
     this.caisseForm = this.formBuilder.group({
@@ -198,7 +137,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     if (this.caisseForm.valid) {
       const caisse = this.caisseForm.value;
       const user = this.userselected;
-      const ettid = this.ettselected;
+      const ettid = this.ett.idEtt;
 
       this.caisseService.addCaisse(caisse).pipe(
         switchMap((response) => {
@@ -231,7 +170,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
           // Success
           this.router.navigate(['encaissement/ett/caisse']).then(() => {
             // Reload the current page
-            location.reload();});
+            location.reload();
+          });
           this.toastr.success('Caisse added successfully.');
         },
         (error) => {
@@ -253,7 +193,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
     // Handle specific error scenarios and display appropriate messages
     if (error.status === 409) {
-      // Handle conflict error (e.g., profile already assigned to the user)
+      // Handle conflict error
       this.toastr.error('Conflict error occurred.', 'Error');
     } else {
       // Handle generic errors
@@ -262,5 +202,6 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
     return throwError(error);
   }
+
 
 }

@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getDr() {
-    console.log("CALLED");
+
     this.currentUserSubject.subscribe(completed => {
       if (completed && this.user && this.user.ett && this.user.ett.idEtt) {
         this.ettService.getEtt(this.user.ett.idEtt).subscribe((value) => {
