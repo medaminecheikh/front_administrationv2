@@ -17,7 +17,7 @@ export class FactureService {
     return this.http.post<InfoFacture>(`${this.baseUrl}/facture`, facture);
   }
 
-  getAllFactures(identifiant: string, ref: string, apl: number, page: number, size: number): Observable<InfoFacture[]> {
+  findAllFactures(identifiant: string, ref: string, apl: number, page: number, size: number): Observable<InfoFacture[]> {
     const params = {
       identifiant: identifiant,
       ref: ref,
@@ -25,11 +25,14 @@ export class FactureService {
       page: String(page),
       size: String(size)
     };
-    return this.http.get<InfoFacture[]>(`${this.baseUrl}/all`, {params: params});
+    return this.http.get<InfoFacture[]>(`${this.baseUrl}/findall`, {params: params});
   }
 
   getFacturesByUser(idUser: string): Observable<InfoFacture[]> {
     return this.http.get<InfoFacture[]>(`${this.baseUrl}/facturebyuser/${idUser}`);
+  }
+  getFactures(): Observable<InfoFacture[]> {
+    return this.http.get<InfoFacture[]>(`${this.baseUrl}/all`);
   }
 
   updateFacture(idFacture: string, facture: InfoFacture): Observable<void> {
