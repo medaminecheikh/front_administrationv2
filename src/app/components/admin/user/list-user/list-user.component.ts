@@ -313,9 +313,10 @@ export class ListUserComponent implements OnInit {
         if (this.ettselected) {
           console.log("ettselected", this.ettselected)
           requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected));
-          if (utilisateur && utilisateur.idUser) {
+
             requests.push(this.caisseService.removeUser(utilisateur.idUser));
-          }
+            console.log(":::::: SEND IT !!!!!")
+
 
 
         }
@@ -345,7 +346,7 @@ export class ListUserComponent implements OnInit {
             }, () => {
             });
           }
-        });
+        },()=>{});
       } else {
         this.toastr.error('Veuillez remplir tous les champs obligatoires et respecter les contraintes de validation.');
       }
