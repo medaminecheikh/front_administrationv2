@@ -48,19 +48,19 @@
           </a>
           <ul class="nav nav-treeview" style="display: none;">
             <li class="nav-item" *ngIf="Recherche_Encaissement">
-              <a routerLink="recherche/encaissement" class="nav-link">
+              <a routerLink="recherche/encaissement" class="nav-link ml-2">
                 <i class="fas fa-magnifying-glass-dollar nav-icon"></i>
                 <p>Recherche Encaissement</p>
               </a>
             </li>
             <li class="nav-item" *ngIf="Recherche_Facture">
-              <a routerLink="recherche/facture" class="nav-link">
+              <a routerLink="recherche/facture" class="nav-link ml-2" >
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>Recheche Facture</p>
               </a>
             </li>
-            <li class="nav-item" *ngIf="journal">
-              <a routerLink="recherche/journal" class="nav-link">
+            <li class="nav-item" *ngIf="journal ">
+              <a routerLink="recherche/journal" class="nav-link ml-2">
                 <i class="fas fa-file-invoice nav-icon"></i>
                 <p>Journal Encaissement</p>
               </a>
@@ -68,7 +68,7 @@
           </ul>
         </li>
         <li class="nav-item" *ngIf="Encaissement">
-          <a href="javascript:void(0)" class="nav-link">
+          <a href="javascript:void(0)" class="nav-link ">
             <i class="nav-icon  fas fa-cash-register"></i>
             <p>
               Encaissement
@@ -77,13 +77,13 @@
           </a>
           <ul class="nav nav-treeview" style="display: none;">
             <li class="nav-item" *ngIf="Encaissement_Facture">
-              <a routerLink="caisse/facture" class="nav-link">
+              <a routerLink="caisse/facture" class="nav-link ml-2">
                 <i class="fas fa-coins nav-icon"></i>
                 <p>Encaissement Facture</p>
               </a>
             </li>
             <li class="nav-item" *ngIf="Paiement_Avance">
-              <a routerLink="caisse/avance" class="nav-link">
+              <a routerLink="caisse/avance" class="nav-link ml-2">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>Paiement Avance</p>
               </a>
@@ -100,19 +100,19 @@
           </a>
           <ul class="nav nav-treeview" style="display: none;">
             <li class="nav-item" *ngIf="E1">
-              <a routerLink="etat/e1" class="nav-link">
+              <a routerLink="etat/e1" class="nav-link ml-2">
                 <i class="fas fa-coins nav-icon"></i>
                 <p>E1 Journal Encaissement</p>
               </a>
             </li>
             <li class="nav-item" *ngIf="E2">
-              <a routerLink="etat/e2" class="nav-link">
+              <a routerLink="etat/e2" class="nav-link ml-2">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>E2 Journal Modification</p>
               </a>
             </li>
             <li class="nav-item" *ngIf="E3">
-              <a routerLink="etat/e3" class="nav-link">
+              <a routerLink="etat/e3" class="nav-link ml-2">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <p>E3 Bordereau de versement</p>
               </a>
@@ -129,13 +129,13 @@
           </a>
           <ul class="nav nav-treeview" style="display: none;">
             <li class="nav-item" *ngIf="paiement">
-              <a routerLink="ett/paiment" class="nav-link">
+              <a routerLink="ett/paiement" class="nav-link ml-2">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Gestion des paiement</p>
               </a>
             </li>
             <li class="nav-item" *ngIf="Bordereau">
-              <a href="javascript:void(0)" class="nav-link">
+              <a href="javascript:void(0)" class="nav-link ml-2">
                 <i class="far fa-circle nav-icon"></i>
                 <p>
                   Gestion Bordereau
@@ -144,13 +144,13 @@
               </a>
               <ul class="nav nav-treeview" style="display: none;">
                 <li class="nav-item" *ngIf="Generation">
-                  <a routerLink="ett/bordereau/generation" class="nav-link ml-2">
+                  <a routerLink="ett/bordereau/generation" class="nav-link ml-5">
                     <i class="far fa-dot-circle nav-icon"></i>
                     <p>Generation Bordereau</p>
                   </a>
                 </li>
                 <li class="nav-item" *ngIf="Consultation">
-                  <a routerLink="ett/bordereau/consultation" class="nav-link ml-2">
+                  <a routerLink="ett/bordereau/consultation" class="nav-link ml-5">
                     <i class="far fa-dot-circle nav-icon"></i>
                     <p>Consultation Bordereau</p>
                   </a>
@@ -158,13 +158,13 @@
               </ul>
             </li>
             <li class="nav-item" *ngIf="caisses">
-              <a routerLink="ett/caisse" class="nav-link">
+              <a routerLink="ett/caisse" class="nav-link ml-2">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Gestion des caisses</p>
               </a>
             </li>
             <li class="nav-item" *ngIf="journe">
-              <a href="javascript:void(0)" class="nav-link">
+              <a href="javascript:void(0)" class="nav-link ml-2">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Validation journée</p>
               </a>
