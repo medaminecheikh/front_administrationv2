@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Caisse} from "../../../../modules/Caisse";
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {ZoneService} from "../../../../services/zone.service";
@@ -9,11 +9,10 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../../services/user.service";
 import {CaisseService} from "../../../../services/caisse.service";
-import {Zone} from "../../../../modules/Zone";
-import {Dregional} from "../../../../modules/Dregional";
 import {Ett} from "../../../../modules/Ett";
 import {catchError, map, of, Subscription, switchMap, throwError} from "rxjs";
 import {AuthService} from "../../../../services/auth/auth.service";
+import {ConfirmationService} from "primeng/api";
 
 @Component({
   selector: 'app-caisse',
@@ -41,7 +40,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private userService: UserService,
-    private caisseService: CaisseService
+    private caisseService: CaisseService,
+    private confirmationService: ConfirmationService
   ) {
   }
 
@@ -93,7 +93,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     if (this.ett) {
 
       this.caisseService.getCaissesByEttId(this.ett.idEtt).subscribe((value) => {
-      this.listCaisse=value;
+        this.listCaisse = value;
       })
     }
   }
@@ -111,7 +111,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   getUsersFromEtt() {
     if (this.ett) {
-      const ettselected=this.ett.idEtt
+      const ettselected = this.ett.idEtt
       this.ettService.getEtt(ettselected).subscribe((value) => {
         this.usersfromett = value.utilisateurs.filter((user) => {
           return user.profilUser.some((profilUser) => profilUser.profil.nomP === 'FO')
@@ -204,4 +204,31 @@ export class CaisseComponent implements OnInit, OnDestroy {
   }
 
 
+  confirmDelete(idCaisse: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to proceed?',
+      header: 'Delete Caisse',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-check',
+      accept: () => {
+        // Handle the accept action
+        this.deleteCaisse(idCaisse);
+
+      },
+      reject: () => {
+        // Handle the reject action
+      }
+    });
+  }
+
+  deleteCaisse(caisseId: string): void {
+    this.caisseService.deleteCaisse(caisseId).subscribe(() => {
+      // Call the searchCaisse() method to refresh the list of caisses
+      this.searchCaisse();
+    }, error => () => {
+    }, () => {
+      this.getEtt();
+      this.toastr.success('Caisse deleted successfully.');
+    });
+  }
 }

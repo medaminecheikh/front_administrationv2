@@ -23,6 +23,7 @@
 
           <section class="content">
             <div class="row ml-1">
+              <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
               <div class="card card-primary card-outline col-md-12">
                 <div class="card-header">
 
@@ -149,9 +150,7 @@
                           </div>
                           <br>
                           <div class="row mr-2">
-                            <div class="col-md-auto">
-                              <span class="text-info text-sm"><i class="fas fa-exclamation-triangle "></i> Choisissez un espace TT pour obtenir les N°Caisse disponibles </span>
-                            </div>
+
                             <div class="col-3 ml-auto">
                               <button class="btn btn-sm btn-block bg-gradient-success" type="button"
                                       (click)="addCaisse()">Save <i
@@ -215,7 +214,7 @@
 
                                     <td>
 
-                                      <button class="btn btn-sm bg-gradient-danger ml-4"><i
+                                      <button class="btn btn-sm bg-gradient-danger ml-4" (click)="confirmDelete(caisse.idCaisse)"><i
                                         class="fas fa-trash-can"></i>
                                       </button>
 

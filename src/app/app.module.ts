@@ -22,6 +22,7 @@ import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {TokenStorageService} from "./services/auth/token-storage.service";
+import {ConfirmationService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,10 @@ import {TokenStorageService} from "./services/auth/token-storage.service";
     RippleModule,
 
   ],
-  providers: [ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    ConfirmationService
+  ],
   exports: [],
   bootstrap: [AppComponent]
 })

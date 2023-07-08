@@ -12,6 +12,7 @@ import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import { UpdateCaisseComponent } from './caisse/update-caisse/update-caisse.component';
 import { AffectCaisseComponent } from './caisse/affect-caisse/affect-caisse.component';
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { AffectCaisseComponent } from './caisse/affect-caisse/affect-caisse.comp
         DropdownModule,
         FormsModule,
         TableModule,
-        TagModule
+        TagModule,
+        ConfirmDialogModule
     ]
 })
 export class EttModule { }
