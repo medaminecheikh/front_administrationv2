@@ -6,6 +6,7 @@ import { EncaissementFactureComponent } from './encaissement-facture/encaissemen
 import { PaimentAvanceComponent } from './paiment-avance/paiment-avance.component';
 import {CalendarModule} from "primeng/calendar";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {TabViewModule} from "primeng/tabview";
 
 
 @NgModule({
@@ -13,12 +14,13 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     EncaissementFactureComponent,
     PaimentAvanceComponent
   ],
-  imports: [
-    CommonModule,
-    CaisseRoutingModule,
-    CalendarModule,
-    ConfirmDialogModule,
+    imports: [
+        CommonModule,
+        CaisseRoutingModule,
+        CalendarModule,
+        ConfirmDialogModule,
+        TabViewModule,
 
-  ]
+    ]
 })
 export class CaisseModule { }
