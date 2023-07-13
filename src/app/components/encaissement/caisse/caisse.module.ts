@@ -9,6 +9,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {TabViewModule} from "primeng/tabview";
 import {FieldsetModule} from "primeng/fieldset";
 import {InputTextModule} from "primeng/inputtext";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {InputNumberModule} from "primeng/inputnumber";
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import {InputTextModule} from "primeng/inputtext";
     TabViewModule,
     FieldsetModule,
     InputTextModule,
+    KeyFilterModule,
+    InputNumberModule,
 
   ]
 })

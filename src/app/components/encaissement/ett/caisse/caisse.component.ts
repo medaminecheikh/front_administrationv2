@@ -208,7 +208,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to proceed?',
       header: 'Delete Caisse',
-      icon: 'pi pi-exclamation-triangle pi-spin text-danger',
+      icon: 'pi pi-exclamation-triangle  text-danger',
       acceptIcon: 'pi pi-check',
       acceptButtonStyleClass:'p-button-link' ,
       rejectButtonStyleClass:'p-button-link',

@@ -47,7 +47,8 @@
               "node_modules/admin-lte/plugins/select2/js/select2.full.min.js",
               "node_modules/admin-lte/plugins/jquery-mousewheel/jquery.mousewheel.js",
               "node_modules/admin-lte/plugins/raphael/raphael.min.js",
-              "node_modules/admin-lte/plugins/jquery-mapael/jquery.mapael.min.js"
+              "node_modules/admin-lte/plugins/jquery-mapael/jquery.mapael.min.js",
+              "node_modules/admin-lte/plugins/inputmask/jquery.inputmask.min.js"
 
               ]
           },

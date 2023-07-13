@@ -23,41 +23,43 @@ import {RippleModule} from "primeng/ripple";
 import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {TokenStorageService} from "./services/auth/token-storage.service";
 import {ConfirmationService} from "primeng/api";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-    ToastrModule.forRoot({
-      timeOut: 7000,
-      progressBar: true,
-      progressAnimation: 'increasing',
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-      closeButton: true,
-      tapToDismiss: true,
-      enableHtml: true,
-      toastClass: 'toastr-custom'
-    }),
-    AdminModule,
-    LayoutsModule,
-    ScrollTopModule,
-    EncaissementlayoutsModule,
-    EncaissementModule,
-    ButtonModule,
-    RippleModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        ToastrModule.forRoot({
+            timeOut: 7000,
+            progressBar: true,
+            progressAnimation: 'increasing',
+            positionClass: 'toast-bottom-right',
+            preventDuplicates: true,
+            closeButton: true,
+            tapToDismiss: true,
+            enableHtml: true,
+            toastClass: 'toastr-custom'
+        }),
+        AdminModule,
+        LayoutsModule,
+        ScrollTopModule,
+        EncaissementlayoutsModule,
+        EncaissementModule,
+        ButtonModule,
+        RippleModule,
+        ConfirmDialogModule,
 
-  ],
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
     ConfirmationService
