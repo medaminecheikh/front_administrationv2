@@ -160,27 +160,35 @@
                   From
                   <address>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">Reference :</label>
+                      <label class="col-sm-4 col-form-label">Reference :</label>
                       <div class="col-sm-auto">
-                        <input type="text" class="form-control form-control-sm col-auto form-control-border border-width-2" placeholder="Ref facture">
+                        <input type="text"
+                               class="form-control form-control-sm col-auto form-control-border border-width-2"
+                               placeholder="Ref facture">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">Produit :</label>
+                      <label class="col-sm-4 col-form-label">Produit :</label>
                       <div class="col-sm-auto">
-                        <input type="text" class="form-control form-control-sm col-auto form-control-border border-width-2" placeholder="Nom du produit">
+                        <input type="text"
+                               class="form-control form-control-sm col-auto form-control-border border-width-2"
+                               placeholder="Nom du produit">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">Date limite :</label>
+                      <label class="col-sm-4 col-form-label">Date limite :</label>
                       <div class="col-sm-6">
-                        <input type="date" class="form-control form-control-sm col-auto form-control-border border-width-2" placeholder="Compte Facturation">
+                        <input type="date"
+                               class="form-control form-control-sm col-auto form-control-border border-width-2"
+                               placeholder="Compte Facturation">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">N°Appel :</label>
+                      <label class="col-sm-4 col-form-label">N°Appel :</label>
                       <div class="col-sm-auto">
-                        <input type="text" pKeyFilter="int" class="form-control form-control-sm col-auto form-control-border border-width-2" placeholder="(+216) 99 999 999">
+                        <input type="text" pKeyFilter="int"
+                               class="form-control form-control-sm col-auto form-control-border border-width-2"
+                               placeholder="(+216) 99 999 999">
                       </div>
                     </div>
 
@@ -192,27 +200,33 @@
                   To
                   <address>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">Code client :</label>
+                      <label class="col-sm-4 col-form-label">Code client :</label>
                       <div class="col-sm-auto">
-                        <input type="text" class="form-control form-control-sm col-auto form-control-border border-width-2" placeholder="code client">
+                        <input type="text"
+                               class="form-control form-control-sm col-auto form-control-border border-width-2"
+                               placeholder="code client">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">Compte :</label>
+                      <label class="col-sm-4 col-form-label">Compte :</label>
                       <div class="col-sm-auto">
-                        <input type="text" class="form-control form-control-sm col-auto form-control-border border-width-2" placeholder="Compte Facturation">
+                        <input type="text"
+                               class="form-control form-control-sm col-auto form-control-border border-width-2"
+                               placeholder="Compte Facturation">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">Identifiant :</label>
+                      <label class="col-sm-4 col-form-label">Identifiant :</label>
                       <div class="col-sm-auto">
-                        <input type="text" class="form-control form-control-sm col-auto form-control-border border-width-2" placeholder="Id client">
+                        <input type="text"
+                               class="form-control form-control-sm col-auto form-control-border border-width-2"
+                               placeholder="Id client">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label  class="col-sm-4 col-form-label">Type Id:</label>
+                      <label class="col-sm-4 col-form-label">Type Id:</label>
                       <div class="col-sm-6">
-                        <select  class="form-control form-control-sm col-auto form-control-border border-width-2" >
+                        <select class="form-control form-control-sm col-auto form-control-border border-width-2">
                           <option>Carte d'identité</option>
                           <option>Pass porte</option>
                           <option>Permis de conduit</option>
@@ -225,11 +239,11 @@
                 <div class="col-sm-4 invoice-col mt-3 ">
                   <h3 class="border-bottom-2  border-blue-700">Montant Facture </h3><br>
                   <div class="form-group row">
-                    <label  class="col-sm-5 col-form-label">Montant original :</label>
-                    <div class="col-sm-3">
+                    <label class="col-sm-5 col-form-label">Montant original :</label>
+                    <div class="col-sm-auto">
                       <p-inputNumber
-                        [style]="{width: '50%',height:'30%'}"
-                        class="p-inputtext-sm"
+
+                        class=" h-2rem w-5"
                         [step]="0.25"
                         mode="currency"
                         currency="DNR"
@@ -237,11 +251,19 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label  class="col-sm-5 col-form-label">Remise :</label>
+                    <label class="col-sm-5 col-form-label">Remise :</label>
                     <div class="col-sm-auto">
-                      <p-inputNumber prefix="%" class="p-inputtext-sm"></p-inputNumber>                    </div>
+                      <p-inputNumber prefix="% " pKeyFilter="money" class=" h-2rem" [min]="0"
+                                     [max]="100"></p-inputNumber>
+                    </div>
                   </div>
-                  <b>Account:</b> 968-34567
+                  <div class="row ml-auto col-7 mr-5 border-bottom-3 border-blue-700"></div>
+                  <div class="row col-12 ">
+                    <div class="flex justify-content-center col-12">
+                      <h3 class="mr-5">Montant</h3> <h3 class="ml-5">9555 DT</h3>
+
+                    </div>
+                  </div>
                 </div>
 
               </div>
