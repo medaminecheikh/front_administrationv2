@@ -23,117 +23,16 @@
 
           <section class="content">
             <div class="row ml-2 mr-2">
-              <div class="card col-12 mt-3 ">
-                <div class="row ">
-                  <a class="text-center mx-auto"><h2> Facturation </h2></a>
-                </div>
+              <div class="card col-12 mt-3   ">
+                <div class="row mt-1 justify-content-between">
+                  <h4 class=" ml-5 text-left"> Option </h4>
+                  <div class="mr-5">
+                    <button (click)="importFacture()" pRipple class=" btn-sm bg-gradient-success btn  mr-1"><i class="fa fa-file-import"></i>
+                      Importe Facture
+                    </button>
 
-                <div class="row col-12 mt-4   ">
-                  <form class="col-12 ">
-                    <div class="flex justify-content-evenly mt-3">
-                      <div class=" col-auto">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon">
-                              <i class="fa-solid fa-barcode"></i>
-                          </span>
-                          <span class="p-float-label">
-                            <input pInputText class="p-inputtext-sm"/>
-                            <label class="text-sm ">Reference</label>
-                          </span>
-                        </div>
-                      </div>
-
-                      <div class="col-auto ">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon">
-                               <i class="fa-solid fa-cart-shopping"></i>
-                          </span>
-                          <span class="p-float-label">
-                            <input pInputText class="p-inputtext-sm"/>
-                            <label class="text-sm ">Produit</label>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="col-auto ">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon ">
-                               <i class="fa-solid fa-user-tag"></i>
-                          </span>
-                          <span class="p-float-label">
-                          <input pInputText class="p-inputtext-sm"/>
-                            <label class=" text-sm">Compte Facturation</label>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="col-auto ">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon ">
-                               <i class="fa-solid fa-phone"></i>
-                          </span>
-                          <span class="p-float-label">
-                            <p-inputNumber pKeyFilter="int" prefix="(+216) " class="p-inputtext-sm"></p-inputNumber>
-                            <label class=" text-sm">N°Appel</label>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex justify-content-evenly mt-6">
-
-                      <div class="  col-auto">
-                        <p-inputNumber
-                          class="p-inputtext-sm"
-                          [showButtons]="true"
-                          buttonLayout="horizontal"
-                          [step]="0.25"
-                          decrementButtonClass="p-button-danger"
-                          incrementButtonClass="p-button-success"
-                          incrementButtonIcon="pi pi-plus"
-                          decrementButtonIcon="pi pi-minus"
-                          mode="currency"
-                          currency="DNR"
-                        ></p-inputNumber>
-
-
-                      </div>
-
-                      <div class="col-auto ">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon">
-                               <i class="fa-solid fa-percentage"></i>
-                          </span>
-                          <span class="p-float-label">
-                            <p-inputNumber prefix="%" class="p-inputtext-sm"></p-inputNumber>
-                            <label class="text-sm ">Solde</label>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="col-auto ">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon ">
-                               <i class="fa-solid fa-user-tag"></i>
-                          </span>
-                          <span class="p-float-label">
-                          <input pInputText class="p-inputtext-sm"/>
-                            <label class=" text-sm">Compte Facturation</label>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="col-auto ">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon ">
-                               <i class="fa-solid fa-phone"></i>
-                          </span>
-                          <span class="p-float-label">
-                            <p-inputNumber pKeyFilter="int" prefix="(+216) " class="p-inputtext-sm"></p-inputNumber>
-                            <label class=" text-sm">N°Appel</label>
-                          </span>
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </form>
-
+                    <button pRipple class=" btn-sm btn btn-secondary ml-1 "><i class="fa fa-trash"></i> Clear </button>
+                  </div>
                 </div>
 
               </div>
@@ -253,14 +152,16 @@
                   <div class="form-group row">
                     <label class="col-sm-5 col-form-label">Remise :</label>
                     <div class="col-sm-auto">
-                      <p-inputNumber prefix="% " pKeyFilter="money" class=" h-2rem" [min]="0"
+                      <p-inputNumber prefix="% " mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+                                     class=" h-2rem" [min]="0"
                                      [max]="100"></p-inputNumber>
                     </div>
                   </div>
                   <div class="row ml-auto col-7 mr-5 border-bottom-3 border-blue-700"></div>
                   <div class="row col-12 ">
                     <div class="flex justify-content-center col-12">
-                      <h3 class="mr-5">Montant</h3> <h3 class="ml-5">9555 DT</h3>
+                      <h3 class="mr-5">Montant</h3>
+                      <h3 class="ml-5">9555 DT</h3>
 
                     </div>
                   </div>

@@ -11,24 +11,34 @@ import {FieldsetModule} from "primeng/fieldset";
 import {InputTextModule} from "primeng/inputtext";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {InputNumberModule} from "primeng/inputnumber";
+import {RippleModule} from "primeng/ripple";
+import { ListFactureComponent } from './list-facture/list-facture.component';
+import {TableModule} from "primeng/table";
+import {TagModule} from "primeng/tag";
+import {ProgressBarModule} from "primeng/progressbar";
 
 
 @NgModule({
   declarations: [
     EncaissementFactureComponent,
-    PaimentAvanceComponent
+    PaimentAvanceComponent,
+    ListFactureComponent
   ],
-  imports: [
-    CommonModule,
-    CaisseRoutingModule,
-    CalendarModule,
-    ConfirmDialogModule,
-    TabViewModule,
-    FieldsetModule,
-    InputTextModule,
-    KeyFilterModule,
-    InputNumberModule,
+    imports: [
+        CommonModule,
+        CaisseRoutingModule,
+        CalendarModule,
+        ConfirmDialogModule,
+        TabViewModule,
+        FieldsetModule,
+        InputTextModule,
+        KeyFilterModule,
+        InputNumberModule,
+        RippleModule,
+        TableModule,
+        TagModule,
+        ProgressBarModule,
 
-  ]
+    ]
 })
 export class CaisseModule { }

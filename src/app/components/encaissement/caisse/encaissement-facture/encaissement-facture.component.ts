@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../../services/user.service";
 import {FactureService} from "../../../../services/facture.service";
 import {EncaissementService} from "../../../../services/encaissement.service";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-encaissement-facture',
@@ -12,17 +13,26 @@ import {EncaissementService} from "../../../../services/encaissement.service";
   styleUrls: ['./encaissement-facture.component.scss']
 })
 export class EncaissementFactureComponent implements OnInit, OnDestroy{
+  ref: DynamicDialogRef | undefined;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
               private userService: UserService,
               private factureService:FactureService,
-              private encaissementService:EncaissementService) {
+              private encaissementService:EncaissementService,
+              private dialogService: DialogService
+              ) {
   }
   ngOnDestroy(): void {
+    if (this.ref) {
+      this.ref.close();
+    }
   }
 
   ngOnInit(): void {
   }
 
+  importFacture() {
+
+  }
 }

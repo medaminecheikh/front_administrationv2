@@ -24,6 +24,7 @@ import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {TokenStorageService} from "./services/auth/token-storage.service";
 import {ConfirmationService} from "primeng/api";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {DialogService} from "primeng/dynamicdialog";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
-    ConfirmationService
+    ConfirmationService,DialogService
   ],
   exports: [],
   bootstrap: [AppComponent]

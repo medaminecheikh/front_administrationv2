@@ -1,0 +1,71 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="card" style="height: 660px">
+      <div style="overflow-x: auto; max-width: 100%;">
+        <p-table [value]="listFacture"
+                 [paginator]="true"
+                 [rows]="size"
+                 [showCurrentPageReport]="true"
+                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                 [rowsPerPageOptions]="[10, 25, 50]"
+                 [rowHover]="true"
+                 [responsive]="true"
+                 responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="refFacture" style="width:20%">Reference
+                <p-sortIcon field="refFacture"></p-sortIcon>
+              </th>
+              <th pSortableColumn="identifiant" style="width:20%">Identifiant
+                <p-sortIcon field="identifiant"></p-sortIcon>
+              </th>
+              <th pSortableColumn="produit" style="width:20%">Produit
+                <p-sortIcon field="produit"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nAppel" style="width:20%">N°Appel
+                <p-sortIcon field="nAppel"></p-sortIcon>
+              </th>
+              <th> % Paye</th>
+              <th pSortableColumn="datLimPai" style="width:20%">Date Limite
+                <p-sortIcon field="datLimPai"></p-sortIcon>
+              </th>
+              <th pSortableColumn="montant" style="width:20%">Montant
+                <p-sortIcon field="montant"></p-sortIcon>
+              </th>
+              <th style="width:20%">Choisir</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-facture>
+            <tr>
+              <td><span
+                class="flex justify-content-around mr-5 text-bold">N° {{facture.refFacture}}</span>
+              </td>
+              <td><span class="flex justify-content-around mr-5 ">{{facture.identifiant}}</span>
+              <td><span class="flex justify-content-around mr-5 ">{{facture.produit |titlecase}}</span>
+              </td>
+              <td>
+                <ng-container >
+                  <i class="fas fa-user"></i> {{ facture.nAppel |number }}
+                </ng-container>
+
+              </td>
+              <td><span class="flex justify-content-around mr-5 "> <p-progressBar [value]="50"></p-progressBar></span></td>
+
+              <td><span class="flex justify-content-around mr-5 ">{{facture.datLimPai |date: 'MM/dd/yyyy' }}</span>
+              </td>
+              <td><span class="flex justify-content-around mr-5 text-bold"> {{facture.montant |currency: 'TND'}}</span></td>
+
+              <td>
+
+                <button class="btn btn-sm bg-gradient-lightblue ml-4" (click)="ImportFacture(facture)"><i
+                  class="fas fa-arrow-right-to-file"></i>
+                </button>
+
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
