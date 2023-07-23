@@ -17,7 +17,7 @@ import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {ProgressBarModule} from "primeng/progressbar";
 import {DropdownModule} from "primeng/dropdown";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SpeedDialModule} from "primeng/speeddial";
 
 
@@ -27,24 +27,25 @@ import {SpeedDialModule} from "primeng/speeddial";
     PaimentAvanceComponent,
     ListFactureComponent
   ],
-    imports: [
-        CommonModule,
-        CaisseRoutingModule,
-        CalendarModule,
-        ConfirmDialogModule,
-        TabViewModule,
-        FieldsetModule,
-        InputTextModule,
-        KeyFilterModule,
-        InputNumberModule,
-        RippleModule,
-        TableModule,
-        TagModule,
-        ProgressBarModule,
-        DropdownModule,
-        FormsModule,
-        SpeedDialModule,
+  imports: [
+    CommonModule,
+    CaisseRoutingModule,
+    CalendarModule,
+    ConfirmDialogModule,
+    TabViewModule,
+    FieldsetModule,
+    InputTextModule,
+    KeyFilterModule,
+    InputNumberModule,
+    RippleModule,
+    TableModule,
+    TagModule,
+    ProgressBarModule,
+    DropdownModule,
+    FormsModule,
+    SpeedDialModule,
+    ReactiveFormsModule,
 
-    ]
+  ]
 })
 export class CaisseModule { }
