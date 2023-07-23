@@ -80,9 +80,9 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">N°Appel :</label>
+                        <label class="col-sm-4 col-form-label">N° Téléphone :</label>
                         <div class="col-sm-auto">
-                          <input type="text" pKeyFilter="int" formControlName="nAppel"
+                          <input type="text" pKeyFilter="int" formControlName="nappel"
                                  class="form-control form-control-sm col-auto form-control-border border-width-2"
                                  placeholder="(+216) 99 999 999">
                         </div>
@@ -148,7 +148,7 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-5 col-form-label">Remise (%):</label>
+                      <label class="col-sm-5 col-form-label">Remise (%) :</label>
                       <div class="col-sm-auto">
                         <p-inputNumber formControlName="solde"
                           prefix="% " mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
@@ -262,7 +262,7 @@
               <div class="row no-print">
                 <div class="col-12">
                   <a rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                  <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
+                  <button type="button" (click)="SaveFacture()" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
                     Payment
                   </button>
                   <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">

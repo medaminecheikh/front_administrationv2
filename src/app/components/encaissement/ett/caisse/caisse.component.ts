@@ -172,7 +172,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
             // Reload the current page
             location.reload();
           });
-          this.toastr.success('Caisse added successfully.');
+          this.toastr.success('Caisse added successfully.','Success');
         },
         (error) => {
           // Handle error

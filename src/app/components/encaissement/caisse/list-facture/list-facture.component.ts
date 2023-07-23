@@ -28,17 +28,19 @@ export class ListFactureComponent implements OnInit, OnDestroy {
     if (this.refe) {
       this.refe.close();
     }
+    console.log("destroy")
   }
 
   ngOnInit(): void {
-    this.findfacture();
+    this.getfactures();
 
   }
 
-  private findfacture() {
-    this.listSubscription = this.factureService.findAllFactures(this.identifiant, this.ref, this.apl, this.page, this.size).subscribe(
+   findfacture() {
+    this.listSubscription = this.factureService.getAllFactures(this.identifiant, this.ref, this.apl).subscribe(
       (value) => {
         this.listFacture = value;
+        console.log(value)
       }
     );
 
@@ -49,4 +51,12 @@ export class ListFactureComponent implements OnInit, OnDestroy {
   }
 
 
+   getfactures() {
+    this.listSubscription = this.factureService.getFactures().subscribe(
+      (value) => {
+        this.listFacture = value;
+        console.log(value)
+      }
+    );
+  }
 }

@@ -7,7 +7,7 @@ export interface InfoFacture {
   produit: string;
   montant: number;
   solde: number;
-  nAppel: number;
+  nappel: number;
   codeClient: string;
   compteFacturation: string;
   typeIdent: string;

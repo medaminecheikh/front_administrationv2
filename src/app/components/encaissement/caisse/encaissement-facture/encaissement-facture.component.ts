@@ -9,6 +9,7 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {ListFactureComponent} from "../list-facture/list-facture.component";
 import {MenuItem} from "primeng/api";
 import {debounceTime, Subscription} from "rxjs";
+import {InfoFacture} from "../../../../modules/InfoFacture";
 
 @Component({
   selector: 'app-encaissement-facture',
@@ -21,8 +22,12 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   today: Date = new Date();
   factureForm !: FormGroup;
   total: any = 0.000;
+  selectedFacture?: InfoFacture;
   private montantSubscription?: Subscription;
   private soldeSubscription?: Subscription;
+  subscriptions: Subscription[] = [];
+  updateRequest:Boolean=false;
+
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
@@ -34,6 +39,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions to avoid memory leaks
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.montantSubscription?.unsubscribe();
     this.soldeSubscription?.unsubscribe();
     if (this.ref) {
@@ -49,12 +56,38 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   importFacture() {
     this.ref = this.dialogService.open(ListFactureComponent,
       {
-        header: 'Select a Product',
-        width: '70%',
-        contentStyle: {overflow: 'auto'},
+        header: 'Choisir Facture',
+        width: '77%',
         baseZIndex: 10000,
         maximizable: true
       });
+    this.ref.onClose.subscribe((facture: InfoFacture) => {
+      if (facture) {
+        this.selectedFacture = facture;
+        this.factureForm.reset();
+        this.patchFactureValues();
+        this.updateRequest=true;
+      }
+    });
+  }
+
+  private patchFactureValues(): void {
+
+    this.factureForm.patchValue({
+      idFacture: this.selectedFacture?.idFacture,
+      refFacture: this.selectedFacture?.refFacture,
+      produit: this.selectedFacture?.produit,
+      montant: this.selectedFacture?.montant,
+      solde: this.selectedFacture?.solde,
+      nappel: this.selectedFacture?.nappel,
+      codeClient: this.selectedFacture?.codeClient,
+      compteFacturation: this.selectedFacture?.compteFacturation,
+      typeIdent: this.selectedFacture?.typeIdent,
+      identifiant: this.selectedFacture?.identifiant,
+      datLimPai: this.selectedFacture?.datLimPai
+    });
+
+
   }
 
   private initItems() {
@@ -83,13 +116,10 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
       {
         tooltipOptions: {
-          tooltipLabel: 'Import',
+          tooltipLabel: 'PDF',
           tooltipPosition: 'left'
         },
-        icon: 'pi pi-upload',
-        command: () => {
-          this.importFacture();
-        },
+        icon: 'pi pi-file-pdf'
 
       },
       {
@@ -99,25 +129,39 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         },
         icon: 'pi pi-print'
 
+      }, {
+        tooltipOptions: {
+          tooltipLabel: 'Import',
+          tooltipPosition: 'left'
+        },
+        icon: 'pi pi-download',
+        command: () => {
+          this.importFacture();
+        },
+
       }
     ];
   }
 
   private initForm(): void {
     this.factureForm = this.formBuilder.group({
-      idFacture: ['', Validators.required],
+      idFacture: [''],
       refFacture: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       produit: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       montant: [null, [Validators.required, Validators.min(1)]],
-      solde: [null, [Validators.required,  Validators.min(0), Validators.max(100)]],
-      nAppel: [null, [Validators.required,  Validators.min(8)]],
+      solde: [null, [Validators.min(0), Validators.max(100)]],
+      nappel: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       codeClient: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       compteFacturation: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       typeIdent: ['Carte d\'identité', Validators.required],
       identifiant: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       datLimPai: [null, Validators.required]
     });
+    this.subToMontant();
 
+  }
+
+  subToMontant() {
     // Subscribe to value changes for montant and solde controls
     this.montantSubscription = this.factureForm
       .get('montant')
@@ -138,7 +182,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     const value = control.value || '';
     const trimmedValue = value.trim();
     const isValid = value === trimmedValue;
-    return isValid ? null : { whitespace: true };
+    return isValid ? null : {whitespace: true};
   }
 
 
@@ -148,9 +192,37 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
     if (montant && solde) {
       this.total = montant - (montant * solde / 100);
+    }
+    else if (montant &&!solde) {
+      this.total = montant;
     } else {
       this.total = 0; // Set a default value when either montant or solde is not available
     }
+  }
+
+  SaveFacture() {
+    if (this.factureForm.valid) {
+      const facture = this.factureForm.value;
+      if (!this.updateRequest) {
+        this.factureService.addFacture(facture).subscribe((value) => {
+          this.toastr.success('Facture added successfully.', 'Success');
+          this.factureForm.reset();
+          this.factureForm.clearValidators();
+
+        }, (error) => {
+          this.toastr.error("Add facture failed !", "Error")
+          console.error(error);
+        }, () => {
+
+        });
+      }
+
+
+    } else {
+      this.toastr.warning('Fill facture correctly !', 'Warning');
+    }
+
+
   }
 
 }

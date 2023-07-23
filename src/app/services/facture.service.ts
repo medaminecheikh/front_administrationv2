@@ -50,4 +50,14 @@ export class FactureService {
   removeEncaissementFromFacture(encaissementId: string, factureId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/removencaissement/${factureId}/${encaissementId}`);
   }
+
+  getAllFactures(identifiant: string, ref: string, apl: number): Observable<InfoFacture[]> {
+    const params = {
+      identifiant: identifiant,
+      ref: ref,
+      apl: String(apl)
+    };
+    return this.http.get<InfoFacture[]>(`${this.baseUrl}/findallfacture`, {params: params});
+  }
+
 }
