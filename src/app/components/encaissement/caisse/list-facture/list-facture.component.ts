@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FactureService} from "../../../../services/facture.service";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Subscription} from "rxjs";
+import {DynamicDialogRef} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-list-facture',
@@ -9,6 +10,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./list-facture.component.scss']
 })
 export class ListFactureComponent implements OnInit, OnDestroy {
+
   listFacture: InfoFacture[] = [];
   listSubscription!: Subscription;
   identifiant: string = "";
@@ -17,15 +19,20 @@ export class ListFactureComponent implements OnInit, OnDestroy {
   size: number = 9;
   page: number = 0;
 
-  constructor(private factureService: FactureService) {
+  constructor(private factureService: FactureService, public refe: DynamicDialogRef) {
   }
 
   ngOnDestroy(): void {
+
     this.listSubscription.unsubscribe();
+    if (this.refe) {
+      this.refe.close();
+    }
   }
 
   ngOnInit(): void {
     this.findfacture();
+
   }
 
   private findfacture() {
@@ -38,6 +45,8 @@ export class ListFactureComponent implements OnInit, OnDestroy {
   }
 
   ImportFacture(facture: InfoFacture) {
-
+    this.refe.close(facture);
   }
+
+
 }

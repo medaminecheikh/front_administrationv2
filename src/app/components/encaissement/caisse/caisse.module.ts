@@ -16,6 +16,9 @@ import { ListFactureComponent } from './list-facture/list-facture.component';
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {ProgressBarModule} from "primeng/progressbar";
+import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
+import {SpeedDialModule} from "primeng/speeddial";
 
 
 @NgModule({
@@ -38,6 +41,9 @@ import {ProgressBarModule} from "primeng/progressbar";
         TableModule,
         TagModule,
         ProgressBarModule,
+        DropdownModule,
+        FormsModule,
+        SpeedDialModule,
 
     ]
 })

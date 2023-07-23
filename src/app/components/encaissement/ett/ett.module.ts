@@ -13,6 +13,7 @@ import {TagModule} from "primeng/tag";
 import { UpdateCaisseComponent } from './caisse/update-caisse/update-caisse.component';
 import { AffectCaisseComponent } from './caisse/affect-caisse/affect-caisse.component';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {RippleModule} from "primeng/ripple";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
         FormsModule,
         TableModule,
         TagModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        RippleModule
     ]
 })
 export class EttModule { }
