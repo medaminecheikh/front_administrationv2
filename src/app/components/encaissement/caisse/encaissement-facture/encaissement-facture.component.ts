@@ -82,7 +82,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     });
   }
 
-  private patchFactureValues(): void {
+   patchFactureValues(): void {
 
     this.factureForm.patchValue({
       idFacture: this.selectedFacture?.idFacture,
@@ -154,9 +154,10 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     ];
   }
 
-  private initEncaissForm() {
+   initEncaissForm() {
 
     this.encaissementForm = this.initEncaissementForm();
+    this.visible=false;
   }
   private initForm(): void {
     this.factureForm = this.formBuilder.group({
@@ -230,7 +231,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       identifiant: ['', Validators.required],
       periode: [''],
       produit: [''],
-      modePaiement: [''],
+      modePaiement: ['ESPECES'],
       numCheq: [''],
       rib: [''],
       banque: [''],
@@ -247,11 +248,33 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.encaissementsArray.push(this.encaissementForm.value);
         this.initEncaissForm(); // Reset the form after adding
         this.toastr.success('Payment added successfully!', 'Success');
-      }
+        this.visible=false;
+      } else  this.toastr.warning('Please fill the Payment correctly.', 'Warning');
 
     } else {
       this.toastr.warning('Please fill the Payment form correctly.', 'Warning');
     }
+  }
+  selectEspece(): void {
+    this.encaissementForm?.get('modePaiement')?.setValue('ESPECES');
+  }
+
+  selectCreditCard(): void {
+    this.encaissementForm?.get('modePaiement')?.setValue('CARTE BANCAIRE');
+  }
+  selectCheque(): void {
+    this.encaissementForm?.get('modePaiement')?.setValue('CHEQUE');
+  }
+  isModeESPECES(): boolean {
+    return this.encaissementForm?.get('modePaiement')?.value === 'ESPECES';
+  }
+
+  isModeCheque(): boolean {
+    return this.encaissementForm?.get('modePaiement')?.value === 'CHEQUE';
+  }
+
+  isModeCarteBancaire(): boolean {
+    return this.encaissementForm?.get('modePaiement')?.value === 'CARTE BANCAIRE';
   }
 
   removeEncaisseRow(i: number) {
