@@ -19,6 +19,7 @@ import {ProgressBarModule} from "primeng/progressbar";
 import {DropdownModule} from "primeng/dropdown";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SpeedDialModule} from "primeng/speeddial";
+import {DialogModule} from "primeng/dialog";
 
 
 @NgModule({
@@ -27,25 +28,26 @@ import {SpeedDialModule} from "primeng/speeddial";
     PaimentAvanceComponent,
     ListFactureComponent
   ],
-  imports: [
-    CommonModule,
-    CaisseRoutingModule,
-    CalendarModule,
-    ConfirmDialogModule,
-    TabViewModule,
-    FieldsetModule,
-    InputTextModule,
-    KeyFilterModule,
-    InputNumberModule,
-    RippleModule,
-    TableModule,
-    TagModule,
-    ProgressBarModule,
-    DropdownModule,
-    FormsModule,
-    SpeedDialModule,
-    ReactiveFormsModule,
+    imports: [
+        CommonModule,
+        CaisseRoutingModule,
+        CalendarModule,
+        ConfirmDialogModule,
+        TabViewModule,
+        FieldsetModule,
+        InputTextModule,
+        KeyFilterModule,
+        InputNumberModule,
+        RippleModule,
+        TableModule,
+        TagModule,
+        ProgressBarModule,
+        DropdownModule,
+        FormsModule,
+        SpeedDialModule,
+        ReactiveFormsModule,
+        DialogModule,
 
-  ]
+    ]
 })
 export class CaisseModule { }

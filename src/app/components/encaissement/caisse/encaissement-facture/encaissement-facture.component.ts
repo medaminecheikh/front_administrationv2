@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../../services/user.service";
 import {FactureService} from "../../../../services/facture.service";
@@ -10,6 +10,7 @@ import {ListFactureComponent} from "../list-facture/list-facture.component";
 import {MenuItem} from "primeng/api";
 import {debounceTime, Subscription} from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
+import {Encaissement} from "../../../../modules/Encaissement";
 
 @Component({
   selector: 'app-encaissement-facture',
@@ -21,12 +22,19 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   items!: MenuItem[];
   today: Date = new Date();
   factureForm !: FormGroup;
-  total: any = 0.000;
+  encaissementForm?: FormGroup;
+  encaissementsArray: Encaissement[] = [];
+  total: number = 0.000;
   selectedFacture?: InfoFacture;
   private montantSubscription?: Subscription;
   private soldeSubscription?: Subscription;
   subscriptions: Subscription[] = [];
-  updateRequest:Boolean=false;
+  updateRequest: Boolean = false;
+  visible: boolean = false;
+
+  showDialog() {
+    this.visible = true;
+  }
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -36,6 +44,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               private encaissementService: EncaissementService,
               private dialogService: DialogService
   ) {
+
   }
 
   ngOnDestroy(): void {
@@ -51,6 +60,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.initItems();
+    this.initEncaissForm();
+
   }
 
   importFacture() {
@@ -66,7 +77,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.selectedFacture = facture;
         this.factureForm.reset();
         this.patchFactureValues();
-        this.updateRequest=true;
+        this.updateRequest = true;
       }
     });
   }
@@ -143,6 +154,10 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     ];
   }
 
+  private initEncaissForm() {
+
+    this.encaissementForm = this.initEncaissementForm();
+  }
   private initForm(): void {
     this.factureForm = this.formBuilder.group({
       idFacture: [''],
@@ -192,11 +207,57 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
     if (montant && solde) {
       this.total = montant - (montant * solde / 100);
-    }
-    else if (montant &&!solde) {
+    } else if (montant && !solde) {
       this.total = montant;
     } else {
       this.total = 0; // Set a default value when either montant or solde is not available
+    }
+  }
+
+// Create the encaissementForm group with its form controls and validators
+  private initEncaissementForm(): FormGroup {
+    return this.formBuilder.group({
+      idEncaissement: [''],
+      dateEnc: [new Date(), Validators.required],
+      montantEnc: [null, [Validators.required, Validators.max(this.total)]],
+      etatEncaissement: [''],
+      numRecu: [''],
+      refFacture: [''],
+      nappel: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+      codeClient: ['', Validators.required],
+      compteFacturation: [''],
+      typeIdent: [''],
+      identifiant: ['', Validators.required],
+      periode: [''],
+      produit: [''],
+      modePaiement: [''],
+      numCheq: [''],
+      rib: [''],
+      banque: [''],
+      agenceBQ: [''],
+      nTransTPE: [''],
+      refBordereau: ['']
+    });
+  }
+
+  // Add a new encaissementForm to the encaissementsArray if the form is valid
+  addEncaissementToTable() {
+    if (this.encaissementForm) { // Perform a null check
+      if (this.encaissementForm.valid) {
+        this.encaissementsArray.push(this.encaissementForm.value);
+        this.initEncaissForm(); // Reset the form after adding
+        this.toastr.success('Payment added successfully!', 'Success');
+      }
+
+    } else {
+      this.toastr.warning('Please fill the Payment form correctly.', 'Warning');
+    }
+  }
+
+  removeEncaisseRow(i: number) {
+    if (i >= 0 && i < this.encaissementsArray.length) {
+      this.encaissementsArray.splice(i, 1);
+      this.toastr.info('Payment removed successfully!', 'Info');
     }
   }
 
@@ -224,5 +285,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
 
   }
+
+
 
 }

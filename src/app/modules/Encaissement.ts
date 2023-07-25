@@ -9,7 +9,7 @@ export interface Encaissement {
   etatEncaissement: string;
   numRecu: string;
   refFacture: string;
-  nAppel: number;
+  nappel: number;
   codeClient: string;
   compteFacturation: string;
   typeIdent: string;
