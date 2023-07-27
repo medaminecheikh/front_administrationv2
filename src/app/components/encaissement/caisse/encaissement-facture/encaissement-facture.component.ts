@@ -227,7 +227,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       nappel: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       codeClient: ['', Validators.required],
       compteFacturation: [''],
-      typeIdent: [''],
+      typeIdent: ['Carte d\'identité'],
       identifiant: ['', Validators.required],
       periode: [''],
       produit: [''],
