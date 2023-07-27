@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../../services/user.service";
 import {FactureService} from "../../../../services/facture.service";
@@ -11,6 +11,7 @@ import {MenuItem} from "primeng/api";
 import {debounceTime, Subscription} from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
   selector: 'app-encaissement-facture',
@@ -33,6 +34,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   visible: boolean = false;
 
   showDialog() {
+    this.initEncaissForm();
     this.visible = true;
   }
 
@@ -78,6 +80,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.factureForm.reset();
         this.patchFactureValues();
         this.updateRequest = true;
+        this.encaissementsArray=[];
       }
     });
   }
@@ -174,6 +177,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       datLimPai: [null, Validators.required]
     });
     this.subToMontant();
+    this.resetArrayEncaiss();
 
   }
 
@@ -222,16 +226,16 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       dateEnc: [new Date(), Validators.required],
       montantEnc: [null, [Validators.required, Validators.max(this.total)]],
       etatEncaissement: [''],
-      numRecu: [''],
-      refFacture: [''],
-      nappel: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-      codeClient: ['', Validators.required],
-      compteFacturation: [''],
-      typeIdent: ['Carte d\'identité'],
+      numRecu: [uuidv4().slice(3, 15)],
+      refFacture: [this.factureForm?.get('refFacture')?.value || '', Validators.required],
+      nappel: [this.factureForm?.get('nappel')?.value || '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+      codeClient: [this.factureForm?.get('codeClient')?.value || '', Validators.required],
+      compteFacturation: [this.factureForm?.get('compteFacturation')?.value || '', Validators.required],
+      typeIdent: ['Carte d\'identité', Validators.required],
       identifiant: ['', Validators.required],
       periode: [''],
-      produit: [''],
-      modePaiement: ['ESPECES'],
+      produit: [this.factureForm?.get('produit')?.value || '', Validators.required],
+      modePaiement: ['ESPECES', Validators.required],
       numCheq: [''],
       rib: [''],
       banque: [''],
@@ -310,5 +314,16 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
 
 
-
+   resetArrayEncaiss() {
+     const valueChangesSubscription = this.factureForm.valueChanges
+       .pipe(debounceTime(1000)) // Wait for 3 seconds after each change
+       .subscribe((value) => {
+         // Code to execute after 3 seconds of no value changes
+         this.toastr.info('Payement Reset after changes.', 'Info');
+         this.visible=false;
+         this.encaissementsArray=[];
+         // Put your code here...
+       });
+     this.subscriptions.push(valueChangesSubscription);
+  }
 }

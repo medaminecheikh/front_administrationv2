@@ -22,6 +22,7 @@ import {SpeedDialModule} from "primeng/speeddial";
 import {DialogModule} from "primeng/dialog";
 import {AnimateModule} from "primeng/animate";
 import {SelectButtonModule} from "primeng/selectbutton";
+import {BlockUIModule} from "primeng/blockui";
 
 
 @NgModule({
@@ -30,28 +31,29 @@ import {SelectButtonModule} from "primeng/selectbutton";
     PaimentAvanceComponent,
     ListFactureComponent
   ],
-  imports: [
-    CommonModule,
-    CaisseRoutingModule,
-    CalendarModule,
-    ConfirmDialogModule,
-    TabViewModule,
-    FieldsetModule,
-    InputTextModule,
-    KeyFilterModule,
-    InputNumberModule,
-    RippleModule,
-    TableModule,
-    TagModule,
-    ProgressBarModule,
-    DropdownModule,
-    FormsModule,
-    SpeedDialModule,
-    ReactiveFormsModule,
-    DialogModule,
-    AnimateModule,
-    SelectButtonModule,
+    imports: [
+        CommonModule,
+        CaisseRoutingModule,
+        CalendarModule,
+        ConfirmDialogModule,
+        TabViewModule,
+        FieldsetModule,
+        InputTextModule,
+        KeyFilterModule,
+        InputNumberModule,
+        RippleModule,
+        TableModule,
+        TagModule,
+        ProgressBarModule,
+        DropdownModule,
+        FormsModule,
+        SpeedDialModule,
+        ReactiveFormsModule,
+        DialogModule,
+        AnimateModule,
+        SelectButtonModule,
+        BlockUIModule,
 
-  ]
+    ]
 })
 export class CaisseModule { }

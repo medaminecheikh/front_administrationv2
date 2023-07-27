@@ -36,7 +36,7 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-facture>
-            <tr>
+            <tr (dblclick)="ImportFacture(facture)">
               <td><span
                 class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
               </td>

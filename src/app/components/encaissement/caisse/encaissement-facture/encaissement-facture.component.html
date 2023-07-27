@@ -57,7 +57,7 @@
                     <div class="row mt-2" *ngIf="isModeESPECES()">
 
                     </div>
-                    <div class="row mt-2" *ngIf="isModeCheque()">
+                    <div class="row mt-2 align-content-around" *ngIf="isModeCheque()">
 
                       <div class="row mt-1 col-12 justify-content-around">
                         <div class="form-group col-auto ">
@@ -85,7 +85,7 @@
                         <div class="form-group col-auto">
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-handshake"></i></span>
+                              <span class="input-group-text"><i class="fas fa-water"></i></span>
                             </div>
                             <input formControlName="numCheq" placeholder="Numero cheque" type="text"
                                    class="form-control">
@@ -95,7 +95,7 @@
                         <div class="form-group col-auto ">
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-handshake"></i></span>
+                              <span class="input-group-text"><i class="fas fa-water"></i></span>
                             </div>
                             <input formControlName="rib" placeholder="Numero RIB" type="text" class="form-control">
 
@@ -104,8 +104,8 @@
                       </div>
 
                     </div>
-                    <div class="row mt-2" *ngIf="isModeCarteBancaire()">
-                      <div class="row col-12 justify-content-around">
+                    <div class="row mt-2 " *ngIf="isModeCarteBancaire()">
+                      <div class="row mt-2 col-12 justify-content-around">
                         <div class="form-group col-auto ">
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
@@ -124,6 +124,19 @@
 
                           </div>
                         </div>
+                        <div class="row mt-2 justify-content-center">
+                          <div class="form-group col-auto ">
+                            <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-rectangle-list"></i></span>
+                              </div>
+                              <input formControlName="agenceBQ" placeholder="Numero Carte" type="text"
+                                     class="form-control">
+
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
@@ -344,30 +357,35 @@
 
                 </div>
               </form>
+
               <div class="row mt-3">
+
                 <div class="col-12 table-responsive">
                   <table class="table table-striped">
                     <thead>
                     <tr>
-                      <th>Qty</th>
-                      <th>Product</th>
-                      <th>Serial #</th>
-                      <th>Description</th>
-                      <th>Subtotal</th>
+                      <th>Id Client</th>
+                      <th>N° Recu</th>
+                      <th>Methode Paiement</th>
+                      <th>Date Paiement</th>
+                      <th>Montant Payé</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let encaissement of encaissementsArray; let i = index">
-                      <td>{{ encaissement.idEncaissement }}</td>
-                      <td>{{ encaissement.dateEnc | date }}</td>
-                      <td>{{ encaissement.montantEnc }}</td>
+                      <td>{{ encaissement.identifiant }}</td>
+                      <td>{{ encaissement.numRecu  }}</td>
+                      <td>{{ encaissement.modePaiement | titlecase }}</td>
+                      <td>{{ encaissement.dateEnc | date:"MM/dd/yyyy" }}</td>
+                      <td><b>{{ encaissement.montantEnc | number: '1.3-3' }} <small class="float-right"> TND</small></b></td>
                     </tr>
                     <tr>
                       <td>1</td>
                       <td>Call of Duty</td>
                       <td>455-981-221</td>
-                      <td>El snort testosterone trophy driving gloves handsome</td>
-                      <td>$64.50</td>
+                      <td>El snort testosterone t</td>
+                      <td >$64.50 <small class="text-right"> TND</small></td>
+
                     </tr>
                     <tr>
                       <td colspan="5" class=" text-center">
@@ -378,7 +396,7 @@
                       <td>1</td>
                       <td>Monsters DVD</td>
                       <td>735-845-642</td>
-                      <td>Terry Richardson helvetica tousled street art master</td>
+                      <td>Terry Richardson helvetica </td>
                       <td>$10.70</td>
                     </tr>
                     <tr>
