@@ -230,7 +230,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     }, error => () => {
     }, () => {
       this.getEtt();
-      this.toastr.success('Caisse deleted successfully.');
+      this.toastr.success('Caisse deleted successfully.','Success');
     });
   }
 }

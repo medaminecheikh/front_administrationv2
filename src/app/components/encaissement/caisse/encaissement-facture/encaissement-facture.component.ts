@@ -7,7 +7,7 @@ import {FactureService} from "../../../../services/facture.service";
 import {EncaissementService} from "../../../../services/encaissement.service";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {ListFactureComponent} from "../list-facture/list-facture.component";
-import {MenuItem} from "primeng/api";
+import {ConfirmationService, MenuItem} from "primeng/api";
 import {debounceTime, Subscription} from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
@@ -25,6 +25,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   factureForm !: FormGroup;
   encaissementForm?: FormGroup;
   encaissementsArray: Encaissement[] = [];
+  encaissFactArray: Encaissement[] = [];
   total: number = 0.000;
   selectedFacture?: InfoFacture;
   private montantSubscription?: Subscription;
@@ -44,7 +45,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private factureService: FactureService,
               private encaissementService: EncaissementService,
-              private dialogService: DialogService
+              private dialogService: DialogService,
+              private confirmationService: ConfirmationService
   ) {
 
   }
@@ -80,12 +82,15 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.factureForm.reset();
         this.patchFactureValues();
         this.updateRequest = true;
-        this.encaissementsArray=[];
+        facture.encaissements.forEach(value => {
+          this.encaissFactArray.push(value.encaissement);
+        });
+        this.encaissementsArray = [];
       }
     });
   }
 
-   patchFactureValues(): void {
+  patchFactureValues(): void {
 
     this.factureForm.patchValue({
       idFacture: this.selectedFacture?.idFacture,
@@ -108,26 +113,15 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.items = [
       {
         tooltipOptions: {
-          tooltipLabel: 'Delete',
-          tooltipPosition: 'bottom'
+          tooltipLabel: 'Import',
+          tooltipPosition: 'left'
         },
-        icon: 'pi pi-trash ',
+        icon: 'pi pi-download',
         command: () => {
-
-        }
-      },
-
-      {
-        tooltipOptions: {
-          tooltipLabel: 'Refresh',
-          tooltipPosition: 'bottom'
+          this.importFacture();
         },
-        icon: 'pi pi-refresh',
-        command: () => {
 
-        }
       },
-
       {
         tooltipOptions: {
           tooltipLabel: 'PDF',
@@ -143,25 +137,44 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         },
         icon: 'pi pi-print'
 
-      }, {
+      },
+      {
         tooltipOptions: {
-          tooltipLabel: 'Import',
-          tooltipPosition: 'left'
+          tooltipLabel: 'Refresh',
+          tooltipPosition: 'bottom'
         },
-        icon: 'pi pi-download',
+        icon: 'pi pi-refresh',
         command: () => {
-          this.importFacture();
+          this.reloadpage();
+        }
+      },
+      {
+        tooltipOptions: {
+          tooltipLabel: 'Delete',
+          tooltipPosition: 'bottom'
         },
+        icon: 'pi pi-trash ',
+        command: () => {
+          if (this.selectedFacture?.idFacture) {
+            this.confirmDelete(this.selectedFacture?.idFacture);
+          } else {
+            this.toastr.info('Import Facture !.', 'Info');
 
+          }
+
+        }
       }
+
+
     ];
   }
 
-   initEncaissForm() {
+  initEncaissForm() {
 
     this.encaissementForm = this.initEncaissementForm();
-    this.visible=false;
+    this.visible = false;
   }
+
   private initForm(): void {
     this.factureForm = this.formBuilder.group({
       idFacture: [''],
@@ -252,13 +265,14 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.encaissementsArray.push(this.encaissementForm.value);
         this.initEncaissForm(); // Reset the form after adding
         this.toastr.success('Payment added successfully!', 'Success');
-        this.visible=false;
-      } else  this.toastr.warning('Please fill the Payment correctly.', 'Warning');
+        this.visible = false;
+      } else this.toastr.warning('Please fill the Payment correctly.', 'Warning');
 
     } else {
       this.toastr.warning('Please fill the Payment form correctly.', 'Warning');
     }
   }
+
   selectEspece(): void {
     this.encaissementForm?.get('modePaiement')?.setValue('ESPECES');
   }
@@ -266,9 +280,11 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   selectCreditCard(): void {
     this.encaissementForm?.get('modePaiement')?.setValue('CARTE BANCAIRE');
   }
+
   selectCheque(): void {
     this.encaissementForm?.get('modePaiement')?.setValue('CHEQUE');
   }
+
   isModeESPECES(): boolean {
     return this.encaissementForm?.get('modePaiement')?.value === 'ESPECES';
   }
@@ -286,6 +302,81 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       this.encaissementsArray.splice(i, 1);
       this.toastr.info('Payment removed successfully!', 'Info');
     }
+  }
+
+  resetArrayEncaiss() {
+    const valueChangesSubscription = this.factureForm.valueChanges
+      .pipe(debounceTime(1000)) // Wait for 3 seconds after each change
+      .subscribe((value) => {
+        // Code to execute after 3 seconds of no value changes
+        this.toastr.info('Payement Reset after changes.', 'Info');
+        this.visible = false;
+        this.encaissementsArray = [];
+        // Put your code here...
+      });
+    this.subscriptions.push(valueChangesSubscription);
+  }
+
+  deleteEncaiss(idEncaissement: string, i: number) {
+    if (this.selectedFacture) {
+      const idFac = this.selectedFacture.idFacture;
+      this.factureService.removeEncaissementFromFacture(idEncaissement, idFac).subscribe(
+        () => {
+          if (i >= 0 && i < this.encaissementsArray.length) {
+            this.encaissFactArray.splice(i, 1);
+            this.toastr.info('Payment deleted successfully!', 'Info');
+          }
+        }, () => {
+          this.toastr.error('Payment delete failed!', 'Error');
+
+        },
+        () => {
+
+
+        }
+      );
+    }
+
+  }
+
+  reloadpage() {
+    this.router.navigate(['encaissement/caisse/facture']).then(() => {
+      // Reload the current page
+      location.reload();
+    });
+  }
+
+  confirmDelete(facId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to proceed?',
+      header: 'Delete Facture',
+      icon: 'pi pi-exclamation-triangle  text-danger',
+      acceptIcon: 'pi pi-check',
+      acceptButtonStyleClass: 'p-button-link',
+      rejectButtonStyleClass: 'p-button-link text-danger',
+      accept: () => {
+        // Handle the accept action
+        this.deleteFacture(facId);
+
+      },
+      reject: () => {
+        // Handle the reject action
+      }
+    });
+  }
+
+  deleteFacture(facId: string): void {
+    this.factureService.deleteFacture(facId).subscribe(() => {
+      // Call the searchCaisse() method to refresh the list of caisses
+      this.reloadpage();
+
+    }, (error)=>{
+      this.toastr.error('Facture delete failed.', 'Error');
+
+    }, () => {
+
+      this.toastr.success('Facture deleted successfully.', 'Success');
+    });
   }
 
   SaveFacture() {
@@ -314,16 +405,4 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
 
 
-   resetArrayEncaiss() {
-     const valueChangesSubscription = this.factureForm.valueChanges
-       .pipe(debounceTime(1000)) // Wait for 3 seconds after each change
-       .subscribe((value) => {
-         // Code to execute after 3 seconds of no value changes
-         this.toastr.info('Payement Reset after changes.', 'Info');
-         this.visible=false;
-         this.encaissementsArray=[];
-         // Put your code here...
-       });
-     this.subscriptions.push(valueChangesSubscription);
-  }
 }
