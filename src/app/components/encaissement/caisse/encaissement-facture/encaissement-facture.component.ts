@@ -370,7 +370,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       // Call the searchCaisse() method to refresh the list of caisses
       this.reloadpage();
 
-    }, (error)=>{
+    }, (error) => {
       this.toastr.error('Facture delete failed.', 'Error');
 
     }, () => {
@@ -380,25 +380,64 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
 
   SaveFacture() {
-    if (this.factureForm.valid) {
-      const facture = this.factureForm.value;
-      if (!this.updateRequest) {
-        this.factureService.addFacture(facture).subscribe((value) => {
-          this.toastr.success('Facture added successfully.', 'Success');
-          this.factureForm.reset();
-          this.factureForm.clearValidators();
+    if (!this.updateRequest) {
+      if (this.factureForm.valid) {
+        const facture = this.factureForm.value;
+        if (!this.updateRequest) {
+          this.factureService.addFacture(facture).subscribe(
+            (value) => {
+              const idFact = value.idFacture;
+              if (this.encaissementsArray.length != 0) {
+                this.encaissementsArray.forEach(value1 => {
+                  this.encaissementService.addEncaiss(value1).subscribe(
+                    (encais) => {
+                      this.factureService.affectEncaissementToFacture(encais.idEncaissement, idFact);
 
-        }, (error) => {
-          this.toastr.error("Add facture failed !", "Error")
-          console.error(error);
-        }, () => {
+                    }, error => {
+                      this.toastr.error('Payment creation failed.', 'Error');
+                    }
+                  );
+                })
+              }
+            }, (error) => {
+              this.toastr.error("Add facture failed !", "Error")
+              console.error(error);
+            }, () => {
+              this.toastr.success('Facture added successfully.', 'Success');
+              this.factureForm.reset();
+              this.factureForm.clearValidators();
+              this.reloadpage()
 
-        });
+            });
+        }
+
+
+      } else {
+        this.toastr.warning('Fill facture correctly !', 'Warning');
+      }
+    } else {
+      if (this.updateRequest) {
+        if (this.factureForm.valid) {
+          const facture = this.factureForm.value;
+          this.factureService.updateFacture(facture).subscribe(
+            () => {
+              if (this.encaissementsArray.length > 0 && facture.idFacture) {
+                this.encaissementsArray.forEach((value) => {
+                  this.encaissementService.addEncaiss(value).subscribe((encaissment) => {
+                    this.factureService.affectEncaissementToFacture(encaissment.idEncaissement, facture.idFacture)
+                  }, () => {
+                    this.toastr.error("Payment creation failed !", "Error");
+                  });
+                })
+
+              }
+            }, () => {
+              this.toastr.error("Facture update failed !", "Error");
+            }
+          );
+        }
       }
 
-
-    } else {
-      this.toastr.warning('Fill facture correctly !', 'Warning');
     }
 
 

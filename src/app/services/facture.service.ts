@@ -35,8 +35,8 @@ export class FactureService {
     return this.http.get<InfoFacture[]>(`${this.baseUrl}/all`);
   }
 
-  updateFacture(idFacture: string, facture: InfoFacture): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/updatefacture/${idFacture}`, facture);
+  updateFacture( facture: InfoFacture): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/updatefacture/`, facture);
   }
 
   deleteFacture(idFacture: string): Observable<void> {
