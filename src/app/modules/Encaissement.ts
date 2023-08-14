@@ -1,6 +1,6 @@
 import {Utilisateur} from "./Utilisateur";
 import {Caisse} from "./Caisse";
-import {OperationEncai} from "./OperationEncai";
+import {InfoFacture} from "./InfoFacture";
 
 export interface Encaissement {
   idEncaissement: string;
@@ -25,5 +25,5 @@ export interface Encaissement {
   refBordereau: string;
   user: Utilisateur;
   caisse: Caisse;
-  operationEncai: OperationEncai;
+  facture: InfoFacture;
 }

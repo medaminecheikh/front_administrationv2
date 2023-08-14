@@ -1,5 +1,5 @@
 import {Utilisateur} from "./Utilisateur";
-import {OperationEncai} from "./OperationEncai";
+import {Encaissement} from "./Encaissement";
 
 export interface InfoFacture {
   idFacture: string;
@@ -14,6 +14,6 @@ export interface InfoFacture {
   identifiant: string;
   datLimPai: Date;
   periode: string;
-  encaissements: OperationEncai[];
+  encaissements: Encaissement[];
   user: Utilisateur;
 }

@@ -223,7 +223,7 @@
               </div>
               <br>
               <div class="row col-12 justify-content-center">
-                <a class="text-center "><h1> Facture </h1></a>
+                <a class="text-center "><h1> Espace Facturation </h1></a>
 
 
               </div>
@@ -231,7 +231,7 @@
               <div class="row">
                 <div class="col-12">
                   <h4>
-                    <i class="fas fa-globe"></i> AdminLTE, Inc.
+                    <i class="fas fa-file-circle-check text-info"></i>  Fichier de Facturation
 
                   </h4>
                 </div>
@@ -240,10 +240,10 @@
               <form [formGroup]="factureForm">
                 <div class="row invoice-info">
 
-                  <div class="col-sm-4 invoice-col">
+                  <div class="col-sm-4 invoice-col mt-2">
 
-                    From
-                    <address>
+
+                    <address class="ml-2">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Reference :</label>
                         <div class="col-sm-auto">
@@ -277,13 +277,12 @@
                         </div>
                       </div>
 
-                      <p class="mt-1">Date : {{ today | date:'MMMM dd, yyyy' }}</p>
 
                     </address>
                   </div>
 
-                  <div class="col-sm-4 invoice-col">
-                    To
+                  <div class="col-sm-4 invoice-col mt-2">
+
                     <address>
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Code client :</label>
@@ -395,36 +394,12 @@
                       </span>
                       </td>
                     </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Call of Duty</td>
-                      <td>455-981-221</td>
-                      <td>El snort testosterone t</td>
-                      <td>$64.50 <small class="text-right"> TND</small></td>
 
-                    </tr>
                     <tr>
                       <td colspan="5" class=" text-center">
-                        <button class="btn btn-primary" (click)="showDialog()">Faire Paiement</button>
+                        <button  (click)="showDialog()"   class="btn bg-gradient-maroon col-2" [disabled]="factureForm.invalid"><i class="fa fa-shopping-basket"></i> Faire Paiement</button>
+
                       </td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Monsters DVD</td>
-                      <td>735-845-642</td>
-                      <td>Terry Richardson helvetica</td>
-                      <td>$10.70 <span class="float-right">
-                        <button type="button" class="btn  btn-tool  bg-gradient-danger"><i class="fas fa-remove"></i>
-                        </button> | <button type="button" class="btn  btn-tool bg-gradient-info"><i class="fas fa-arrows-to-eye"></i></button>
-                      </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Grown Ups Blue Ray</td>
-                      <td>422-568-642</td>
-                      <td>Tousled lomo letterpress</td>
-                      <td>$25.99</td>
                     </tr>
                     </tbody>
                   </table>
@@ -453,21 +428,18 @@
                     <table class="table">
                       <tbody>
                       <tr>
-                        <th style="width:50%">Subtotal:</th>
-                        <td>$250.30</td>
+                        <th style="width:50%">Montant :</th>
+                        <td><h6 >{{total | number: '1.3-3' }} TND</h6></td>
                       </tr>
                       <tr>
-                        <th>Tax (9.3%)</th>
-                        <td>$10.34</td>
+                        <th>Nombre Paiements :</th>
+                        <td><h6>{{encaissementsArray.length + encaissFactArray.length}}</h6></td>
                       </tr>
                       <tr>
-                        <th>Shipping:</th>
-                        <td>$5.80</td>
+                        <th>Total Payé:</th>
+                        <td><h6 >{{totalPaye | number: '1.3-3' }} TND</h6></td>
                       </tr>
-                      <tr>
-                        <th>Total:</th>
-                        <td>$265.24</td>
-                      </tr>
+
                       </tbody>
                     </table>
                   </div>

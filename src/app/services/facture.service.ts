@@ -32,7 +32,7 @@ export class FactureService {
     return this.http.get<InfoFacture[]>(`${this.baseUrl}/facturebyuser/${idUser}`);
   }
   getFactures(): Observable<InfoFacture[]> {
-    return this.http.get<InfoFacture[]>(`${this.baseUrl}/all`);
+    return this.http.get<InfoFacture[]>(`${this.baseUrl}/allfactures`);
   }
 
   updateFacture( facture: InfoFacture): Observable<void> {
@@ -44,7 +44,7 @@ export class FactureService {
   }
 
   affectEncaissementToFacture(encaissementId: string, factureId: string): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/affectencaissement/${factureId}/${encaissementId}`, {});
+    return this.http.post<void>(`${this.baseUrl}/affectencaissement/tofacture/${factureId}/${encaissementId}`, {});
   }
 
   removeEncaissementFromFacture(encaissementId: string, factureId: string): Observable<void> {

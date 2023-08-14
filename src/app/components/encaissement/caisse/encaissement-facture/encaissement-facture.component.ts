@@ -33,6 +33,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   updateRequest: Boolean = false;
   visible: boolean = false;
+   totalPaye: number= 0.000;
 
   showDialog() {
     this.initEncaissForm();
@@ -83,10 +84,12 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.patchFactureValues();
         this.updateRequest = true;
         facture.encaissements.forEach(value => {
-          this.encaissFactArray.push(value.encaissement);
+          this.encaissFactArray.push(value);
         });
         this.encaissementsArray = [];
+        console.log(facture)
       }
+      this.calculateTotalMontant();
     });
   }
 
@@ -191,7 +194,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     });
     this.subToMontant();
     this.resetArrayEncaiss();
-
+    this.calculateTotalMontant();
   }
 
   subToMontant() {
@@ -209,6 +212,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       .subscribe(value => {
         this.calculateTotal();
       });
+    this.calculateTotalMontant();
   }
 
   noWhitespaceStartorEnd(control: FormControl): ValidationErrors | null {
@@ -264,8 +268,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       if (this.encaissementForm.valid) {
         this.encaissementsArray.push(this.encaissementForm.value);
         this.initEncaissForm(); // Reset the form after adding
-        this.toastr.success('Payment added successfully!', 'Success');
         this.visible = false;
+        this.calculateTotalMontant();
       } else this.toastr.warning('Please fill the Payment correctly.', 'Warning');
 
     } else {
@@ -301,6 +305,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     if (i >= 0 && i < this.encaissementsArray.length) {
       this.encaissementsArray.splice(i, 1);
       this.toastr.info('Payment removed successfully!', 'Info');
+      this.calculateTotalMontant();
     }
   }
 
@@ -309,9 +314,11 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(1000)) // Wait for 3 seconds after each change
       .subscribe((value) => {
         // Code to execute after 3 seconds of no value changes
-        this.toastr.info('Payement Reset after changes.', 'Info');
+
         this.visible = false;
         this.encaissementsArray = [];
+        this.calculateTotalMontant();
+
         // Put your code here...
       });
     this.subscriptions.push(valueChangesSubscription);
@@ -331,7 +338,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
         },
         () => {
-
+          this.calculateTotalMontant();
 
         }
       );
@@ -379,11 +386,26 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     });
   }
 
+  calculateTotalMontant()  {
+    let totalMontant = 0;
+
+    // Calculate sum for encaissementsArray
+    for (const encaissement of this.encaissementsArray) {
+      totalMontant += encaissement.montantEnc;
+    }
+
+    // Calculate sum for encaissFactArray
+    for (const encaissement of this.encaissFactArray) {
+      totalMontant += encaissement.montantEnc;
+    }
+
+     this.totalPaye=totalMontant;
+  }
+
   SaveFacture() {
     if (!this.updateRequest) {
       if (this.factureForm.valid) {
         const facture = this.factureForm.value;
-        if (!this.updateRequest) {
           this.factureService.addFacture(facture).subscribe(
             (value) => {
               const idFact = value.idFacture;
@@ -391,7 +413,12 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
                 this.encaissementsArray.forEach(value1 => {
                   this.encaissementService.addEncaiss(value1).subscribe(
                     (encais) => {
-                      this.factureService.affectEncaissementToFacture(encais.idEncaissement, idFact);
+                      this.factureService.affectEncaissementToFacture(encais.idEncaissement, idFact).subscribe(
+                        () => {
+                        }, ( error) => {
+                          console.error(error)
+                        }
+                      );
 
                     }, error => {
                       this.toastr.error('Payment creation failed.', 'Error');
@@ -405,11 +432,10 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
             }, () => {
               this.toastr.success('Facture added successfully.', 'Success');
               this.factureForm.reset();
-              this.factureForm.clearValidators();
-              this.reloadpage()
+
 
             });
-        }
+
 
 
       } else {
@@ -424,7 +450,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               if (this.encaissementsArray.length > 0 && facture.idFacture) {
                 this.encaissementsArray.forEach((value) => {
                   this.encaissementService.addEncaiss(value).subscribe((encaissment) => {
-                    this.factureService.affectEncaissementToFacture(encaissment.idEncaissement, facture.idFacture)
+                    this.factureService.affectEncaissementToFacture(encaissment.idEncaissement, facture.idFacture).subscribe();
                   }, () => {
                     this.toastr.error("Payment creation failed !", "Error");
                   });
@@ -433,8 +459,11 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               }
             }, () => {
               this.toastr.error("Facture update failed !", "Error");
+            }, () => {
+
             }
           );
+
         }
       }
 

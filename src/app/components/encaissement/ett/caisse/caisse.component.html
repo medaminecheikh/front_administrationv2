@@ -20,7 +20,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 ">
-          <p-confirmDialog  [style]="{width: '50vw'}" ></p-confirmDialog>
+          <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
           <section class="content">
             <div class="row ml-1">
 
@@ -29,210 +29,184 @@
 
                 </div>
                 <div class="card-body">
-                  <h4>Barre de Gestion</h4>
+
                   <div class="row">
-                    <div class="col-3 col-sm-2">
-                      <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist"
-                           aria-orientation="vertical">
-                        <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home"
-                           role="tab" aria-controls="vert-tabs-home" aria-selected="true">
-                          <i class="fas fa-cash-register"></i> Creation Caisse
-                        </a>
-                        <a class="nav-link" (click)="searchCaisse()" id="vert-tabs-profile-tab" data-toggle="pill"
-                           href="#vert-tabs-profile"
-                           role="tab" aria-controls="vert-tabs-profile" aria-selected="false">
-                          <i class="fas fa-list-dots"></i> Liste des Caisses
-                        </a>
+
+                    <div class="col-12 ">
+                      <div class="d-flex justify-content-center">
+                        <div class=" text-center">
+                          <a class=" h2"><i class="fas fa-plus-circle "></i> Creation Caisse </a>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-7 col-sm-10">
-                      <div class="tab-content" id="vert-tabs-tabContent">
-                        <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel"
-                             aria-labelledby="vert-tabs-home-tab">
-                          <div class="d-flex justify-content-center">
-                            <div class=" text-center">
-                              <a class=" h2"><i class="fas fa-plus-circle "></i> Creation Caisse </a>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-12">
+
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-5">
+                          <p-divider align="left">
+                            <div class="inline-flex align-items-center">
+                              <i class="fas fa-cash-register mr-2"></i>
+                              <b>Données de Caisse</b>
                             </div>
-                          </div>
-                          <br>
-                          <div class="row">
-                            <div class="col-md-12">
-
+                          </p-divider>
+                        </div>
+                        <div class="col-md-7">
+                          <p-divider align="left">
+                            <div class="inline-flex align-items-center">
+                              <i class="fas fa-user-circle mr-2"></i>
+                              <b>Choisir Compte</b>
                             </div>
-                          </div>
+                          </p-divider>
+                        </div>
+                      </div>
+                      <div class="row ml-2">
+                        <div class="col-sm-5">
 
-                          <div class="row">
-                            <div class="col-md-7">
-                              <p-divider align="left">
-                                <div class="inline-flex align-items-center">
-                                  <i class="fas fa-cash-register mr-2"></i>
-                                  <b>Données de Caisse</b>
-                                </div>
-                              </p-divider>
-                            </div>
-                            <div class="col-md-5">
-                              <p-divider align="left">
-                                <div class="inline-flex align-items-center">
-                                  <i class="fas fa-user-circle mr-2"></i>
-                                  <b>Choisir Compte</b>
-                                </div>
-                              </p-divider>
-                            </div>
-                          </div>
-                          <div class="row ml-2">
-                            <div class="col-md-6">
+                          <form [formGroup]="caisseForm">
+                            <div class="row ml-2">
 
-                              <form [formGroup]="caisseForm">
-                                <div class="row ml-2">
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                  <label> N° Caisse : </label>
+                                  <div class="input-group input-group-sm">
 
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label> N° Caisse : </label>
-                                      <div class="input-group input-group-sm">
-
-                                        <div class="input-group-prepend">
-                                          <span class="input-group-text"><i class="fas fa-list-numeric"></i></span>
-                                        </div>
-                                        <select formControlName="numCaise" class="form-control ">
-                                          <option value="" disabled>-- Choisir --</option>
-                                          <option *ngFor="let num of caisseDispo()" [value]="num">{{ num }}</option>
-                                        </select>
-                                      </div>
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-list-numeric"></i></span>
                                     </div>
+                                    <select formControlName="numCaise" class="form-control ">
+                                      <option value="" disabled>-- Choisir --</option>
+                                      <option *ngFor="let num of caisseDispo()" [value]="num">{{ num }}</option>
+                                    </select>
                                   </div>
-                                  <div class="col-md-5 ml-4">
-                                    <div class="form-group">
-                                      <label>Status :</label>
-                                      <div class="input-group input-group-sm">
-                                        <div class="input-group-prepend">
-                                          <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
-                                        </div>
-                                        <select formControlName="f_Actif" class="form-control">
-                                          <option value="" disabled>-- Choisir --</option>
-                                          <option value="1">Activer</option>
-                                          <option value="0">Desactiver</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                </div>
-                              </form>
-                            </div>
-                            <div class="col-1">
-                              <p-divider layout="vertical"></p-divider>
-                            </div>
-
-                            <div class="col-md-3">
-                              <div class="form-group">
-                                <label>Utilisateur</label>
-                                <div class="input-group input-group-sm">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
-                                  </div>
-                                  <select class="form-control" [ngModel]="userselected"
-                                          (ngModelChange)="userselected = $event">
-                                    <option value="">-- Clear --</option>
-                                    <option *ngFor="let item of usersfromett" [value]="item?.idUser">
-                                      {{ item?.login || 'Select Espace TT' }}
-                                    </option>
-                                  </select>
-
                                 </div>
                               </div>
-                            </div>
+                              <div class="col-md-5 ml-4">
+                                <div class="form-group">
+                                  <label>Status :</label>
+                                  <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                                    </div>
+                                    <select formControlName="f_Actif" class="form-control">
+                                      <option value="" disabled>-- Choisir --</option>
+                                      <option value="1">Activer</option>
+                                      <option value="0">Desactiver</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
 
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-                              <p-divider></p-divider>
                             </div>
-                          </div>
-                          <br>
-                          <div class="row mr-2">
+                          </form>
+                        </div>
+                        <div class="col-1">
+                          <p-divider layout="vertical"></p-divider>
+                        </div>
 
-                            <div class="col-3 ml-auto">
-                              <button class="btn btn-sm btn-block bg-gradient-success" type="button"
-                                      (click)="addCaisse()">Save <i
-                                class="fa-regular fa-circle-check"></i></button>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Utilisateur</label>
+                            <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                              </div>
+                              <select class="form-control" [ngModel]="userselected"
+                                      (ngModelChange)="userselected = $event">
+                                <option value="">-- Clear --</option>
+                                <option *ngFor="let item of usersfromett" [value]="item?.idUser">
+                                  {{ item?.login || 'Select Espace TT' }}
+                                </option>
+                              </select>
+
                             </div>
-                          </div>
-                          <div class="col-md-4">
-
                           </div>
                         </div>
-                        <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel"
-                             aria-labelledby="vert-tabs-profile-tab">
-                          <div class="card" style="height: 660px">
-                            <div style="overflow-x: auto; max-width: 100%;">
-                              <p-table [value]="listCaisse"
-                                       [paginator]="true"
-                                       [rows]="9"
-                                       [showCurrentPageReport]="true"
-                                       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                       [rowHover]="true"
-                                       responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
-                                <ng-template pTemplate="header">
-                                  <tr>
-                                    <th pSortableColumn="numCaise" style="width:20%">N°Caisse
-                                      <p-sortIcon field="numCaise"></p-sortIcon>
-                                    </th>
-                                    <th pSortableColumn="cod_ett.adr" style="width:20%">Espace TT
-                                      <p-sortIcon field="cod_ett.adr"></p-sortIcon>
-                                    </th>
-                                    <th pSortableColumn="f_Actif" style="width:20%">Status
-                                      <p-sortIcon field="f_Actif"></p-sortIcon>
-                                    </th>
-                                    <th pSortableColumn="login.login" style="width:20%">Compte
-                                      <p-sortIcon field="login.login"></p-sortIcon>
-                                    </th>
-                                    <th style="width:20%">Supprimer</th>
-                                  </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-caisse>
-                                  <tr>
-                                    <td><span
-                                      class="flex justify-content-around mr-5 text-bold">N° {{caisse.numCaise}}</span>
-                                    </td>
-                                    <td><span class="flex justify-content-around mr-5 ">{{caisse.cod_ett.adr}}</span>
-                                    </td>
-                                    <td><span *ngIf="caisse.f_Actif==='1'"> <p-tag icon="pi pi-check" severity="success"
-                                                                                   value=" Activer "></p-tag></span>
-
-                                      <span *ngIf="caisse.f_Actif==='0'"> <p-tag icon="pi pi-exclamation-triangle"
-                                                                                 severity="warning"
-                                                                                 value=" Desactiver "></p-tag></span>
-                                    </td>
-                                    <td>
-                                      <ng-container *ngIf="caisse.login">
-                                        <i class="fas fa-user"></i> {{ caisse.login.login }}
-                                      </ng-container>
-                                      <ng-container *ngIf="!caisse.login">
-                                        <i class="fas fa-exclamation-circle text-cyan"></i> Aucun compte
-                                      </ng-container>
-                                    </td>
-
-                                    <td>
-
-                                      <button  class="btn btn-sm bg-gradient-danger ml-4" (click)="confirmDelete(caisse.idCaisse)"><i
-                                        class="fas fa-trash-can"></i>
-                                      </button>
-
-                                    </td>
-                                  </tr>
-                                </ng-template>
-                              </p-table>
-                            </div>
-                          </div>
-
+                        <div class="col-sm-2 ml-auto mt-6">
+                          <button class="btn btn-sm btn-block bg-gradient-lightblue" type="button"
+                                  (click)="addCaisse()">Save <i
+                            class="fa-regular fa-circle-check"></i></button>
                         </div>
 
                       </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <p-divider></p-divider>
+                        </div>
+                      </div>
+
+
+                      <div class="card" style="height: 660px">
+                        <div style="overflow-x: auto; max-width: 100%;">
+                          <p-table [value]="listCaisse"
+                                   [paginator]="true"
+                                   [rows]="9"
+                                   [showCurrentPageReport]="true"
+                                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                   [rowHover]="true"
+                                   responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
+                            <ng-template pTemplate="header">
+                              <tr>
+                                <th pSortableColumn="numCaise" style="width:20%">N°Caisse
+                                  <p-sortIcon field="numCaise"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="cod_ett.adr" style="width:20%">Espace TT
+                                  <p-sortIcon field="cod_ett.adr"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="f_Actif" style="width:20%">Status
+                                  <p-sortIcon field="f_Actif"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="login.login" style="width:20%">Compte
+                                  <p-sortIcon field="login.login"></p-sortIcon>
+                                </th>
+                                <th style="width:20%">Supprimer</th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-caisse>
+                              <tr>
+                                <td><span
+                                  class="flex justify-content-around mr-5 text-bold">N° {{caisse.numCaise}}</span>
+                                </td>
+                                <td><span class="flex justify-content-around mr-5 ">{{caisse.cod_ett.adr}}</span>
+                                </td>
+                                <td><span *ngIf="caisse.f_Actif==='1'"> <p-tag icon="pi pi-check" severity="success"
+                                                                               value=" Activer "></p-tag></span>
+
+                                  <span *ngIf="caisse.f_Actif==='0'"> <p-tag icon="pi pi-exclamation-triangle"
+                                                                             severity="warning"
+                                                                             value=" Desactiver "></p-tag></span>
+                                </td>
+                                <td>
+                                  <ng-container *ngIf="caisse.login">
+                                    <i class="fas fa-user"></i> {{ caisse.login.login }}
+                                  </ng-container>
+                                  <ng-container *ngIf="!caisse.login">
+                                    <i class="fas fa-exclamation-circle text-cyan"></i> Aucun compte
+                                  </ng-container>
+                                </td>
+
+                                <td>
+
+                                  <button class="btn btn-sm bg-gradient-danger ml-4"
+                                          (click)="confirmDelete(caisse.idCaisse)"><i
+                                    class="fas fa-trash-can"></i>
+                                  </button>
+
+                                </td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                        </div>
+                      </div>
                     </div>
+
+
                   </div>
 
                 </div>
-
               </div>
             </div>
           </section>

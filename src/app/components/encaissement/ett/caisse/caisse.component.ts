@@ -172,7 +172,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
             // Reload the current page
             location.reload();
           });
-          this.toastr.success('Caisse added successfully.','Success');
+          this.toastr.success('Caisse added successfully.', 'Success');
         },
         (error) => {
           // Handle error
@@ -210,12 +210,12 @@ export class CaisseComponent implements OnInit, OnDestroy {
       header: 'Delete Caisse',
       icon: 'pi pi-exclamation-triangle  text-danger',
       acceptIcon: 'pi pi-check',
-      acceptButtonStyleClass:'p-button-link' ,
-      rejectButtonStyleClass:'p-button-link',
+      acceptButtonStyleClass: 'p-button-link',
+      rejectButtonStyleClass: 'p-button-link',
       accept: () => {
         // Handle the accept action
         this.deleteCaisse(idCaisse);
-
+        this.searchCaisse();
       },
       reject: () => {
         // Handle the reject action
@@ -230,7 +230,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     }, error => () => {
     }, () => {
       this.getEtt();
-      this.toastr.success('Caisse deleted successfully.','Success');
+      this.toastr.success('Caisse deleted successfully.', 'Success');
     });
   }
 }
