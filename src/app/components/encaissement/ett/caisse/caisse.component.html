@@ -118,9 +118,10 @@
                               </div>
                               <select class="form-control" [ngModel]="userselected"
                                       (ngModelChange)="userselected = $event">
-                                <option value="">-- Clear --</option>
+                                <option *ngIf="updateRequest"  [value]="updateselectedCaisse?.login?.idUser" [selected]="true" > {{updateselectedCaisse?.login?.login}}</option>
+                                <option value="x">-- Remove --</option>
                                 <option *ngFor="let item of usersfromett" [value]="item?.idUser">
-                                  {{ item?.login || 'Select Espace TT' }}
+                                  {{ item?.login || 'No users left' }}
                                 </option>
                               </select>
 

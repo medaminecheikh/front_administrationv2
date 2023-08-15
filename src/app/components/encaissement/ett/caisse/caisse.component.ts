@@ -31,7 +31,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
   userSubscription!: Subscription;
   ettSubscription!: Subscription;
   updateRequest: boolean = false;
-  updateselectedCaisse?:Caisse;
+  updateselectedCaisse?: Caisse;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private zoneService: ZoneService,
@@ -57,7 +58,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
     this.ettSubscription.unsubscribe();
-
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   getUser() {
@@ -93,10 +94,10 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   searchCaisse(): void {
     if (this.ett) {
-
-      this.caisseService.getCaissesByEttId(this.ett.idEtt).subscribe((value) => {
+      const subs = this.caisseService.getCaissesByEttId(this.ett.idEtt).subscribe((value) => {
         this.listCaisse = value;
       })
+      this.subscriptions.push(subs)
     }
   }
 
@@ -114,7 +115,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
   getUsersFromEtt() {
     if (this.ett) {
       const ettselected = this.ett.idEtt
-      this.ettService.getEtt(ettselected).subscribe((value) => {
+      const sub = this.ettService.getEtt(ettselected).subscribe((value) => {
         this.usersfromett = value.utilisateurs.filter((user) => {
           return user.profilUser.some((profilUser) => profilUser.profil.nomP === 'FO')
             && !user.caisse;
@@ -122,6 +123,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
         this.userselected = null; // Reset the user selection
         console.log(this.usersfromett);
       });
+      this.subscriptions.push(sub);
     }
 
   }
@@ -129,6 +131,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   initializeForm(): void {
     this.caisseForm = this.formBuilder.group({
+      idCaisse: [''],
       numCaise: ['', Validators.required],
       f_Actif: ['0', Validators.required]
     });
@@ -138,7 +141,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     this.caisseForm.reset();
     this.initializeForm();
     this.updateRequest = false;
-
+    this.userselected = null;
   }
 
   addCaisse() {
@@ -147,7 +150,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
       const user = this.userselected;
       const ettid = this.ett.idEtt;
 
-      this.caisseService.addCaisse(caisse).pipe(
+      const sub1 = this.caisseService.addCaisse(caisse).pipe(
         switchMap((response) => {
           const idCaisse = response.idCaisse;
           let observableChain = of(null);
@@ -165,7 +168,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
               map(() => null) // Transform the emitted value to null
             );
           }
-
+          this.subscriptions.push(sub1);
           return observableChain.pipe(
             catchError((error) => {
               // Rollback the changes if an error occurs
@@ -232,14 +235,17 @@ export class CaisseComponent implements OnInit, OnDestroy {
   }
 
   deleteCaisse(caisseId: string): void {
-    this.caisseService.deleteCaisse(caisseId).subscribe(() => {
+    const sub = this.caisseService.deleteCaisse(caisseId).subscribe(() => {
       // Call the searchCaisse() method to refresh the list of caisses
       this.searchCaisse();
     }, error => () => {
     }, () => {
       this.getEtt();
       this.toastr.success('Caisse deleted successfully.', 'Success');
+      this.resetpage();
+      this.updateselectedCaisse=undefined;
     });
+    this.subscriptions.push(sub);
   }
 
   onRowSelect() {
@@ -250,7 +256,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
       this.caisseForm.patchValue(this.updateselectedCaisse)
       console.log("event data :", this.updateselectedCaisse)
-      console.log("event data :", this.caisseForm.value)
+      console.log("event form :", this.caisseForm.value)
+      console.log("event userselected :", this.userselected)
 
     }
 
@@ -258,10 +265,38 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   onRowUnselect() {
     console.log("unselect data :", this.updateselectedCaisse)
+    this.userselected = null;
     this.resetpage();
   }
 
   updateCaisse() {
+    const caisse = this.caisseForm.value;
+    const oldUser = this.updateselectedCaisse?.login;
+    const sub1 = this.caisseService.updateCaisse(caisse).subscribe(
+      () => {
+        if (oldUser && this.userselected) {
+          if (oldUser.idUser != this.userselected) {
+              const sub2 = this.caisseService.affecterCaisseToUser(caisse.idCaisse, this.userselected).subscribe();
+              this.subscriptions.push(sub2);
+          }
+          if (this.userselected === 'x') {
+            if (this.updateselectedCaisse?.login.idUser) {
+              const sub3 = this.caisseService.removeUser(this.updateselectedCaisse?.login.idUser).subscribe();
+              this.subscriptions.push(sub3);
+            }
+          }
 
+        }
+      }, (error) => {
+        this.toastr.error("Update failed ", "Error")
+      }, () => {
+        // Success
+        this.router.navigate(['encaissement/ett/caisse']).then(() => {
+          // Reload the current page
+          location.reload();
+        });
+      }
+    );
+    this.subscriptions.push(sub1);
   }
 }

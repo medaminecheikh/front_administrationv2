@@ -79,6 +79,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       });
     this.ref.onClose.subscribe((facture: InfoFacture) => {
       if (facture) {
+        this.encaissFactArray=[];
         this.selectedFacture = facture;
         this.factureForm.reset();
         this.patchFactureValues();
@@ -460,7 +461,12 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
             }, () => {
               this.toastr.error("Facture update failed !", "Error");
             }, () => {
+              this.encaissementsArray.forEach(value => {
+                this.encaissFactArray.push(value);
+              })
 
+              this.encaissementsArray=[];
+              this.encaissementForm?.reset();
             }
           );
 
