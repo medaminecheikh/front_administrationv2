@@ -35,9 +35,10 @@
                     <div class="col-12 ">
                       <div class="d-flex justify-content-center">
                         <div class=" text-center">
-                          <a class=" h2"><i class="fas fa-plus-circle "></i> Creation Caisse </a>
+                          <a class=" h2"> <i class="fas fa-campground"></i> Gérer les Caisses</a>
                         </div>
                       </div>
+                      <br>
                       <br>
                       <div class="row">
                         <div class="col-md-12">
@@ -78,8 +79,9 @@
                                       <span class="input-group-text"><i class="fas fa-list-numeric"></i></span>
                                     </div>
                                     <select formControlName="numCaise" class="form-control ">
+                                      <option *ngIf="updateRequest" [value]="caisseForm.get('numCaise')?.value" >{{caisseForm.get('numCaise')?.value }}</option>
                                       <option value="" disabled>-- Choisir --</option>
-                                      <option *ngFor="let num of caisseDispo()" [value]="num">{{ num }}</option>
+                                      <option *ngFor="let num of caisseDispo()" [value]="num" >{{ num }}</option>
                                     </select>
                                   </div>
                                 </div>
@@ -126,9 +128,16 @@
                           </div>
                         </div>
                         <div class="col-sm-2 ml-auto mt-6">
-                          <button class="btn btn-sm btn-block bg-gradient-lightblue" type="button"
-                                  (click)="addCaisse()">Save <i
-                            class="fa-regular fa-circle-check"></i></button>
+                          <ng-container *ngIf="!updateRequest">
+                            <button class="btn btn-sm btn-block bg-gradient-lightblue" type="button"
+                                    (click)="addCaisse()">Save <i
+                              class="fa-regular fa-circle-check"></i></button>
+                          </ng-container>
+                          <ng-container *ngIf="updateRequest">
+                            <button class="btn btn-sm btn-block bg-gradient-warning" type="button"
+                                    (click)="updateCaisse()">Update <i
+                              class="fa-regular fa-circle-check"></i></button>
+                          </ng-container>
                         </div>
 
                       </div>
@@ -139,7 +148,7 @@
                       </div>
 
 
-                      <div class="card" style="height: 660px">
+                      <div class="card mt-3" style="height: 660px">
                         <div style="overflow-x: auto; max-width: 100%;">
                           <p-table [value]="listCaisse"
                                    [paginator]="true"
@@ -147,6 +156,9 @@
                                    [showCurrentPageReport]="true"
                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                                    [rowHover]="true"
+                                   selectionMode="single"
+                                   [(selection)]="updateselectedCaisse"
+                                   (onRowSelect)="onRowSelect()" (onRowUnselect)="onRowUnselect()"
                                    responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
                             <ng-template pTemplate="header">
                               <tr>
@@ -166,7 +178,7 @@
                               </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-caisse>
-                              <tr>
+                              <tr [pSelectableRowDblClick]="caisse" >
                                 <td><span
                                   class="flex justify-content-around mr-5 text-bold">N° {{caisse.numCaise}}</span>
                                 </td>

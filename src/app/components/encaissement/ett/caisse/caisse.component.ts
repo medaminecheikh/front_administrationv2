@@ -30,6 +30,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
   ett!: Ett;
   userSubscription!: Subscription;
   ettSubscription!: Subscription;
+  updateRequest: boolean = false;
+  updateselectedCaisse?:Caisse;
 
   constructor(
     private zoneService: ZoneService,
@@ -132,6 +134,12 @@ export class CaisseComponent implements OnInit, OnDestroy {
     });
   }
 
+  resetpage() {
+    this.caisseForm.reset();
+    this.initializeForm();
+    this.updateRequest = false;
+
+  }
 
   addCaisse() {
     if (this.caisseForm.valid) {
@@ -232,5 +240,28 @@ export class CaisseComponent implements OnInit, OnDestroy {
       this.getEtt();
       this.toastr.success('Caisse deleted successfully.', 'Success');
     });
+  }
+
+  onRowSelect() {
+    this.caisseForm.reset();
+    this.initializeForm();
+    this.updateRequest = true;
+    if (this.updateselectedCaisse) {
+
+      this.caisseForm.patchValue(this.updateselectedCaisse)
+      console.log("event data :", this.updateselectedCaisse)
+      console.log("event data :", this.caisseForm.value)
+
+    }
+
+  }
+
+  onRowUnselect() {
+    console.log("unselect data :", this.updateselectedCaisse)
+    this.resetpage();
+  }
+
+  updateCaisse() {
+
   }
 }
