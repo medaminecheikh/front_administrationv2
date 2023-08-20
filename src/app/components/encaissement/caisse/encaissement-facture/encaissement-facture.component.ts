@@ -330,10 +330,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       const idFac = this.selectedFacture.idFacture;
       this.factureService.removeEncaissementFromFacture(idEncaissement, idFac).subscribe(
         () => {
-          if (i >= 0 && i < this.encaissementsArray.length) {
-            this.encaissFactArray.splice(i, 1);
-            this.toastr.info('Payment deleted successfully!', 'Info');
-          }
+          console.log("i value", i);
+          console.log('Array length:', this.encaissFactArray.length);
+          this.removeEncaissFromArrayAndShowToast(i);
         }, () => {
           this.toastr.error('Payment delete failed!', 'Error');
 
@@ -346,7 +345,14 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     }
 
   }
-
+  removeEncaissFromArrayAndShowToast(i: number) {
+    if (i >= 0 && i < this.encaissFactArray.length) {
+      console.log("i ENTERED", i);
+      this.encaissFactArray.splice(i, 1);
+      console.log("i ENTERED", i);
+      this.toastr.info('Payment deleted successfully!', 'Info');
+    }
+  }
   reloadpage() {
     this.router.navigate(['encaissement/caisse/facture']).then(() => {
       // Reload the current page
@@ -365,6 +371,25 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       accept: () => {
         // Handle the accept action
         this.deleteFacture(facId);
+
+      },
+      reject: () => {
+        // Handle the reject action
+      }
+    });
+  }
+
+  confirmDeleteEncaiss(idEncaissement: string, j: number) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to proceed?',
+      header: 'Delete Paiement',
+      icon: 'pi pi-exclamation-triangle  text-danger',
+      acceptIcon: 'pi pi-check',
+      acceptButtonStyleClass: 'p-button-link',
+      rejectButtonStyleClass: 'p-button-link text-danger',
+      accept: () => {
+        // Handle the accept action
+        this.deleteEncaiss(idEncaissement,j);
 
       },
       reject: () => {
@@ -464,7 +489,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               this.encaissementsArray.forEach(value => {
                 this.encaissFactArray.push(value);
               })
-
+              this.toastr.success('Facture added successfully.', 'Success');
               this.encaissementsArray=[];
               this.encaissementForm?.reset();
             }
@@ -477,6 +502,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
 
   }
+
 
 
 }

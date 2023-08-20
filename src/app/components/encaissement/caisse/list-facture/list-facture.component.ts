@@ -59,4 +59,16 @@ export class ListFactureComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  calculPercent(facture: InfoFacture): number {
+    if (facture) {
+      let somme: number = 0;
+      facture.encaissements.forEach(value => {
+        somme += value.montantEnc;
+      });
+      let percent: number = (somme / facture.montant) * 100;
+      return parseFloat(percent.toFixed(0));
+    }
+    return 0;
+  }
 }
