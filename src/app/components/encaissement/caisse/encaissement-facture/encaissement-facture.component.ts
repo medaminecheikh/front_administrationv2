@@ -33,7 +33,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   updateRequest: Boolean = false;
   visible: boolean = false;
-   totalPaye: number= 0.000;
+  totalPaye: number= 0.000;
 
   showDialog() {
     this.initEncaissForm();
@@ -240,7 +240,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 // Create the encaissementForm group with its form controls and validators
   private initEncaissementForm(): FormGroup {
     return this.formBuilder.group({
-      idEncaissement: [''],
+      idEncaissement: [uuidv4().toString()],
       dateEnc: [new Date(), Validators.required],
       montantEnc: [null, [Validators.required, Validators.max(this.total)]],
       etatEncaissement: [''],
@@ -330,8 +330,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       const idFac = this.selectedFacture.idFacture;
       this.factureService.removeEncaissementFromFacture(idEncaissement, idFac).subscribe(
         () => {
-          console.log("i value", i);
-          console.log('Array length:', this.encaissFactArray.length);
+
           this.removeEncaissFromArrayAndShowToast(i);
         }, () => {
           this.toastr.error('Payment delete failed!', 'Error');
@@ -347,9 +346,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
   removeEncaissFromArrayAndShowToast(i: number) {
     if (i >= 0 && i < this.encaissFactArray.length) {
-      console.log("i ENTERED", i);
+
       this.encaissFactArray.splice(i, 1);
-      console.log("i ENTERED", i);
+
       this.toastr.info('Payment deleted successfully!', 'Info');
     }
   }
