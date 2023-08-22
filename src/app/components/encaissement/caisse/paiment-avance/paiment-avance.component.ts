@@ -8,7 +8,13 @@ import {EncaissementService} from "../../../../services/encaissement.service";
 import {DialogService} from "primeng/dynamicdialog";
 import {ConfirmationService} from "primeng/api";
 import {InfoFacture} from "../../../../modules/InfoFacture";
-
+interface EventItem {
+  status?: string;
+  date?: string;
+  icon?: string;
+  color?: string;
+  image?: string;
+}
 @Component({
   selector: 'app-paiment-avance',
   templateUrl: './paiment-avance.component.html',
@@ -16,6 +22,8 @@ import {InfoFacture} from "../../../../modules/InfoFacture";
 })
 export class PaimentAvanceComponent implements OnInit, OnDestroy {
   listFacture: InfoFacture[] = [];
+  factureSelected?:InfoFacture;
+  events!: EventItem[];
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
@@ -24,6 +32,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
               private encaissementService: EncaissementService,
               private dialogService: DialogService,
               private confirmationService: ConfirmationService) {
+
   }
   ngOnDestroy(): void {
   }
@@ -55,5 +64,13 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       return parseFloat(percent.toFixed(0));
     }
     return 0;
+  }
+
+  selectFacture(facture: InfoFacture) {
+
+    if (facture!=this.factureSelected) {
+      this.factureSelected = facture;
+    } else {this.factureSelected=undefined;
+    }
   }
 }

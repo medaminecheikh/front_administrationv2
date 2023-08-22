@@ -27,13 +27,14 @@
               <th>ID Client</th>
               <th>Produit</th>
               <th>N° Téléphone</th>
-              <th > Pourcentage Payé (%)</th>
+              <th> Pourcentage Payé (%)</th>
               <th>Date Limite</th>
               <th>Montant</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let facture of listFacture">
+            <tr *ngFor="let facture of listFacture" (dblclick)="selectFacture(facture)"
+                [class.bg-gradient-lightblue]="facture.idFacture ===factureSelected?.idFacture">
               <td><span
                 class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
               </td>
@@ -47,13 +48,16 @@
 
               </td>
               <td>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='orange'" [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='orange'"
+                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
                                color="orange"
                                [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'" [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
+                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
                                color="#078fa1"
                                [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='green'" [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='green'"
+                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
                                color="#119b11"
                                [value]='calculPercent(facture)'></p-progressBar>
               </td>
@@ -71,9 +75,81 @@
           </table>
         </div>
       </div>
-      <div class="row col-12"></div>
+
+
+      <div class="row">
+        <div class="col-sm-11 mx-auto">
+          <div class="card card-default">
+
+
+            <div class="card-body">
+              <div class="text-center">
+                <h3>Effectuer un Paiement</h3>
+              </div>
+
+              <div class="row mt-6">
+                <div class="col-sm-3">
+                  <strong>- Reference:</strong>
+
+                  {{ factureSelected?.refFacture }}
+
+                </div>
+                <div class="col-sm-3">
+                  <strong>- Produit:</strong>
+                  {{ factureSelected?.produit }}
+                </div>
+                <div class="col-sm-3">
+                  <strong>- Compte:</strong>
+                  {{ factureSelected?.compteFacturation }}
+                </div>
+                <div class="col-sm-3">
+                  <strong>- Téléphone:</strong>
+                  {{ factureSelected?.nappel }}
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col-sm-3">
+                  <strong>- ID Client:</strong>
+                  {{ factureSelected?.identifiant }}
+                </div>
+                <div class="col-sm-3">
+                  <strong>- Type:</strong>
+                  {{ factureSelected?.typeIdent }}
+                </div>
+                <div class="col-sm-3">
+                  <strong>- Code Client:</strong>
+                  {{ factureSelected?.codeClient }}
+                </div>
+              </div>
+
+
+              <div class="mx-auto col-sm-11 border-2 border-blue-700  mt-4 " style="background-color: aliceblue">
+                <div class="row justify-content-end mt-2 mb-3">
+                  <div class="col-sm-3">
+                    <strong>Date Limite:</strong>
+                    {{ factureSelected?.datLimPai }}
+                  </div>
+                  <div class="col-sm-3">
+                    <strong>Remise (%):</strong>
+                    {{ factureSelected?.solde }} %
+                  </div>
+                  <div class="col-sm-3">
+                    <strong>Montant : </strong>
+                    <span class="text-bold">{{ factureSelected?.montant | number: '1.3-3' }}</span> TND
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer ">
+              <div class=" col-sm-12 ">
+                <button class=" float-right btn btn-link p-0 m-0"> Reset</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-
   </div>
 </div>

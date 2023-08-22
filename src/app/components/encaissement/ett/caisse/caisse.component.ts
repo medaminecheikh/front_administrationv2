@@ -255,6 +255,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     if (this.updateselectedCaisse) {
 
       this.caisseForm.patchValue(this.updateselectedCaisse)
+      this.userselected = this.updateselectedCaisse.login.idUser
       console.log("event data :", this.updateselectedCaisse)
       console.log("event form :", this.caisseForm.value)
       console.log("event userselected :", this.userselected)
@@ -298,5 +299,9 @@ export class CaisseComponent implements OnInit, OnDestroy {
       }
     );
     this.subscriptions.push(sub1);
+  }
+
+  onUserSelected(selectedUserId: any) {
+    this.userselected=selectedUserId;
   }
 }
