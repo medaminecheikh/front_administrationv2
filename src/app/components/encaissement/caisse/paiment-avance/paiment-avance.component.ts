@@ -73,4 +73,10 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     } else {this.factureSelected=undefined;
     }
   }
+
+  resetSelection() {
+    if (this.factureSelected) {
+      this.factureSelected = undefined;
+    }
+  }
 }

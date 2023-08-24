@@ -34,7 +34,8 @@
             </thead>
             <tbody>
             <tr *ngFor="let facture of listFacture" (dblclick)="selectFacture(facture)"
-                [class.bg-gradient-lightblue]="facture.idFacture ===factureSelected?.idFacture">
+                [class.bg-gradient-lightblue]="facture.idFacture ===factureSelected?.idFacture"
+                [style.cursor]="'pointer'">
               <td><span
                 class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
               </td>
@@ -79,48 +80,53 @@
 
       <div class="row">
         <div class="col-sm-11 mx-auto">
-          <div class="card card-default">
+          <div class="card card-default border-round-2xl shadow-6">
 
 
             <div class="card-body">
-              <div class="text-center">
-                <h3>Effectuer un Paiement</h3>
+              <button class=" float-right mr-3 btn btn-sm col-sm-1 text-gray-900 bg-yellow-500  border-round"
+                      (click)="resetSelection()"><i
+                class="fa-solid fa-eraser"></i> Clear
+              </button>
+
+              <div class="text-center ml-6">
+                <a class="h3 text-blue-800 ">Effectuer un Paiement</a>
               </div>
 
               <div class="row mt-6">
-                <div class="col-sm-3">
+                <div class="col-sm-3  ">
                   <strong>- Reference:</strong>
 
-                  {{ factureSelected?.refFacture }}
+                  <span class="ml-2"> {{ factureSelected?.refFacture }}
 
-                </div>
-                <div class="col-sm-3">
+                </span></div>
+                <div class="col-sm-3  ">
                   <strong>- Produit:</strong>
-                  {{ factureSelected?.produit }}
+                  <span class="ml-2"> {{ factureSelected?.produit }}</span>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3  ">
                   <strong>- Compte:</strong>
-                  {{ factureSelected?.compteFacturation }}
-                </div>
-                <div class="col-sm-3">
+                  <span class="ml-2"> {{ factureSelected?.compteFacturation }}
+                </span></div>
+                <div class="col-sm-3  ">
                   <strong>- Téléphone:</strong>
-                  {{ factureSelected?.nappel }}
-                </div>
+                  <span class="ml-2">  {{ factureSelected?.nappel }}
+                </span></div>
               </div>
 
               <div class="row mt-4">
                 <div class="col-sm-3">
                   <strong>- ID Client:</strong>
-                  {{ factureSelected?.identifiant }}
-                </div>
+                  <span class="ml-3"> {{ factureSelected?.identifiant }}
+                </span></div>
                 <div class="col-sm-3">
                   <strong>- Type:</strong>
-                  {{ factureSelected?.typeIdent }}
-                </div>
+                  <span class="ml-3">{{ factureSelected?.typeIdent }}
+                </span></div>
                 <div class="col-sm-3">
-                  <strong>- Code Client:</strong>
-                  {{ factureSelected?.codeClient }}
-                </div>
+                  <span class="ml-3"><strong>- Code Client:</strong>
+                    {{ factureSelected?.codeClient }}
+                </span></div>
               </div>
 
 
@@ -140,14 +146,35 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card-footer ">
-              <div class=" col-sm-12 ">
-                <button class=" float-right btn btn-link p-0 m-0"> Reset</button>
-              </div>
+              <br>
+              <div class="row">
+                <div class="col-8"></div>
+                <div class="col-3  ">
+                  <div class="row  "><h4><i class="fa-solid fa-scroll"></i> - Journal de Paiement</h4></div>
+                  <br>
+                  <div class="" style="height: 300px;">
+                    <p-timeline [value]="factureSelected?.encaissements || []" >
+                      <ng-template pTemplate="marker" let-encaiss>
+                        <span class="custom-marker " >
+                           <i class="fas fa-check-circle text-green-600"></i>
+                        </span>
+                      </ng-template>
+                      <ng-template pTemplate="content" let-encaiss>
+                        <small class="p-text-secondary">{{ encaiss.dateEnc }}</small>
+                      </ng-template>
+                      <ng-template pTemplate="opposite" let-encaiss>
+                        {{ encaiss.modePaiement | titlecase}}
+                      </ng-template>
+                    </p-timeline>
+                  </div>
+                </div>
 
+              </div>
             </div>
+
           </div>
+
+
         </div>
       </div>
     </div>
