@@ -244,7 +244,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       dateEnc: [new Date(), Validators.required],
       montantEnc: [null, [Validators.required, Validators.max(this.total)]],
       etatEncaissement: [''],
-      numRecu: [uuidv4().slice(3, 15)],
+      numRecu: [uuidv4().slice(3, 18)],
       refFacture: [this.factureForm?.get('refFacture')?.value || '', Validators.required],
       nappel: [this.factureForm?.get('nappel')?.value || '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       codeClient: [this.factureForm?.get('codeClient')?.value || '', Validators.required],

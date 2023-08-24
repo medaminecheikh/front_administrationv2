@@ -90,7 +90,7 @@
               </button>
 
               <div class="text-center ml-6">
-                <a class="h3 text-blue-800 ">Effectuer un Paiement</a>
+                <a class="h3 text-blue-800 ">Fichier de Facturation</a>
               </div>
 
               <div class="row mt-6">
@@ -128,7 +128,7 @@
                     {{ factureSelected?.codeClient }}
                 </span></div>
               </div>
-
+              <br>
 
               <div class="mx-auto col-sm-11 border-2 border-blue-700  mt-4 " style="background-color: aliceblue">
                 <div class="row justify-content-end mt-2 mb-3">
@@ -147,15 +147,197 @@
                 </div>
               </div>
               <br>
+              <br>
               <div class="row">
-                <div class="col-8"></div>
+                <div class="col-8">
+                  <div class="row ml-3 "><h4>
+                    <i class="fa-solid fa-shopping-cart"></i> - Effectuer un Paiement</h4>
+                  </div>
+                  <br>
+                  <ng-container *ngIf="encaissementForm">
+                    <form [formGroup]="encaissementForm">
+                      <div class=" row col-12">
+                        <div class="col-10">
+                          <div class="row">
+                            <h5>
+                              <i class="pi pi-wallet"></i> - Méthode Paiement .
+                            </h5>
+                          </div>
+                          <div class="row mt-3 justify-content-evenly">
+                            <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeESPECES() }"
+                               (click)="selectEspece()">
+                              <i class="fa fa-coins "></i> Especes
+                            </a>
+                            <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeCheque() }"
+                               (click)="selectCheque()">
+                              <i class="fa fa-receipt"></i> Cheque
+                            </a>
+                            <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeCarteBancaire() }"
+                               (click)="selectCreditCard()">
+                              <i class="fa fa-credit-card"></i> Carte Bancaire
+                            </a>
+
+                          </div>
+                          <div class="row mt-3">
+                            <h5>
+                              <i class="pi pi-book"></i> - Info Paiement .
+                            </h5>
+                          </div>
+                          <div class="row mt-2" *ngIf="isModeESPECES()">
+
+                          </div>
+                          <div class="row mt-2 align-content-around" *ngIf="isModeCheque()">
+
+                            <div class="row mt-1 col-12 justify-content-around">
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-bank"></i></span>
+                                  </div>
+                                  <input formControlName="banque" placeholder="Banque" type="text" class="form-control">
+
+                                </div>
+                              </div>
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-handshake"></i></span>
+                                  </div>
+                                  <input formControlName="agenceBQ" placeholder="Agence" type="text"
+                                         class="form-control">
+
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <div class="row col-12 mt-1 justify-content-around">
+                              <div class="form-group col-auto">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-water"></i></span>
+                                  </div>
+                                  <input formControlName="numCheq" placeholder="Numero cheque" type="text"
+                                         class="form-control">
+
+                                </div>
+                              </div>
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-water"></i></span>
+                                  </div>
+                                  <input formControlName="rib" placeholder="Numero RIB" type="text"
+                                         class="form-control">
+
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="row mt-2 " *ngIf="isModeCarteBancaire()">
+                            <div class="row mt-2 col-12 justify-content-around">
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-bank"></i></span>
+                                  </div>
+                                  <input formControlName="banque" placeholder="Banque" type="text" class="form-control">
+
+                                </div>
+                              </div>
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-handshake"></i></span>
+                                  </div>
+                                  <input formControlName="agenceBQ" placeholder="Agence" type="text"
+                                         class="form-control">
+
+                                </div>
+                              </div>
+                              <div class="row mt-2 justify-content-center">
+                                <div class="form-group col-auto ">
+                                  <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-rectangle-list"></i></span>
+                                    </div>
+                                    <input formControlName="agenceBQ" placeholder="Numero Carte" type="text"
+                                           class="form-control">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row col-12">
+
+                            <div class="row col-sm-12">
+                              <div class="form-group col-md-4 mt-3">
+                                <label class="col-sm-auto col-form-label">ID :</label>
+                                <div class="col-12">
+                                  <input type="text" formControlName="identifiant"
+                                         class="form-control form-control-sm col-auto form-control-border border-width-2  "
+                                         placeholder="Id client">
+                                </div>
+                              </div>
+                              <div class="form-group  col-md-4 mt-3">
+                                <label class="col-sm-auto col-form-label">Type :</label>
+                                <div class="col-12">
+                                  <select formControlName="typeIdent"
+                                          class="form-control form-control-sm col-auto form-control-border border-width-2 ">
+                                    <option value="Carte d'identité">Carte d'identité</option>
+                                    <option value="Passeport">Passeport</option>
+                                    <option value="Permis de conduire">Permis de conduit</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-group col-md-4 mt-3  ">
+                                <label class="col-sm-auto col-form-label">Periode :</label>
+                                <div class="col-12">
+                                  <select formControlName="periode"
+                                          class="form-control form-control-sm col-auto form-control-border border-width-2 ">
+                                    <option value="">Vide</option>
+                                    <option value="3 mois">3 mois</option>
+                                    <option value="6 mois">6 mois</option>
+                                    <option value="12 mois">12 mois</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row col-12">
+
+                            </div>
+
+                            <div class="row col-12">
+                              <div class="form-group ml-auto ">
+                                <label class="col-sm-auto col-form-label">Montant Payé :</label>
+                                <div class="col-sm-auto mt-1">
+                                  <p-inputNumber
+                                    formControlName="montantEnc"
+                                    class=" h-2rem w-5"
+                                    [step]="0.25"
+                                    mode="currency"
+                                    currency="TND"
+                                  ></p-inputNumber>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+
+                    </form>
+                  </ng-container>
+                </div>
                 <div class="col-3  ">
                   <div class="row  "><h4><i class="fa-solid fa-scroll"></i> - Journal de Paiement</h4></div>
                   <br>
-                  <div class="" style="height: 300px;">
-                    <p-timeline [value]="factureSelected?.encaissements || []" >
+                  <div class="overflow-y-auto " style="max-height: 350px">
+                    <p-timeline [value]="getSortedEncaissements(factureSelected?.encaissements || []) || []" >
                       <ng-template pTemplate="marker" let-encaiss>
-                        <span class="custom-marker " >
+                        <span class="custom-marker ">
                            <i class="fas fa-check-circle text-green-600"></i>
                         </span>
                       </ng-template>
