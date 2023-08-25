@@ -34,7 +34,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   updateRequest: Boolean = false;
   visible: boolean = false;
   totalPaye: number= 0.000;
-
+  montantRestant: number = 0.000;
   showDialog() {
     this.initEncaissForm();
     this.visible = true;
@@ -68,7 +68,18 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.initEncaissForm();
 
   }
-
+  calculMontantRestant(facture: InfoFacture) {
+    if (facture) {
+      let montantOriginal = (facture.montant - (facture.montant * facture.solde / 100));
+      let montantPaye = 0.000;
+      facture.encaissements.forEach(value => {
+        montantPaye += value.montantEnc;
+      })
+      this.montantRestant = montantOriginal - montantPaye;
+    } else {
+      this.montantRestant = 0.000;
+    }
+  }
   importFacture() {
     this.ref = this.dialogService.open(ListFactureComponent,
       {
