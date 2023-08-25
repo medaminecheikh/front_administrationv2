@@ -197,7 +197,11 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.resetArrayEncaiss();
     this.calculateTotalMontant();
   }
-
+  noWhitespaceValidator(control: FormControl): ValidationErrors | null {
+    const value = control.value || '';
+    const hasWhitespace = value.includes(' ');
+    return hasWhitespace ? { whitespace: true } : null;
+  }
   subToMontant() {
     // Subscribe to value changes for montant and solde controls
     this.montantSubscription = this.factureForm
@@ -250,7 +254,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       codeClient: [this.factureForm?.get('codeClient')?.value || '', Validators.required],
       compteFacturation: [this.factureForm?.get('compteFacturation')?.value || '', Validators.required],
       typeIdent: ['Carte d\'identité', Validators.required],
-      identifiant: ['', Validators.required],
+      identifiant: ['', [Validators.required,this.noWhitespaceValidator]],
       periode: [''],
       produit: [this.factureForm?.get('produit')?.value || '', Validators.required],
       modePaiement: ['ESPECES', Validators.required],

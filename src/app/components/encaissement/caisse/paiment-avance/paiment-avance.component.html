@@ -309,6 +309,7 @@
                             </div>
 
                             <div class="row col-12">
+                              <span>Restant: {{montantRestant | number: '1.3-3' }}</span>
                               <div class="form-group ml-auto ">
                                 <label class="col-sm-auto col-form-label">Montant Payé :</label>
                                 <div class="col-sm-auto mt-1">
@@ -334,7 +335,7 @@
                 <div class="col-3  ">
                   <div class="row  "><h4><i class="fa-solid fa-scroll"></i> - Journal de Paiement</h4></div>
                   <br>
-                  <div class="overflow-y-auto " style="max-height: 350px">
+                  <div class="overflow-y-auto scrollable-timeline" style="max-height: 350px">
                     <p-timeline [value]="getSortedEncaissements(factureSelected?.encaissements || []) || []" >
                       <ng-template pTemplate="marker" let-encaiss>
                         <span class="custom-marker ">
@@ -342,7 +343,7 @@
                         </span>
                       </ng-template>
                       <ng-template pTemplate="content" let-encaiss>
-                        <small class="p-text-secondary">{{ encaiss.dateEnc }}</small>
+                        <small class="p-text-secondary">{{ encaiss.dateEnc | date: 'dd/MM/yyyy' }}</small>
                       </ng-template>
                       <ng-template pTemplate="opposite" let-encaiss>
                         {{ encaiss.modePaiement | titlecase}}
@@ -353,7 +354,8 @@
 
               </div>
               <div class="row  col-sm-12">
-                <p-button label="Valider Paiement" icon="fas fa-handshake" class="ml-auto" styleClass="p-button-rounded p-button-raised p-button-outlined   "></p-button>
+
+                <p-button (click)="validerPaiement()" label="Valider Paiement" icon="fas fa-handshake" class="ml-auto" styleClass="p-button-rounded p-button-raised p-button-outlined   "></p-button>
               </div>
             </div>
 

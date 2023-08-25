@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../../services/user.service";
 import {FactureService} from "../../../../services/facture.service";
@@ -29,6 +29,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
   factureSelected?: InfoFacture;
   events!: EventItem[];
   encaissementForm?: FormGroup;
+  montantRestant: number = 0.000;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -49,6 +50,19 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     this.factureService.getFactures().subscribe(value => {
       this.listFacture = value
     });
+  }
+
+  calculMontantRestant(facture: InfoFacture) {
+    if (facture) {
+      let montantOriginal = (facture.montant - (facture.montant * facture.solde / 100));
+      let montantPaye = 0.000;
+      facture.encaissements.forEach(value => {
+        montantPaye += value.montantEnc;
+      })
+      this.montantRestant = montantOriginal - montantPaye;
+    } else {
+      this.montantRestant = 0.000;
+    }
   }
 
   getProgressBarColor(value: number): string {
@@ -78,8 +92,12 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
 
     if (facture != this.factureSelected) {
       this.factureSelected = facture;
+      this.calculMontantRestant(facture);
+      this.initEncaissForm()
+
     } else {
       this.factureSelected = undefined;
+      this.montantRestant=0.000;
     }
   }
 
@@ -91,8 +109,11 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
   resetSelection() {
     if (this.factureSelected) {
       this.factureSelected = undefined;
+      this.initEncaissForm();
+      this.montantRestant=0.000;
     }
   }
+
   selectEspece(): void {
     this.encaissementForm?.get('modePaiement')?.setValue('ESPECES');
   }
@@ -121,7 +142,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     this.encaissementForm = this.formBuilder.group({
       idEncaissement: [uuidv4().toString()],
       dateEnc: [new Date(), Validators.required],
-      montantEnc: [null, [Validators.required, Validators.max(this.factureSelected?.montant || 0)]],
+      montantEnc: [null, [Validators.required, Validators.max(this.montantRestant || 0)]],
       etatEncaissement: [''],
       numRecu: [uuidv4().slice(3, 18)],
       refFacture: [this.factureSelected?.refFacture || '', Validators.required],
@@ -129,7 +150,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       codeClient: [this.factureSelected?.codeClient || '', Validators.required],
       compteFacturation: [this.factureSelected?.compteFacturation || '', Validators.required],
       typeIdent: ['Carte d\'identité', Validators.required],
-      identifiant: ['', Validators.required],
+      identifiant: ['', [Validators.required, this.noWhitespaceValidator]],
       periode: [''],
       produit: [this.factureSelected?.produit || '', Validators.required],
       modePaiement: ['ESPECES', Validators.required],
@@ -142,5 +163,40 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     });
   }
 
+  noWhitespaceValidator(control: FormControl): ValidationErrors | null {
+    const value = control.value || '';
+    const hasWhitespace = value.includes(' ');
+    return hasWhitespace ? {whitespace: true} : null;
+  }
 
+  validerPaiement() {
+    if (this.factureSelected) {
+      if (this.encaissementForm && this.encaissementForm.valid) {
+        const encaissement = this.encaissementForm.value;
+        const facture = this.factureSelected;
+        this.encaissementService.addEncaiss(encaissement).subscribe((value) => {
+          this.factureService.affectEncaissementToFacture(value.idEncaissement, facture.idFacture).subscribe(
+            () => {
+
+            }, () => {
+              this.toastr.error("Process has failed", "Error");
+            }, () => {
+              this.factureSelected?.encaissements.push(encaissement);
+              if (this.factureSelected) {
+                this.calculMontantRestant(this.factureSelected);
+              }
+            }
+          );
+        }, (error) => {
+          this.toastr.error("Process has failed", "Error");
+        }, () => {
+
+          this.initEncaissForm();
+
+        });
+      } else {
+        this.toastr.warning("Paiement incorrect", "Warning");
+      }
+    }
+  }
 }
