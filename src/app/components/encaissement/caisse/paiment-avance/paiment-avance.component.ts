@@ -179,7 +179,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
             () => {
 
             }, () => {
-              this.toastr.error("Process has failed", "Error");
+              this.toastr.error("Process has failed !", "Error");
             }, () => {
               this.factureSelected?.encaissements.push(encaissement);
               if (this.factureSelected) {
@@ -188,15 +188,23 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
             }
           );
         }, (error) => {
-          this.toastr.error("Process has failed", "Error");
+          this.toastr.error("Process has failed !", "Error");
         }, () => {
 
           this.initEncaissForm();
 
         });
       } else {
-        this.toastr.warning("Paiement incorrect", "Warning");
+        this.toastr.warning("Paiement incorrect !", "Warning");
       }
+    } else {
+      this.toastr.info("Choisir une Facture !", "Info");
+    }
+  }
+
+  payAll() {
+    if (this.montantRestant!=0.000) {
+      this.encaissementForm?.get('montantEnc')?.setValue(this.montantRestant)
     }
   }
 }
