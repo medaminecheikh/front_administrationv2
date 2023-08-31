@@ -1,6 +1,6 @@
 <div class="content">
   <div class="container-fluid">
-    <div class="card" style="height: 660px">
+    <div class="card" >
       <div style="overflow-x: auto; max-width: 100%;">
         <p-table [value]="listFacture"
                  [paginator]="true"
@@ -53,7 +53,12 @@
                 <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='orange'" [style]="{ height: '15px',width:'130px'}" [showValue]="true"
                                color="orange"
                                [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'" [style]="{ height: '15px',width:'130px'}" [showValue]="true"
+                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
+                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                               color="#6A1B9A"
+                               [value]='calculPercent(facture)'></p-progressBar>
+                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='blue'"
+                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
                                color="#078fa1"
                                [value]='calculPercent(facture)'></p-progressBar>
                 <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='green'" [style]="{ height: '15px',width:'130px'}" [showValue]="true"

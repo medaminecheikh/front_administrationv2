@@ -60,10 +60,12 @@ export class ListFactureComponent implements OnInit, OnDestroy {
     );
   }
   getProgressBarColor(value: number): string {
-    if (value < 50) {
+    if (value < 40) {
       return 'orange';
-    } else if (value < 80) {
+    } else if (value < 60) {
       return 'purple';
+    }else if (value < 80) {
+      return 'blue';
     } else {
       return 'green';
     }

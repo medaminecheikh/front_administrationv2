@@ -53,7 +53,7 @@
           </div>
 
           <br>
-          <div class="col-12 table-responsive smooth-scroll" style="max-height: 400px;">
+          <div class="col-12 table-responsive smooth-scroll" style="max-height: 415px;">
             <table class="table table-hover table-striped table-head-fixed">
               <thead>
               <tr>
@@ -88,6 +88,10 @@
                                  color="orange"
                                  [value]='calculPercent(facture)'></p-progressBar>
                   <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
+                                 [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                                 color="#6A1B9A"
+                                 [value]='calculPercent(facture)'></p-progressBar>
+                  <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='blue'"
                                  [style]="{ height: '15px',width:'160px'}" [showValue]="true"
                                  color="#078fa1"
                                  [value]='calculPercent(facture)'></p-progressBar>
