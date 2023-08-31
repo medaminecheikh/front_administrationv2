@@ -19,64 +19,87 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row col-12">
-        <div class="col-12 table-responsive" style="height: 300px;">
-          <table class="table table-hover table-striped table-head-fixed">
-            <thead>
-            <tr>
-              <th>Reference</th>
-              <th>ID Client</th>
-              <th>Produit</th>
-              <th>N° Téléphone</th>
-              <th> Pourcentage Payé (%)</th>
-              <th>Date Limite</th>
-              <th>Montant</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let facture of listFacture" (dblclick)="selectFacture(facture)"
-                [class.bg-gradient-lightblue]="facture.idFacture ===factureSelected?.idFacture"
-                [style.cursor]="'pointer'">
-              <td><span
-                class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
-              </td>
-              <td><span class="flex justify-content-sm-center mr-5 ">{{facture.identifiant}}</span>
-              <td><span class="flex justify-content-sm-start mr-5 ">{{facture.produit | titlecase}}</span>
-              </td>
-              <td>
-                <ng-container>
-                  <i class="fas fa-phone"></i> {{ facture.nappel }}
-                </ng-container>
+        <div class="card col-12 card-default border-round-2xl shadow-2">
+          <br>
+          <div class="row  justify-content-center">
+            <form [formGroup]="searchForm" (ngSubmit)="sendSearch()" class="col-sm-12 ">
+              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
+                                              placeholder="Produit"
+                                              formControlName="produit"/></div>
+              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
+                                              placeholder="Ref facture"
+                                              formControlName="refFacture"/></div>
+              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
+                                              placeholder="compteFacturation"
+                                              formControlName="compteFacturation"/></div>
+              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
+                                              placeholder="ID Client"
+                                              formControlName="identifiant"/></div>
 
-              </td>
-              <td>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='orange'"
-                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
-                               color="orange"
-                               [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
-                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
-                               color="#078fa1"
-                               [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='green'"
-                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
-                               color="#119b11"
-                               [value]='calculPercent(facture)'></p-progressBar>
-              </td>
+              <button type="submit" class="float-right">Search</button>
+            </form>
+          </div>
+          <br>
+          <div class="col-12 table-responsive smooth-scroll" style="height: 300px;">
+            <table class="table table-hover table-striped table-head-fixed">
+              <thead>
+              <tr>
+                <th>Reference</th>
+                <th>ID Client</th>
+                <th>Produit</th>
+                <th>N° Téléphone</th>
+                <th> Pourcentage Payé (%)</th>
+                <th>Date Limite</th>
+                <th>Montant</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let facture of listFacture" (dblclick)="selectFacture(facture)"
+                  [class.bg-gradient-lightblue]="facture.idFacture ===factureSelected?.idFacture"
+                  [style.cursor]="'pointer'">
+                <td><span
+                  class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
+                </td>
+                <td><span class="flex justify-content-sm-center mr-5 ">{{facture.identifiant}}</span>
+                <td><span class="flex justify-content-sm-start mr-5 ">{{facture.produit | titlecase}}</span>
+                </td>
+                <td>
+                  <ng-container>
+                    <i class="fas fa-phone"></i> {{ facture.nappel }}
+                  </ng-container>
+
+                </td>
+                <td>
+                  <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='orange'"
+                                 [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                                 color="orange"
+                                 [value]='calculPercent(facture)'></p-progressBar>
+                  <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
+                                 [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                                 color="#078fa1"
+                                 [value]='calculPercent(facture)'></p-progressBar>
+                  <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='green'"
+                                 [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                                 color="#119b11"
+                                 [value]='calculPercent(facture)'></p-progressBar>
+                </td>
 
 
-              <td><span class="flex justify-content-sm-start ">{{facture.datLimPai |date: 'MM/dd/yyyy' }}</span>
-              </td>
+                <td><span class="flex justify-content-sm-start ">{{facture.datLimPai |date: 'MM/dd/yyyy' }}</span>
+                </td>
 
 
-              <td><span class="flex justify-content-around  text-bold"> {{facture.montant | number: '1.3-3'}} <small> TND</small></span>
-              </td>
+                <td><span class="flex justify-content-around  text-bold"> {{facture.montant | number: '1.3-3'}} <small> TND</small></span>
+                </td>
 
-            </tr>
-            </tbody>
-          </table>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-
+      <br>
+      <br>
 
       <div class="row">
         <div class="col-sm-11 mx-auto">
@@ -137,6 +160,7 @@
 
                 <br>
 
+
                 <div class="mx-auto col-sm-11 border-2 border-blue-700  mt-4 " style="background-color: aliceblue">
                   <div class="row justify-content-end mt-2 mb-3">
                     <div class="col-sm-3">
@@ -154,196 +178,197 @@
                   </div>
                 </div>
               </div>
+
               <br>
               <br>
               <div class="row">
                 <div class="col-8 pl-5 ">
 
-                    <div class="row ml-3 "><h4>
-                      <i class="fa-solid fa-shopping-cart"></i> - Effectuer un Paiement</h4>
-                    </div>
-                    <br>
-                    <ng-container *ngIf="encaissementForm">
-                      <form [formGroup]="encaissementForm">
-                        <div class=" row col-12">
-                          <div class="col-10">
-                            <div class="row">
-                              <h5>
-                                <i class="pi pi-wallet"></i> - Méthode Paiement .
-                              </h5>
-                            </div>
-                            <div class="row mt-3 justify-content-evenly">
-                              <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeESPECES() }"
-                                 (click)="selectEspece()">
-                                <i class="fa fa-coins "></i> Especes
-                              </a>
-                              <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeCheque() }"
-                                 (click)="selectCheque()">
-                                <i class="fa fa-receipt"></i> Cheque
-                              </a>
-                              <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeCarteBancaire() }"
-                                 (click)="selectCreditCard()">
-                                <i class="fa fa-credit-card"></i> Carte Bancaire
-                              </a>
+                  <div class="row ml-3 "><h4>
+                    <i class="fa-solid fa-shopping-cart"></i> - Effectuer un Paiement</h4>
+                  </div>
+                  <br>
+                  <ng-container *ngIf="encaissementForm">
+                    <form [formGroup]="encaissementForm">
+                      <div class=" row col-12">
+                        <div class="col-10">
+                          <div class="row">
+                            <h5>
+                              <i class="pi pi-wallet"></i> - Méthode Paiement .
+                            </h5>
+                          </div>
+                          <div class="row mt-3 justify-content-evenly">
+                            <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeESPECES() }"
+                               (click)="selectEspece()">
+                              <i class="fa fa-coins "></i> Especes
+                            </a>
+                            <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeCheque() }"
+                               (click)="selectCheque()">
+                              <i class="fa fa-receipt"></i> Cheque
+                            </a>
+                            <a class="btn btn-app col-3" [ngClass]="{ 'bg-gradient-info': isModeCarteBancaire() }"
+                               (click)="selectCreditCard()">
+                              <i class="fa fa-credit-card"></i> Carte Bancaire
+                            </a>
 
-                            </div>
-                            <div class="row mt-3">
-                              <h5>
-                                <i class="pi pi-book"></i> - Info Paiement .
-                              </h5>
-                            </div>
-                            <div class="row " *ngIf="isModeESPECES()">
+                          </div>
+                          <div class="row mt-3">
+                            <h5>
+                              <i class="pi pi-book"></i> - Info Paiement .
+                            </h5>
+                          </div>
+                          <div class="row " *ngIf="isModeESPECES()">
 
-                            </div>
-                            <div class="row mt-2 align-content-around" *ngIf="isModeCheque()">
+                          </div>
+                          <div class="row mt-2 align-content-around" *ngIf="isModeCheque()">
 
-                              <div class="row mt-1 col-12 justify-content-around">
-                                <div class="form-group col-auto ">
-                                  <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-bank"></i></span>
-                                    </div>
-                                    <input formControlName="banque" placeholder="Banque" type="text"
-                                           class="form-control">
-
+                            <div class="row mt-1 col-12 justify-content-around">
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-bank"></i></span>
                                   </div>
-                                </div>
-                                <div class="form-group col-auto ">
-                                  <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-handshake"></i></span>
-                                    </div>
-                                    <input formControlName="agenceBQ" placeholder="Agence" type="text"
-                                           class="form-control">
+                                  <input formControlName="banque" placeholder="Banque" type="text"
+                                         class="form-control">
 
-                                  </div>
                                 </div>
-
                               </div>
-
-                              <div class="row col-12 mt-1 justify-content-around">
-                                <div class="form-group col-auto">
-                                  <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-water"></i></span>
-                                    </div>
-                                    <input formControlName="numCheq" placeholder="Numero cheque" type="text"
-                                           class="form-control">
-
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-handshake"></i></span>
                                   </div>
-                                </div>
-                                <div class="form-group col-auto ">
-                                  <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-water"></i></span>
-                                    </div>
-                                    <input formControlName="rib" placeholder="Numero RIB" type="text"
-                                           class="form-control">
+                                  <input formControlName="agenceBQ" placeholder="Agence" type="text"
+                                         class="form-control">
 
-                                  </div>
                                 </div>
                               </div>
 
                             </div>
-                            <div class="row mt-2 " *ngIf="isModeCarteBancaire()">
-                              <div class="row mt-2 col-12 justify-content-around">
-                                <div class="form-group col-auto ">
-                                  <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-bank"></i></span>
-                                    </div>
-                                    <input formControlName="banque" placeholder="Banque" type="text"
-                                           class="form-control">
 
+                            <div class="row col-12 mt-1 justify-content-around">
+                              <div class="form-group col-auto">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-water"></i></span>
                                   </div>
-                                </div>
-                                <div class="form-group col-auto ">
-                                  <div class="input-group input-group-sm">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-handshake"></i></span>
-                                    </div>
-                                    <input formControlName="agenceBQ" placeholder="Agence" type="text"
-                                           class="form-control">
+                                  <input formControlName="numCheq" placeholder="Numero cheque" type="text"
+                                         class="form-control">
 
-                                  </div>
                                 </div>
-                                <div class="row mt-2 justify-content-center">
-                                  <div class="form-group col-auto ">
-                                    <div class="input-group input-group-sm">
-                                      <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-rectangle-list"></i></span>
-                                      </div>
-                                      <input formControlName="agenceBQ" placeholder="Numero Carte" type="text"
-                                             class="form-control">
-                                    </div>
+                              </div>
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-water"></i></span>
                                   </div>
+                                  <input formControlName="rib" placeholder="Numero RIB" type="text"
+                                         class="form-control">
+
                                 </div>
                               </div>
                             </div>
-                            <div class="row col-12">
 
-                              <div class="row col-sm-12">
-                                <div class="form-group col-md-4 mt-1">
-                                  <label class="col-sm-auto col-form-label">ID :</label>
-                                  <div class="col-12">
-                                    <input type="text" formControlName="identifiant"
-                                           class="form-control form-control-sm col-auto form-control-border border-width-2  "
-                                           placeholder="Id client">
+                          </div>
+                          <div class="row mt-2 " *ngIf="isModeCarteBancaire()">
+                            <div class="row mt-2 col-12 justify-content-around">
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-bank"></i></span>
                                   </div>
-                                </div>
-                                <div class="form-group  col-md-4 mt-1">
-                                  <label class="col-sm-auto col-form-label">Type :</label>
-                                  <div class="col-12">
-                                    <select formControlName="typeIdent"
-                                            class="form-control form-control-sm col-auto form-control-border border-width-2 ">
-                                      <option value="Carte d'identité">Carte d'identité</option>
-                                      <option value="Passeport">Passeport</option>
-                                      <option value="Permis de conduire">Permis de conduit</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div class="form-group col-md-4 mt-1  ">
-                                  <label class="col-sm-auto col-form-label">Periode :</label>
-                                  <div class="col-12">
-                                    <select formControlName="periode"
-                                            class="form-control form-control-sm col-auto form-control-border border-width-2 ">
-                                      <option value="">Vide</option>
-                                      <option value="3 mois">3 mois</option>
-                                      <option value="6 mois">6 mois</option>
-                                      <option value="12 mois">12 mois</option>
-                                    </select>
-                                  </div>
+                                  <input formControlName="banque" placeholder="Banque" type="text"
+                                         class="form-control">
+
                                 </div>
                               </div>
-                              <div class="row col-12">
+                              <div class="form-group col-auto ">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-handshake"></i></span>
+                                  </div>
+                                  <input formControlName="agenceBQ" placeholder="Agence" type="text"
+                                         class="form-control">
 
+                                </div>
                               </div>
-
-                              <div class="row col-12">
-
-                                <div class="form-group ml-auto ">
-                                  <label class="col-sm-auto col-form-label">Montant Payé :</label>
-                                  <div class="col-sm-auto mt-1 p-inputgroup p-buttonset">
-                                    <p-inputNumber
-                                      formControlName="montantEnc"
-                                      class=" h-2rem w-5"
-                                      mode="currency"
-                                      currency="TND"
-
-                                    ></p-inputNumber>
-                                    <p-button (click)="payAll()" icon="fa fa-sack-dollar"
-                                              styleClass="p-button-sm p-button-success  h-2rem"></p-button>
+                              <div class="row mt-2 justify-content-center">
+                                <div class="form-group col-auto ">
+                                  <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-rectangle-list"></i></span>
+                                    </div>
+                                    <input formControlName="agenceBQ" placeholder="Numero Carte" type="text"
+                                           class="form-control">
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          <div class="row col-12">
 
+                            <div class="row col-sm-12">
+                              <div class="form-group col-md-4 mt-1">
+                                <label class="col-sm-auto col-form-label">ID :</label>
+                                <div class="col-12">
+                                  <input type="text" formControlName="identifiant"
+                                         class="form-control form-control-sm col-auto form-control-border border-width-2  "
+                                         placeholder="Id client">
+                                </div>
+                              </div>
+                              <div class="form-group  col-md-4 mt-1">
+                                <label class="col-sm-auto col-form-label">Type :</label>
+                                <div class="col-12">
+                                  <select formControlName="typeIdent"
+                                          class="form-control form-control-sm col-auto form-control-border border-width-2 ">
+                                    <option value="Carte d'identité">Carte d'identité</option>
+                                    <option value="Passeport">Passeport</option>
+                                    <option value="Permis de conduire">Permis de conduit</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-group col-md-4 mt-1  ">
+                                <label class="col-sm-auto col-form-label">Periode :</label>
+                                <div class="col-12">
+                                  <select formControlName="periode"
+                                          class="form-control form-control-sm col-auto form-control-border border-width-2 ">
+                                    <option value="">Vide</option>
+                                    <option value="3 mois">3 mois</option>
+                                    <option value="6 mois">6 mois</option>
+                                    <option value="12 mois">12 mois</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row col-12">
 
+                            </div>
+
+                            <div class="row col-12">
+
+                              <div class="form-group ml-auto ">
+                                <label class="col-sm-auto col-form-label">Montant Payé :</label>
+                                <div class="col-sm-auto mt-1 p-inputgroup p-buttonset">
+                                  <p-inputNumber
+                                    formControlName="montantEnc"
+                                    class=" h-2rem w-5"
+                                    mode="currency"
+                                    currency="TND"
+
+                                  ></p-inputNumber>
+                                  <p-button (click)="payAll()" icon="fa fa-sack-dollar"
+                                            styleClass="p-button-sm p-button-success  h-2rem"></p-button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
-                      </form>
-                    </ng-container>
+
+                      </div>
+
+                    </form>
+                  </ng-container>
 
                 </div>
                 <div class="col-3  ">

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {InfoFacture} from "../modules/InfoFacture";
 
@@ -59,5 +59,22 @@ export class FactureService {
     };
     return this.http.get<InfoFacture[]>(`${this.baseUrl}/findallfacture`, {params: params});
   }
+  searchPageFactures(
+    produit: string,
+    refFacture: string,
+    compteFacturation: string,
+    identifiant: string,
+    page: number,
+    size: number
+  ): Observable<InfoFacture[]> {
+    const params = new HttpParams()
+      .set('produit', produit || '')
+      .set('refFacture', refFacture || '')
+      .set('compteFacturation', compteFacturation || '')
+      .set('identifiant', identifiant || '')
+      .set('page', page.toString())
+      .set('size', size.toString());
 
+    return this.http.get<InfoFacture[]>(`${this.baseUrl}/factures/searchPageFactures`, { params });
+  }
 }

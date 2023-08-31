@@ -29,6 +29,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
   factureSelected?: InfoFacture;
   events!: EventItem[];
   encaissementForm?: FormGroup;
+  searchForm!: FormGroup;
   montantRestant: number = 0.000;
 
   constructor(private router: Router,
@@ -47,9 +48,9 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initEncaissForm();
-    this.factureService.getFactures().subscribe(value => {
-      this.listFacture = value
-    });
+    this.initSearchForm();
+    this.sendSearch();
+
   }
 
   calculMontantRestant(facture: InfoFacture) {
@@ -206,5 +207,24 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     if (this.montantRestant!=0.000) {
       this.encaissementForm?.get('montantEnc')?.setValue(this.montantRestant)
     }
+  }
+  initSearchForm() {
+    this.searchForm = this.formBuilder.group({
+      produit: [''],
+      refFacture: [''],
+      compteFacturation: [''],
+      identifiant: [''],
+      page: [0],
+      size: [10]
+    });
+  }
+
+  sendSearch() {
+    const { produit, refFacture, compteFacturation, identifiant ,page ,size } = this.searchForm?.value;
+    this.factureService
+      .searchPageFactures(produit, refFacture, compteFacturation, identifiant, page, size)
+      .subscribe((factures) => {
+        this.listFacture = factures;
+      });
   }
 }

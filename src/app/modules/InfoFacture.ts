@@ -1,4 +1,3 @@
-import {Utilisateur} from "./Utilisateur";
 import {Encaissement} from "./Encaissement";
 
 export interface InfoFacture {
@@ -15,5 +14,5 @@ export interface InfoFacture {
   datLimPai: Date;
   periode: string;
   encaissements: Encaissement[];
-  user: Utilisateur;
+  totalElements:number;
 }
