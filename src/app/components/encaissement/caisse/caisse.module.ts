@@ -25,6 +25,7 @@ import {SelectButtonModule} from "primeng/selectbutton";
 import {BlockUIModule} from "primeng/blockui";
 import {TimelineModule} from "primeng/timeline";
 import {CardModule} from "primeng/card";
+import {PaginatorModule} from "primeng/paginator";
 
 
 @NgModule({
@@ -33,31 +34,32 @@ import {CardModule} from "primeng/card";
     PaimentAvanceComponent,
     ListFactureComponent
   ],
-  imports: [
-    CommonModule,
-    CaisseRoutingModule,
-    CalendarModule,
-    ConfirmDialogModule,
-    TabViewModule,
-    FieldsetModule,
-    InputTextModule,
-    KeyFilterModule,
-    InputNumberModule,
-    RippleModule,
-    TableModule,
-    TagModule,
-    ProgressBarModule,
-    DropdownModule,
-    FormsModule,
-    SpeedDialModule,
-    ReactiveFormsModule,
-    DialogModule,
-    AnimateModule,
-    SelectButtonModule,
-    BlockUIModule,
-    TimelineModule,
-    CardModule,
+    imports: [
+        CommonModule,
+        CaisseRoutingModule,
+        CalendarModule,
+        ConfirmDialogModule,
+        TabViewModule,
+        FieldsetModule,
+        InputTextModule,
+        KeyFilterModule,
+        InputNumberModule,
+        RippleModule,
+        TableModule,
+        TagModule,
+        ProgressBarModule,
+        DropdownModule,
+        FormsModule,
+        SpeedDialModule,
+        ReactiveFormsModule,
+        DialogModule,
+        AnimateModule,
+        SelectButtonModule,
+        BlockUIModule,
+        TimelineModule,
+        CardModule,
+        PaginatorModule,
 
-  ]
+    ]
 })
 export class CaisseModule { }

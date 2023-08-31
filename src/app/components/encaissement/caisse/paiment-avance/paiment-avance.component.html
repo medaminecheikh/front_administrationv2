@@ -19,28 +19,41 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row col-12">
-        <div class="card col-12 card-default border-round-2xl shadow-2">
+        <div class="card col-12 card-default border-round-2xl shadow-2" style="height: 550px;">
           <br>
-          <div class="row  justify-content-center">
-            <form [formGroup]="searchForm" (ngSubmit)="sendSearch()" class="col-sm-12 ">
-              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
-                                              placeholder="Produit"
-                                              formControlName="produit"/></div>
-              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
-                                              placeholder="Ref facture"
-                                              formControlName="refFacture"/></div>
-              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
-                                              placeholder="compteFacturation"
-                                              formControlName="compteFacturation"/></div>
-              <div class="col-sm-3"><input pInputText type="text" class="p-inputtext-sm h-2rem "
-                                              placeholder="ID Client"
-                                              formControlName="identifiant"/></div>
+          <div class="row justify-content-center">
+            <form [formGroup]="searchForm" (ngSubmit)="sendSearch()"
+                  class="col-sm-12 d-flex justify-content-around px-3">
+              <div class="flex-grow-1 ">
+                <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                       placeholder="Ref facture" formControlName="refFacture"/>
+              </div>
+              <div class="flex-grow-1 ">
+                <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                       placeholder="ID Client" formControlName="identifiant"/>
+              </div>
+              <div class="flex-grow-1 ">
+                <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                       placeholder="Produit" formControlName="produit"/>
+              </div>
 
-              <button type="submit" class="float-right">Search</button>
+              <div class="flex-grow-1 ">
+                <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                       placeholder="compteFacturation" formControlName="compteFacturation"/>
+              </div>
+              <div class="flex-grow-1 ">
+                <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                       placeholder="Compte Facturation" formControlName="compteFacturation"/>
+              </div>
+
+              <p-button label="Search" type="submit"
+                        styleClass=" h-2rem p-button-sm p-button-success p-button-raised float-right"></p-button>
+
             </form>
           </div>
+
           <br>
-          <div class="col-12 table-responsive smooth-scroll" style="height: 300px;">
+          <div class="col-12 table-responsive smooth-scroll" style="max-height: 400px;">
             <table class="table table-hover table-striped table-head-fixed">
               <thead>
               <tr>
@@ -93,9 +106,17 @@
                 </td>
 
               </tr>
+
               </tbody>
+
             </table>
+
           </div>
+          <div class="flex-auto">
+            <p-paginator [first]="0" [rows]="listFacture.length" [totalRecords]="120"
+                         [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
+          </div>
+
         </div>
       </div>
       <br>
