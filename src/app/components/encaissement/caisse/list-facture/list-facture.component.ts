@@ -94,22 +94,10 @@ export class ListFactureComponent implements OnInit, OnDestroy {
 
 
 
-    next() {
-        this.page = this.page + 1;
-        this.sendSearch();
-    }
-
-    prev() {
-        this.page = this.page - 1;
-        this.sendSearch();
-    }
-
-    isLastPage(): boolean {
-        return (this.page + 1) * this.size >= this.totalRecords;
-    }
-
-
-    isFirstPage(): boolean {
-        return this.page === 0;
-    }
+  paginate(event: Paginator): void {
+    this.size = event.rows;
+    // Calculate the new page to maintain the current visible records
+    this.page = Math.floor(event.first / this.size);
+    this.sendSearch();
+  }
 }

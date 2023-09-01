@@ -120,7 +120,7 @@
             <p-paginator [first]="(page.value ?? 0)"
                          [rows]="(size.value ?? 8)"
                          [totalRecords]="totalRecords"
-                         [rowsPerPageOptions]="[8, 16, 30]"
+                         [rowsPerPageOptions]="[4, 8, 16]"
                          (onPageChange)="paginate($event)">
             </p-paginator>
 

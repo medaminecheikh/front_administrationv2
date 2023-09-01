@@ -75,6 +75,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       facture.encaissements.forEach(value => {
         montantPaye += value.montantEnc;
       })
+      this.encaissementsArray.forEach(value => {
+        montantPaye += value.montantEnc;
+      });
       this.montantRestant = montantOriginal - montantPaye;
     } else {
       this.montantRestant = 0.000;
@@ -185,7 +188,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
 
   initEncaissForm() {
-
+    if (this.selectedFacture) {
+      this.calculMontantRestant(this.selectedFacture)
+    }
     this.encaissementForm = this.initEncaissementForm();
     this.visible = false;
   }
@@ -257,7 +262,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       idEncaissement: [uuidv4().toString()],
       dateEnc: [new Date(), Validators.required],
-      montantEnc: [null, [Validators.required, Validators.max(this.total)]],
+      montantEnc: [null, [Validators.required, Validators.max(this.montantRestant)]],
       etatEncaissement: [''],
       numRecu: [uuidv4().slice(3, 18)],
       refFacture: [this.factureForm?.get('refFacture')?.value || '', Validators.required],
@@ -506,6 +511,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               this.toastr.success('Facture added successfully.', 'Success');
               this.encaissementsArray=[];
               this.encaissementForm?.reset();
+                if (this.selectedFacture) {
+                  this.calculMontantRestant(this.selectedFacture);
+                }
             }
           );
 

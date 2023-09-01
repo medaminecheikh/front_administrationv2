@@ -224,10 +224,11 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     });
   }
   paginate(event: Paginator): void {
-    this.page.setValue(event.first);
     this.size.setValue(event.rows);
+    this.page.setValue(Math.floor(event.first / event.rows));
     this.sendSearch();
   }
+
   sendSearch() {
     const { produit, refFacture, compteFacturation, identifiant,montant  } = this.searchForm?.value;
     const page  = this.page.value;

@@ -34,9 +34,7 @@
             <br>
             <div class="smooth-scroll" style="overflow-x: auto; max-width: 100%;">
                 <p-table [value]="listFacture"
-
                          [rowHover]="true"
-
                          [style.cursor]="'pointer'"
                          responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
                     <ng-template pTemplate="header">
@@ -106,17 +104,16 @@
 
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="footer" >
-
-                        <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
-                        <p-button type="button" icon="pi pi-refresh" (click)="sendSearch()" styleClass="p-button-text"></p-button>
-                        <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"  styleClass="p-button-text"></p-button>
-
-
-                    </ng-template>
 
                 </p-table>
             </div>
+          <div class="row justify-content-center">
+            <p-paginator [first]="page"
+                         [rows]="size"
+                         [totalRecords]="totalRecords"
+                         [rowsPerPageOptions]="[4, 8, 30]"
+                         (onPageChange)="paginate($event)">>
+            </p-paginator></div>
         </div>
     </div>
 </div>
