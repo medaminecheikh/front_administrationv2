@@ -10,6 +10,7 @@ import {ConfirmationService} from "primeng/api";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
 import {v4 as uuidv4} from "uuid";
+import {Paginator} from "primeng/paginator";
 
 interface EventItem {
   status?: string;
@@ -28,10 +29,12 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
   listFacture: InfoFacture[] = [];
   factureSelected?: InfoFacture;
   events!: EventItem[];
+  size = new FormControl(8) ;
+  page=new FormControl(0) ;
   encaissementForm?: FormGroup;
   searchForm!: FormGroup;
   montantRestant: number = 0.000;
-
+  totalRecords:any;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
@@ -216,17 +219,24 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       refFacture: [''],
       compteFacturation: [''],
       identifiant: [''],
-      page: [0],
-      size: [10]
+      montant: ['']
+
     });
   }
-
+  paginate(event: Paginator): void {
+    this.page.setValue(event.first);
+    this.size.setValue(event.rows);
+    this.sendSearch();
+  }
   sendSearch() {
-    const { produit, refFacture, compteFacturation, identifiant ,page ,size } = this.searchForm?.value;
+    const { produit, refFacture, compteFacturation, identifiant,montant  } = this.searchForm?.value;
+    const page  = this.page.value;
     this.factureService
-      .searchPageFactures(produit, refFacture, compteFacturation, identifiant, page, size)
+      .searchPageFactures(produit, refFacture, compteFacturation, identifiant,montant, page ||0, this.size.value ||8)
       .subscribe((factures) => {
         this.listFacture = factures;
+        const firstFacture = factures[0]; // Assuming there's at least one facture in the list
+        this.totalRecords = firstFacture ? firstFacture.totalElements : 0;
       });
   }
 }

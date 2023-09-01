@@ -39,11 +39,11 @@
 
               <div class="flex-grow-1 ">
                 <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                       placeholder="compteFacturation" formControlName="compteFacturation"/>
+                       placeholder="Compte Facturation" formControlName="compteFacturation"/>
               </div>
               <div class="flex-grow-1 ">
                 <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                       placeholder="Compte Facturation" formControlName="compteFacturation"/>
+                       placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montant"/>
               </div>
 
               <p-button label="Search" type="submit"
@@ -89,7 +89,7 @@
                                  [value]='calculPercent(facture)'></p-progressBar>
                   <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
                                  [style]="{ height: '15px',width:'160px'}" [showValue]="true"
-                                 color="#6A1B9A"
+                                 color="#D81B60"
                                  [value]='calculPercent(facture)'></p-progressBar>
                   <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='blue'"
                                  [style]="{ height: '15px',width:'160px'}" [showValue]="true"
@@ -117,8 +117,13 @@
 
           </div>
           <div class="flex-auto">
-            <p-paginator [first]="0" [rows]="listFacture.length" [totalRecords]="120"
-                         [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
+            <p-paginator [first]="(page.value ?? 0)"
+                         [rows]="(size.value ?? 8)"
+                         [totalRecords]="totalRecords"
+                         [rowsPerPageOptions]="[8, 16, 30]"
+                         (onPageChange)="paginate($event)">
+            </p-paginator>
+
           </div>
 
         </div>

@@ -84,7 +84,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.ref = this.dialogService.open(ListFactureComponent,
       {
         header: 'Choisir Facture',
-        width: '77%',
+        width: '90%',
         baseZIndex: 10000,
         maximizable: true
       });

@@ -1,82 +1,122 @@
 <div class="content">
-  <div class="container-fluid">
-    <div class="card" >
-      <div style="overflow-x: auto; max-width: 100%;">
-        <p-table [value]="listFacture"
-                 [paginator]="true"
-                 [rows]="size"
-                 [showCurrentPageReport]="true"
-                 currentPageReportTemplate="Showing {first}  to {last} of {totalRecords} factures"
-                 [rowHover]="true"
+    <div class="container-fluid">
+        <div class="card ">
+            <div class="row justify-content-center">
+                <form [formGroup]="searchForm" (ngSubmit)="sendSearch()"
+                      class="col-sm-12 d-flex justify-content-around px-3">
+                    <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Ref facture" formControlName="refFacture"/>
+                    </div>
+                    <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="ID Client" formControlName="identifiant"/>
+                    </div>
+                    <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Produit" formControlName="produit"/>
+                    </div>
 
-                 [style.cursor]="'pointer'"
-                 responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
-          <ng-template pTemplate="header">
-            <tr>
-              <th pSortableColumn="refFacture" style="width:15%">Reference
-                <p-sortIcon field="refFacture"></p-sortIcon>
-              </th>
-              <th pSortableColumn="identifiant" style="width:10%">ID
-                <p-sortIcon field="identifiant"></p-sortIcon>
-              </th>
-              <th pSortableColumn="produit" style="width:15%">Produit
-                <p-sortIcon field="produit"></p-sortIcon>
-              </th>
-              <th pSortableColumn="nappel" style="width:15%">N°Appel
-                <p-sortIcon field="nappel"></p-sortIcon>
-              </th>
-              <th style="width: 15%"> Pourcentage Payé </th>
-              <th pSortableColumn="datLimPai" style="width:15%">Date limite
-                <p-sortIcon field="datLimPai"></p-sortIcon>
-              </th>
-              <th pSortableColumn="montant" style="width:20%">Montant
-                <p-sortIcon field="montant"></p-sortIcon>
-              </th>
+                    <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Compte Facturation" formControlName="compteFacturation"/>
+                    </div>
+                    <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montant"/>
+                    </div>
 
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-facture>
-            <tr (dblclick)="ImportFacture(facture)">
-              <td><span
-                class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
-              </td>
-              <td><span class="flex justify-content-around mr-5 ">{{facture.identifiant}}</span>
-              <td><span class="flex justify-content-around mr-5 ">{{facture.produit | titlecase}}</span>
-              </td>
-              <td>
-                <ng-container>
-                  <i class="fas fa-phone"></i> {{ facture.nappel }}
-                </ng-container>
+                    <p-button label="Search" type="submit"
+                              styleClass=" h-2rem p-button-sm p-button-success p-button-raised float-right"></p-button>
 
-              </td>
-              <td>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='orange'" [style]="{ height: '15px',width:'130px'}" [showValue]="true"
-                               color="orange"
-                               [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
-                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
-                               color="#6A1B9A"
-                               [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='blue'"
-                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
-                               color="#078fa1"
-                               [value]='calculPercent(facture)'></p-progressBar>
-                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='green'" [style]="{ height: '15px',width:'130px'}" [showValue]="true"
-                               color="#119b11"
-                               [value]='calculPercent(facture)'></p-progressBar>
-              </td>
+                </form>
+            </div>
+            <br>
+            <div class="smooth-scroll" style="overflow-x: auto; max-width: 100%;">
+                <p-table [value]="listFacture"
 
-              <td><span class="flex justify-content-around mr-5 ">{{facture.datLimPai |date: 'MM/dd/yyyy' }}</span>
-              </td>
-              <td><span class="flex justify-content-around mr-5 text-bold"> {{facture.montant | number: '1.3-3'}}
-                <small> TND</small></span></td>
+                         [rowHover]="true"
+
+                         [style.cursor]="'pointer'"
+                         responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="refFacture" style="width:15%">Reference
+                                <p-sortIcon field="refFacture"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="identifiant" style="width:10%">ID
+                                <p-sortIcon field="identifiant"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="produit" style="width:15%">Produit
+                                <p-sortIcon field="produit"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="nappel" style="width:15%">N°Appel
+                                <p-sortIcon field="nappel"></p-sortIcon>
+                            </th>
+                            <th style="width: 15%"> Pourcentage Payé</th>
+                            <th pSortableColumn="datLimPai" style="width:15%">Date limite
+                                <p-sortIcon field="datLimPai"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="montant" style="width:20%">Montant
+                                <p-sortIcon field="montant"></p-sortIcon>
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-facture>
+                        <tr (dblclick)="ImportFacture(facture)">
+                            <td><span
+                                    class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
+                            </td>
+                            <td><span class="flex justify-content-around mr-5 ">{{facture.identifiant}}</span>
+                            <td><span class="flex justify-content-around mr-5 ">{{facture.produit | titlecase}}</span>
+                            </td>
+                            <td>
+                                <ng-container>
+                                    <i class="fas fa-phone"></i> {{ facture.nappel }}
+                                </ng-container>
+
+                            </td>
+                            <td>
+                                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='orange'"
+                                               [style]="{ height: '15px',width:'130px'}" [showValue]="true"
+                                               color="orange"
+                                               [value]='calculPercent(facture)'></p-progressBar>
+                                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='purple'"
+                                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                                               color="#6A1B9A"
+                                               [value]='calculPercent(facture)'></p-progressBar>
+                                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='blue'"
+                                               [style]="{ height: '15px',width:'160px'}" [showValue]="true"
+                                               color="#078fa1"
+                                               [value]='calculPercent(facture)'></p-progressBar>
+                                <p-progressBar *ngIf="getProgressBarColor(calculPercent(facture))==='green'"
+                                               [style]="{ height: '15px',width:'130px'}" [showValue]="true"
+                                               color="#119b11"
+                                               [value]='calculPercent(facture)'></p-progressBar>
+                            </td>
+
+                            <td><span
+                                    class="flex justify-content-around mr-5 ">{{facture.datLimPai |date: 'MM/dd/yyyy' }}</span>
+                            </td>
+                            <td><span
+                                    class="flex justify-content-around mr-5 text-bold"> {{facture.montant | number: '1.3-3'}}
+                                <small> TND</small></span></td>
 
 
-            </tr>
-          </ng-template>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="footer" >
 
-        </p-table>
-      </div>
+                        <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
+                        <p-button type="button" icon="pi pi-refresh" (click)="sendSearch()" styleClass="p-button-text"></p-button>
+                        <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()"  styleClass="p-button-text"></p-button>
+
+
+                    </ng-template>
+
+                </p-table>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
