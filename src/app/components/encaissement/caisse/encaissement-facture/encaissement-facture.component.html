@@ -19,7 +19,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <p-confirmDialog  [style]="{width: '50vw'}" ></p-confirmDialog>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
         <div class="col-md-12 ">
           <p-dialog header="Header" (onHide)="initEncaissForm()" [(visible)]="visible"
                     [style]="{ width: '60vw' }">
@@ -231,7 +231,7 @@
               <div class="row pl-3">
                 <div class="col-12">
                   <h4>
-                    <i class="fas fa-file-circle-check text-info"></i>  Fichier de Facturation
+                    <i class="fas fa-file-circle-check text-info"></i> Fichier de Facturation
 
                   </h4>
                 </div>
@@ -240,95 +240,114 @@
               <form [formGroup]="factureForm">
                 <div class="row invoice-info">
 
-                  <div class="col-sm-4 invoice-col mt-3">
+                  <div class="row col-sm-8">
+                    <div class="col-sm-6 invoice-col mt-3">
+
+                      <address class="ml-2">
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Reference :</label>
+                          <div class="col-sm-auto">
+                            <input type="text" formControlName="refFacture"
+                                   class="form-control form-control-sm col-auto form-control-border border-width-2"
+                                   placeholder="Ref facture">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Produit :</label>
+                          <div class="col-sm-auto">
+                            <input type="text" formControlName="produit"
+                                   class="form-control form-control-sm col-auto form-control-border border-width-2"
+                                   placeholder="Nom du produit">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Paiement :</label>
+                          <div class="col-sm-6">
+                            <select formControlName="periode"
+                                    class="form-control form-control-sm col-auto form-control-border border-width-2">
+                              <option value="COMPLET">Complet</option>
+                              <option value="SEMESTRIEL">Semestrielle</option>
+                              <option value="TRIMESTRIEL">Trimestrielle</option>
+                              <option value="MENSUEL">Mensuelle</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">N° Téléphone :</label>
+                          <div class="col-sm-auto">
+                            <input type="text" pKeyFilter="int" formControlName="nappel"
+                                   [ngClass]="{'is-invalid': factureForm.get('nappel')?.invalid && factureForm.get('nappel')?.dirty}"
+                                   class="form-control form-control-sm col-auto form-control-border border-width-2"
+                                   placeholder="(+216) 99 999 999">
+                            <span *ngIf="factureForm.get('nappel')?.hasError('minlength')"
+                                  class="error invalid-feedback">8 characters required.</span>
+                            <span *ngIf="factureForm.get('nappel')?.hasError('maxlength')"
+                                  class="error invalid-feedback">8 characters required.</span>
+                          </div>
+                        </div>
 
 
-                    <address class="ml-2">
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Reference :</label>
-                        <div class="col-sm-auto">
-                          <input type="text" formControlName="refFacture"
-                                 class="form-control form-control-sm col-auto form-control-border border-width-2"
-                                 placeholder="Ref facture">
+                      </address>
+
+                    </div>
+
+                    <div class="col-sm-6 invoice-col mt-3">
+
+                      <address>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Code client :</label>
+                          <div class="col-sm-auto">
+                            <input type="text" formControlName="codeClient"
+                                   class="form-control form-control-sm col-auto form-control-border border-width-2"
+                                   placeholder="code client">
+                          </div>
                         </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Produit :</label>
-                        <div class="col-sm-auto">
-                          <input type="text" formControlName="produit"
-                                 class="form-control form-control-sm col-auto form-control-border border-width-2"
-                                 placeholder="Nom du produit">
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Compte :</label>
+                          <div class="col-sm-auto">
+                            <input type="text" formControlName="compteFacturation"
+                                   class="form-control form-control-sm col-auto form-control-border border-width-2"
+                                   placeholder="Compte Facturation">
+                          </div>
                         </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Paiement :</label>
-                        <div class="col-sm-6">
-                          <select formControlName="periode"
-                                  class="form-control form-control-sm col-auto form-control-border border-width-2">
-                            <option value="COMPLET">Complet</option>
-                            <option value="SEMESTRIEL">Semestrielle</option>
-                            <option value="TRIMESTRIEL">Trimestrielle</option>
-                            <option value="MENSUEL">Mensuelle</option>
-                          </select>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Identifiant :</label>
+                          <div class="col-sm-auto">
+                            <input type="text" formControlName="identifiant"
+                                   class="form-control form-control-sm col-auto form-control-border border-width-2"
+                                   placeholder="Id client">
+                          </div>
                         </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">N° Téléphone :</label>
-                        <div class="col-sm-auto">
-                          <input type="text" pKeyFilter="int" formControlName="nappel"
-                                 [ngClass]="{'is-invalid': factureForm.get('nappel')?.invalid && factureForm.get('nappel')?.dirty}"
-                                 class="form-control form-control-sm col-auto form-control-border border-width-2"
-                                 placeholder="(+216) 99 999 999">
-                          <span *ngIf="factureForm.get('nappel')?.hasError('minlength')"
-                                class="error invalid-feedback">8 characters required.</span>
-                          <span *ngIf="factureForm.get('nappel')?.hasError('maxlength')"
-                                class="error invalid-feedback">8 characters required.</span>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Type ID:</label>
+                          <div class="col-sm-6">
+                            <select formControlName="typeIdent"
+                                    class="form-control form-control-sm col-auto form-control-border border-width-2">
+                              <option value="Carte d'identité">Carte d'identité</option>
+                              <option value="Passeport">Passeport</option>
+                              <option value="Permis de conduire">Permis de conduit</option>
+                            </select>
+                          </div>
+                        </div>
+                      </address>
+                    </div>
+                    <div class="row col-sm-12  " *ngIf="factureForm.get('periode')?.value!='COMPLET'" >
+                      <div class="col-sm-12 ">
+                        <div class="form-group row  justify-content-center">
+                          <label class="col-sm-auto col-form-label">Durée :</label>
+                          <div class="col-sm-3" >
+                            <select [formControl]="dureePaiment" [disabled]="updateRequest"
+                                    class="form-control form-control-sm col-auto form-control-border border-width-1">
+                              <option *ngIf="updateRequest" >{{factureForm.get('datLimPai')?.value}}</option>
+                              <option *ngIf="!updateRequest" value="1">1 année</option>
+                              <option *ngIf="!updateRequest" value="2">2 années</option>
+                              <option *ngIf="!updateRequest" value="3">3 années</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
 
-
-                    </address>
-                  </div>
-
-                  <div class="col-sm-4 invoice-col mt-3">
-
-                    <address>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Code client :</label>
-                        <div class="col-sm-auto">
-                          <input type="text" formControlName="codeClient"
-                                 class="form-control form-control-sm col-auto form-control-border border-width-2"
-                                 placeholder="code client">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Compte :</label>
-                        <div class="col-sm-auto">
-                          <input type="text" formControlName="compteFacturation"
-                                 class="form-control form-control-sm col-auto form-control-border border-width-2"
-                                 placeholder="Compte Facturation">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Identifiant :</label>
-                        <div class="col-sm-auto">
-                          <input type="text" formControlName="identifiant"
-                                 class="form-control form-control-sm col-auto form-control-border border-width-2"
-                                 placeholder="Id client">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Type ID:</label>
-                        <div class="col-sm-6">
-                          <select formControlName="typeIdent"
-                                  class="form-control form-control-sm col-auto form-control-border border-width-2">
-                            <option value="Carte d'identité">Carte d'identité</option>
-                            <option value="Passeport">Passeport</option>
-                            <option value="Permis de conduire">Permis de conduit</option>
-                          </select>
-                        </div>
-                      </div>
-                    </address>
+                    </div>
                   </div>
 
                   <div class="col-sm-4 invoice-col mt-3 ">
@@ -365,6 +384,7 @@
                   </div>
 
                 </div>
+
               </form>
 
               <div class="row mt-3">
@@ -388,7 +408,8 @@
                       <td>{{ encaissement.dateEnc | date:"MM/dd/yyyy" }}</td>
                       <td><b>{{ encaissement.montantEnc | number: '1.3-3' }} <small class="ml-1"> TND</small></b><span
                         class="float-right">
-                        <button (click)="confirmDeleteEncaiss(encaissement.idEncaissement,j)" type="button" class="btn  btn-tool bg-gradient-danger  "><i class="fas fa-trash-can"></i></button>
+                        <button (click)="confirmDeleteEncaiss(encaissement.idEncaissement,j)" type="button"
+                                class="btn  btn-tool bg-gradient-danger  "><i class="fas fa-trash-can"></i></button>
                       </span>
                       </td>
                     </tr>
@@ -399,14 +420,17 @@
                       <td>{{ encaissement.dateEnc | date:"MM/dd/yyyy" }}</td>
                       <td><b>{{ encaissement.montantEnc | number: '1.3-3' }} <small class="ml-1"> TND</small></b><span
                         class="float-right">
-                        <button (click)="removeEncaisseRow(i)" type="button" class="btn  btn-tool bg-gradient-danger  "><i class="fas fa-remove"></i></button>
+                        <button (click)="removeEncaisseRow(i)" type="button" class="btn  btn-tool bg-gradient-danger  "><i
+                          class="fas fa-remove"></i></button>
                       </span>
                       </td>
                     </tr>
 
                     <tr>
                       <td colspan="5" class=" text-center">
-                        <button  (click)="showDialog()"   class="btn bg-gradient-maroon  col-2" [disabled]="factureForm.invalid"><i class="fa fa-shopping-basket"></i> Faire Paiement</button>
+                        <button (click)="showDialog()" class="btn bg-gradient-maroon  col-2"
+                                [disabled]="factureForm.invalid"><i class="fa fa-shopping-basket"></i> Faire Paiement
+                        </button>
 
                       </td>
                     </tr>
@@ -429,7 +453,7 @@
                       <tbody>
                       <tr>
                         <th style="width:50%">Montant :</th>
-                        <td><h6 >{{total | number: '1.3-3' }} TND</h6></td>
+                        <td><h6>{{total | number: '1.3-3' }} TND</h6></td>
                       </tr>
                       <tr>
                         <th>Nombre Paiements :</th>
@@ -437,7 +461,7 @@
                       </tr>
                       <tr>
                         <th>Total Payé:</th>
-                        <td><h6 >{{totalPaye | number: '1.3-3' }} TND</h6></td>
+                        <td><h6>{{totalPaye | number: '1.3-3' }} TND</h6></td>
                       </tr>
 
                       </tbody>

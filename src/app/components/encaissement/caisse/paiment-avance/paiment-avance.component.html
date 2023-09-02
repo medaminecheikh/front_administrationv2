@@ -194,10 +194,13 @@
                 <div class="mx-auto col-sm-11 border-2 border-blue-700  mt-4 " style="background-color: aliceblue">
                   <div class="row justify-content-end mt-2 mb-3">
                     <div class="col-sm-3">
+                      <strong>Tranche:</strong>
+                      {{ factureSelected?.periode | titlecase}}
+                    </div><div class="col-sm-3">
                       <strong>Date Limite:</strong>
                       {{ factureSelected?.datLimPai }}
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <strong>Remise (%):</strong>
                       {{ factureSelected?.solde }} %
                     </div>
