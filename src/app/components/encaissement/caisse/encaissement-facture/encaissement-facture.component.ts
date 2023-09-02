@@ -196,6 +196,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() + 1);
     this.factureForm = this.formBuilder.group({
       idFacture: [''],
       refFacture: ['', [Validators.required, this.noWhitespaceStartorEnd]],
@@ -207,7 +209,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       compteFacturation: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       typeIdent: ['Carte d\'identité', Validators.required],
       identifiant: ['', [Validators.required, this.noWhitespaceStartorEnd]],
-      datLimPai: [null, Validators.required]
+      periode: ['COMPLET', Validators.required],
+      datLimPai: [currentDate, Validators.required]
     });
     this.subToMontant();
     this.resetArrayEncaiss();
@@ -225,6 +228,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       ?.valueChanges.pipe(debounceTime(500))
       .subscribe(value => {
         this.calculateTotal();
+
       });
 
     this.soldeSubscription = this.factureForm
@@ -232,8 +236,10 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       ?.valueChanges.pipe(debounceTime(500))
       .subscribe(value => {
         this.calculateTotal();
+
       });
     this.calculateTotalMontant();
+
   }
 
   noWhitespaceStartorEnd(control: FormControl): ValidationErrors | null {
@@ -262,7 +268,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       idEncaissement: [uuidv4().toString()],
       dateEnc: [new Date(), Validators.required],
-      montantEnc: [null, [Validators.required, Validators.max(this.montantRestant)]],
+      montantEnc: [null, [Validators.required, Validators.max(this.total-this.totalPaye)]],
       etatEncaissement: [''],
       numRecu: [uuidv4().slice(3, 18)],
       refFacture: [this.factureForm?.get('refFacture')?.value || '', Validators.required],

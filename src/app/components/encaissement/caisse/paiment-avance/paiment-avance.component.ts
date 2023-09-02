@@ -102,6 +102,8 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       this.initEncaissForm()
 
     } else {
+      this.initEncaissForm()
+
       this.factureSelected = undefined;
       this.montantRestant=0.000;
     }

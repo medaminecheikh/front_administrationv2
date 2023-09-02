@@ -261,11 +261,15 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Date limite :</label>
+                        <label class="col-sm-4 col-form-label">Paiement :</label>
                         <div class="col-sm-6">
-                          <input type="date" formControlName="datLimPai"
-                                 class="form-control form-control-sm col-auto form-control-border border-width-2"
-                                 placeholder="Compte Facturation">
+                          <select formControlName="periode"
+                                  class="form-control form-control-sm col-auto form-control-border border-width-2">
+                            <option value="COMPLET">Complet</option>
+                            <option value="SEMESTRIEL">Semestrielle</option>
+                            <option value="TRIMESTRIEL">Trimestrielle</option>
+                            <option value="MENSUEL">Mensuelle</option>
+                          </select>
                         </div>
                       </div>
                       <div class="form-group row">
