@@ -157,7 +157,7 @@
                 </span></div>
                   <div class="col-sm-3  ">
                     <strong>- Produit:</strong>
-                    <span class="ml-2"> {{ factureSelected?.produit }}</span>
+                    <span class="ml-2"> {{ factureSelected?.produit | titlecase}}</span>
                   </div>
                   <div class="col-sm-3  ">
                     <strong>- Compte:</strong>
@@ -201,8 +201,8 @@
                       {{ factureSelected?.datLimPai }}
                     </div>
                     <div class="col-sm-2">
-                      <strong>Remise (%):</strong>
-                      {{ factureSelected?.solde }} %
+                      <strong>Remise :</strong>
+                      {{ factureSelected?.solde }} <strong>%</strong>
                     </div>
                     <div class="col-sm-3">
                       <strong>Montant : </strong>
