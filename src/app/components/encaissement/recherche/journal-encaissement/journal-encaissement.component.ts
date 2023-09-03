@@ -6,6 +6,9 @@ import {AuthService} from "../../../../services/auth/auth.service";
 import {UserService} from "../../../../services/user.service";
 import {EttService} from "../../../../services/ett.service";
 import {ToastrService} from "ngx-toastr";
+import {Encaissement} from "../../../../modules/Encaissement";
+import {CaisseService} from "../../../../services/caisse.service";
+import {EncaissementService} from "../../../../services/encaissement.service";
 
 @Component({
   selector: 'app-journal-encaissement',
@@ -17,30 +20,17 @@ export class JournalEncaissementComponent implements OnInit, OnDestroy {
   ett!: Ett;
   userSubscription!: Subscription;
   ettSubscription!: Subscription;
-  responsiveOptions!: any[] | undefined;
+  listEncaissment: Encaissement[] = [];
+  filtredEncaissment: Encaissement[] = [];
+
   constructor(private authService: AuthService, private userService: UserService
-    , private ettService: EttService, private toastr: ToastrService) {
+    , private ettService: EttService, private toastr: ToastrService, private caisseService: CaisseService
+    , private encaissService: EncaissementService) {
   }
 
   ngOnInit(): void {
-    this.responsiveOptions = [
-      {
-        breakpoint: '1400px',
-        numVisible: 3,
-        numScroll: 3
-      },
-      {
-        breakpoint: '1220px',
-        numVisible: 2,
-        numScroll: 2
-      },
-      {
-        breakpoint: '1100px',
-        numVisible: 1,
-        numScroll: 1
-      }
-    ];
     this.getUser();
+
 
   }
 
@@ -61,6 +51,7 @@ export class JournalEncaissementComponent implements OnInit, OnDestroy {
         },
         () => {
           this.getEtt();
+
         });
     } else
       this.toastr.error('User resources not found !', 'Error')
@@ -68,10 +59,30 @@ export class JournalEncaissementComponent implements OnInit, OnDestroy {
 
   getEtt() {
     this.ettSubscription = this.ettService.getEtt(this.currentUser.ett.idEtt).subscribe(value => {
-        this.ett = value
+        this.ett = value;
+        console.log("value", value);
       },
-      error => {
+      (error) => {
         this.toastr.error('Ett resources not found !', 'Error')
+      },()=>{
+        this.getAllEncaisses();
       })
   }
+
+  getAllEncaisses() {
+    console.log("ett", this.ett);
+
+    if (this.ett) {
+      if (this.ett.caisses) {
+        this.ett.caisses.forEach(caisse => {
+          this.encaissService.getEncaissementByCaisse(caisse.idCaisse).subscribe((encaisses) => {
+            encaisses.forEach(value => this.listEncaissment.push(value));
+          });
+        });
+      }
+    } else {
+      console.error("ett is undefined");
+    }
+  }
+
 }

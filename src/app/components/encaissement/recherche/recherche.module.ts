@@ -8,6 +8,7 @@ import { JournalEncaissementComponent } from './journal-encaissement/journal-enc
 import {CarouselModule} from "primeng/carousel";
 import {ButtonModule} from "primeng/button";
 import {TagModule} from "primeng/tag";
+import {PaginatorModule} from "primeng/paginator";
 
 
 @NgModule({
@@ -16,12 +17,13 @@ import {TagModule} from "primeng/tag";
     RechercheFactureComponent,
     JournalEncaissementComponent
   ],
-  imports: [
-    CommonModule,
-    RechercheRoutingModule,
-    CarouselModule,
-    ButtonModule,
-    TagModule
-  ]
+    imports: [
+        CommonModule,
+        RechercheRoutingModule,
+        CarouselModule,
+        ButtonModule,
+        TagModule,
+        PaginatorModule
+    ]
 })
 export class RechercheModule { }
