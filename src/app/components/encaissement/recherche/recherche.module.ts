@@ -9,6 +9,8 @@ import {CarouselModule} from "primeng/carousel";
 import {ButtonModule} from "primeng/button";
 import {TagModule} from "primeng/tag";
 import {PaginatorModule} from "primeng/paginator";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -17,13 +19,15 @@ import {PaginatorModule} from "primeng/paginator";
     RechercheFactureComponent,
     JournalEncaissementComponent
   ],
-    imports: [
-        CommonModule,
-        RechercheRoutingModule,
-        CarouselModule,
-        ButtonModule,
-        TagModule,
-        PaginatorModule
-    ]
+  imports: [
+    CommonModule,
+    RechercheRoutingModule,
+    CarouselModule,
+    ButtonModule,
+    TagModule,
+    PaginatorModule,
+    SelectButtonModule,
+    ReactiveFormsModule
+  ]
 })
 export class RechercheModule { }

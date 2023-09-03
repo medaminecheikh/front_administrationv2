@@ -9,6 +9,7 @@ import {ToastrService} from "ngx-toastr";
 import {Encaissement} from "../../../../modules/Encaissement";
 import {CaisseService} from "../../../../services/caisse.service";
 import {EncaissementService} from "../../../../services/encaissement.service";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-journal-encaissement',
@@ -22,7 +23,7 @@ export class JournalEncaissementComponent implements OnInit, OnDestroy {
   ettSubscription!: Subscription;
   listEncaissment: Encaissement[] = [];
   filtredEncaissment: Encaissement[] = [];
-
+  myEncaiss:Encaissement[] = [];
   constructor(private authService: AuthService, private userService: UserService
     , private ettService: EttService, private toastr: ToastrService, private caisseService: CaisseService
     , private encaissService: EncaissementService) {
@@ -51,7 +52,7 @@ export class JournalEncaissementComponent implements OnInit, OnDestroy {
         },
         () => {
           this.getEtt();
-
+          this.myEncaissment();
         });
     } else
       this.toastr.error('User resources not found !', 'Error')
@@ -85,4 +86,9 @@ export class JournalEncaissementComponent implements OnInit, OnDestroy {
     }
   }
 
+  myEncaissment() {
+    this.encaissService.getEncaissementByCaisse(this.currentUser.caisse.idCaisse).subscribe(value => {
+      this.myEncaiss=value;
+    });
+  }
 }
