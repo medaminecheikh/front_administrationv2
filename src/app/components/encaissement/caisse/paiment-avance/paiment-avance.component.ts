@@ -11,6 +11,12 @@ import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
 import {v4 as uuidv4} from "uuid";
 import {Paginator} from "primeng/paginator";
+import {Utilisateur} from "../../../../modules/Utilisateur";
+import {Ett} from "../../../../modules/Ett";
+import {Subscription} from "rxjs";
+import {AuthService} from "../../../../services/auth/auth.service";
+import {EttService} from "../../../../services/ett.service";
+import {CaisseService} from "../../../../services/caisse.service";
 
 interface EventItem {
   status?: string;
@@ -26,35 +32,71 @@ interface EventItem {
   styleUrls: ['./paiment-avance.component.scss']
 })
 export class PaimentAvanceComponent implements OnInit, OnDestroy {
+  currentUser!: Utilisateur;
+  ett!: Ett;
+  userSubscription!: Subscription;
+  ettSubscription!: Subscription;
   listFacture: InfoFacture[] = [];
   factureSelected?: InfoFacture;
   events!: EventItem[];
-  size = new FormControl(8) ;
-  page=new FormControl(0) ;
+  size = new FormControl(8);
+  page = new FormControl(0);
   encaissementForm?: FormGroup;
   searchForm!: FormGroup;
   montantRestant: number = 0.000;
-  totalRecords:any;
+  totalRecords: any;
+
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
               private userService: UserService,
               private factureService: FactureService,
               private encaissementService: EncaissementService,
-              private dialogService: DialogService,
-              private confirmationService: ConfirmationService) {
+              private confirmationService: ConfirmationService,
+              private authService: AuthService,
+              private ettService: EttService) {
 
   }
 
   ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+    this.ettSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.initEncaissForm();
     this.initSearchForm();
     this.sendSearch();
 
   }
+
+  getUser() {
+    const name = this.authService.getCurrentUser()
+    if (name && name.username) {
+      this.userSubscription = this.userService.getUserBylogin(name.username).subscribe(
+        (value) => {
+          this.currentUser = value
+        }
+        , (error) => {
+          this.toastr.error('Could not get user detail !', 'Error')
+        },
+        () => {
+          this.getEtt();
+        });
+    } else
+      this.toastr.error('User resources not found !', 'Error')
+  }
+
+  getEtt() {
+    this.ettSubscription = this.ettService.getEtt(this.currentUser.ett.idEtt).subscribe(value => {
+        this.ett = value
+      },
+      error => {
+        this.toastr.error('Ett resources not found !', 'Error')
+      })
+  }
+
 
   calculMontantRestant(facture: InfoFacture) {
     if (facture) {
@@ -74,7 +116,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       return 'orange';
     } else if (value < 60) {
       return 'purple';
-    }else if (value < 80) {
+    } else if (value < 80) {
       return 'blue';
     } else {
       return 'green';
@@ -105,7 +147,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       this.initEncaissForm()
 
       this.factureSelected = undefined;
-      this.montantRestant=0.000;
+      this.montantRestant = 0.000;
     }
   }
 
@@ -118,7 +160,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     if (this.factureSelected) {
       this.factureSelected = undefined;
       this.initEncaissForm();
-      this.montantRestant=0.000;
+      this.montantRestant = 0.000;
     }
   }
 
@@ -183,6 +225,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
         const encaissement = this.encaissementForm.value;
         const facture = this.factureSelected;
         this.encaissementService.addEncaiss(encaissement).subscribe((value) => {
+          this.encaissementService.affectEncaisseToCaisse(value.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
           this.factureService.affectEncaissementToFacture(value.idEncaissement, facture.idFacture).subscribe(
             () => {
 
@@ -211,10 +254,11 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
   }
 
   payAll() {
-    if (this.montantRestant!=0.000) {
+    if (this.montantRestant != 0.000) {
       this.encaissementForm?.get('montantEnc')?.setValue(this.montantRestant)
     }
   }
+
   initSearchForm() {
     this.searchForm = this.formBuilder.group({
       produit: [''],
@@ -225,6 +269,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
 
     });
   }
+
   paginate(event: Paginator): void {
     this.size.setValue(event.rows);
     this.page.setValue(Math.floor(event.first / event.rows));
@@ -232,10 +277,10 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
   }
 
   sendSearch() {
-    const { produit, refFacture, compteFacturation, identifiant,montant  } = this.searchForm?.value;
-    const page  = this.page.value;
+    const {produit, refFacture, compteFacturation, identifiant, montant} = this.searchForm?.value;
+    const page = this.page.value;
     this.factureService
-      .searchPageFactures(produit, refFacture, compteFacturation, identifiant,montant, page ||0, this.size.value ||8)
+      .searchPageFactures(produit, refFacture, compteFacturation, identifiant, montant, page || 0, this.size.value || 8)
       .subscribe((factures) => {
         this.listFacture = factures;
         const firstFacture = factures[0]; // Assuming there's at least one facture in the list

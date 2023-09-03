@@ -12,6 +12,10 @@ import {debounceTime, Subscription} from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
 import {v4 as uuidv4} from 'uuid';
+import {Utilisateur} from "../../../../modules/Utilisateur";
+import {Ett} from "../../../../modules/Ett";
+import {EttService} from "../../../../services/ett.service";
+import {AuthService} from "../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-encaissement-facture',
@@ -36,7 +40,10 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   visible: boolean = false;
   totalPaye: number = 0.000;
   montantRestant: number = 0.000;
-
+  currentUser!: Utilisateur;
+  ett!: Ett;
+  userSubscription!: Subscription;
+  ettSubscription!: Subscription;
   showDialog() {
     this.initEncaissForm();
     this.visible = true;
@@ -49,7 +56,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               private factureService: FactureService,
               private encaissementService: EncaissementService,
               private dialogService: DialogService,
-              private confirmationService: ConfirmationService
+              private confirmationService: ConfirmationService,
+              private authService: AuthService,
+              private ettService: EttService
   ) {
 
   }
@@ -59,19 +68,46 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.montantSubscription?.unsubscribe();
     this.soldeSubscription?.unsubscribe();
+    this.userSubscription.unsubscribe();
+    this.ettSubscription.unsubscribe();
     if (this.ref) {
       this.ref.close();
     }
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.initForm();
     this.initItems();
     this.initEncaissForm();
     this.subsdureePaiment();
 
   }
+  getUser() {
+    const name = this.authService.getCurrentUser()
+    if (name && name.username) {
+      this.userSubscription = this.userService.getUserBylogin(name.username).subscribe(
+        (value) => {
+          this.currentUser = value
+        }
+        , (error) => {
+          this.toastr.error('Could not get user detail !', 'Error')
+        },
+        () => {
+          this.getEtt();
+        });
+    } else
+      this.toastr.error('User resources not found !', 'Error')
+  }
 
+  getEtt() {
+    this.ettSubscription = this.ettService.getEtt(this.currentUser.ett.idEtt).subscribe(value => {
+        this.ett = value
+      },
+      error => {
+        this.toastr.error('Ett resources not found !', 'Error')
+      })
+  }
   calculMontantRestant(facture: InfoFacture) {
     if (facture) {
       let montantOriginal = (facture.montant - (facture.montant * facture.solde / 100));
@@ -473,6 +509,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               this.encaissementsArray.forEach(value1 => {
                 this.encaissementService.addEncaiss(value1).subscribe(
                   (encais) => {
+                    this.encaissementService.affectEncaisseToCaisse(encais.idEncaissement,this.currentUser.caisse.idCaisse).subscribe();
                     this.factureService.affectEncaissementToFacture(encais.idEncaissement, idFact).subscribe(
                       () => {
                       }, (error) => {
@@ -509,6 +546,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               if (this.encaissementsArray.length > 0 && facture.idFacture) {
                 this.encaissementsArray.forEach((value) => {
                   this.encaissementService.addEncaiss(value).subscribe((encaissment) => {
+                    this.encaissementService.affectEncaisseToCaisse(encaissment.idEncaissement,this.currentUser.caisse.idCaisse).subscribe();
+
                     this.factureService.affectEncaissementToFacture(encaissment.idEncaissement, facture.idFacture).subscribe();
                   }, () => {
                     this.toastr.error("Payment creation failed !", "Error");

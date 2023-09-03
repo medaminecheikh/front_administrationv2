@@ -11,6 +11,7 @@ export class EncaissementService {
 
   constructor(private http: HttpClient) {
   }
+
   addEncaiss(encaissement: Encaissement): Observable<Encaissement> {
     return this.http.post<Encaissement>(`${this.baseUrl}/encaissement`, encaissement);
   }
@@ -34,4 +35,9 @@ export class EncaissementService {
   deleteEncaiss(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
+
+  affectEncaisseToCaisse(idEncaiss: string, idCai: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/affectEncaisseToCaisse/${idEncaiss}/${idCai}`, null);
+  }
+
 }
