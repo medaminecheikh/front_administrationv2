@@ -5,6 +5,9 @@ import { RechercheRoutingModule } from './recherche-routing.module';
 import { RechercheEncaissementComponent } from './recherche-encaissement/recherche-encaissement.component';
 import { RechercheFactureComponent } from './recherche-facture/recherche-facture.component';
 import { JournalEncaissementComponent } from './journal-encaissement/journal-encaissement.component';
+import {CarouselModule} from "primeng/carousel";
+import {ButtonModule} from "primeng/button";
+import {TagModule} from "primeng/tag";
 
 
 @NgModule({
@@ -15,7 +18,10 @@ import { JournalEncaissementComponent } from './journal-encaissement/journal-enc
   ],
   imports: [
     CommonModule,
-    RechercheRoutingModule
+    RechercheRoutingModule,
+    CarouselModule,
+    ButtonModule,
+    TagModule
   ]
 })
 export class RechercheModule { }

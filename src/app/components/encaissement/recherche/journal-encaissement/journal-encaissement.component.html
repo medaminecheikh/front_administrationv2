@@ -1,1 +1,54 @@
-<p>journal-encaissement works!</p>
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Journal Paiement </h1>
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/encaissement/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Journal Paiement</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row col-12 justify-content-center">
+        <div class="card col-5 card-default border-round-2xl shadow-2 smooth-scroll" style="height: 500px;">
+          <div class="row text-cyan-700 justify-content-center "><h3><i class="fa-solid fa-scroll"></i> - <i>Journal des
+            Paiements</i></h3></div>
+        </div>
+        <div class="col-sm-1 " style="max-width: 23px"></div>
+        <div class="col-sm-6 m-0">
+          <div class="card col-12 card-default border-round-2xl shadow-2 justify-content-center smooth-scroll" style="height: 160px;">
+            <p-carousel [value]="currentUser.profilUser"  [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="10000" >
+              <ng-template let-product pTemplate="item">
+                <div class="product-item ">
+                  <div class="product-item-content ">
+                    <div class=" justify-content-center ">
+                      <h3 class="text-center text-green-700"><i>Revenue Mensuel</i></h3> <!-- Adjust font size as needed -->
+                      <div class="row justify-content-center mt-3"><h4 class="text-bold " > 725.000.000 $</h4></div><!-- Adjust font size as needed -->
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-carousel>
+
+          </div>
+
+          <div class="card col-12 card-default border-round-2xl shadow-2 smooth-scroll" style="height: 326px;">
+            <div class="row text-blue-800 justify-content-center "><h3><i class="fa fa-user-tie"></i> - <i>Mes
+              Encaissements</i></h3>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

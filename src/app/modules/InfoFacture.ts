@@ -12,6 +12,7 @@ export interface InfoFacture {
   typeIdent: string;
   identifiant: string;
   datLimPai: Date;
+  datCreation: Date;
   periode: string;
   encaissements: Encaissement[];
   totalElements:number;
