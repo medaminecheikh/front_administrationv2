@@ -1,0 +1,11 @@
+@media print {
+  /* Hide buttons and inputs when printing */
+  button, p-speedDial {
+    display: none !important;
+  }
+
+  /* Any additional print styles for this component */
+  .print-specific-element {
+    /* Define print-specific styles here */
+  }
+}

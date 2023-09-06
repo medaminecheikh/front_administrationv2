@@ -1,0 +1,181 @@
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
+  <div class="container-fluid  print-content">
+    <div class="row col-12 justify-content-center">
+      <section class="content col-12">
+        <div class="row ml-2 mr-2">
+          <!-- Your content here -->
+        </div>
+        <div class="invoice   p-3 mb-3">
+          <button class="btn col-sm-1 btn-default float-right" (click)="printPage()"><i class="fa fa-print"></i></button>
+
+          <div class="row col-12 justify-content-center">
+            <a class="text-center"><h1>Facture Tunisie Télécom</h1></a>
+          </div>
+          <br>
+          <div class="row pl-3">
+            <div class="col-12">
+              <h4>
+                <i class="fas fa-file-circle-check text-info"></i> Fichier de Facturation
+              </h4>
+            </div>
+          </div>
+          <div>
+            <div class="row invoice-info">
+
+              <div class="row col-sm-8">
+                <div class="col-sm-6 invoice-col mt-3">
+
+                  <address class="ml-2">
+
+                      <div class="row  ml-1">
+                        <dt class="col-form-label">Reference :</dt>
+                        <dd>{{selectedFacture?.refFacture}}</dd>
+                      </div>
+
+                      <div class="row my-2 ml-1">
+                        <dt class="col-form-label">Produit :</dt>
+                        <dd>{{selectedFacture?.produit}}</dd>
+                      </div>
+
+                      <div class="row my-2 ml-1">
+                        <dt class="col-form-label">Paiement :</dt>
+                        <dd>{{selectedFacture?.periode}}</dd>
+                      </div>
+
+                      <div class="row mt-2 ml-1">
+                        <dt class="col-form-label">N° Téléphone :</dt>
+                        <dd class="col-sm-6">{{selectedFacture?.nappel}}</dd>
+                      </div>
+
+
+
+
+                  </address>
+
+                </div>
+
+                <div class="col-sm-6 invoice-col mt-3">
+
+                  <address>
+
+                    <dl class="row  ">
+                      <dt class="col-form-label">Code client :</dt>
+                      <dd class="col-sm-auto">{{selectedFacture?.codeClient}}</dd>
+                    </dl>
+                    <dl class="row my-2 ">
+                      <dt class="col-form-label">Compte :</dt>
+                      <dd class="col-sm-auto">{{selectedFacture?.compteFacturation}}</dd>
+                    </dl>
+                    <dl class="row my-2 ">
+                      <dt class="col-form-label">Identifiant :</dt>
+                      <dd class="col-sm-auto">{{selectedFacture?.identifiant}}</dd>
+                    </dl>
+                    <dl class="mt-2 row">
+                      <dt class="col-form-label">Type ID:</dt>
+                      <dd class="col-sm-auto">{{selectedFacture?.typeIdent}}</dd>
+                    </dl>
+
+                  </address>
+                </div>
+                <div class="row col-sm-12  ">
+                  <div class="col-sm-12 ">
+                    <div class="form-group row  justify-content-center">
+                      <dt class="col-sm-auto col-form-label">Date Limite :</dt>
+                      <dd class="col-sm-4">
+                        {{selectedFacture?.datLimPai}}
+                      </dd>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-sm-4 invoice-col mt-3 ">
+                <h3 class="border-bottom-2  border-blue-700">Montant Facture </h3><br>
+                <div class="form-group row">
+                  <label class="col-sm-5 col-form-label">Montant original :</label>
+                  <div class="col-sm-auto">
+                    {{selectedFacture?.montant | number: '1.3-3'}} TND
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-5 col-form-label">Remise (%) :</label>
+                  <div class="col-sm-auto">
+                    {{selectedFacture?.solde}}
+                  </div>
+                  <div class="row ml-auto col-7 mr-5 border-bottom-3 border-blue-700"></div>
+                  <div class="row col-12 ">
+                    <div class="flex justify-content-center col-12">
+                      <h3 class="mr-5">Montant</h3>
+                      <h4 class="ml-5">{{total | number: '1.3-3' }} </h4><h6 class="float-right"> TND</h6>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+
+              <div class="col-12 table-responsive smooth-scroll">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID Client</th>
+                    <th>N° Recu</th>
+                    <th>Methode Paiement</th>
+                    <th>Date Paiement</th>
+                    <th>Montant Payé</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let encaissement of encaissFactArray ; let j = index ">
+                    <td>{{ encaissement.identifiant }}</td>
+                    <td>{{ encaissement.numRecu  }}</td>
+                    <td>{{ encaissement.modePaiement | titlecase }}</td>
+                    <td>{{ encaissement.dateEnc | date:"MM/dd/yyyy" }}</td>
+                    <td><b>{{ encaissement.montantEnc | number: '1.3-3' }} <small class="ml-1"> TND</small></b><span
+                      class="float-right">
+
+                  </span></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-6">
+
+              </div>
+
+              <div class="col-6">
+                <p class="lead">Dernier Paiement : {{encaissFactArray[encaissFactArray.length-1]?.dateEnc | date:"MM/dd/yyyy"}}</p>
+                <div class="table-responsive">
+                  <table class="table">
+                    <tbody>
+                    <tr>
+                      <th style="width:50%">Montant :</th>
+                      <td><h6>{{total | number: '1.3-3' }} TND</h6></td>
+                    </tr>
+                    <tr>
+                      <th>Nombre Paiements :</th>
+                      <td><h6>{{encaissFactArray.length + encaissFactArray.length}}</h6></td>
+                    </tr>
+                    <tr>
+                      <th>Total Payé:</th>
+                      <td><h6>{{totalPaye | number: '1.3-3' }} TND</h6></td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+

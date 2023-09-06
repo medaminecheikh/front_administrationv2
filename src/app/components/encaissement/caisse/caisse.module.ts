@@ -26,13 +26,15 @@ import {BlockUIModule} from "primeng/blockui";
 import {TimelineModule} from "primeng/timeline";
 import {CardModule} from "primeng/card";
 import {PaginatorModule} from "primeng/paginator";
+import { PrintFactureComponent } from './print-facture/print-facture.component';
 
 
 @NgModule({
   declarations: [
     EncaissementFactureComponent,
     PaimentAvanceComponent,
-    ListFactureComponent
+    ListFactureComponent,
+    PrintFactureComponent
   ],
     imports: [
         CommonModule,

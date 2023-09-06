@@ -83,7 +83,7 @@ export class ListFactureComponent implements OnInit, OnDestroy {
     sendSearch() {
         const { produit, refFacture, compteFacturation, identifiant,montant  } = this.searchForm?.value;
 
-        this.factureService
+      this.listSubscription=  this.factureService
             .searchPageFactures(produit, refFacture, compteFacturation, identifiant,montant, this.page ||0, this.size)
             .subscribe((factures) => {
                 this.listFacture = factures;

@@ -44,6 +44,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   ett!: Ett;
   userSubscription!: Subscription;
   ettSubscription!: Subscription;
+
   showDialog() {
     this.initEncaissForm();
     this.visible = true;
@@ -83,6 +84,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.subsdureePaiment();
 
   }
+
   getUser() {
     const name = this.authService.getCurrentUser()
     if (name && name.username) {
@@ -108,6 +110,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.toastr.error('Ett resources not found !', 'Error')
       })
   }
+
   calculMontantRestant(facture: InfoFacture) {
     if (facture) {
       let montantOriginal = (facture.montant - (facture.montant * facture.solde / 100));
@@ -182,21 +185,16 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         },
 
       },
-      {
-        tooltipOptions: {
-          tooltipLabel: 'PDF',
-          tooltipPosition: 'left'
-        },
-        icon: 'pi pi-file-pdf'
 
-      },
       {
         tooltipOptions: {
           tooltipLabel: 'Print',
           tooltipPosition: 'left'
         },
-        icon: 'pi pi-print'
-
+        icon: 'pi pi-print',
+        command: () => {
+          this.openInPrint();
+        }
       },
       {
         tooltipOptions: {
@@ -509,7 +507,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               this.encaissementsArray.forEach(value1 => {
                 this.encaissementService.addEncaiss(value1).subscribe(
                   (encais) => {
-                    this.encaissementService.affectEncaisseToCaisse(encais.idEncaissement,this.currentUser.caisse.idCaisse).subscribe();
+                    this.encaissementService.affectEncaisseToCaisse(encais.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
                     this.factureService.affectEncaissementToFacture(encais.idEncaissement, idFact).subscribe(
                       () => {
                       }, (error) => {
@@ -546,7 +544,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               if (this.encaissementsArray.length > 0 && facture.idFacture) {
                 this.encaissementsArray.forEach((value) => {
                   this.encaissementService.addEncaiss(value).subscribe((encaissment) => {
-                    this.encaissementService.affectEncaisseToCaisse(encaissment.idEncaissement,this.currentUser.caisse.idCaisse).subscribe();
+                    this.encaissementService.affectEncaisseToCaisse(encaissment.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
 
                     this.factureService.affectEncaissementToFacture(encaissment.idEncaissement, facture.idFacture).subscribe();
                   }, () => {
@@ -576,6 +574,14 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     }
 
 
+  }
+  openInPrint() {
+    const dataToPass = {
+      factureForm: this.factureForm.value, // Pass the form data here
+      encaissFactArray: this.encaissFactArray, // Pass the array data here
+    };
+
+    this.router.navigateByUrl('encaissement/caisse/print-facture', { state: dataToPass });
   }
 
 
