@@ -6,7 +6,8 @@
           <!-- Your content here -->
         </div>
         <div class="invoice   p-3 mb-3">
-          <button class="btn col-sm-1 btn-default float-right" (click)="printPage()"><i class="fa fa-print"></i></button>
+          <button class="btn col-sm-1 btn-default float-right" (click)="printPage()"><i class="fa fa-print"></i>
+          </button>
 
           <div class="row col-12 justify-content-center">
             <a class="text-center"><h1>Facture Tunisie Télécom</h1></a>
@@ -27,27 +28,25 @@
 
                   <address class="ml-2">
 
-                      <div class="row  ml-1">
-                        <dt class="col-form-label">Reference :</dt>
-                        <dd>{{selectedFacture?.refFacture}}</dd>
-                      </div>
+                    <div class="row  ml-1">
+                      <dt class="col-form-label">Reference :</dt>
+                      <dd>{{selectedFacture?.refFacture}}</dd>
+                    </div>
 
-                      <div class="row my-2 ml-1">
-                        <dt class="col-form-label">Produit :</dt>
-                        <dd>{{selectedFacture?.produit}}</dd>
-                      </div>
+                    <div class="row my-2 ml-1">
+                      <dt class="col-form-label">Produit :</dt>
+                      <dd>{{selectedFacture?.produit}}</dd>
+                    </div>
 
-                      <div class="row my-2 ml-1">
-                        <dt class="col-form-label">Paiement :</dt>
-                        <dd>{{selectedFacture?.periode}}</dd>
-                      </div>
+                    <div class="row my-2 ml-1">
+                      <dt class="col-form-label">Paiement :</dt>
+                      <dd>{{selectedFacture?.periode}}</dd>
+                    </div>
 
-                      <div class="row mt-2 ml-1">
-                        <dt class="col-form-label">N° Téléphone :</dt>
-                        <dd class="col-sm-6">{{selectedFacture?.nappel}}</dd>
-                      </div>
-
-
+                    <div class="row mt-2 ml-1">
+                      <dt class="col-form-label">N° Téléphone :</dt>
+                      <dd class="col-sm-6">{{selectedFacture?.nappel}}</dd>
+                    </div>
 
 
                   </address>
@@ -58,21 +57,23 @@
 
                   <address>
 
-                    <dl class="row  ">
-                      <dt class="col-form-label">Code client :</dt>
-                      <dd class="col-sm-auto">{{selectedFacture?.codeClient}}</dd>
-                    </dl>
-                    <dl class="row my-2 ">
-                      <dt class="col-form-label">Compte :</dt>
-                      <dd class="col-sm-auto">{{selectedFacture?.compteFacturation}}</dd>
-                    </dl>
-                    <dl class="row my-2 ">
-                      <dt class="col-form-label">Identifiant :</dt>
-                      <dd class="col-sm-auto">{{selectedFacture?.identifiant}}</dd>
-                    </dl>
-                    <dl class="mt-2 row">
-                      <dt class="col-form-label">Type ID:</dt>
-                      <dd class="col-sm-auto">{{selectedFacture?.typeIdent}}</dd>
+                    <dl class="row mt-2 ">
+
+                      <dt class="text-bold col-sm-4">Code client :</dt>
+                      <dd class="col-sm-8">{{selectedFacture?.codeClient}}rrrrrrr</dd>
+
+
+                      <dt class="text-bold col-sm-4 mt-3">Compte :</dt>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.compteFacturation}}RRRRRRRRR</dd>
+
+
+                      <dt class="text-bold col-sm-4 mt-3">Identifiant :</dt>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.identifiant}}SSSSSS</dd>
+
+
+                      <dt class="text-bold col-sm-4 mt-3">Type ID:</dt>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.typeIdent}} ZZZZZ</dd>
+
                     </dl>
 
                   </address>
@@ -80,7 +81,7 @@
                 <div class="row col-sm-12  ">
                   <div class="col-sm-12 ">
                     <div class="form-group row  justify-content-center">
-                      <dt class="col-sm-auto col-form-label">Date Limite :</dt>
+                      <dt class="col-sm-auto ">Date Limite :</dt>
                       <dd class="col-sm-4">
                         {{selectedFacture?.datLimPai}}
                       </dd>
@@ -149,7 +150,8 @@
               </div>
 
               <div class="col-6">
-                <p class="lead">Dernier Paiement : {{encaissFactArray[encaissFactArray.length-1]?.dateEnc | date:"MM/dd/yyyy"}}</p>
+                <p class="lead">Dernier Paiement
+                  : {{encaissFactArray[encaissFactArray.length - 1]?.dateEnc | date:"MM/dd/yyyy"}}</p>
                 <div class="table-responsive">
                   <table class="table">
                     <tbody>
