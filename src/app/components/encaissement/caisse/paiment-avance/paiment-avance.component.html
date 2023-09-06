@@ -416,6 +416,8 @@
                       </ng-template>
                       <ng-template pTemplate="content" let-encaiss>
                         <small class="p-text-secondary">{{ encaiss.dateEnc | date: 'dd/MM/yyyy' }}</small>
+                        <br>
+                        <small class="p-text-secondary">{{ encaiss.montantEnc | number: '1.3-3' }}</small>
                       </ng-template>
                       <ng-template pTemplate="opposite" let-encaiss>
                         {{ encaiss.modePaiement | titlecase}}
