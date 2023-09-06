@@ -28,26 +28,23 @@
 
                   <address class="ml-2">
 
-                    <div class="row  ml-1">
-                      <dt class="col-form-label">Reference :</dt>
-                      <dd>{{selectedFacture?.refFacture}}</dd>
-                    </div>
+                    <dl class="row mt-2 ">
+                      <dt class="text-bold col-sm-4">Reference :</dt>
+                      <dd class="col-sm-8 ">{{selectedFacture?.refFacture}}</dd>
 
-                    <div class="row my-2 ml-1">
-                      <dt class="col-form-label">Produit :</dt>
-                      <dd>{{selectedFacture?.produit}}</dd>
-                    </div>
 
-                    <div class="row my-2 ml-1">
-                      <dt class="col-form-label">Paiement :</dt>
-                      <dd>{{selectedFacture?.periode}}</dd>
-                    </div>
+                      <dt class="text-bold col-sm-4 mt-3">Produit :</dt>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.produit}}</dd>
 
-                    <div class="row mt-2 ml-1">
-                      <dt class="col-form-label">N° Téléphone :</dt>
-                      <dd class="col-sm-6">{{selectedFacture?.nappel}}</dd>
-                    </div>
 
+                      <dt class="text-bold col-sm-4 mt-3">Paiement :</dt>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.periode |titlecase}}</dd>
+
+
+                      <dt class="text-bold col-sm-auto mt-3">N° Téléphone :</dt>
+                      <dd class="col-sm-7 mt-3">{{selectedFacture?.nappel}}</dd>
+
+                    </dl>
 
                   </address>
 
@@ -60,19 +57,19 @@
                     <dl class="row mt-2 ">
 
                       <dt class="text-bold col-sm-4">Code client :</dt>
-                      <dd class="col-sm-8">{{selectedFacture?.codeClient}}rrrrrrr</dd>
+                      <dd class="col-sm-8">{{selectedFacture?.codeClient}}</dd>
 
 
                       <dt class="text-bold col-sm-4 mt-3">Compte :</dt>
-                      <dd class="col-sm-8 mt-3">{{selectedFacture?.compteFacturation}}RRRRRRRRR</dd>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.compteFacturation}}</dd>
 
 
                       <dt class="text-bold col-sm-4 mt-3">Identifiant :</dt>
-                      <dd class="col-sm-8 mt-3">{{selectedFacture?.identifiant}}SSSSSS</dd>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.identifiant}}</dd>
 
 
-                      <dt class="text-bold col-sm-4 mt-3">Type ID:</dt>
-                      <dd class="col-sm-8 mt-3">{{selectedFacture?.typeIdent}} ZZZZZ</dd>
+                      <dt class="text-bold col-sm-4 mt-3">Type ID :</dt>
+                      <dd class="col-sm-8 mt-3">{{selectedFacture?.typeIdent}} </dd>
 
                     </dl>
 
@@ -94,15 +91,15 @@
               <div class="col-sm-4 invoice-col mt-3 ">
                 <h3 class="border-bottom-2  border-blue-700">Montant Facture </h3><br>
                 <div class="form-group row">
-                  <label class="col-sm-5 col-form-label">Montant original :</label>
+                  <label class="col-sm-5 text-bold">Montant original : </label>
                   <div class="col-sm-auto">
                     {{selectedFacture?.montant | number: '1.3-3'}} TND
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-sm-5 col-form-label">Remise (%) :</label>
+                  <label class="col-sm-5 text-bold">Remise (%) :</label>
                   <div class="col-sm-auto">
-                    {{selectedFacture?.solde}}
+                    {{selectedFacture?.solde | number: '1.2-2'}}
                   </div>
                   <div class="row ml-auto col-7 mr-5 border-bottom-3 border-blue-700"></div>
                   <div class="row col-12 ">
