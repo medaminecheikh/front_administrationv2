@@ -26,7 +26,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   ref: DynamicDialogRef | undefined;
   items!: MenuItem[];
   today: Date = new Date();
-  dureePaiment = new FormControl('1');
+
   factureForm !: FormGroup;
   encaissementForm?: FormGroup;
   encaissementsArray: Encaissement[] = [];
@@ -37,6 +37,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   private soldeSubscription?: Subscription;
   subscriptions: Subscription[] = [];
   updateRequest: boolean = false;
+  dureePaiment = new FormControl('1');
   visible: boolean = false;
   totalPaye: number = 0.000;
   montantRestant: number = 0.000;
@@ -148,6 +149,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.encaissementsArray = [];
         console.log(facture)
       }
+      this.disableFormControls();
       this.calculateTotalMontant();
     });
   }
@@ -234,12 +236,27 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.encaissementForm = this.initEncaissementForm();
     this.visible = false;
   }
+   disableFormControls() {
+    for (const controlName in this.factureForm.controls) {
+      if (this.factureForm.controls.hasOwnProperty(controlName)) {
+        this.factureForm.get(controlName)?.disable();
+      }
+    }
+     this.dureePaiment.disable();
+  }
 
+  enableFormControls() {
+    for (const controlName in this.factureForm.controls) {
+      if (this.factureForm.controls.hasOwnProperty(controlName)) {
+        this.factureForm.get(controlName)?.enable();
+      }
+    }
+  }
   private initForm(): void {
     const today = this.today;
     this.factureForm = this.formBuilder.group({
       idFacture: [''],
-      refFacture: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+      refFacture: ['',  [Validators.required, this.noWhitespaceStartorEnd]],
       produit: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       montant: [null, [Validators.required, Validators.min(1)]],
       solde: [null, [Validators.min(0), Validators.max(100)]],

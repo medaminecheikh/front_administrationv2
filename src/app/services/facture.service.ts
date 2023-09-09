@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {InfoFacture} from "../modules/InfoFacture";
 
@@ -78,5 +78,24 @@ export class FactureService {
       .set('size', size.toString());
 
     return this.http.get<InfoFacture[]>(`${this.baseUrl}/factures/searchPageFactures`, { params });
+  }
+
+  getMonthlyFactures(): Observable<InfoFacture[]> {
+    const url = `${this.baseUrl}/factures/monthlyFactures`;
+    return this.http.get<InfoFacture[]>(url);
+  }
+
+  calculateAmountToPay(facture: InfoFacture, date: Date): Observable<number> {
+    const url = `${this.baseUrl}/factures/amountopay`;
+    const params = new HttpParams().set('date', date.toISOString());
+
+    // Assuming that your InfoFacture object can be sent as JSON in the request body
+    const body = JSON.stringify(facture);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<number>(url, body, { params, headers });
   }
 }

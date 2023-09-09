@@ -232,8 +232,7 @@
                 <div class="col-12">
                   <h4>
                     <i class="fas fa-file-circle-check text-info"></i> Fichier de Facturation
-
-                  </h4>
+                  </h4> <i *ngIf="updateRequest && factureForm.disabled" [style.cursor]="'pointer'"  class="fa fa-lock-open float-right text-red" (click)="enableFormControls()"></i>
                 </div>
 
               </div>
@@ -266,6 +265,7 @@
                             <select formControlName="periode"
                                     class="form-control form-control-sm col-auto form-control-border border-width-2">
                               <option value="COMPLET">Complet</option>
+                              <option value="ANNUEL">AnnueLle</option>
                               <option value="SEMESTRIEL">Semestrielle</option>
                               <option value="TRIMESTRIEL">Trimestrielle</option>
                               <option value="MENSUEL">Mensuelle</option>
