@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ett!: Ett;
   userSubscription!: Subscription;
   ettSubscription!: Subscription;
-  listFacture: InfoFacture[] = [];
+  listMonthlyFacture: InfoFacture[] = [];
   nbrEmploye: number = 0;
   nbrCaisse: number = 0;
 
@@ -33,7 +33,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.getMonthlyFacture()
   }
-
+  async supposedToPay(facture: InfoFacture): Promise<number> {
+    if (facture) {
+      // Utilisation d'une promesse pour attendre la réponse de calculateAmountToPay
+      return new Promise<number>((resolve, reject) => {
+        this.factureService.calculateAmountToPay(facture, new Date()).subscribe(
+          (montant) => {
+            // Résoudre la promesse avec la valeur montant
+            resolve(montant);
+          },
+          (error) => {
+            // Rejeter la promesse en cas d'erreur
+            reject(error);
+          }
+        );
+      });
+    } else {
+      // Si facture est null, retourner 0
+      return 0;
+    }
+  }
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
     this.ettSubscription.unsubscribe();
@@ -41,7 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getMonthlyFacture() {
     this.factureService.getMonthlyFactures().subscribe((factures) => {
-      this.listFacture = factures;
+      this.listMonthlyFacture = factures;
       console.log("factures", factures)
     }, () => {
 

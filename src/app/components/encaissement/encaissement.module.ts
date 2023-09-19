@@ -5,6 +5,8 @@ import { EncaissementRoutingModule } from './encaissement-routing.module';
 import { EncaissementComponent } from './encaissement.component';
 import {EncaissementlayoutsModule} from "../../layouts/encaissementlayouts/encaissementlayouts.module";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {PaginatorModule} from "primeng/paginator";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -13,11 +15,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     EncaissementComponent,
     DashboardComponent
   ],
-  imports: [
-    CommonModule,
-    EncaissementlayoutsModule,
-    EncaissementRoutingModule,
+    imports: [
+        CommonModule,
+        EncaissementlayoutsModule,
+        EncaissementRoutingModule,
+        PaginatorModule,
+        ReactiveFormsModule,
 
-  ]
+    ]
 })
 export class EncaissementModule { }

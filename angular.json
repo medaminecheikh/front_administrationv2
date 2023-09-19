@@ -36,6 +36,7 @@
               "node_modules/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css",
               "node_modules/admin-lte/plugins/select2/css/select2.min.css",
               "node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
+              "node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css",
               "node_modules/admin-lte/dist/css/adminlte.min.css"
 
             ],

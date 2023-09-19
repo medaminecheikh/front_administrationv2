@@ -3,7 +3,25 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Dashboard </h1>
+          <div class="row ">
+            <h1 class="m-0">Dashboard </h1>
+            <div class="input-group ml-3 col-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+
+                <select
+                        class="form-control form-control-sm col-auto bg-transparent ">
+                  <option value="COMPLET">Complet</option>
+                  <option value="ANNUEL">Annuelle</option>
+                  <option value="SEMESTRIEL">Semestrielle</option>
+                  <option value="TRIMESTRIEL">Trimestrielle</option>
+                  <option value="MENSUEL">Mensuelle</option>
+                </select>
+
+            </div>
+          </div>
+
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -24,13 +42,14 @@
 
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>150</h3>
+              <h3>{{listMonthlyFacture.length}}</h3>
               <p>Nouveaux Factures</p>
             </div>
             <div class="icon">
               <i class="fa-brands fa-shopify"></i>
             </div>
-            <a routerLink="/encaissement/caisse/facture" class="small-box-footer">Créer Facture <i class="fas fa-arrow-circle-right"></i></a>
+            <a routerLink="/encaissement/caisse/facture" class="small-box-footer">Créer Facture <i
+              class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
@@ -44,7 +63,8 @@
             <div class="icon">
               <i class="fas fa-money-bill-trend-up "></i>
             </div>
-            <a routerLink="/encaissement/caisse/avance" class="small-box-footer">Faire Paiement <i class="fas fa-arrow-circle-right"></i></a>
+            <a routerLink="/encaissement/caisse/avance" class="small-box-footer">Faire Paiement <i
+              class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
@@ -58,7 +78,8 @@
             <div class="icon">
               <i class="fa fa-user-tie"></i>
             </div>
-            <a routerLink="/encaissement/ett/caisse" class="small-box-footer">Gérer Caisses <i class="fas fa-arrow-circle-right"></i></a>
+            <a routerLink="/encaissement/ett/caisse" class="small-box-footer">Gérer Caisses <i
+              class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
@@ -72,7 +93,7 @@
             <div class="icon">
               <i class="fas fa-chart-simple "></i>
             </div>
-            <a  class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
