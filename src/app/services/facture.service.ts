@@ -98,4 +98,8 @@ export class FactureService {
 
     return this.http.post<number>(url, body, { params, headers });
   }
+  getYearlyFactures(): Observable<InfoFacture[]> {
+    const url = `${this.baseUrl}/factures/yearlyFactures`;
+    return this.http.get<InfoFacture[]>(url);
+  }
 }
