@@ -8,7 +8,7 @@ import {EncaissementService} from "../../../../services/encaissement.service";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {ListFactureComponent} from "../list-facture/list-facture.component";
 import {ConfirmationService, MenuItem} from "primeng/api";
-import {debounceTime, Subscription} from "rxjs";
+import {catchError, concatMap, debounceTime, EMPTY, forkJoin, Subscription} from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
 import {v4 as uuidv4} from 'uuid';
@@ -236,13 +236,14 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.encaissementForm = this.initEncaissementForm();
     this.visible = false;
   }
-   disableFormControls() {
+
+  disableFormControls() {
     for (const controlName in this.factureForm.controls) {
       if (this.factureForm.controls.hasOwnProperty(controlName)) {
         this.factureForm.get(controlName)?.disable();
       }
     }
-     this.dureePaiment.disable();
+    this.dureePaiment.disable();
   }
 
   enableFormControls() {
@@ -252,11 +253,12 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   private initForm(): void {
     const today = this.today;
     this.factureForm = this.formBuilder.group({
-      idFacture: [''],
-      refFacture: ['',  [Validators.required, this.noWhitespaceStartorEnd]],
+      idFacture: [uuidv4().toString()],
+      refFacture: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       produit: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       montant: [null, [Validators.required, Validators.min(1)]],
       solde: [null, [Validators.min(0), Validators.max(100)]],
@@ -520,85 +522,93 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.factureService.addFacture(facture).subscribe(
           (value) => {
             const idFact = value.idFacture;
-            if (this.encaissementsArray.length != 0) {
-              this.encaissementsArray.forEach(value1 => {
-                this.encaissementService.addEncaiss(value1).subscribe(
-                  (encais) => {
-                    this.encaissementService.affectEncaisseToCaisse(encais.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
-                    this.factureService.affectEncaissementToFacture(encais.idEncaissement, idFact).subscribe(
-                      () => {
-                      }, (error) => {
-                        console.error(error)
-                      }
-                    );
-
-                  }, error => {
-                    this.toastr.error('Payment creation failed.', 'Error');
-                  }
-                );
-              })
-            }
-          }, (error) => {
-            this.toastr.error("Add facture failed !", "Error")
-            console.error(error);
-          }, () => {
-            this.toastr.success('Facture added successfully.', 'Success');
-            this.factureForm.reset();
-
-
-          });
-
-
+            this.handleEncaissements(facture.idFacture);
+          },
+          (error) => {
+            this.handleError('Add facture failed!', error);
+          }
+        );
       } else {
-        this.toastr.warning('Fill facture correctly !', 'Warning');
+        this.toastr.warning('Fill facture correctly!', 'Warning');
       }
     } else {
-      if (this.updateRequest) {
-        if (this.factureForm.valid) {
-          const facture = this.factureForm.value;
-          this.factureService.updateFacture(facture).subscribe(
-            () => {
-              if (this.encaissementsArray.length > 0 && facture.idFacture) {
-                this.encaissementsArray.forEach((value) => {
-                  this.encaissementService.addEncaiss(value).subscribe((encaissment) => {
-                    this.encaissementService.affectEncaisseToCaisse(encaissment.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
-
-                    this.factureService.affectEncaissementToFacture(encaissment.idEncaissement, facture.idFacture).subscribe();
-                  }, () => {
-                    this.toastr.error("Payment creation failed !", "Error");
-                  });
-                })
-
-              }
-            }, () => {
-              this.toastr.error("Facture update failed !", "Error");
-            }, () => {
-              this.encaissementsArray.forEach(value => {
-                this.encaissFactArray.push(value);
-              })
-              this.toastr.success('Facture added successfully.', 'Success');
-              this.encaissementsArray = [];
-              this.encaissementForm?.reset();
-              if (this.selectedFacture) {
-                this.calculMontantRestant(this.selectedFacture);
-              }
+      if (this.updateRequest && (this.factureForm.valid || this.factureForm.disabled)) {
+        const facture = this.factureForm.value;
+        this.factureService.updateFacture(facture).subscribe(
+          () => {
+            if (this.encaissementsArray.length > 0 && facture.idFacture) {
+              this.handleEncaissements(facture.idFacture);
             }
-          );
-
-        }
+          },
+          (error) => {
+            this.handleError('Facture update failed!', error);
+          }
+        );
       }
-
     }
-
-
   }
+
+  handleEncaissements(factureId: string) {
+    const observables = this.encaissementsArray.map((value) =>
+      this.encaissementService.addEncaiss(value).pipe(
+        concatMap((encaissment) => {
+          // After addEncaiss is completed, send affectEncaisseToCaisse and associate with facture
+          return forkJoin([
+            this.encaissementService.affectEncaisseToCaisse(encaissment.idEncaissement, this.currentUser.caisse.idCaisse),
+            this.factureService.affectEncaissementToFacture(factureId, encaissment.idEncaissement)
+          ]).pipe(
+            catchError((error) => {
+              this.toastr.error('Operation failed.', 'Error');
+              console.error(error);
+              return EMPTY; // Continue the observable chain even if there is an error
+            })
+          );
+        }),
+        catchError((error) => {
+          this.toastr.error('Payment creation failed.', 'Error');
+          console.error(error);
+          return EMPTY; // Continue the observable chain even if there is an error
+        })
+      )
+    );
+
+    forkJoin(observables).subscribe(
+      () => {
+        this.handleSuccess('Facture added successfully.');
+        this.encaissFactArray.push(...this.encaissementsArray);
+        this.resetForm();
+      },
+      (error) => {
+        this.handleError('Payment creation failed!', error);
+      }
+    );
+  }
+
+  handleError(message: string, error: any) {
+    this.toastr.error(message, 'Error');
+    console.error(error);
+  }
+
+  handleSuccess(message: string) {
+    this.toastr.success(message, 'Success');
+  }
+
+  resetForm() {
+    this.encaissementsArray = [];
+    this.encaissementForm?.reset();
+    if (this.selectedFacture) {
+      this.calculMontantRestant(this.selectedFacture);
+    }
+  }
+
+
   openInPrint() {
     const dataToPass = {
       factureForm: this.factureForm.value, // Pass the form data here
       encaissFactArray: this.encaissFactArray, // Pass the array data here
     };
 
-    this.router.navigateByUrl('encaissement/caisse/print-facture', { state: dataToPass });
+    this.router.navigateByUrl('encaissement/caisse/print-facture', {state: dataToPass});
   }
 
 

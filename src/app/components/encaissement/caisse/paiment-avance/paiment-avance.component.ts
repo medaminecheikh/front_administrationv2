@@ -225,9 +225,9 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
         const encaissement = this.encaissementForm.value;
         const facture = this.factureSelected;
         this.encaissementService.addEncaiss(encaissement).subscribe((value) => {
-          this.encaissementService.affectEncaisseToCaisse(value.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
-          this.factureService.affectEncaissementToFacture(value.idEncaissement, facture.idFacture).subscribe(
+          this.factureService.affectEncaissementToFacture(facture.idFacture,  value.idEncaissement).subscribe(
             () => {
+              this.encaissementService.affectEncaisseToCaisse(value.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
 
             }, () => {
               this.toastr.error("Process has failed !", "Error");

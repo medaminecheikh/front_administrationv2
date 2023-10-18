@@ -21,6 +21,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ettSubscription!: Subscription;
   listMonthlyFacture: InfoFacture[] = [];
   listyearlyFacture: InfoFacture[] = [];
+  listFactureRetard: InfoFacture[] = [];
+  listFactureFinished: InfoFacture[] = [];
+  listFactureCorrect: InfoFacture[] = [];
   nbrEmploye: number = 0;
   nbrCaisse: number = 0;
 
@@ -34,28 +37,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.getMonthlyFacture();
     this.getYearlyFacture();
+
   }
 
-  async supposedToPay(facture: InfoFacture): Promise<number> {
-    if (facture) {
-      // Utilisation d'une promesse pour attendre la réponse de calculateAmountToPay
-      return new Promise<number>((resolve, reject) => {
-        this.factureService.calculateAmountToPay(facture, new Date()).subscribe(
-          (montant) => {
-            // Résoudre la promesse avec la valeur montant
-            resolve(montant);
-          },
-          (error) => {
-            // Rejeter la promesse en cas d'erreur
-            reject(error);
-          }
-        );
-      });
-    } else {
-      // Si facture est null, retourner 0
-      return 0;
-    }
-  }
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
@@ -71,15 +55,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  getNotFinishedFactures(): InfoFacture[] {
 
-    const today = new Date(); // Current date
-
-    return this.listyearlyFacture.filter((facture) => {
-      const datLimPai = new Date(facture.datLimPai);
-      return datLimPai > today;
-    });
-  }
 
   getUser() {
     const name = this.authService.getCurrentUser()
@@ -114,42 +90,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.nbrCaisse = this.ett.caisses.length;
   }
 
-  async getYearlyFacture(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.factureService.getYearlyFactures().subscribe(
-        (value) => {
-          this.listyearlyFacture = value;
-          resolve(); // Resolve the promise when the operation is complete
-        },
-        (error) => {
-          console.error('Error fetching yearly factures:', error);
-          reject(error); // Reject the promise in case of an error
-        }
-      );
-    });
-  }
+   getYearlyFacture(){
 
-  async PourcentagePaye() {
-    try {
-      await this.getYearlyFacture();
-      const factureNotFinished = this.getNotFinishedFactures();
-      if (factureNotFinished) {
-        for (const infoFacture of factureNotFinished) {
-        const dureePassed= this.calculateDateDifference(infoFacture.datCreation,new Date());
-        }
+    this.factureService.getYearlyFactures().subscribe((value) => {
+        this.listyearlyFacture = value;
+
+      }, error => {
+      this.toastr.error('Yearly Factures resources not found !', 'Error')
+      }, () => {
+      console.log('listyearlyFacture', this.listyearlyFacture);
+
       }
-      // Further processing after fetching yearly factures
-    } catch (error) {
-      // Handle errors if necessary
-      console.error('Error in PourcentagePaye:', error);
-    }
-  }
-  calculateDateDifference(endDate: Date, startDate: Date): number {
-    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
-    const endTime = endDate.getTime();
-    const startTime = startDate.getTime();
-    const differenceInMilliseconds = Math.abs(endTime - startTime);
-    return Math.round(differenceInMilliseconds / oneDay);
+    );
+
+
+}
+
+
+
+
+
+
+
+  montantafterdiscount(facture:InfoFacture):number {
+     if (facture) {
+       return (facture.montant) - ((facture.montant * facture.solde) / 100);
+     } else {
+       return 0;
+     }
   }
 
 }

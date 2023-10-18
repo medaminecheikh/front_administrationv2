@@ -43,7 +43,7 @@ export class FactureService {
     return this.http.delete<void>(`${this.baseUrl}/deletefacture/${idFacture}`);
   }
 
-  affectEncaissementToFacture(encaissementId: string, factureId: string): Observable<void> {
+  affectEncaissementToFacture(factureId : string, encaissementId: string): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/affectencaissement/tofacture/${factureId}/${encaissementId}`, {});
   }
 
