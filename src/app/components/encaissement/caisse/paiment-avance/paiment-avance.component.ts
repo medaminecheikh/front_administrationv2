@@ -13,7 +13,7 @@ import {v4 as uuidv4} from "uuid";
 import {Paginator} from "primeng/paginator";
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Ett} from "../../../../modules/Ett";
-import {Subscription} from "rxjs";
+import {catchError, forkJoin, retry, Subscription, switchMap, throwError} from "rxjs";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {EttService} from "../../../../services/ett.service";
 import {CaisseService} from "../../../../services/caisse.service";
@@ -219,39 +219,78 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     return hasWhitespace ? {whitespace: true} : null;
   }
 
+
   validerPaiement() {
-    if (this.factureSelected) {
-      if (this.encaissementForm && this.encaissementForm.valid) {
-        const encaissement = this.encaissementForm.value;
-        const facture = this.factureSelected;
-        this.encaissementService.addEncaiss(encaissement).subscribe((value) => {
-          this.factureService.affectEncaissementToFacture(facture.idFacture,  value.idEncaissement).subscribe(
-            () => {
-              this.encaissementService.affectEncaisseToCaisse(value.idEncaissement, this.currentUser.caisse.idCaisse).subscribe();
-
-            }, () => {
-              this.toastr.error("Process has failed !", "Error");
-            }, () => {
-              this.factureSelected?.encaissements.push(encaissement);
-              if (this.factureSelected) {
-                this.calculMontantRestant(this.factureSelected);
-              }
-            }
-          );
-        }, (error) => {
-          this.toastr.error("Process has failed !", "Error");
-        }, () => {
-
-          this.initEncaissForm();
-
-        });
-      } else {
-        this.toastr.warning("Paiement incorrect !", "Warning");
-      }
-    } else {
+    if (!this.factureSelected) {
       this.toastr.info("Choisir une Facture !", "Info");
+      return;
     }
+
+    if (!this.encaissementForm || !this.encaissementForm.valid) {
+      this.toastr.warning("Paiement incorrect !", "Warning");
+      return;
+    }
+
+    const encaissement = this.encaissementForm.value;
+    const facture = this.factureSelected;
+    const idCaisse = this.currentUser?.caisse?.idCaisse;
+
+    if (idCaisse == null) {
+      this.toastr.error("Caisse not found !", "Error");
+      return;
+    }
+
+    this.encaissementService.addEncaiss(encaissement)
+      .pipe(
+        switchMap(encaissementResponse => {
+          console.info("encaissementResponse", encaissementResponse);
+          console.info("idCaisse", idCaisse);
+          console.info("facture.idFacture", facture.idFacture);
+          return forkJoin([
+            this.factureService.affectEncaissementToFacture(facture.idFacture, encaissementResponse.idEncaissement)
+              .pipe(
+                catchError(error => {
+                  console.error("Error affecting encaissement to facture:", error);
+                  return throwError(error);
+                })
+              ),
+            this.encaissementService.affectEncaisseToCaisse(encaissementResponse.idEncaissement, idCaisse)
+              .pipe(
+                catchError(error => {
+                  console.error("Error affecting encaissement to caisse:", error);
+                  return throwError(error);
+                })
+              )
+          ]).pipe(
+            catchError(error => {
+              console.error("Error in forkJoin:", error);
+              this.toastr.error("Process has failed !", "Error");
+              return throwError(error);
+            }),
+            retry(2) // Retry the observable up to 2 more times in case of error
+          );
+        })
+      )
+      .subscribe(
+        ([factureResponse, caisseResponse]) => {
+          console.warn('caisseResponse', caisseResponse);
+          console.warn('factureResponse', factureResponse);
+          this.factureSelected?.encaissements.push(encaissement);
+          if (this.factureSelected) {
+            this.calculMontantRestant(this.factureSelected);
+          }
+          this.toastr.success("Payment successfully processed!", "Success");
+        },
+        error => {
+          console.error("Payment processing error:", error);
+          this.toastr.error("Process has failed !", "Error");
+        },
+        () => {
+          this.initEncaissForm();
+        }
+      );
   }
+
 
   payAll() {
     if (this.montantRestant != 0.000) {
@@ -270,7 +309,11 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     });
   }
 
-  paginate(event: Paginator): void {
+  paginate(event
+             :
+             Paginator
+  ):
+    void {
     this.size.setValue(event.rows);
     this.page.setValue(Math.floor(event.first / event.rows));
     this.sendSearch();

@@ -19,7 +19,11 @@ export class LoginComponent implements OnInit{
     username: '',
     password: '',
   };
+  showPassword = false;
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   constructor(private authService: AuthService,private userService: UserService,private toastr: ToastrService,
               private router: Router) {
 

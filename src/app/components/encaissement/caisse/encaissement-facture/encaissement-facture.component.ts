@@ -8,7 +8,7 @@ import {EncaissementService} from "../../../../services/encaissement.service";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {ListFactureComponent} from "../list-facture/list-facture.component";
 import {ConfirmationService, MenuItem} from "primeng/api";
-import {catchError, concatMap, debounceTime, EMPTY, forkJoin, Subscription} from "rxjs";
+import {catchError, concatMap, debounceTime, EMPTY, forkJoin, retry, Subscription, switchMap, throwError} from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
 import {v4 as uuidv4} from 'uuid';
@@ -519,10 +519,11 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     if (!this.updateRequest) {
       if (this.factureForm.valid) {
         const facture = this.factureForm.value;
+        const idCaisse = this.currentUser?.caisse?.idCaisse;
         this.factureService.addFacture(facture).subscribe(
           (value) => {
             const idFact = value.idFacture;
-            this.handleEncaissements(facture.idFacture);
+            this.handleEncaissements(facture.idFacture,idCaisse);
           },
           (error) => {
             this.handleError('Add facture failed!', error);
@@ -534,10 +535,11 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     } else {
       if (this.updateRequest && (this.factureForm.valid || this.factureForm.disabled)) {
         const facture = this.factureForm.value;
+        const idCaisse = this.currentUser?.caisse?.idCaisse;
         this.factureService.updateFacture(facture).subscribe(
           () => {
             if (this.encaissementsArray.length > 0 && facture.idFacture) {
-              this.handleEncaissements(facture.idFacture);
+              this.handleEncaissements(facture.idFacture,idCaisse);
             }
           },
           (error) => {
@@ -548,32 +550,36 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleEncaissements(factureId: string) {
+  handleEncaissements(factureId: string, idCaisse: string) {
+    console.info("this.encaissementsArray", this.encaissementsArray);
+
     const observables = this.encaissementsArray.map((value) =>
       this.encaissementService.addEncaiss(value).pipe(
-        concatMap((encaissment) => {
-          // After addEncaiss is completed, send affectEncaisseToCaisse and associate with facture
-          return forkJoin([
-            this.encaissementService.affectEncaisseToCaisse(encaissment.idEncaissement, this.currentUser.caisse.idCaisse),
-            this.factureService.affectEncaissementToFacture(factureId, encaissment.idEncaissement)
+        switchMap((encaissement) =>
+          forkJoin([
+            this.encaissementService.affectEncaisseToCaisse(encaissement.idEncaissement, idCaisse),
+            this.factureService.affectEncaissementToFacture(factureId, encaissement.idEncaissement)
           ]).pipe(
             catchError((error) => {
               this.toastr.error('Operation failed.', 'Error');
               console.error(error);
-              return EMPTY; // Continue the observable chain even if there is an error
-            })
-          );
-        }),
+              return throwError(error);
+            }),
+            retry(2) // Retry the observable up to 2 more times in case of error
+          )
+        ),
         catchError((error) => {
           this.toastr.error('Payment creation failed.', 'Error');
           console.error(error);
-          return EMPTY; // Continue the observable chain even if there is an error
-        })
+          return throwError(error);
+        }),
+        retry(1) // Retry the observable up to 1 more time in case of error
       )
     );
 
     forkJoin(observables).subscribe(
-      () => {
+      (responses) => {
+        console.warn(responses);
         this.handleSuccess('Facture added successfully.');
         this.encaissFactArray.push(...this.encaissementsArray);
         this.resetForm();
@@ -583,6 +589,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       }
     );
   }
+
 
   handleError(message: string, error: any) {
     this.toastr.error(message, 'Error');

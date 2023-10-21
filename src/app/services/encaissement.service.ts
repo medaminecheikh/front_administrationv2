@@ -36,8 +36,8 @@ export class EncaissementService {
     return this.http.delete<void>(`${this.baseUrl}/encaissements/delete/${id}`);
   }
 
-  affectEncaisseToCaisse(idEncaiss: string, idCai: string): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/affectEncaisseToCaisse/${idEncaiss}/${idCai}`, null);
+  affectEncaisseToCaisse(idEncaiss: string, idCai: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/affectEncaisseToCaisse/${idEncaiss}/${idCai}`, null);
   }
   getEncaissementsForCaisseInCurrentMonth(caisseId: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/encaissements/current-month-for-caisse?caisseId=${caisseId}`);
