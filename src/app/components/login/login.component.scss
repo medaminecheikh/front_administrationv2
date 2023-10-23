@@ -1,1 +1,7 @@
 
+.bg-image {
+  background-image: url('/assets/img/backgroundlogin.png'); /* Replace 'path/to/your/background-image.jpg' with the actual path to your image */
+  background-size: cover; /* This will make the background image cover the entire div */
+  background-repeat: no-repeat; /* Prevent background image from repeating */
+  background-attachment: fixed; /* Keeps the background fixed while content scrolls */
+}

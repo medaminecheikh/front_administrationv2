@@ -8,7 +8,18 @@ import {EncaissementService} from "../../../../services/encaissement.service";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {ListFactureComponent} from "../list-facture/list-facture.component";
 import {ConfirmationService, MenuItem} from "primeng/api";
-import {catchError, concatMap, debounceTime, EMPTY, forkJoin, retry, Subscription, switchMap, throwError} from "rxjs";
+import {
+  catchError,
+  concatMap,
+  debounceTime,
+  EMPTY,
+  finalize,
+  forkJoin,
+  retry,
+  Subscription,
+  switchMap,
+  throwError
+} from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
 import {v4 as uuidv4} from 'uuid';
@@ -556,16 +567,17 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     const observables = this.encaissementsArray.map((value) =>
       this.encaissementService.addEncaiss(value).pipe(
         switchMap((encaissement) =>
-          forkJoin([
-            this.encaissementService.affectEncaisseToCaisse(encaissement.idEncaissement, idCaisse),
-            this.factureService.affectEncaissementToFacture(factureId, encaissement.idEncaissement)
-          ]).pipe(
-            catchError((error) => {
-              this.toastr.error('Operation failed.', 'Error');
-              console.error(error);
-              return throwError(error);
-            }),
-            retry(2) // Retry the observable up to 2 more times in case of error
+          this.factureService.affectEncaissementToFacture(factureId, encaissement.idEncaissement).pipe(
+            switchMap(() =>
+              this.encaissementService.affectEncaisseToCaisse(encaissement.idEncaissement, idCaisse).pipe(
+                catchError((error) => {
+                  this.toastr.error('Operation failed.', 'Error');
+                  console.error(error);
+                  return throwError(error);
+                }),
+                retry(2) // Retry the observable up to 2 more times in case of error
+              )
+            )
           )
         ),
         catchError((error) => {
@@ -589,6 +601,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       }
     );
   }
+
 
 
   handleError(message: string, error: any) {

@@ -13,7 +13,7 @@ import {v4 as uuidv4} from "uuid";
 import {Paginator} from "primeng/paginator";
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Ett} from "../../../../modules/Ett";
-import {catchError, forkJoin, retry, Subscription, switchMap, throwError} from "rxjs";
+import {catchError, forkJoin, map, retry, Subscription, switchMap, throwError} from "rxjs";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {EttService} from "../../../../services/ett.service";
 import {CaisseService} from "../../../../services/caisse.service";
@@ -240,36 +240,26 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.encaissementService.addEncaiss(encaissement)
+    this.encaissementService
+      .addEncaiss(encaissement)
       .pipe(
-        switchMap(encaissementResponse => {
-          console.info("encaissementResponse", encaissementResponse);
-          console.info("idCaisse", idCaisse);
-          console.info("facture.idFacture", facture.idFacture);
-          return forkJoin([
-            this.factureService.affectEncaissementToFacture(facture.idFacture, encaissementResponse.idEncaissement)
-              .pipe(
-                catchError(error => {
-                  console.error("Error affecting encaissement to facture:", error);
-                  return throwError(error);
-                })
-              ),
-            this.encaissementService.affectEncaisseToCaisse(encaissementResponse.idEncaissement, idCaisse)
-              .pipe(
-                catchError(error => {
-                  console.error("Error affecting encaissement to caisse:", error);
-                  return throwError(error);
-                })
-              )
-          ]).pipe(
-            catchError(error => {
-              console.error("Error in forkJoin:", error);
-              this.toastr.error("Process has failed !", "Error");
+        switchMap((encaissementResponse) =>
+          this.factureService.affectEncaissementToFacture(facture.idFacture, encaissementResponse.idEncaissement).pipe(
+            catchError((error) => {
+              console.error("Error affecting encaissement to facture:", error);
               return throwError(error);
             }),
-            retry(2) // Retry the observable up to 2 more times in case of error
-          );
-        })
+            switchMap((factureResponse) =>
+              this.encaissementService.affectEncaisseToCaisse(encaissementResponse.idEncaissement, idCaisse).pipe(
+                catchError((error) => {
+                  console.error("Error affecting encaissement to caisse:", error);
+                  return throwError(error);
+                }),
+                map((caisseResponse) => [factureResponse, caisseResponse])
+              )
+            )
+          )
+        )
       )
       .subscribe(
         ([factureResponse, caisseResponse]) => {
@@ -289,6 +279,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
           this.initEncaissForm();
         }
       );
+
   }
 
 
