@@ -568,6 +568,12 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       this.encaissementService.addEncaiss(value).pipe(
         switchMap((encaissement) =>
           this.factureService.affectEncaissementToFacture(factureId, encaissement.idEncaissement).pipe(
+            catchError((factureError) => {
+              // Handle error specific to affectEncaissementToFacture call
+              console.error('Error affecting encaissement to facture:', factureError);
+              this.toastr.error('Error affecting encaissement to facture.', 'Error');
+              return throwError(factureError);
+            }),
             switchMap(() =>
               this.encaissementService.affectEncaisseToCaisse(encaissement.idEncaissement, idCaisse).pipe(
                 catchError((error) => {

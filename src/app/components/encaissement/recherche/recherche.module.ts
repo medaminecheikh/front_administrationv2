@@ -11,6 +11,10 @@ import {TagModule} from "primeng/tag";
 import {PaginatorModule} from "primeng/paginator";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {ReactiveFormsModule} from "@angular/forms";
+import {SliderModule} from "primeng/slider";
+import {InputTextModule} from "primeng/inputtext";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {ProgressBarModule} from "primeng/progressbar";
 
 
 @NgModule({
@@ -27,7 +31,11 @@ import {ReactiveFormsModule} from "@angular/forms";
     TagModule,
     PaginatorModule,
     SelectButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SliderModule,
+    InputTextModule,
+    KeyFilterModule,
+    ProgressBarModule
   ]
 })
 export class RechercheModule { }
