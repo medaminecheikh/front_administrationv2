@@ -15,6 +15,7 @@ import {SliderModule} from "primeng/slider";
 import {InputTextModule} from "primeng/inputtext";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {ProgressBarModule} from "primeng/progressbar";
+import {ChipModule} from "primeng/chip";
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {ProgressBarModule} from "primeng/progressbar";
     SliderModule,
     InputTextModule,
     KeyFilterModule,
-    ProgressBarModule
+    ProgressBarModule,
+    ChipModule
   ]
 })
 export class RechercheModule { }

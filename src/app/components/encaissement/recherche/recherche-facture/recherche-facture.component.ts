@@ -31,6 +31,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   size = new FormControl(8);
   page = new FormControl(0);
   totalRecords: any;
+
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
@@ -47,22 +48,23 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initSearchForm();
+    this.subscribeSearchForm();
   }
 
-   initSearchForm() {
-     this.searchForm = this.formBuilder.group({
-       refFacture: [''],
-       produit: [''],
-       montant: [null],
-       solde: [null],
-       nappel: [null],
-       codeClient: [''],
-       compteFacturation: [''],
-       typeIdent: ['Carte d\'identité'],
-       identifiant: [''],
-       periode: [null],
-       datLimPai: [null]
-     });
+  initSearchForm() {
+    this.searchForm = this.formBuilder.group({
+      refFacture: [''],
+      produit: [''],
+      montant: [null],
+      solde: [null],
+      nappel: [null],
+      codeClient: [''],
+      compteFacturation: [''],
+      typeIdent: ['Carte d\'identité'],
+      identifiant: [''],
+      periode: [null],
+      datLimPai: [null]
+    });
   }
 
   getProgressBarColor(value: number): string {
@@ -89,13 +91,15 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
     }
     return 0;
   }
-  paginate(event
-             :
-             Paginator
-  ):
+
+  paginate(event: Paginator):
     void {
     this.size.setValue(event.rows);
     this.page.setValue(Math.floor(event.first / event.rows));
+
+  }
+
+  subscribeSearchForm() {
 
   }
 }
