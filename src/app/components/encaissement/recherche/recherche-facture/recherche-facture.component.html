@@ -20,7 +20,7 @@
     <div class="container-fluid ">
       <div class="row col-12">
         <div class="col-3 shadow-4 border-round-2xl card">
-          <div class=" d-flex flex-row  m-1 p-3 "><h4 class="text-red-700 text-left col-sm-9 text-bold ">Filtrer Par</h4>
+          <div class=" d-flex flex-row  m-1 p-3 "><h5 class="text-red-700 text-left col-sm-9 text-bold ">Filtrer Par</h5>
             <p-button label="Clear" type="button" (onClick)="initSearchForm()"
                       styleClass="h-2rem p-button-sm p-button-outlined p-button-raised p-button-secondary col-sm-auto "></p-button>
           </div>
@@ -30,18 +30,18 @@
             <form [formGroup]="searchForm">
               <div class="col-sm-12 p-2">
                 <div class="row py-2">
-                  <h5 class="col-sm-7">Remise : </h5> <h4
-                  class="col-sm-4 text-right"> {{searchForm.get('solde')?.value}} %</h4>
+                  <h6 class="col-sm-7">Remise : </h6> <h6
+                  class="col-sm-4 text-right"> {{searchForm.get('solde')?.value}} %</h6>
                 </div>
                 <p-slider formControlName="solde"></p-slider>
               </div>
               <div class="col-sm-12 my-3 py-2 flex border-y-1">
                 <div class="row ">
-                  <h5 class="col-sm-12 py-2">Montant inferieur à : </h5>
-                  <div class="col-sm-4 pb-3 justify-content-center">
+                  <h6 class="col-sm-12 py-2">Montant inferieur à : </h6>
+                  <div class="col-sm-12 pb-3 flex ">
                     <p-inputNumber
                       formControlName="montant"
-                      class=" h-2rem w-5 "
+                      class="h-2rem w-7"
                       mode="currency"
                       currency="TND"
 
@@ -52,17 +52,17 @@
               <div class="col-sm-12 my-3 py-2 mx-0 border-bottom-1">
                 <div class="d-flex flex-column">
                   <div class="form-group-sm pb-2 row">
-                    <label class="h6 col-sm-4 col-form-label">Produit:</label>
+                    <label class="text-sm text-bold col-sm-4 col-form-label">Produit:</label>
                     <input type="text" formControlName="produit" class="form-control col-sm-8 form-control-sm form-control-border border-width-2">
                   </div>
 
                   <div class="form-group-sm row pb-2">
-                    <label class="h6 col-sm-4 col-form-label">ID Client:</label>
+                    <label class="text-sm text-bold col-sm-4 col-form-label">ID Client:</label>
                     <input type="text" formControlName="identifiant" class="form-control col-sm-8 form-control-sm form-control-border border-width-2">
                   </div>
 
                   <div class="form-group-sm row pb-4">
-                    <label class="h6 col-sm-4 col-form-label">Ref:</label>
+                    <label class="text-sm text-bold col-sm-4 col-form-label">Ref:</label>
                     <input type="text" formControlName="refFacture" class="form-control col-sm-8 form-control-sm form-control-border border-width-2">
                   </div>
                 </div>
@@ -78,13 +78,13 @@
 
               <div class="row mb-0 mt-1">
                 <div class=" col-sm-10  mx-4 flex justify-content-evenly">
-                  <p-chip styleClass=" bg-gradient-cyan" *ngIf="searchForm.get('solde')?.value" label="Remise: {{searchForm.get('solde')?.value}} %"></p-chip>
-                  <p-chip styleClass=" bg-gradient-cyan" *ngIf="searchForm.get('montant')?.value" label="{{searchForm.get('montant')?.value | number: '1.3-3'}} TND"></p-chip>
-                  <p-chip styleClass=" bg-gradient-cyan" *ngIf="searchForm.get('produit')?.value" label="Produit: {{searchForm.get('produit')?.value}}"></p-chip>
-                  <p-chip styleClass=" bg-gradient-cyan" *ngIf="searchForm.get('identifiant')?.value" label="ID: {{searchForm.get('identifiant')?.value}}"></p-chip>
-                  <p-chip styleClass=" bg-gradient-cyan" *ngIf="searchForm.get('refFacture')?.value" label="Ref: {{searchForm.get('refFacture')?.value}}"></p-chip>
+                  <p-chip  *ngIf="searchForm.get('solde')?.value" label="Remise: {{searchForm.get('solde')?.value}} %"></p-chip>
+                  <p-chip  *ngIf="searchForm.get('montant')?.value" label="{{searchForm.get('montant')?.value | number: '1.3-3'}} TND"></p-chip>
+                  <p-chip  *ngIf="searchForm.get('produit')?.value" label="Produit: {{searchForm.get('produit')?.value}}"></p-chip>
+                  <p-chip  *ngIf="searchForm.get('identifiant')?.value" label="ID: {{searchForm.get('identifiant')?.value}}"></p-chip>
+                  <p-chip  *ngIf="searchForm.get('refFacture')?.value" label="Ref: {{searchForm.get('refFacture')?.value}}"></p-chip>
                 </div>
-                <p-button label="Search" type="button" (onClick)="initSearchForm()"
+                <p-button label="Search" type="button" (onClick)="sendSearch()"
                           styleClass="h-2rem p-button-sm  p-button-outlined p-button-raised float-right">
                 </p-button>
               </div>

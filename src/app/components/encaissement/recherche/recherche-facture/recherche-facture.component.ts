@@ -96,10 +96,14 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
     void {
     this.size.setValue(event.rows);
     this.page.setValue(Math.floor(event.first / event.rows));
-
+    this.sendSearch();
   }
 
   subscribeSearchForm() {
+
+  }
+
+  sendSearch() {
 
   }
 }
