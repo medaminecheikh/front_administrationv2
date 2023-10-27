@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Dashboard Profil</h1>
+          <h1 class="m-0">Modifier Profil</h1>
         </div>
 
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a routerLink="/profil/list">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard Profil</li>
+            <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Modifier Profil</li>
           </ol>
         </div>
       </div>
@@ -262,18 +262,7 @@
                         </form>
                       </div>
                       <div class="col-md-3">
-                        <div class="form-group">
-                          <label>Select Model</label>
-                          <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fas fa-box-archive"></i></span>
-                            </div>
-                            <select class="form-control" id="modelselect" [formControl]="model">
-                              <option value="null">-- Clear --</option>
-                              <option *ngFor="let mod of models" [value]="mod.idModel">{{ mod.obs }}</option>
-                            </select>
-                          </div>
-                        </div>
+
                       </div>
 
 
@@ -303,8 +292,6 @@
                     <dd class="col-sm-8">{{profilUpdate?.nomP}}</dd>
                     <dt class="col-sm-3">Description</dt>
                     <dd class="col-sm-8">{{profilUpdate?.des_P}}</dd>
-                    <dt class="col-sm-3">Model</dt>
-                    <dd class="col-sm-8"> {{ profilUpdate?.model?.obs ?? 'VIDE' }} </dd>
                     <dt class="col-sm-3">liste des Fonctions</dt>
                     <dd class="col-sm-8">
                       <ul>
