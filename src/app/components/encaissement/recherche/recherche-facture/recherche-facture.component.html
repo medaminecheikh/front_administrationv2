@@ -19,85 +19,56 @@
   <div class="content">
     <div class="container-fluid ">
       <div class="row col-12">
-        <div class="col-3 shadow-4 border-round-2xl card">
-          <div class=" d-flex flex-row  m-1 p-3 "><h5 class="text-red-700 text-left col-sm-9 text-bold ">Filtrer Par</h5>
-            <p-button label="Clear" type="button" (onClick)="initSearchForm()"
-                      styleClass="h-2rem p-button-sm p-button-outlined p-button-raised p-button-secondary col-sm-auto "></p-button>
-          </div>
+        <div class="col-12">
+          <div class="card col-12 card-default border-round-2xl shadow-2" style="min-height: 600px;">
+              <div class="row mb-0 mt-1" >
+                <div class=" col-sm-10 ">
+                  <form [formGroup]="searchForm" >
+                    <div class="col-sm-12 d-flex justify-content-evenly ">
+                      <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Ref facture" formControlName="refFacture"/>
+                      </div>
+                      <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="ID Client" formControlName="identifiant"/>
+                      </div>
+                      <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Produit" formControlName="produit"/>
+                      </div>
 
-          <div class="border-bottom-1"></div>
-          <div class="col-sm-12">
-            <form [formGroup]="searchForm">
-              <div class="col-sm-12 p-2">
-                <div class="row py-2">
-                  <h6 class="col-sm-7">Remise : </h6> <h6
-                  class="col-sm-4 text-right"> {{searchForm.get('solde')?.value}} %</h6>
+                      <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Compte Facturation" formControlName="compteFacturation"/>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 d-flex justify-content-evenly mt-2  ">
+                      <div class="flex-grow-1 ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montant"/>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-                <p-slider formControlName="solde"></p-slider>
-              </div>
-              <div class="col-sm-12 my-3 py-2 flex border-y-1">
-                <div class="row ">
-                  <h6 class="col-sm-12 py-2">Montant inferieur à : </h6>
-                  <div class="col-sm-12 pb-3 flex ">
-                    <p-inputNumber
-                      formControlName="montant"
-                      class="h-2rem w-7"
-                      mode="currency"
-                      currency="TND"
+                <div class="col-sm-2 d-flex justify-content-evenly">
+                  <p-button label="Clear" type="button" (onClick)="initSearchForm()"
+                            styleClass="h-2rem p-button-sm p-button-outlined p-button-raised p-button-danger col-sm-auto "></p-button>
 
-                    ></p-inputNumber>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 my-3 py-2 mx-0 border-bottom-1">
-                <div class="d-flex flex-column">
-                  <div class="form-group-sm pb-2 row">
-                    <label class="text-sm text-bold col-sm-4 col-form-label">Produit:</label>
-                    <input type="text" formControlName="produit" class="form-control col-sm-8 form-control-sm form-control-border border-width-2">
-                  </div>
-
-                  <div class="form-group-sm row pb-2">
-                    <label class="text-sm text-bold col-sm-4 col-form-label">ID Client:</label>
-                    <input type="text" formControlName="identifiant" class="form-control col-sm-8 form-control-sm form-control-border border-width-2">
-                  </div>
-
-                  <div class="form-group-sm row pb-4">
-                    <label class="text-sm text-bold col-sm-4 col-form-label">Ref:</label>
-                    <input type="text" formControlName="refFacture" class="form-control col-sm-8 form-control-sm form-control-border border-width-2">
-                  </div>
+                  <p-button label="Search" type="button" (onClick)="sendSearch()"
+                            styleClass="h-2rem p-button-sm  p-button-outlined p-button-raised float-right">
+                  </p-button>
                 </div>
               </div>
 
-            </form>
-          </div>
-        </div>
-        <div class=""></div>
-        <div class="col-9">
-          <div class="card col-12 card-default border-round-2xl shadow-2" style="height: 600px;">
-
-
-              <div class="row mb-0 mt-1">
-                <div class=" col-sm-10  mx-4 flex justify-content-evenly">
-                  <p-chip  *ngIf="searchForm.get('solde')?.value" label="Remise: {{searchForm.get('solde')?.value}} %"></p-chip>
-                  <p-chip  *ngIf="searchForm.get('montant')?.value" label="{{searchForm.get('montant')?.value | number: '1.3-3'}} TND"></p-chip>
-                  <p-chip  *ngIf="searchForm.get('produit')?.value" label="Produit: {{searchForm.get('produit')?.value}}"></p-chip>
-                  <p-chip  *ngIf="searchForm.get('identifiant')?.value" label="ID: {{searchForm.get('identifiant')?.value}}"></p-chip>
-                  <p-chip  *ngIf="searchForm.get('refFacture')?.value" label="Ref: {{searchForm.get('refFacture')?.value}}"></p-chip>
-                </div>
-                <p-button label="Search" type="button" (onClick)="sendSearch()"
-                          styleClass="h-2rem p-button-sm  p-button-outlined p-button-raised float-right">
-                </p-button>
-              </div>
-
-            <br>
-            <div class="col-12 table-responsive smooth-scroll" style="max-height: 415px;">
-              <table class="table table-hover table-striped table-head-fixed">
+            <div class="col-12 table-responsive smooth-scroll" style="min-height: 415px;">
+              <table class="table table-hover table-striped table-head-fixed" >
                 <thead>
                 <tr>
-                  <th>Reference</th>
+                  <th >Reference</th>
                   <th>ID Client</th>
-                  <th>Produit</th>
-                  <th>N° Téléphone</th>
+                  <th >Produit</th>
+                  <th>Téléphone</th>
                   <th> Pourcentage Payé (%)</th>
                   <th>Date Limite</th>
                   <th>Montant</th>
@@ -106,16 +77,16 @@
                 <tbody>
                 <tr *ngFor="let facture of listFacture"
 
-                    [style.cursor]="'pointer'">
+                    [style.cursor]="'pointer'" >
                   <td><span
-                    class="flex justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
+                    class="flex text-sm justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
                   </td>
-                  <td><span class="flex justify-content-sm-center mr-5 ">{{facture.identifiant}}</span>
-                  <td><span class="flex justify-content-sm-start mr-5 ">{{facture.produit | titlecase}}</span>
+                  <td><span class="flex text-sm justify-content-sm-center mr-5 ">{{facture.identifiant}}</span>
+                  <td><span class="flex text-sm justify-content-sm-start mr-5 ">{{facture.produit | titlecase}}</span>
                   </td>
                   <td>
-                    <ng-container>
-                      <i class="fas fa-phone"></i> {{ facture.nappel }}
+                    <ng-container >
+                       {{ facture.nappel }}
                     </ng-container>
 
                   </td>
@@ -139,11 +110,11 @@
                   </td>
 
 
-                  <td><span class="flex justify-content-sm-start ">{{facture.datLimPai |date: 'MM/dd/yyyy' }}</span>
+                  <td><span class="flex text-sm justify-content-sm-start ">{{facture.datLimPai |date: 'MM/dd/yyyy' }}</span>
                   </td>
 
 
-                  <td><span class="flex justify-content-around  text-bold"> {{facture.montant | number: '1.3-3'}}
+                  <td><span class="flex text-sm justify-content-around  text-bold"> {{facture.montant | number: '1.3-3'}}
                     <small> TND</small></span>
                   </td>
 

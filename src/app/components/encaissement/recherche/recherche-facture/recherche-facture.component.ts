@@ -1,10 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../../services/user.service";
 import {FactureService} from "../../../../services/facture.service";
-import {EncaissementService} from "../../../../services/encaissement.service";
 import {DialogService} from "primeng/dynamicdialog";
 import {ConfirmationService} from "primeng/api";
 import {AuthService} from "../../../../services/auth/auth.service";
@@ -12,7 +11,6 @@ import {EttService} from "../../../../services/ett.service";
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Ett} from "../../../../modules/Ett";
 import {Subscription} from "rxjs";
-import {v4 as uuidv4} from "uuid";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Paginator} from "primeng/paginator";
 
@@ -57,12 +55,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
       produit: [''],
       montant: [null],
       solde: [null],
-      nappel: [null],
-      codeClient: [''],
-      compteFacturation: [''],
-      typeIdent: ['Carte d\'identité'],
       identifiant: [''],
-      periode: [null],
       datLimPai: [null]
     });
   }
@@ -104,6 +97,20 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   }
 
   sendSearch() {
-
+    const { refFacture, produit, montant, solde, identifiant, datLimPai } = this.searchForm.value;
+    const page=this.page.value ?? 0;
+    const size=this.size.value ?? 8;
+    this.factureService.searchPageFactures(
+      produit,
+      refFacture,
+      '',
+      identifiant,
+      montant,
+      solde,
+      page,
+      size
+    ).subscribe((factures) => {
+      this.listFacture = factures;
+    });
   }
 }
