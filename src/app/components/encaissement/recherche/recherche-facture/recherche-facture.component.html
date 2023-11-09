@@ -25,26 +25,26 @@
                 <div class=" col-sm-10 ">
                   <form [formGroup]="searchForm" >
                     <div class="col-sm-12 d-flex justify-content-evenly ">
-                      <div class="flex-grow-1 ">
+                      <div class="col-sm-auto ">
                         <input pInputText type="text" class="p-inputtext-sm h-2rem"
                                placeholder="Ref facture" formControlName="refFacture"/>
                       </div>
-                      <div class="flex-grow-1 ">
+                      <div class="col-sm-auto ">
                         <input pInputText type="text" class="p-inputtext-sm h-2rem"
                                placeholder="ID Client" formControlName="identifiant"/>
                       </div>
-                      <div class="flex-grow-1 ">
+                      <div class="col-sm-auto ">
                         <input pInputText type="text" class="p-inputtext-sm h-2rem"
                                placeholder="Produit" formControlName="produit"/>
                       </div>
 
-                      <div class="flex-grow-1 ">
+                      <div class=" col-sm-auto">
                         <input pInputText type="text" class="p-inputtext-sm h-2rem"
                                placeholder="Compte Facturation" formControlName="compteFacturation"/>
                       </div>
                     </div>
                     <div class="col-sm-12 d-flex justify-content-evenly mt-2  ">
-                      <div class="flex-grow-1 ">
+                      <div class="col-sm-auto ">
                         <input pInputText type="text" class="p-inputtext-sm h-2rem"
                                placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montant"/>
                       </div>

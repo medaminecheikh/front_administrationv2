@@ -56,6 +56,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
       montant: [null],
       solde: [null],
       identifiant: [''],
+      compteFacturation: [''],
       datLimPai: [null]
     });
   }
@@ -97,13 +98,13 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   }
 
   sendSearch() {
-    const { refFacture, produit, montant, solde, identifiant, datLimPai } = this.searchForm.value;
+    const { refFacture, produit,compteFacturation, montant, solde, identifiant, datLimPai } = this.searchForm.value;
     const page=this.page.value ?? 0;
     const size=this.size.value ?? 8;
     this.factureService.searchPageFactures(
       produit,
       refFacture,
-      '',
+      compteFacturation,
       identifiant,
       montant,
       solde,
