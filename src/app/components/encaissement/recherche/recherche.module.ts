@@ -16,6 +16,8 @@ import {InputTextModule} from "primeng/inputtext";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {ProgressBarModule} from "primeng/progressbar";
 import {ChipModule} from "primeng/chip";
+import {CheckboxModule} from "primeng/checkbox";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import {ChipModule} from "primeng/chip";
     InputTextModule,
     KeyFilterModule,
     ProgressBarModule,
-    ChipModule
+    ChipModule,
+    CheckboxModule,
+    RadioButtonModule
   ]
 })
 export class RechercheModule { }

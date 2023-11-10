@@ -22,13 +22,10 @@
         <div class="col-12">
           <div class="card col-12 card-default border-round-2xl shadow-2" style="min-height: 600px;">
               <div class="row mb-0 mt-1" >
-                <div class=" col-sm-10 ">
+                <div class="col-sm-10 ">
                   <form [formGroup]="searchForm" >
                     <div class="col-sm-12 d-flex justify-content-evenly ">
-                      <div class="col-sm-auto ">
-                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                               placeholder="Ref facture" formControlName="refFacture"/>
-                      </div>
+
                       <div class="col-sm-auto ">
                         <input pInputText type="text" class="p-inputtext-sm h-2rem"
                                placeholder="ID Client" formControlName="identifiant"/>
@@ -38,21 +35,54 @@
                                placeholder="Produit" formControlName="produit"/>
                       </div>
 
-                      <div class=" col-sm-auto">
-                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                               placeholder="Compte Facturation" formControlName="compteFacturation"/>
+                      <div class="col-sm-auto ">
+                        <p-inputNumber  class="p-inputtext-sm h-2rem "
+                                        placeholder="Remise" [maxFractionDigits]="2" mode="decimal" prefix="%" formControlName="solde"
+                                        [min]="0" [max]="100">
+                        </p-inputNumber>
                       </div>
-                    </div>
-                    <div class="col-sm-12 d-flex justify-content-evenly mt-2  ">
                       <div class="col-sm-auto ">
                         <input pInputText type="text" class="p-inputtext-sm h-2rem"
                                placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montant"/>
                       </div>
+
+                    </div>
+                    <div class="col-sm-12 d-flex justify-content-evenly mt-3  ">
+                      <div class=" col-sm-auto">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Compte Facturation" formControlName="compteFacturation"/>
+                      </div>
+                      <div class="col-sm-auto ">
+                        <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                               placeholder="Reference" formControlName="refFacture"/>
+                      </div>
+                      <div>
+
+                        <div class=" flex justify-content-center">
+                          <div class="flex flex-wrap gap-3">
+                            <div class="flex align-items-center">
+                              <p-radioButton name="status" value="TERMINER" formControlName="status"  inputId="ingredient1"></p-radioButton>
+                              <label  class="ml-2 text-gray-600 text-sm pt-1">Terminer</label>
+                            </div>
+
+                            <div class="flex align-items-center">
+                              <p-radioButton name="status" value="COURS" formControlName="status" inputId="ingredient2"></p-radioButton>
+                              <label class="ml-2 text-gray-600 text-sm pt-1">En cours</label>
+                            </div>
+
+                            <div class="flex align-items-center">
+                              <p-radioButton name="status" value="RETARD" formControlName="status"  inputId="ingredient3"></p-radioButton>
+                              <label  class="ml-2 text-gray-600 text-sm pt-1">En retard</label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </div>
-                <div class="col-sm-2 d-flex justify-content-evenly">
-                  <p-button label="Clear" type="button" (onClick)="initSearchForm()"
+                <div class="col-sm-2 mt-3 d-flex justify-content-evenly">
+                  <p-button label="Clear" type="button" (onClick)="ClearSearchForm()"
                             styleClass="h-2rem p-button-sm p-button-outlined p-button-raised p-button-danger col-sm-auto "></p-button>
 
                   <p-button label="Search" type="button" (onClick)="sendSearch()"
@@ -79,9 +109,9 @@
 
                     [style.cursor]="'pointer'" >
                   <td><span
-                    class="flex text-sm justify-content-around mr-5 text-bold">{{facture.refFacture}}</span>
+                    class="flex text-sm justify-content-start mr-5 text-bold">{{facture.refFacture}}</span>
                   </td>
-                  <td><span class="flex text-sm justify-content-sm-center mr-5 ">{{facture.identifiant}}</span>
+                  <td><span class="flex text-sm justify-content-sm-start mr-5 ">{{facture.identifiant}}</span>
                   <td><span class="flex text-sm justify-content-sm-start mr-5 ">{{facture.produit | titlecase}}</span>
                   </td>
                   <td>

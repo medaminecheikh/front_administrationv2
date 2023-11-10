@@ -39,6 +39,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
               private confirmationService: ConfirmationService,
               private authService: AuthService,
               private ettService: EttService) {
+
   }
 
   ngOnDestroy(): void {
@@ -47,6 +48,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initSearchForm();
     this.subscribeSearchForm();
+    this.sendSearch();
   }
 
   initSearchForm() {
@@ -57,10 +59,14 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
       solde: [null],
       identifiant: [''],
       compteFacturation: [''],
-      datLimPai: [null]
+      status: ['']
     });
   }
 
+  ClearSearchForm() {
+    this.initSearchForm();
+
+  }
   getProgressBarColor(value: number): string {
     if (value < 40) {
       return 'orange';
@@ -98,7 +104,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   }
 
   sendSearch() {
-    const { refFacture, produit,compteFacturation, montant, solde, identifiant, datLimPai } = this.searchForm.value;
+    const { refFacture, produit,compteFacturation, montant, solde, identifiant, status } = this.searchForm.value;
     const page=this.page.value ?? 0;
     const size=this.size.value ?? 8;
     this.factureService.searchPageFactures(
