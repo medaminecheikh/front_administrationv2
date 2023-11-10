@@ -66,6 +66,7 @@ export class FactureService {
     identifiant: string,
     montant: string,
     solde: string,
+    status: string,
     page: number,
     size: number
   ): Observable<InfoFacture[]> {
@@ -76,6 +77,7 @@ export class FactureService {
       .set('identifiant', identifiant || '')
       .set('montant', montant || '')
       .set('solde', solde || '')
+      .set('status', status || '')
       .set('page', page.toString())
       .set('size', size.toString());
 

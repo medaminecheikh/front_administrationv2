@@ -314,7 +314,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
     const {produit, refFacture, compteFacturation, identifiant, montant} = this.searchForm?.value;
     const page = this.page.value;
     this.factureService
-      .searchPageFactures(produit, refFacture, compteFacturation, identifiant, montant,'', page || 0, this.size.value || 8)
+      .searchPageFactures(produit, refFacture, compteFacturation, identifiant, montant,'','', page || 0, this.size.value || 8)
       .subscribe((factures) => {
         this.listFacture = factures;
         const firstFacture = factures[0]; // Assuming there's at least one facture in the list

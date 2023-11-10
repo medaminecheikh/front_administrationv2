@@ -114,6 +114,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
       identifiant,
       montant,
       solde,
+      status,
       page,
       size
     ).subscribe((factures) => {
