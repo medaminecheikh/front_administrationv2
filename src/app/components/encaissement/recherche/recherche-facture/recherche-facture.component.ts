@@ -26,7 +26,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   ettSubscription!: Subscription;
   listFacture: InfoFacture[] = [];
   searchForm !: FormGroup;
-  size = new FormControl(8);
+  size = new FormControl(10);
   page = new FormControl(0);
   totalRecords: any;
 
@@ -96,7 +96,9 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
     void {
     this.size.setValue(event.rows);
     this.page.setValue(Math.floor(event.first / event.rows));
-    this.sendSearch();
+    if ( this.searchForm.get('status')?.value!=='RETARD') {
+      this.sendSearch();
+    }
   }
 
   subscribeSearchForm() {
@@ -106,7 +108,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   sendSearch() {
     const { refFacture, produit,compteFacturation, montant, solde, identifiant, status } = this.searchForm.value;
     const page=this.page.value ?? 0;
-    const size=this.size.value ?? 8;
+    const size=this.size.value ?? 10;
     this.factureService.searchPageFactures(
       produit,
       refFacture,

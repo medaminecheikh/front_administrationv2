@@ -534,10 +534,15 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.factureService.addFacture(facture).subscribe(
           (value) => {
             const idFact = value.idFacture;
-            this.handleEncaissements(facture.idFacture,idCaisse);
+            this.handleEncaissements(facture.idFacture, idCaisse);
           },
           (error) => {
+            console.error(error)
             this.handleError('Add facture failed!', error);
+          }, () => {
+            this.handleSuccess('Facture added successfully');
+            this.disableFormControls();
+            this.updateRequest = !this.updateRequest;
           }
         );
       } else {
