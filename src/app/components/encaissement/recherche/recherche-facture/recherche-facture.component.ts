@@ -25,6 +25,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   userSubscription!: Subscription;
   ettSubscription!: Subscription;
   listFacture: InfoFacture[] = [];
+  display: InfoFacture[] = [];
   searchForm !: FormGroup;
   size = new FormControl(10);
   page = new FormControl(0);
@@ -91,14 +92,30 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
     }
     return 0;
   }
+  handleFormChange() {
+    const status = this.searchForm.get('status')?.value;
 
-  paginate(event: Paginator):
-    void {
+    if (status === 'RETARD') {
+      const page = this.page.value ?? 0; // Get the current page value
+      const size = this.size.value ?? 10; // Get the current size value
+
+      // Calculate the start and end index based on page and size
+      const startIndex = page * size;
+      const endIndex = startIndex + size;
+
+      // Slice the listFacture to create displayRetard
+      this.display = this.listFacture.slice(startIndex, endIndex);
+    } else {
+      // If status is not 'RETARD', show the full list
+      this.display = this.listFacture;
+    }
+  }
+  paginate(event: Paginator): void {
     this.size.setValue(event.rows);
     this.page.setValue(Math.floor(event.first / event.rows));
-    if ( this.searchForm.get('status')?.value!=='RETARD') {
+
       this.sendSearch();
-    }
+
   }
 
   subscribeSearchForm() {
@@ -121,6 +138,10 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
       size
     ).subscribe((factures) => {
       this.listFacture = factures;
+      const firstFacture = factures[0]; // Assuming there's at least one facture in the list
+      this.totalRecords = firstFacture ? firstFacture.totalElements : 0;
+      this.display= factures;
+      this.handleFormChange();
     });
   }
 }

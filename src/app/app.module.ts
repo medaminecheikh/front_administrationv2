@@ -20,8 +20,6 @@ import {EncaissementlayoutsModule} from "./layouts/encaissementlayouts/encaissem
 import {EncaissementModule} from "./components/encaissement/encaissement.module";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
-import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
-import {TokenStorageService} from "./services/auth/token-storage.service";
 import {ConfirmationService} from "primeng/api";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {DialogService} from "primeng/dynamicdialog";
