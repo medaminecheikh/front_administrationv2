@@ -48,7 +48,6 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initSearchForm();
-    this.subscribeSearchForm();
     this.sendSearch();
   }
 
@@ -118,9 +117,6 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
 
   }
 
-  subscribeSearchForm() {
-
-  }
 
   sendSearch() {
     const { refFacture, produit,compteFacturation, montant, solde, identifiant, status } = this.searchForm.value;

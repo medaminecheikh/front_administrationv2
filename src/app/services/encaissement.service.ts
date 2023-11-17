@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Encaissement} from "../modules/Encaissement";
 
@@ -39,7 +39,77 @@ export class EncaissementService {
   affectEncaisseToCaisse(idEncaiss: string, idCai: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/affectEncaisseToCaisse/${idEncaiss}/${idCai}`, null);
   }
+
   getEncaissementsForCaisseInCurrentMonth(caisseId: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/encaissements/current-month-for-caisse?caisseId=${caisseId}`);
+  }
+
+  searchYearEncaissement(
+    produit: string,
+    identifiant: string,
+    modePaiement: string,
+    typeIdent: string,
+    montantEnc: number,
+    refFacture: string,
+    page: number,
+    size: number
+  ): Observable<Encaissement[]> {
+    const params = new HttpParams()
+      .set('produit', produit || '')
+      .set('identifiant', identifiant || '')
+      .set('modePaiement', modePaiement || '')
+      .set('typeIdent', typeIdent || '')
+      .set('montantEnc', montantEnc ? montantEnc.toString() : '')
+      .set('refFacture', refFacture || '')
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Encaissement[]>(`${this.baseUrl}/encaissement/searchYearEncaissement`, {params});
+  }
+
+  searchWeekEncaissement(
+    produit: string,
+    identifiant: string,
+    modePaiement: string,
+    typeIdent: string,
+    montantEnc: number,
+    refFacture: string,
+    page: number,
+    size: number
+  ): Observable<Encaissement[]> {
+    const params = new HttpParams()
+      .set('produit', produit || '')
+      .set('identifiant', identifiant || '')
+      .set('modePaiement', modePaiement || '')
+      .set('typeIdent', typeIdent || '')
+      .set('montantEnc', montantEnc ? montantEnc.toString() : '')
+      .set('refFacture', refFacture || '')
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Encaissement[]>(`${this.baseUrl}/encaissement/searchWeekEncaissement`, {params});
+  }
+
+  searchMonthEncaissement(
+    produit: string,
+    identifiant: string,
+    modePaiement: string,
+    typeIdent: string,
+    montantEnc: number,
+    refFacture: string,
+    page: number,
+    size: number
+  ): Observable<Encaissement[]> {
+    const params = new HttpParams()
+      .set('produit', produit || '')
+      .set('identifiant', identifiant || '')
+      .set('modePaiement', modePaiement || '')
+      .set('typeIdent', typeIdent || '')
+      .set('montantEnc', montantEnc ? montantEnc.toString() : '')
+      .set('refFacture', refFacture || '')
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Encaissement[]>(`${this.baseUrl}/encaissement/searchMonthEncaissement`, {params});
   }
 }

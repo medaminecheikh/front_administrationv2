@@ -1,1 +1,168 @@
-<p>recherche-encaissement works!</p>
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Recherche Encaissement </h1>
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/encaissement/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Recherche Encaissement</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container-fluid ">
+      <div class="row col-12">
+        <div class="col-12">
+          <div class="card col-12 card-default border-round-2xl shadow-2" style="min-height: 600px;">
+            <div class="row mb-0 mt-1">
+              <div class="col-sm-9 ">
+                <form [formGroup]="searchForm">
+                  <div class="col-sm-12 d-flex justify-content-evenly ">
+
+                    <div class="col-sm-auto ">
+                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                             placeholder="ID Client" formControlName="identifiant"/>
+                    </div>
+                    <div class="col-sm-auto ">
+                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                             placeholder="Produit" formControlName="produit"/>
+                    </div>
+
+                    <div class="col-sm-auto ">
+                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                             placeholder="typeIdent" formControlName="typeIdent"/>
+                    </div>
+                    <div class="col-sm-auto ">
+                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                             placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montant"/>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-12 d-flex justify-content-evenly mt-3  ">
+                    <div class=" col-sm-auto">
+                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                             placeholder="modePaiement" formControlName="modePaiement"/>
+                    </div>
+                    <div class="col-sm-auto ">
+                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                             placeholder="Reference" formControlName="refFacture"/>
+                    </div>
+                    <div>
+
+                      <div class=" flex justify-content-center">
+                        <div class="flex flex-wrap gap-3">
+                          <div class="flex align-items-center">
+                            <p-radioButton name="requet" value="year" formControlName="requet"
+                                           inputId="ingredient1"></p-radioButton>
+                            <label class="ml-2 text-gray-600 text-sm pt-1">Terminer</label>
+                          </div>
+
+                          <div class="flex align-items-center">
+                            <p-radioButton name="requet" value="month" formControlName="requet"
+                                           inputId="ingredient2"></p-radioButton>
+                            <label class="ml-2 text-gray-600 text-sm pt-1">En cours</label>
+                          </div>
+
+                          <div class="flex align-items-center">
+                            <p-radioButton name="requet" value="week" formControlName="requet"
+                                           inputId="ingredient3"></p-radioButton>
+                            <label class="ml-2 text-gray-600 text-sm pt-1">En retard</label>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-sm-3 mt-3 d-flex justify-content-evenly">
+                <p-button label="Clear" type="button" (onClick)="ClearSearchForm()"
+                          styleClass="h-2rem p-button-sm p-button-outlined p-button-raised p-button-danger ml-3"></p-button>
+
+                <p-button label="Recherche" type="button" (onClick)="sendSearch()"
+                          styleClass="h-2rem p-button-sm p-button-outlined p-button-raised  px-5">
+                </p-button>
+              </div>
+            </div>
+
+            <div class="col-12 table-responsive smooth-scroll" style="min-height: 450px;">
+              <table class="table table-hover table-striped table-head-fixed">
+                <thead>
+                <tr>
+                  <th>Produit</th>
+                  <th>ID Client</th>
+                  <th>Type ID</th>
+                  <th>Téléphone</th>
+                  <th>Mode Paiement</th>
+                  <th>Date Paiement</th>
+                  <th>Montant</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let paiement of display"
+
+                    [style.cursor]="'pointer'">
+                  <td><span
+                    class="flex text-sm justify-content-start mr-5 text-bold">{{paiement.produit | titlecase}}</span>
+                  </td>
+                  <td><span class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.identifiant}}</span></td>
+                  <td><span
+                    class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.typeIdent | titlecase}}</span>
+                  </td>
+                  <td>
+                    <ng-container>
+                      {{ paiement.nappel }}
+                    </ng-container>
+
+                  </td>
+                  <td colspan="2">
+                    <span class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.modePaiement | titlecase}}</span>
+
+
+                    <span class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.refFacture}}</span>
+                  </td>
+                  <td><span
+                    class="flex text-sm justify-content-sm-start ">{{paiement.dateEnc |date: 'MM/dd/yyyy' }}</span>
+                  </td>
+
+
+                  <td><span
+                    class="flex text-sm justify-content-around  text-bold"> {{paiement.montantEnc | number: '1.3-3'}}
+                    <small> TND</small></span>
+                  </td>
+
+                </tr>
+                <tr *ngIf="display.length === 0">
+                  <td colspan="7" class="text-center ">
+                    <span class="text-info"><i class="fas fa-info-circle "></i> Aucune paiement trouvée avec ces critères de recherche.</span>
+
+                  </td>
+                </tr>
+                </tbody>
+
+              </table>
+
+            </div>
+            <div class="flex-auto">
+              <p-paginator [first]="(page.value ?? 0)"
+                           [rows]="(size.value ?? 10)"
+                           [totalRecords]="totalRecords"
+                           [rowsPerPageOptions]="[10, 20, 30]"
+                           (onPageChange)="paginate($event)">
+              </p-paginator>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
