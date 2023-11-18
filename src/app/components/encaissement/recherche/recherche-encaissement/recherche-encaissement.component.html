@@ -15,10 +15,22 @@
       </div>
     </div>
   </div>
-
+  <p-dialog header="Header" (onHide)="closeDialog()" [(visible)]="visible" [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">Information Paiement</span>
+    </ng-template>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="closeDialog()" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
   <div class="content">
     <div class="container-fluid ">
       <div class="row col-12">
+
         <div class="col-12">
           <div class="card col-12 card-default border-round-2xl shadow-2" style="min-height: 600px;">
             <div class="row mb-0 mt-1">
@@ -32,27 +44,25 @@
                     </div>
                     <div class="col-sm-auto ">
                       <input pInputText type="text" class="p-inputtext-sm h-2rem"
+                             placeholder="Type ID" formControlName="typeIdent"/>
+                    </div>
+                    <div class="col-sm-auto ">
+                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
                              placeholder="Produit" formControlName="produit"/>
                     </div>
-
                     <div class="col-sm-auto ">
                       <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                             placeholder="typeIdent" formControlName="typeIdent"/>
+                             placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montantEnc"/>
                     </div>
-                    <div class="col-sm-auto ">
-                      <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                             placeholder="Montant inferieur à" pKeyFilter="num" formControlName="montant"/>
-                    </div>
-
                   </div>
                   <div class="col-sm-12 d-flex justify-content-evenly mt-3  ">
                     <div class=" col-sm-auto">
                       <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                             placeholder="modePaiement" formControlName="modePaiement"/>
+                             placeholder="Methode Paiement" formControlName="modePaiement"/>
                     </div>
                     <div class="col-sm-auto ">
                       <input pInputText type="text" class="p-inputtext-sm h-2rem"
-                             placeholder="Reference" formControlName="refFacture"/>
+                             placeholder="Reference Facture" formControlName="refFacture"/>
                     </div>
                     <div>
 
@@ -61,19 +71,19 @@
                           <div class="flex align-items-center">
                             <p-radioButton name="requet" value="year" formControlName="requet"
                                            inputId="ingredient1"></p-radioButton>
-                            <label class="ml-2 text-gray-600 text-sm pt-1">Terminer</label>
+                            <label class="ml-2 text-gray-600 text-sm pt-1">Year</label>
                           </div>
 
                           <div class="flex align-items-center">
                             <p-radioButton name="requet" value="month" formControlName="requet"
                                            inputId="ingredient2"></p-radioButton>
-                            <label class="ml-2 text-gray-600 text-sm pt-1">En cours</label>
+                            <label class="ml-2 text-gray-600 text-sm pt-1">Month</label>
                           </div>
 
                           <div class="flex align-items-center">
                             <p-radioButton name="requet" value="week" formControlName="requet"
                                            inputId="ingredient3"></p-radioButton>
-                            <label class="ml-2 text-gray-600 text-sm pt-1">En retard</label>
+                            <label class="ml-2 text-gray-600 text-sm pt-1">Week</label>
                           </div>
 
                         </div>
@@ -96,19 +106,24 @@
               <table class="table table-hover table-striped table-head-fixed">
                 <thead>
                 <tr>
+                  <th>Reference facture</th>
                   <th>Produit</th>
                   <th>ID Client</th>
                   <th>Type ID</th>
                   <th>Téléphone</th>
-                  <th>Mode Paiement</th>
+                  <th>Methode </th>
                   <th>Date Paiement</th>
                   <th>Montant</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let paiement of display"
-
+                    (dblclick)="showDialog(paiement)"
+                    [class.bg-gradient-lightblue]="paiement.idEncaissement ===selectedEncaissement?.idEncaissement"
                     [style.cursor]="'pointer'">
+                  <td>
+                    <span class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.refFacture}}</span>
+                  </td>
                   <td><span
                     class="flex text-sm justify-content-start mr-5 text-bold">{{paiement.produit | titlecase}}</span>
                   </td>
@@ -117,16 +132,16 @@
                     class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.typeIdent | titlecase}}</span>
                   </td>
                   <td>
-                    <ng-container>
+                    <span class="flex text-sm justify-content-sm-start mr-5 ">
                       {{ paiement.nappel }}
-                    </ng-container>
+                    </span>
 
                   </td>
-                  <td colspan="2">
-                    <span class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.modePaiement | titlecase}}</span>
+                  <td>
+                    <span
+                      class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.modePaiement | titlecase}}</span>
 
 
-                    <span class="flex text-sm justify-content-sm-start mr-5 ">{{paiement.refFacture}}</span>
                   </td>
                   <td><span
                     class="flex text-sm justify-content-sm-start ">{{paiement.dateEnc |date: 'MM/dd/yyyy' }}</span>

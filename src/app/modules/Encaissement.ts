@@ -23,6 +23,7 @@ export interface Encaissement {
   agenceBQ: string;
   nTransTPE: string;
   refBordereau: string;
+  totalElements:number;
   user: Utilisateur;
   caisse: Caisse;
   facture: InfoFacture;

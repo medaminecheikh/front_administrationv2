@@ -18,6 +18,8 @@ import {ProgressBarModule} from "primeng/progressbar";
 import {ChipModule} from "primeng/chip";
 import {CheckboxModule} from "primeng/checkbox";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {DialogModule} from "primeng/dialog";
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import {RadioButtonModule} from "primeng/radiobutton";
     ProgressBarModule,
     ChipModule,
     CheckboxModule,
-    RadioButtonModule
+    RadioButtonModule,
+    ConfirmDialogModule,
+    DialogModule
   ]
 })
 export class RechercheModule { }

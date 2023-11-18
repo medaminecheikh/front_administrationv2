@@ -20,12 +20,13 @@ import {Subscription} from "rxjs";
 })
 export class RechercheEncaissementComponent implements OnInit, OnDestroy {
   display: Encaissement[] = [];
+  selectedEncaissement?:Encaissement | null;
   searchForm !: FormGroup;
   size = new FormControl(10);
   page = new FormControl(0);
   totalRecords: any;
   private subscriptions: Subscription[] = [];
-
+  visible: boolean=false;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
@@ -46,7 +47,14 @@ export class RechercheEncaissementComponent implements OnInit, OnDestroy {
     this.initSearchForm();
     this.sendSearch();
   }
-
+  showDialog(encaissement:Encaissement ) {
+    this.visible = true;
+    this.selectedEncaissement = encaissement;
+  }
+  closeDialog() {
+    this.visible = false;
+    this.selectedEncaissement = null;
+  }
   paginate(event: Paginator): void {
     this.size.setValue(event.rows);
     this.page.setValue(Math.floor(event.first / event.rows));
@@ -54,7 +62,7 @@ export class RechercheEncaissementComponent implements OnInit, OnDestroy {
   }
 
   ClearSearchForm() {
-
+    this.initSearchForm();
   }
 
   sendSearch() {
@@ -65,18 +73,30 @@ export class RechercheEncaissementComponent implements OnInit, OnDestroy {
     if (requet === 'year') {
       this.subscriptions.push(
         this.encaiService.searchYearEncaissement(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, page, size)
-          .subscribe()
+          .subscribe(value => {
+            this.display = value;
+            const firstEncaiss = value[0]; // Assuming there's at least one facture in the list
+            this.totalRecords = firstEncaiss ? firstEncaiss.totalElements : 0;
+          })
       );
 
     } else if (requet === 'month') {
       this.subscriptions.push(
         this.encaiService.searchMonthEncaissement(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, page, size)
-          .subscribe()
+          .subscribe(value => {
+            this.display = value;
+            const firstEncaiss = value[0]; // Assuming there's at least one facture in the list
+            this.totalRecords = firstEncaiss ? firstEncaiss.totalElements : 0;
+          })
       );
     } else if (requet === 'week') {
       this.subscriptions.push(
         this.encaiService.searchWeekEncaissement(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, page, size)
-          .subscribe()
+          .subscribe(value => {
+            this.display = value;
+            const firstEncaiss = value[0]; // Assuming there's at least one facture in the list
+            this.totalRecords = firstEncaiss ? firstEncaiss.totalElements : 0;
+          })
       );
     }
   }
