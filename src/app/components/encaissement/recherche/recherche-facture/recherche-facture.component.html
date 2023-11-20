@@ -90,7 +90,7 @@
                   </p-button>
                 </div>
               </div>
-
+            <p-confirmPopup></p-confirmPopup>
             <div class="col-12 table-responsive smooth-scroll" style="min-height: 450px;">
               <table class="table table-hover table-striped table-head-fixed" >
                 <thead>
@@ -106,7 +106,7 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let facture of display"
-
+                        (dblclick)="openInPrint(facture,$event)"
                     [style.cursor]="'pointer'">
                   <td><span
                     class="flex text-sm justify-content-start mr-5 text-bold">{{facture.refFacture}}</span>

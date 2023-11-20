@@ -20,6 +20,7 @@ import {CheckboxModule} from "primeng/checkbox";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {DialogModule} from "primeng/dialog";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
 
 
 @NgModule({
@@ -28,24 +29,25 @@ import {DialogModule} from "primeng/dialog";
     RechercheFactureComponent,
     JournalEncaissementComponent
   ],
-  imports: [
-    CommonModule,
-    RechercheRoutingModule,
-    CarouselModule,
-    ButtonModule,
-    TagModule,
-    PaginatorModule,
-    SelectButtonModule,
-    ReactiveFormsModule,
-    SliderModule,
-    InputTextModule,
-    KeyFilterModule,
-    ProgressBarModule,
-    ChipModule,
-    CheckboxModule,
-    RadioButtonModule,
-    ConfirmDialogModule,
-    DialogModule
-  ]
+    imports: [
+        CommonModule,
+        RechercheRoutingModule,
+        CarouselModule,
+        ButtonModule,
+        TagModule,
+        PaginatorModule,
+        SelectButtonModule,
+        ReactiveFormsModule,
+        SliderModule,
+        InputTextModule,
+        KeyFilterModule,
+        ProgressBarModule,
+        ChipModule,
+        CheckboxModule,
+        RadioButtonModule,
+        ConfirmDialogModule,
+        DialogModule,
+        ConfirmPopupModule
+    ]
 })
 export class RechercheModule { }

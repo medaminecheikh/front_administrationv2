@@ -30,6 +30,7 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
   size = new FormControl(10);
   page = new FormControl(0);
   totalRecords: any;
+   factureSelected?: InfoFacture;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -139,5 +140,25 @@ export class RechercheFactureComponent implements OnInit, OnDestroy {
       this.display= factures;
       this.handleFormChange();
     });
+  }
+
+  openInPrint(facture:InfoFacture,event: Event) {
+
+    const dataToPass = {
+      factureForm: facture, // Pass the form data here
+      encaissFactArray: facture.encaissements, // Pass the array data here
+    };
+    this.confirmationService.confirm({
+      target: event.target || undefined,
+      message: `Imprimer facture de référence: ${facture.refFacture}`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.router.navigateByUrl('encaissement/caisse/print-facture', {state: dataToPass});
+      },
+      reject: () => {
+
+      }
+    });
+
   }
 }
