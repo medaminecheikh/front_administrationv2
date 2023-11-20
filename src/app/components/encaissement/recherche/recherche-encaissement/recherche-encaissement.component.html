@@ -25,7 +25,7 @@
         <!-- Left side -->
         <div class="w-50 pr-2">
           <div class="mb-4">
-            <h5 class="section-title"><i class="fas fa-id-card  icon text-gray-700 mr-2"></i> Informations Client</h5>
+            <h5 class="section-title text-blue-800"><i class="fas fa-id-card  icon mr-2"></i> Informations Client</h5>
           </div>
           <div class="mb-3">
             <strong>ID Client:</strong> {{ selectedEncaissement?.identifiant }}
@@ -45,7 +45,7 @@
         <!-- Right side -->
         <div class="w-50 pl-2">
           <div class="mb-4">
-            <h5 class="section-title"><i class="fas fa-file-invoice text-gray-700 mr-2 icon"></i> Informations Facture
+            <h5 class="section-title text-blue-800"><i class="fas fa-file-invoice  mr-2 icon"></i> Informations Facture
             </h5>
           </div>
           <div class="mb-3">
@@ -69,7 +69,7 @@
         <div class="w-75 d-flex flex-column align-items-center mt-3">
           <!-- Title -->
           <div class="mb-3 text-center">
-            <h5 class="section-title"><i class="fas fa-money-bill-wave text-gray-700 mr-2 icon"></i> Informations
+            <h5 class="section-title text-blue-800"><i class="fas fa-money-bill-wave  mr-2 icon"></i> Informations
               Paiement</h5>
           </div>
 
@@ -80,8 +80,12 @@
               <div class="mb-3">
                 <strong>Méthode:</strong> {{ selectedEncaissement?.modePaiement | titlecase }}
               </div>
-              <div class="mb-3">
+              <div class="mb-3"  *ngIf="selectedEncaissement?.agenceBQ">
+                <strong>Agence:</strong> {{ selectedEncaissement?.agenceBQ | titlecase }}
+              </div>
 
+              <div class="mb-3"  *ngIf="selectedEncaissement?.rib">
+                <strong>RIB:</strong> {{ selectedEncaissement?.rib | titlecase }}
               </div>
             </div>
 
@@ -90,10 +94,19 @@
               <div class="mb-3">
                 <strong>Date:</strong> {{ selectedEncaissement?.dateEnc | date: 'yyyy-MM-dd' }}
               </div>
+              <div class="mb-3" *ngIf="selectedEncaissement?.banque">
+                <strong>Banque:</strong> {{ selectedEncaissement?.banque | titlecase }}
+              </div>
+              <div class="mb-3" *ngIf="selectedEncaissement?.nTransTPE">
+                <strong>Numéro TPE:</strong> {{ selectedEncaissement?.nTransTPE | titlecase }}
+              </div>
+              <div class="mb-3"  *ngIf="selectedEncaissement?.numCheq">
+                <strong>Numéro Cheque:</strong> {{ selectedEncaissement?.numCheq | titlecase }}
+              </div>
             </div>
             <div class="w-33">
-              <div class="mb-3">
-                <strong>Montant:</strong> {{ selectedEncaissement?.montantEnc | number: '1.3-3' }} <span> TND</span>
+              <div class="mb-3 ">
+                <strong class="">Montant:</strong> {{ selectedEncaissement?.montantEnc | number: '1.3-3' }} <span> TND</span>
               </div>
             </div>
           </div>
