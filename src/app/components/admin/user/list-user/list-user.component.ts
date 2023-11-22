@@ -75,7 +75,6 @@ export class ListUserComponent implements OnInit {
     this.subscribeToDregChanges();
     this.subscribeToEttChanges();
     this.initializeForm();
-
     this.getAllProfils();
 
 
