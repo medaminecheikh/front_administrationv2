@@ -121,6 +121,8 @@
                     <th>Date expiration</th>
                     <th>Matricule</th>
                     <th>Description</th>
+                    <th>D.Regional</th>
+                    <th>Ett</th>
                     <th>Profils</th>
                   </tr>
                   </thead>
@@ -145,6 +147,8 @@
                       </td>
                       <td>{{user.matricule}}</td>
                       <td class="mailbox-subject-">{{user.descU}}</td>
+                      <td>{{user.ett?.dregional?.dr | titlecase}}</td>
+                      <td>{{user.ett?.adr | titlecase}}</td>
                       <td class="mailbox-attachment">
                         <ng-container class="ml-auto" *ngFor="let profilee of user.profilUser">
                           <p-chip class="mr-2" label="{{profilee.profil.nomP}}" icon="pi pi-check-circle"></p-chip>
@@ -158,7 +162,7 @@
                   </tbody>
                 </table>
               </div>
-              <div class="card-footer">
+              <div class="card-footer p-2">
                 <div class="float-right">
                   <div class="btn-group col-md-auto">
                     <div class="input-group input-group-sm ">
@@ -218,7 +222,7 @@
               <div class="card-tools">
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
-                
+
                 <button type="button" class="btn  btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate">
                   <i class="far fa-trash-alt"></i>
                 </button>
