@@ -540,8 +540,8 @@
                   </p-divider>
                 </div>
                 <div class=" col-md-8 w-min">
-                  <p-pickList [source]="filtredProfils" [target]="profilSelected" sourceHeader="Available Profiles"
-                              targetHeader="Selected Profiles" [dragdrop]="true" [responsive]="true"
+                  <p-pickList [source]="filtredProfils" [target]="profilSelected" sourceHeader="Profils Disponibles"
+                              targetHeader="Profiles Choisis" [dragdrop]="true" [responsive]="true"
                               (onMoveToTarget)="onAddProfil($event)"
                               (onMoveToSource)="onRemoveProfil($event)"
                               (onMoveAllToSource)="AllRemove($event)"
