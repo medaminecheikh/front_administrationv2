@@ -145,13 +145,13 @@
                       <td class="text-sm">{{user.matricule}}</td>
                       <td class="text-sm">{{user.descU}}</td>
                       <td class="text-sm">
-                        <span *ngIf="!user.ett?.dregional"><i
+                        <span *ngIf="!user?.ett?.dregional"><i
                           class="fas fa-exclamation-circle text-cyan"></i> Vide</span>
-                        {{user.ett?.dregional?.dr | titlecase}}
+                        {{user?.ett?.dregional?.dr | titlecase}}
                       </td>
                       <td class="text-sm">
                         <span *ngIf="!user.ett"><i class="fas fa-exclamation-circle text-cyan"></i> Vide  </span>
-                        {{user.ett?.adr | titlecase}}
+                        {{user?.ett?.adr | titlecase}}
                       </td>
                       <td class="mailbox-attachment">
                         <ng-container class="ml-auto text-sm" *ngFor="let profilee of user.profilUser">
@@ -541,7 +541,7 @@
                 </div>
                 <div class=" col-md-8 w-min">
                   <p-pickList [source]="filtredProfils" [target]="profilSelected" sourceHeader="Profils Disponibles"
-                              targetHeader="Profiles Choisis" [dragdrop]="true" [responsive]="true"
+                              targetHeader="Profils sélectionnés" [dragdrop]="true" [responsive]="true"
                               (onMoveToTarget)="onAddProfil($event)"
                               (onMoveToSource)="onRemoveProfil($event)"
                               (onMoveAllToSource)="AllRemove($event)"
