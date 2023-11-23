@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Page} from "../../../../modules/Page";
 import {ZoneService} from "../../../../services/zone.service";
@@ -14,7 +14,7 @@ import {Zone} from "../../../../modules/Zone";
 import {Dregional} from "../../../../modules/Dregional";
 import {Ett} from "../../../../modules/Ett";
 import {ProfilUser} from "../../../../modules/ProfilUser";
-import {catchError, forkJoin, Observable} from "rxjs";
+import {catchError, forkJoin, Observable, Subscription} from "rxjs";
 import {CaisseService} from "../../../../services/caisse.service";
 
 @Component({
@@ -22,7 +22,7 @@ import {CaisseService} from "../../../../services/caisse.service";
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.scss']
 })
-export class ListUserComponent implements OnInit {
+export class ListUserComponent implements OnInit,OnDestroy {
   addedProfils: Profil[] = [];
   removedProfils: Profil[] = [];
   filtredProfils: Profil[] = [];
@@ -40,6 +40,7 @@ export class ListUserComponent implements OnInit {
   ettselected: any;
   showPassword: boolean = false;
   utlisateurs!: Utilisateur[];
+  zoneSub:Subscription[]=[];
   keyword: string = '';
   userPage: Page = {
     totalPages: 0,
@@ -66,6 +67,10 @@ export class ListUserComponent implements OnInit {
               private profilService: ProfilService,
               private caisseService: CaisseService) {
   }
+
+  ngOnDestroy(): void {
+    this.zoneSub.forEach(value => value.unsubscribe());
+    }
 
 
   ngOnInit(): void {
@@ -132,6 +137,10 @@ export class ListUserComponent implements OnInit {
     this.utilisateurForm.get('f_ADM_CEN')?.valueChanges.subscribe(value => {
       this.updateFiltredProfils();
     });
+    this.etts =  this.utilisateurUpdate?.ett?.dregional?.etts.filter(value => {
+      return  value.idEtt !== this.utilisateurUpdate?.ett?.idEtt});
+    this.ett.setValue(this.utilisateurUpdate?.ett?.idEtt);
+    this.dreginals = this.utilisateurUpdate.ett?.dregional?.zone?.dregionals;
   }
 
   private updateFiltredProfils() {
@@ -286,7 +295,7 @@ export class ListUserComponent implements OnInit {
     const utilisateur = this.utilisateurForm.value;
     const pwd = this.utilisateurForm.controls['pwdU'].value;
     const confirmedPwd = this.utilisateurForm.controls['confirmedpassword'].value;
-
+    const updateUser=this.utilisateurUpdate;
     if ((pwd && confirmedPwd) || (!pwd && !confirmedPwd)) {
       // Password and confirmed password are both present or both absent
       if (this.utilisateurForm.valid || (!pwd && !confirmedPwd)) {
@@ -309,11 +318,15 @@ export class ListUserComponent implements OnInit {
           }
         }
 
-        if (this.ettselected) {
+        if (this.ettselected ) {
           console.log("ettselected", this.ettselected)
+          if (this.ettselected!==updateUser?.ett?.idEtt ) {
+            requests.push(this.caisseService.removeUser(utilisateur.idUser));
+
+          }
           requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected));
 
-            requests.push(this.caisseService.removeUser(utilisateur.idUser));
+
             console.log(":::::: SEND IT !!!!!")
 
 
@@ -325,6 +338,7 @@ export class ListUserComponent implements OnInit {
 
         forkJoin(requests).pipe(
           catchError((err) => {
+            console.error(err);
             // Error handling logic here
             return err;
           })
@@ -381,14 +395,14 @@ export class ListUserComponent implements OnInit {
 
   private subscribeToZoneChanges() {
     // Subscribe to the value changes of the zone form control
-    this.zone.valueChanges.subscribe(
+  const zone= this.zone.valueChanges.subscribe(
       zoneId => {
         this.onSelectionzone();
         // Fetch the associated dreginals when the zone value changes
         if (zoneId) {
           const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
           if (selectedZone) {
-            this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
+          const dr= this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
               dreginals => {
                 this.dreginals = dreginals;
                 this.dreg.reset();
@@ -396,6 +410,7 @@ export class ListUserComponent implements OnInit {
               },
               error => console.error(error)
             );
+            this.zoneSub.push(dr);
           }
         } else {
           this.dreg.reset();
@@ -405,18 +420,20 @@ export class ListUserComponent implements OnInit {
         }
       }
     );
+    this.zoneSub.push(zone);
+
   }
 
   private subscribeToDregChanges() {
     // Subscribe to the value changes of the dreg form control
-    this.dreg.valueChanges.subscribe(
+    const dreg= this.dreg.valueChanges.subscribe(
       dregId => {
         this.onSelectionzone();
         // Fetch the associated etts when the dreg value changes
         if (dregId) {
           const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
           if (selectedDreg) {
-            this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
+          const ett= this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
               etts => {
                 this.etts = etts;
                 this.ett.reset(); // reset the ett form control
@@ -424,6 +441,7 @@ export class ListUserComponent implements OnInit {
               },
               error => console.error(error)
             );
+            this.zoneSub.push(ett);
           } else {
             this.dreg.reset();
             this.ett.reset();
@@ -433,6 +451,7 @@ export class ListUserComponent implements OnInit {
         }
       }
     );
+    this.zoneSub.push(dreg);
   }
 
   private subscribeToEttChanges() {

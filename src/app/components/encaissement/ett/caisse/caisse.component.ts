@@ -255,7 +255,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
     if (this.updateselectedCaisse) {
 
       this.caisseForm.patchValue(this.updateselectedCaisse)
-      this.userselected = this.updateselectedCaisse.login.idUser
+      this.userselected = this.updateselectedCaisse?.login?.idUser
       console.log("event data :", this.updateselectedCaisse)
       console.log("event form :", this.caisseForm.value)
       console.log("event userselected :", this.userselected)
@@ -275,8 +275,8 @@ export class CaisseComponent implements OnInit, OnDestroy {
     const oldUser = this.updateselectedCaisse?.login;
     const sub1 = this.caisseService.updateCaisse(caisse).subscribe(
       () => {
-        if (oldUser && this.userselected) {
-          if (oldUser.idUser != this.userselected) {
+        if ( this.userselected) {
+          if (oldUser?.idUser != this.userselected) {
               const sub2 = this.caisseService.affecterCaisseToUser(caisse.idCaisse, this.userselected).subscribe();
               this.subscriptions.push(sub2);
           }
@@ -303,5 +303,6 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   onUserSelected(selectedUserId: any) {
     this.userselected=selectedUserId;
+
   }
 }

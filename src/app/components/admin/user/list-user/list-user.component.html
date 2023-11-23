@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Dashboard Utilisateur</h1>
+          <h1 class="m-0">Gestion Utilisateur</h1>
         </div>
 
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard Utilisateur</li>
+            <li class="breadcrumb-item active">Gestion Utilisateur</li>
           </ol>
         </div>
       </div>
@@ -98,10 +98,7 @@
                 </div>
 
 
-
-
                 <div class="float-md-right">
-
 
 
                 </div>
@@ -121,7 +118,7 @@
                     <th>Date expiration</th>
                     <th>Matricule</th>
                     <th>Description</th>
-                    <th>D.Regional</th>
+                    <th>D.Regionale</th>
                     <th>Ett</th>
                     <th>Profils</th>
                   </tr>
@@ -130,28 +127,36 @@
                   <ng-container *ngFor="let user of utlisateurs">
                     <tr class="" [class.bg-gradient-lightblue]="user.idUser === utilisateurUpdate?.idUser"
                         (dblclick)="onRowDoubleClick(user)" [style.cursor]="'pointer'">
-                      <td>{{user.login}}</td>
-                      <td>{{user.nomU}}</td>
-                      <td>{{user.prenU}}</td>
+                      <td class="text-sm">{{user.login}}</td>
+                      <td class="text-sm">{{user.nomU}}</td>
+                      <td class="text-sm">{{user.prenU}}</td>
                       <td><span *ngIf="user.estActif===1"> <p-tag icon="pi pi-check" severity="success"
                                                                   value=" Activer "></p-tag></span>
 
                         <span *ngIf="user.estActif===0"> <p-tag icon="pi pi-exclamation-triangle" severity="warning"
                                                                 value=" Desactiver "></p-tag></span>
                       </td>
-                      <td><i class="text-oliver fas fa-calendar-plus"></i>
+                      <td class="text-sm"><i class="text-sm text-oliver fas fa-calendar-plus"></i>
                         {{user.date_CREATION | date :'MMMM d, y'}}
                       </td>
-                      <td><i class=" text-oliver fas fa-clock-rotate-left"></i>
+                      <td class="text-sm"><i class=" text-sm text-oliver fas fa-clock-rotate-left"></i>
                         {{user.date_EXPIRED | date :'MMMM d, y'}}
                       </td>
-                      <td>{{user.matricule}}</td>
-                      <td class="mailbox-subject-">{{user.descU}}</td>
-                      <td>{{user.ett?.dregional?.dr | titlecase}}</td>
-                      <td>{{user.ett?.adr | titlecase}}</td>
+                      <td class="text-sm">{{user.matricule}}</td>
+                      <td class="text-sm">{{user.descU}}</td>
+                      <td class="text-sm">
+                        <span *ngIf="!user.ett?.dregional"><i
+                          class="fas fa-exclamation-circle text-cyan"></i> Vide</span>
+                        {{user.ett?.dregional?.dr | titlecase}}
+                      </td>
+                      <td class="text-sm">
+                        <span *ngIf="!user.ett"><i class="fas fa-exclamation-circle text-cyan"></i> Vide  </span>
+                        {{user.ett?.adr | titlecase}}
+                      </td>
                       <td class="mailbox-attachment">
-                        <ng-container class="ml-auto" *ngFor="let profilee of user.profilUser">
-                          <p-chip class="mr-2" label="{{profilee.profil.nomP}}" icon="pi pi-check-circle"></p-chip>
+                        <ng-container class="ml-auto text-sm" *ngFor="let profilee of user.profilUser">
+                          <p-chip class="mr-2 text-sm" label="{{profilee.profil.nomP}}"
+                                  icon="pi pi-check-circle"></p-chip>
 
                         </ng-container>
                       </td>
@@ -180,7 +185,8 @@
                   <div class="btn-group ">
                     <ul class="pagination pagination-sm m-0 float-right">
                       <li class="page-item">
-                        <button class="page-link btn-default btn-sm border-round-xl" [disabled]="userPage.first" (click)="onPrev()"><i
+                        <button class="page-link btn-default btn-sm border-round-xl" [disabled]="userPage.first"
+                                (click)="onPrev()"><i
                           class="fas fa-chevron-left"></i></button>
                       </li>
 
@@ -190,7 +196,8 @@
                       </li>
 
                       <li class="page-item">
-                        <button class="page-link btn-default btn-sm border-round-xl" [disabled]="userPage.last" (click)="onNext()"><i
+                        <button class="page-link btn-default btn-sm border-round-xl" [disabled]="userPage.last"
+                                (click)="onNext()"><i
                           class="fas fa-chevron-right"></i></button>
                       </li>
                     </ul>
@@ -460,21 +467,7 @@
 
               <div class="row">
                 <div class="col-md-3">
-                  <div class=" col-sm-10 ">
 
-                      <label class=""><i class="fas fa-info-circle text-info"></i> Espace TT associé :</label>
-                      <div class="input-group input-group-sm">
-
-                        <p class="text-bold "><i class="fas fa-shop text-info"></i>
-                          - {{ utilisateurUpdate?.ett?.adr}} -
-                          <br>
-                          <i class="fas fa-cash-register text-info"></i>
-                          - N°{{ utilisateurUpdate?.caisse?.numCaise}} -
-
-                        </p>
-                      </div>
-
-                  </div>
                   <div class=" col-md-10 ">
                     <div class="form-group">
                       <label>Zone</label>
@@ -483,12 +476,17 @@
                           <span class="input-group-text"><i class="fas fa-globe"></i></span>
                         </div>
                         <select class="form-control" [formControl]="zone">
+                          <option *ngIf="utilisateurUpdate?.ett?.dregional?.zone"
+                                  [value]="utilisateurUpdate?.ett?.dregional?.zone?.idZone " [selected]="true"
+                                  disabled>{{utilisateurUpdate?.ett?.dregional?.zone?.cod_ZONE |titlecase}}</option>
                           <option value="">-- Clear --</option>
-                          <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE}}</option>
+                          <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE |titlecase}}</option>
                         </select>
                       </div>
                     </div>
                   </div>
+
+
 
                   <div class=" col-md-10 ">
                     <div class="form-group">
@@ -498,8 +496,12 @@
                           <span class="input-group-text"><i class="fas fa-city"></i></span>
                         </div>
                         <select class="form-control" [formControl]="dreg">
+                          <option *ngIf="utilisateurUpdate?.ett?.dregional"
+                                  [value]="utilisateurUpdate?.ett?.dregional?.idDr" [selected]="true"
+                                  disabled>{{utilisateurUpdate?.ett?.dregional?.dr |titlecase}}</option>
+
                           <option value="">-- Clear --</option>
-                          <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr}}</option>
+                          <option *ngFor="let item of dreginals" [value]="item.idDr">{{item.dr |titlecase}}</option>
                         </select>
                       </div>
                     </div>
@@ -513,11 +515,22 @@
                           <span class="input-group-text"><i class="fas fa-shop"></i></span>
                         </div>
                         <select class="form-control" [formControl]="ett">
+                          <option *ngIf="utilisateurUpdate?.ett" [value]="utilisateurUpdate?.ett?.idEtt"
+                                  [selected]="true" disabled>{{utilisateurUpdate?.ett?.adr |titlecase}}</option>
                           <option value="">-- Clear --</option>
-                          <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr}}</option>
+                          <option *ngFor="let item of etts" [value]="item.idEtt">{{item.adr |titlecase}}</option>
                         </select>
                       </div>
                     </div>
+                  </div>
+
+                  <div class=" col-sm-10 mt-4 ml-2">
+
+                    <label class=""><i class="fas fa-cash-register text-info"></i> Caisse associé :
+                      - {{ utilisateurUpdate?.caisse?.numCaise ?? 'Vide'}} -
+
+                    </label>
+
                   </div>
 
                 </div>
@@ -527,8 +540,8 @@
                   </p-divider>
                 </div>
                 <div class=" col-md-8 w-min">
-                  <p-pickList [source]="filtredProfils" [target]="profilSelected" sourceHeader="Available Profils"
-                              targetHeader="Selected Profils" [dragdrop]="true" [responsive]="true"
+                  <p-pickList [source]="filtredProfils" [target]="profilSelected" sourceHeader="Available Profiles"
+                              targetHeader="Selected Profiles" [dragdrop]="true" [responsive]="true"
                               (onMoveToTarget)="onAddProfil($event)"
                               (onMoveToSource)="onRemoveProfil($event)"
                               (onMoveAllToSource)="AllRemove($event)"
