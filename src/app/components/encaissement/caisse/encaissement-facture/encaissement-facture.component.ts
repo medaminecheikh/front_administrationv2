@@ -269,7 +269,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     const today = this.today;
     this.factureForm = this.formBuilder.group({
       idFacture: [uuidv4().toString()],
-      refFacture: ['', [Validators.required, this.noWhitespaceStartorEnd]],
+      refFacture: [{ value: uuidv4().slice(3, 18).toString(), disabled: true }, [Validators.required, this.noWhitespaceStartorEnd]],
       produit: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       montant: [null, [Validators.required, Validators.min(1)]],
       solde: [null, [Validators.min(0), Validators.max(100)]],
