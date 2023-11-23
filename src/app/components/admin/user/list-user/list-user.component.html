@@ -36,15 +36,15 @@
             <div class="card-header">
               <h3 class="card-title text-bold">Table Utilisateur</h3>
               <div class="card-tools">
-                <button type="button" class="btn bg-gradient-lightblue btn-sm mr-3 " (click)="searchUsers()">
+                <button type="button" class="btn border-round-xl bg-gradient-lightblue btn-sm mr-3 " (click)="searchUsers()">
                   <i class="fas fa-filter"></i> Recherche
                 </button>
 
-                <button type="button" class="btn btn-default btn-sm  " (click)="resetFilter()">
+                <button type="button" class="btn border-round-xl btn-default btn-sm mr-2 " (click)="resetFilter()">
                   Reset <i class="fas fa-filter-circle-xmark"></i>
                 </button>
                 |
-                <button type="button" class="btn  btn-tool bg-gradient-info" (click)="refresh()">
+                <button type="button" class="btn border-round-xl btn-tool ml-1 bg-gradient-info" (click)="refresh()">
                   <i class="fas fa-sync-alt"></i>
                 </button>
               </div>
@@ -58,11 +58,11 @@
 
 
                 <div class="btn-group col-md-2">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-circle-user"></i></span>
+                  <div class="input-group input-group-sm ">
+                    <div class="input-group-prepend ">
+                      <span class="input-group-text "><i class="fas fa-circle-user"></i></span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Login" [(ngModel)]="keyword">
+                    <input type="text" class="form-control " placeholder="Login" [(ngModel)]="keyword">
 
                   </div>
                 </div>
@@ -185,18 +185,18 @@
                   <div class="btn-group ">
                     <ul class="pagination pagination-sm m-0 float-right">
                       <li class="page-item">
-                        <button class="page-link btn-default btn-sm border-round-xl" [disabled]="userPage.first"
+                        <button class="page-link btn-default btn-sm border-round-sm" [disabled]="userPage.first"
                                 (click)="onPrev()"><i
                           class="fas fa-chevron-left"></i></button>
                       </li>
 
                       <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
-                        <button class="page-link btn-default btn-sm border-round-xl" [disabled]="p === page"
+                        <button class="page-link btn-default btn-sm border-round-sm" [disabled]="p === page"
                                 (click)="goToPage(p)">{{p + 1}}</button>
                       </li>
 
                       <li class="page-item">
-                        <button class="page-link btn-default btn-sm border-round-xl" [disabled]="userPage.last"
+                        <button class="page-link btn-default btn-sm border-round-sm" [disabled]="userPage.last"
                                 (click)="onNext()"><i
                           class="fas fa-chevron-right"></i></button>
                       </li>
@@ -230,15 +230,15 @@
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
 
-                <button type="button" class="btn  btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate">
+                <button type="button" class="btn mx-1 border-round-xl btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate">
                   <i class="far fa-trash-alt"></i>
                 </button>
                 |
-                <button type="button" class="btn  btn-tool  bg-gradient-warning" [disabled]="!utilisateurUpdate"
+                <button type="button" class="btn mx-1 border-round-xl btn-tool  bg-gradient-warning" [disabled]="!utilisateurUpdate"
                         (click)="Clear()"><i class="fas fa-remove"></i>
                 </button>
                 |
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                <button type="button" class="btn  btn-tool" data-card-widget="collapse"><i
                   class="fas fa-minus"></i></button>
 
               </div>

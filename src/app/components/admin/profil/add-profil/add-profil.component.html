@@ -20,7 +20,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 ">
-          <div class="card card-outline card-info">
+          <div class="card border-round-xl card-outline card-info">
             <div class="card-header">
               <h3 class="card-title text-bold">
                 Profil Form
@@ -40,7 +40,7 @@
                       <div class="col-md-5">
                         <div class="form-group">
                           <label>Nom Profil</label>
-                          <input formControlName="nomP" placeholder="Nom " type="text" class="form-control"
+                          <input formControlName="nomP" placeholder="Nom " type="text" class="border-round-xl form-control"
                                  [ngClass]="{'is-invalid': profilForm.get('nomP')?.invalid && showError,'is-valid':profilForm.get('nomP')?.valid && showError}">
                           <span *ngIf="profilForm.get('nomP')?.hasError('required')" class="error invalid-feedback">Nom Profil is required.</span>
                           <span *ngIf="profilForm.get('nomP')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 30
@@ -51,7 +51,7 @@
                       <div class="col-md-7">
                         <div class="form-group">
                           <label>Description</label>
-                          <input formControlName="des_P" placeholder="Description" type="text" class="form-control "
+                          <input formControlName="des_P" placeholder="Description" type="text" class=" border-round-xl form-control "
                                  [ngClass]="{'is-invalid': profilForm.get('des_P')?.invalid && showError,'is-valid':profilForm.get('des_P')?.valid && showError}">
                           <span *ngIf="profilForm.get('des_P')?.hasError('required')" class="error invalid-feedback">Description is required.</span>
                           <span *ngIf="profilForm.get('des_P')?.hasError('maxlength')" class="error invalid-feedback">Maximum length is 100
@@ -81,7 +81,7 @@
 
       <div class="row">
         <div class="col-12">
-          <div class="card  card-outline card-indigo">
+          <div class="card border-round-xl card-outline card-indigo">
             <div class="card-header">
 
               <h3 class="card-title text-bold ">Affecter des Fonctions</h3>

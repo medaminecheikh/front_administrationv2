@@ -339,6 +339,7 @@ export class ListUserComponent implements OnInit,OnDestroy {
         forkJoin(requests).pipe(
           catchError((err) => {
             console.error(err);
+            this.toastr.error('Une erreur s\'est produite lors de la modification de l\'utilisateur.');
             // Error handling logic here
             return err;
           })

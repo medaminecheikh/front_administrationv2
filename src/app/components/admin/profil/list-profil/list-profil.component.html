@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Modifier Profil</h1>
+          <h1 class="m-0">Modifier Profile</h1>
         </div>
 
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Home</a></li>
-            <li class="breadcrumb-item active">Modifier Profil</li>
+            <li class="breadcrumb-item active">Modifier Profile</li>
           </ol>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <div class="col">
           <div class="d-flex justify-content-center">
             <div class=" text-center">
-              <a class="my-4 h2"><i class="fas fa-search mr-2"></i> Recherche Profil</a>
+              <a class="my-4 h2"><i class="fas fa-search mr-2"></i> Recherche Profile</a>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
                 </button>
 
 
-                <div class="card">
+                <div class="card  border-round-xl">
                   <div class="card-header">
                     <h3 class="card-title"><i class="fas fa-filter"></i> Filters</h3>
                     <div class="card-tools">
@@ -53,10 +53,10 @@
                       <li class="nav-item active">
                         <div class="d-flex align-items-center">
                           <a class="nav-link">
-                            <i class="far fa-file-alt"></i> Nom Profil
+                            <i class="far fa-file-alt"></i> Nom Profile
                           </a>
 
-                          <input type="text" class="form-control form-control-sm col-md-6 mr-2 ml-auto " [(ngModel)]="keyword"/>
+                          <input type="text" class="form-control form-control-sm col-md-6 mr-2 ml-auto border-round-xl " [(ngModel)]="keyword"/>
 
                         </div>
                       </li>
@@ -65,7 +65,7 @@
                           <a class="nav-link">
                             <i class="fas fa-text-width"></i> Description
                           </a>
-                          <input type="text" class="form-control form-control-sm col-md-6 mr-2 ml-auto " [(ngModel)]="desc"/>
+                          <input type="text" class="form-control border-round-xl form-control-sm col-md-6 mr-2 ml-auto " [(ngModel)]="desc"/>
 
                         </div>
                       </li>
@@ -74,7 +74,7 @@
                           <a class="nav-link">
                             <i class="fas fa-arrows-up-down"></i> Size
                           </a>
-                          <select class="form-control form-control-sm col-md-3 mr-2 ml-auto" [(ngModel)]="size">
+                          <select class="form-control border-round-xl form-control-sm col-md-3 mr-2 ml-auto" [(ngModel)]="size">
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
@@ -95,19 +95,19 @@
               </div>
 
               <div class="col-md-9">
-                <div class="card card-primary card-outline">
+                <div class="card border-round-xl card-primary card-outline">
                   <div class="card-header">
-                    <h3 class="card-title text-bold">Table Profils</h3>
+                    <h3 class="card-title text-bold">Table Profiles</h3>
                     <div class="card-tools">
-                      <button type="button" class="btn  btn-tool bg-gradient-danger" [disabled]="!profilUpdate">
+                      <button type="button" class="btn border-round-xl btn-tool bg-gradient-danger" [disabled]="!profilUpdate">
                         <i class="far fa-trash-alt"></i>
                       </button>
                       |
-                      <button type="button" class="btn  btn-tool  bg-gradient-warning" [disabled]="!profilUpdate"
+                      <button type="button" class="btn  btn-tool border-round-xl  bg-gradient-warning" [disabled]="!profilUpdate"
                               (click)="Clear()"><i class="fas fa-remove"></i>
                       </button>
                       |
-                      <button type="button" class="btn  btn-tool bg-gradient-info" (click)="refresh()">
+                      <button type="button" class="btn  btn-tool border-round-xl bg-gradient-info" (click)="refresh()">
                         <i class="fas fa-sync-alt"></i>
                       </button>
                     </div>
@@ -122,18 +122,18 @@
 
                         <ul class="pagination pagination-sm  m-1 ">
                           <li class="page-item">
-                            <button class="page-link btn-default btn-sm" [disabled]="userPage.first"
+                            <button class="page-link border-round-sm btn-default btn-sm" [disabled]="userPage.first"
                                     (click)="onPrev()"><i
                               class="fas fa-chevron-left"></i></button>
                           </li>
 
                           <li class="page-item" *ngFor="let p of pages" [class.active]="p === page">
-                            <button class="page-link btn-default btn-sm" [disabled]="p === page"
+                            <button class="page-link border-round-sm btn-default btn-sm" [disabled]="p === page"
                                     (click)="goToPage(p)">{{p + 1}}</button>
                           </li>
 
                           <li class="page-item">
-                            <button class="page-link btn-default btn-sm" [disabled]="userPage.last"
+                            <button class="page-link border-round-sm btn-default btn-sm" [disabled]="userPage.last"
                                     (click)="onNext()"><i
                               class="fas fa-chevron-right"></i></button>
                           </li>
@@ -147,7 +147,7 @@
                         <thead>
                         <tr>
 
-                          <th>Nom Profil</th>
+                          <th>Nom Profile</th>
                           <th>Description</th>
                           <th>Liste des Fonctions</th>
 
@@ -201,7 +201,7 @@
                 <li class="nav-item">
                   <a class="nav-link active text-bold" id="custom-tabs-four-profile-tab" data-toggle="pill"
                      href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile"
-                     aria-selected="false"><i class="fas fa-id-card"></i> Profil Form</a>
+                     aria-selected="false"><i class="fas fa-id-card"></i> Profile Form</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link  text-bold" id="custom-tabs-four-home-tab" data-toggle="pill"
