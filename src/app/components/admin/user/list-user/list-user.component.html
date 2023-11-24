@@ -83,6 +83,14 @@
                     <input type="text" class="form-control " placeholder="prenom" [(ngModel)]="prenom">
                   </div>
                 </div>
+                <div class="btn-group col-md-2">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                    </div>
+                    <input type="text" class="form-control " placeholder="Matricule" [(ngModel)]="prenom">
+                  </div>
+                </div>
                 <div class="btn-group col-md-auto">
                   <div class="input-group input-group-sm">
 
@@ -94,6 +102,60 @@
                       <option value="0">Desactiver</option>
                       <option value="1">Activer</option>
                     </select>
+                  </div>
+                </div>
+                <div class="btn-group col-md-auto">
+                  <div class="input-group input-group-sm">
+
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user-clock"></i></span>
+                    </div>
+                    <select class="form-control " [(ngModel)]="estActif">
+                      <option value="" selected>-- Validité --</option>
+                      <option value="0">Valide</option>
+                      <option value="1">Expiré</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row col-sm-10 ml-1 mt-2 d-flex justify-content-evenly">
+                  <div class="btn-group col-md-auto">
+                    <div class="input-group input-group-sm">
+
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                      </div>
+                      <select class="form-control " [(ngModel)]="estActif">
+                        <option value="" selected>-- Zone --</option>
+                        <option value="0">Desactiver</option>
+                        <option value="1">Activer</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="btn-group col-md-auto">
+                    <div class="input-group input-group-sm">
+
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-city"></i></span>
+                      </div>
+                      <select class="form-control " [(ngModel)]="estActif">
+                        <option value="" selected>-- D.Regionale --</option>
+                        <option value="0">Desactiver</option>
+                        <option value="1">Activer</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="btn-group col-md-auto">
+                    <div class="input-group input-group-sm">
+
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-face-rolling-eyes"></i></span>
+                      </div>
+                      <select class="form-control " [(ngModel)]="estActif">
+                        <option value="" selected>-- Profils --</option>
+                        <option value="0">Desactiver</option>
+                        <option value="1">Activer</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
 
