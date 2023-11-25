@@ -20,7 +20,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 ">
-          <div class="card card-outline card-info ">
+          <div class="card card-outline card-info border-round-2xl">
             <div class="card-header">
               <h3 class="card-title text-bold">
                 Utilisateur Form
@@ -37,7 +37,7 @@
               <div class="row ml-2">
                 <div class="col-md-12">
                   <form [formGroup]="utilisateurForm">
-                    <div class="row">
+                    <div class="row d-flex justify-content-around">
                       <div class="col-md-2">
                         <div class="form-group">
                           <label> Login</label>
@@ -129,7 +129,7 @@
                     </div>
 
 
-                    <div class="row">
+                    <div class="row d-flex justify-content-around">
                       <div class="col-md-2">
                         <div class="form-group">
                           <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"

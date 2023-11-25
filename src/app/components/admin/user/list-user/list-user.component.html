@@ -54,110 +54,123 @@
             <div class="card-body p-0">
 
 
-              <div class="mailbox-controls">
+              <div class="mailbox-controls p-1 ">
 
 
-                <div class="btn-group col-md-2">
-                  <div class="input-group input-group-sm ">
-                    <div class="input-group-prepend ">
-                      <span class="input-group-text "><i class="fas fa-circle-user"></i></span>
-                    </div>
-                    <input type="text" class="form-control " placeholder="Login" [(ngModel)]="keyword">
+                <form [formGroup]="searchForm" class="border-round-xl">
+                  <div class="row col-sm-12 pt-2 px-2 d-flex justify-content-around">
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm ">
+                        <div class="input-group-prepend ">
+                          <span class="input-group-text "><i class="fas fa-circle-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control " placeholder="Login" formControlName="login">
 
-                  </div>
-                </div>
-                <div class="btn-group col-md-2">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-signature"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="nom" [(ngModel)]="nom">
-
-                  </div>
-                </div>
-                <div class="btn-group col-md-2">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-signature"></i></span>
-                    </div>
-                    <input type="text" class="form-control " placeholder="prenom" [(ngModel)]="prenom">
-                  </div>
-                </div>
-                <div class="btn-group col-md-2">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-signature"></i></span>
-                    </div>
-                    <input type="text" class="form-control " placeholder="Matricule" [(ngModel)]="prenom">
-                  </div>
-                </div>
-                <div class="btn-group col-md-auto">
-                  <div class="input-group input-group-sm">
-
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
-                    </div>
-                    <select class="form-control " [(ngModel)]="estActif">
-                      <option value="" selected>-- Etat --</option>
-                      <option value="0">Desactiver</option>
-                      <option value="1">Activer</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="btn-group col-md-auto">
-                  <div class="input-group input-group-sm">
-
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user-clock"></i></span>
-                    </div>
-                    <select class="form-control " [(ngModel)]="estActif">
-                      <option value="" selected>-- Validité --</option>
-                      <option value="0">Valide</option>
-                      <option value="1">Expiré</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row col-sm-10 ml-1 mt-2 d-flex justify-content-evenly">
-                  <div class="btn-group col-md-auto">
-                    <div class="input-group input-group-sm">
-
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
                       </div>
-                      <select class="form-control " [(ngModel)]="estActif">
-                        <option value="" selected>-- Zone --</option>
-                        <option value="0">Desactiver</option>
-                        <option value="1">Activer</option>
-                      </select>
                     </div>
-                  </div>
-                  <div class="btn-group col-md-auto">
-                    <div class="input-group input-group-sm">
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="nom" formControlName="nomU">
 
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-city"></i></span>
                       </div>
-                      <select class="form-control " [(ngModel)]="estActif">
-                        <option value="" selected>-- D.Regionale --</option>
-                        <option value="0">Desactiver</option>
-                        <option value="1">Activer</option>
-                      </select>
                     </div>
-                  </div>
-                  <div class="btn-group col-md-auto">
-                    <div class="input-group input-group-sm">
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+                        <input type="text" class="form-control " placeholder="prenom" formControlName="prenU">
+                      </div>
+                    </div>
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+                        <input type="text" class="form-control " placeholder="Matricule" formControlName="matricule">
+                      </div>
+                    </div>
+                    <div class="btn-group col-md-auto">
+                      <div class="input-group input-group-sm">
 
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-face-rolling-eyes"></i></span>
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
+                        </div>
+                        <select class="form-control " formControlName="estActif">
+                          <option value="" selected>-- Etat --</option>
+                          <option value="0">Desactiver</option>
+                          <option value="1">Activer</option>
+                        </select>
                       </div>
-                      <select class="form-control " [(ngModel)]="estActif">
-                        <option value="" selected>-- Profils --</option>
-                        <option value="0">Desactiver</option>
-                        <option value="1">Activer</option>
-                      </select>
+                    </div>
+                    <div class="btn-group col-md-auto">
+                      <div class="input-group input-group-sm">
+
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-user-clock"></i></span>
+                        </div>
+                        <select class="form-control " formControlName="is_EXPIRED">
+                          <option value="" selected>-- Validité --</option>
+                          <option value="0">Valide</option>
+                          <option value="1">Expiré</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
+                  <div class="row col-sm-12 ml-1 mt-2 p-2 d-flex justify-content-evenly">
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm">
+
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                        </div>
+                        <select class="form-control " formControlName="zoneId" (change)="selectZoneSearch()">
+                          <option value="" selected disabled>-- Zone --</option>
+                          <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE |titlecase}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm">
+
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-city"></i></span>
+                        </div>
+                        <select class="form-control " formControlName="drId" (change)="selectDrSearch()">
+                          <option value="" selected>-- D.Regionale --</option>
+                          <option *ngFor="let item of drList" [value]="item.idDr">{{item.dr |titlecase}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm">
+
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-shop"></i></span>
+                        </div>
+                        <select class="form-control " formControlName="ettId">
+                          <option value="" selected>-- Espace TT --</option>
+                          <option *ngFor="let item of ettSearch" [value]="item.idEtt">{{item.adr |titlecase}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="btn-group col-md-2">
+                      <div class="input-group input-group-sm">
+
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-face-rolling-eyes"></i></span>
+                        </div>
+                        <select class="form-control " formControlName="profilId">
+                          <option value="" selected>-- Profils --</option>
+                          <option *ngFor="let item of profils" [value]="item.idProfil">{{item.nomP |uppercase}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </form>
 
 
                 <div class="float-md-right">
@@ -189,34 +202,34 @@
                   <ng-container *ngFor="let user of utlisateurs">
                     <tr class="" [class.bg-gradient-lightblue]="user.idUser === utilisateurUpdate?.idUser"
                         (dblclick)="onRowDoubleClick(user)" [style.cursor]="'pointer'">
-                      <td class="text-sm">{{user.login}}</td>
-                      <td class="text-sm">{{user.nomU}}</td>
-                      <td class="text-sm">{{user.prenU}}</td>
+                      <td class="">{{user.login}}</td>
+                      <td class="">{{user.nomU}}</td>
+                      <td class="">{{user.prenU}}</td>
                       <td><span *ngIf="user.estActif===1"> <p-tag icon="pi pi-check" severity="success"
                                                                   value=" Activer "></p-tag></span>
 
                         <span *ngIf="user.estActif===0"> <p-tag icon="pi pi-exclamation-triangle" severity="warning"
                                                                 value=" Desactiver "></p-tag></span>
                       </td>
-                      <td class="text-sm"><i class="text-sm text-oliver fas fa-calendar-plus"></i>
+                      <td class=""><i class="text-sm text-oliver fas fa-calendar-plus"></i>
                         {{user.date_CREATION | date :'MMMM d, y'}}
                       </td>
-                      <td class="text-sm"><i class=" text-sm text-oliver fas fa-clock-rotate-left"></i>
+                      <td class=""><i class=" text-sm text-oliver fas fa-clock-rotate-left"></i>
                         {{user.date_EXPIRED | date :'MMMM d, y'}}
                       </td>
-                      <td class="text-sm">{{user.matricule}}</td>
-                      <td class="text-sm">{{user.descU}}</td>
-                      <td class="text-sm">
+                      <td class="">{{user.matricule}}</td>
+                      <td class="">{{user.descU}}</td>
+                      <td class="">
                         <span *ngIf="!user?.ett?.dregional"><i
                           class="fas fa-exclamation-circle text-cyan"></i> Vide</span>
                         {{user?.ett?.dregional?.dr | titlecase}}
                       </td>
-                      <td class="text-sm">
+                      <td class="">
                         <span *ngIf="!user.ett"><i class="fas fa-exclamation-circle text-cyan"></i> Vide  </span>
                         {{user?.ett?.adr | titlecase}}
                       </td>
                       <td class="mailbox-attachment">
-                        <ng-container class="ml-auto text-sm" *ngFor="let profilee of user.profilUser">
+                        <ng-container class="ml-auto " *ngFor="let profilee of user.profilUser">
                           <p-chip class="mr-2 text-sm" label="{{profilee.profil.nomP}}"
                                   icon="pi pi-check-circle"></p-chip>
 
@@ -310,15 +323,18 @@
               <div class="row ml-2">
                 <div class="col-md-12">
                   <form [formGroup]="utilisateurForm">
-                    <div class="row">
+                    <div class="row  d-flex justify-content-around">
                       <div class="col-md-2">
                         <div class="form-group">
                           <label> Login :</label>
                           <div class="input-group input-group-sm">
-
-                            <p class="text-bold "><i class="fas fa-circle-user"></i>
-                              - {{ utilisateurForm.get('login')?.value }}
-                            </p>
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                            </div>
+                            <input  formControlName="login" placeholder="login" type="text" class="form-control"
+                                   [ngClass]="{'is-invalid': utilisateurForm.get('login')?.invalid && showError,'is-valid':utilisateurForm.get('login')?.valid && showError}">
+                            <span *ngIf="utilisateurForm.get('login')?.hasError('required')"
+                                  class="error invalid-feedback">Login is required.</span>
                           </div>
                         </div>
                       </div>
@@ -396,7 +412,7 @@
                     </div>
 
 
-                    <div class="row">
+                    <div class="row d-flex justify-content-around">
                       <div class="col-md-2">
                         <div class="form-group">
                           <label><i *ngIf="showPassword" class="fas fa-lock-open"></i> <i *ngIf="!showPassword"

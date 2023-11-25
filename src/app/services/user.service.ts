@@ -20,6 +20,23 @@ export class UserService {
 
     return this.http.get<Utilisateur[]>(`${this.host}searchPageUsers`, { params });
   }
+  public findUtilisateurByAll(login: string, nomU: string, prenU: string, matricule:string,estActif:string,is_EXPIRED:string,zoneId:string,drId :string,ettId:string,profilId:string, page: number, size: number):Observable<Utilisateur[]>{
+    const params = new HttpParams()
+      .set('login', login)
+      .set('nomU', nomU)
+      .set('prenU', prenU)
+      .set('matricule', matricule)
+      .set('estActif', estActif)
+      .set('is_EXPIRED', is_EXPIRED)
+      .set('zoneId', zoneId)
+      .set('drId', drId)
+      .set('ettId', ettId)
+      .set('profilId', profilId)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Utilisateur[]>(`${this.host}searchUserBy`, { params });
+  }
   public addUser(user:Utilisateur):Observable<Utilisateur>{
     return this.http.post<Utilisateur>(this.host+"ajouteutilisateur",user);
   }

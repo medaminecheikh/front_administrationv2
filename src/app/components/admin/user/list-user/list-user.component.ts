@@ -22,7 +22,7 @@ import {CaisseService} from "../../../../services/caisse.service";
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.scss']
 })
-export class ListUserComponent implements OnInit,OnDestroy {
+export class ListUserComponent implements OnInit, OnDestroy {
   addedProfils: Profil[] = [];
   removedProfils: Profil[] = [];
   filtredProfils: Profil[] = [];
@@ -31,6 +31,7 @@ export class ListUserComponent implements OnInit,OnDestroy {
   dreg = new FormControl();
   ett = new FormControl();
   utilisateurForm !: FormGroup;
+  searchForm !: FormGroup;
   utilisateurUpdate!: Utilisateur | null;
   profils: Profil[] = [];
   profilSelected: Profil[] = [];
@@ -40,8 +41,8 @@ export class ListUserComponent implements OnInit,OnDestroy {
   ettselected: any;
   showPassword: boolean = false;
   utlisateurs!: Utilisateur[];
-  zoneSub:Subscription[]=[];
-  keyword: string = '';
+  zoneSub: Subscription[] = [];
+  ettSearch: Ett[] = [];
   userPage: Page = {
     totalPages: 0,
     totalElements: 0,
@@ -55,9 +56,8 @@ export class ListUserComponent implements OnInit,OnDestroy {
   page: number = 0;
   size: number = 10;
   pages: number[] = [];
-  nom: string = '';
-  prenom: string = '';
-  estActif: string = '';
+   drList: Dregional[] = [];
+
 
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
@@ -66,11 +66,12 @@ export class ListUserComponent implements OnInit,OnDestroy {
               private toastr: ToastrService, private userService: UserService,
               private profilService: ProfilService,
               private caisseService: CaisseService) {
+    this.initializeSeachForm();
   }
 
   ngOnDestroy(): void {
     this.zoneSub.forEach(value => value.unsubscribe());
-    }
+  }
 
 
   ngOnInit(): void {
@@ -80,6 +81,7 @@ export class ListUserComponent implements OnInit,OnDestroy {
     this.subscribeToDregChanges();
     this.subscribeToEttChanges();
     this.initializeForm();
+
     this.getAllProfils();
 
 
@@ -131,14 +133,16 @@ export class ListUserComponent implements OnInit,OnDestroy {
       date_EXPIRED: user.date_EXPIRED
     });
 
+
     this.profilSelected = user.profilUser.map(value => value.profil);
     this.updateFiltredProfils();
     // Create valueChanges subscription for f_ADM_CEN
     this.utilisateurForm.get('f_ADM_CEN')?.valueChanges.subscribe(value => {
       this.updateFiltredProfils();
     });
-    this.etts =  this.utilisateurUpdate?.ett?.dregional?.etts.filter(value => {
-      return  value.idEtt !== this.utilisateurUpdate?.ett?.idEtt});
+    this.etts = this.utilisateurUpdate?.ett?.dregional?.etts.filter(value => {
+      return value.idEtt !== this.utilisateurUpdate?.ett?.idEtt
+    });
     this.ett.setValue(this.utilisateurUpdate?.ett?.idEtt);
     this.dreginals = this.utilisateurUpdate.ett?.dregional?.zone?.dregionals;
   }
@@ -220,8 +224,8 @@ export class ListUserComponent implements OnInit,OnDestroy {
   }
 
   searchUsers() {
-
-    this.userService.searchUserpage(this.keyword, this.nom, this.prenom, this.estActif, this.page, this.size)
+    const {login,prenU,nomU,matricule,estActif,is_EXPIRED,zoneId,drId,ettId,profilId} = this.searchForm.value;
+    this.userService.findUtilisateurByAll(login,prenU,nomU,matricule,estActif,is_EXPIRED,zoneId,drId,ettId,profilId,this.page, this.size)
       .subscribe(data => {
         this.utlisateurs = data;
         this.userPage.content = data;
@@ -230,8 +234,6 @@ export class ListUserComponent implements OnInit,OnDestroy {
         }
         this.updatePages();
       });
-
-
   }
 
   updatePages() {
@@ -295,7 +297,7 @@ export class ListUserComponent implements OnInit,OnDestroy {
     const utilisateur = this.utilisateurForm.value;
     const pwd = this.utilisateurForm.controls['pwdU'].value;
     const confirmedPwd = this.utilisateurForm.controls['confirmedpassword'].value;
-    const updateUser=this.utilisateurUpdate;
+    const updateUser = this.utilisateurUpdate;
     if ((pwd && confirmedPwd) || (!pwd && !confirmedPwd)) {
       // Password and confirmed password are both present or both absent
       if (this.utilisateurForm.valid || (!pwd && !confirmedPwd)) {
@@ -318,17 +320,16 @@ export class ListUserComponent implements OnInit,OnDestroy {
           }
         }
 
-        if (this.ettselected ) {
+        if (this.ettselected) {
           console.log("ettselected", this.ettselected)
-          if (this.ettselected!==updateUser?.ett?.idEtt ) {
+          if (this.ettselected !== updateUser?.ett?.idEtt) {
             requests.push(this.caisseService.removeUser(utilisateur.idUser));
 
           }
           requests.push(this.userService.affecterUserToEtt(utilisateur.idUser, this.ettselected));
 
 
-            console.log(":::::: SEND IT !!!!!")
-
+          console.log(":::::: SEND IT !!!!!")
 
 
         }
@@ -360,7 +361,8 @@ export class ListUserComponent implements OnInit,OnDestroy {
             }, () => {
             });
           }
-        },()=>{});
+        }, () => {
+        });
       } else {
         this.toastr.error('Veuillez remplir tous les champs obligatoires et respecter les contraintes de validation.');
       }
@@ -378,10 +380,9 @@ export class ListUserComponent implements OnInit,OnDestroy {
 
 
   resetFilter() {
-    this.nom = '';
-    this.prenom = '';
-    this.keyword = '';
-    this.estActif = '';
+    this.initializeSeachForm();
+    this.drList = [];
+
     this.size = 10;
 
   }
@@ -389,21 +390,24 @@ export class ListUserComponent implements OnInit,OnDestroy {
   fetchZones() {
     // Fetch the list of zones on component initialization
     this.zoneService.getZones().subscribe(
-      zones => this.zones = zones,
+      zones => {
+        this.zones = zones
+      },
+
       error => console.error(error)
     );
   }
 
   private subscribeToZoneChanges() {
     // Subscribe to the value changes of the zone form control
-  const zone= this.zone.valueChanges.subscribe(
+    const zone = this.zone.valueChanges.subscribe(
       zoneId => {
         this.onSelectionzone();
         // Fetch the associated dreginals when the zone value changes
         if (zoneId) {
           const selectedZone = this.zones.find(zone => zone.idZone === zoneId);
           if (selectedZone) {
-          const dr= this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
+            const dr = this.dregionalService.getDregionalsByZone(selectedZone.idZone).subscribe(
               dreginals => {
                 this.dreginals = dreginals;
                 this.dreg.reset();
@@ -427,14 +431,14 @@ export class ListUserComponent implements OnInit,OnDestroy {
 
   private subscribeToDregChanges() {
     // Subscribe to the value changes of the dreg form control
-    const dreg= this.dreg.valueChanges.subscribe(
+    const dreg = this.dreg.valueChanges.subscribe(
       dregId => {
         this.onSelectionzone();
         // Fetch the associated etts when the dreg value changes
         if (dregId) {
           const selectedDreg = this.dreginals.find(dreg => dreg.idDr === dregId);
           if (selectedDreg) {
-          const ett= this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
+            const ett = this.ettService.getEttsByDrId(selectedDreg.idDr).subscribe(
               etts => {
                 this.etts = etts;
                 this.ett.reset(); // reset the ett form control
@@ -462,7 +466,7 @@ export class ListUserComponent implements OnInit,OnDestroy {
 
   private initializeForm() {
     this.utilisateurForm = this.formBuilder.group({
-      login: [''],
+      login: [{value:'',disabled: true }],
       idUser: [''],
       nomU: ['', this.noWhitespaceStartorEnd],
       pwdU: [null, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
@@ -477,5 +481,45 @@ export class ListUserComponent implements OnInit,OnDestroy {
     }, {validator: this.passwordMatchValidator});
   }
 
+  initializeSeachForm() {
+    this.searchForm = this.formBuilder.group({
+      login: [''],
+      profilId: [''],
+      drId: [''],
+      ettId: [''],
+      zoneId: [''],
+      nomU: [''],
+      prenU: [''],
+      matricule: [''],
+      estActif: [''],
+      is_EXPIRED: ['']
 
+    });
+  }
+
+
+  selectZoneSearch() {
+    const selectedZoneId = this.searchForm.get('zoneId')?.value;
+
+    if (selectedZoneId) {
+      const selectedZone = this.zones.find(value => value.idZone === selectedZoneId);
+      this.drList = [];
+      if (selectedZone) {
+        this.drList.push(...selectedZone.dregionals);
+
+      }
+    }
+  }
+
+  selectDrSearch() {
+    const selectedDrId = this.searchForm.get('drId')?.value;
+    if (selectedDrId) {
+      const selectedDr= this.drList.find(value => value.idDr === selectedDrId);
+      this.ettSearch = []
+      if (selectedDr) {
+        this.ettSearch.push(...selectedDr?.etts);
+
+      }
+    }
+  }
 }
