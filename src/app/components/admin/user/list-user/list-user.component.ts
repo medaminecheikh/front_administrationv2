@@ -382,7 +382,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
   resetFilter() {
     this.initializeSeachForm();
     this.drList = [];
-
+    this.ettSearch = [];
     this.size = 10;
 
   }

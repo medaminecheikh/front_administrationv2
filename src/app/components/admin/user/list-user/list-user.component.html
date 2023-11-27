@@ -128,7 +128,7 @@
                           <span class="input-group-text"><i class="fas fa-globe"></i></span>
                         </div>
                         <select class="form-control " formControlName="zoneId" (change)="selectZoneSearch()">
-                          <option value="" selected disabled>-- Zone --</option>
+                          <option value="" selected >-- Zone --</option>
                           <option *ngFor="let item of zones" [value]="item.idZone">{{item.cod_ZONE |titlecase}}</option>
                         </select>
                       </div>
@@ -157,7 +157,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="btn-group col-md-2">
+                    <div class="btn-group col-md-auto">
                       <div class="input-group input-group-sm">
 
                         <div class="input-group-prepend">
