@@ -180,22 +180,22 @@
 
               </div>
 
-              <div class="table-responsive mailbox-messages">
-                <table class="table table-hover table-striped">
+              <div class="table-responsive mailbox-messages smooth-scroll">
+                <table class="table table-hover table-striped smooth-scroll">
 
                   <thead>
                   <tr>
-                    <th>login</th>
-                    <th>Nom</th>
-                    <th>Prenom</th>
-                    <th>Etat</th>
-                    <th>Date creation</th>
-                    <th>Date expiration</th>
-                    <th>Matricule</th>
-                    <th>Description</th>
-                    <th>D.Regionale</th>
-                    <th>Ett</th>
-                    <th>Profils</th>
+                    <th style="min-width: 100px;">Login</th>
+                    <th style="min-width: 100px;">Nom</th>
+                    <th style="min-width: 100px;">Prenom</th>
+                    <th style="min-width: 80px;">Etat</th>
+                    <th style="min-width: 150px;">Date creation</th>
+                    <th style="min-width: 150px;">Date expiration</th>
+                    <th style="min-width: 100px;">D.Regionale</th>
+                    <th style="min-width: 100px;">Ett</th>
+                    <th style="min-width: 100px;">Profils</th>
+                    <th style="min-width: 100px;">Matricule</th>
+                    <th style="min-width: 150px;">Description</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -211,14 +211,13 @@
                         <span *ngIf="user.estActif===0"> <p-tag icon="pi pi-exclamation-triangle" severity="warning"
                                                                 value=" Desactiver "></p-tag></span>
                       </td>
-                      <td class=""><i class="text-sm text-oliver fas fa-calendar-plus"></i>
+                      <td class="text-sm"><i class="text-sm text-oliver fas fa-calendar-plus"></i>
                         {{user.date_CREATION | date :'MMMM d, y'}}
                       </td>
-                      <td class=""><i class=" text-sm text-oliver fas fa-clock-rotate-left"></i>
+                      <td class="text-sm"><i class=" text-sm text-oliver fas fa-clock-rotate-left"></i>
                         {{user.date_EXPIRED | date :'MMMM d, y'}}
                       </td>
-                      <td class="">{{user.matricule}}</td>
-                      <td class="">{{user.descU}}</td>
+
                       <td class="">
                         <span *ngIf="!user?.ett?.dregional"><i
                           class="fas fa-exclamation-circle text-cyan"></i> Vide</span>
@@ -228,14 +227,18 @@
                         <span *ngIf="!user.ett"><i class="fas fa-exclamation-circle text-cyan"></i> Vide  </span>
                         {{user?.ett?.adr | titlecase}}
                       </td>
-                      <td class="mailbox-attachment">
-                        <ng-container class="ml-auto " *ngFor="let profilee of user.profilUser">
-                          <p-chip class="mr-2 text-sm" label="{{profilee.profil.nomP}}"
+                      <td class="d-flex justify-content-start">
+                        <div class=" " *ngFor="let profilee of user.profilUser">
+                          <p-chip class="text-sm" styleClass="" label="{{profilee.profil.nomP}}"
                                   icon="pi pi-check-circle"></p-chip>
-
-                        </ng-container>
+                        </div>
+                        <div *ngIf="!user?.profilUser ||user.profilUser.length===0">
+                          <p-chip class="text-sm " styleClass="" label="Aucun"
+                                  icon="pi pi-exclamation-triangle" ></p-chip>
+                        </div>
                       </td>
-
+                      <td class="">{{user.matricule}}</td>
+                      <td class="">{{user.descU}}</td>
                     </tr>
 
                   </ng-container>
