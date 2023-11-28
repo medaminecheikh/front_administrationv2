@@ -4,21 +4,23 @@
 
     <div class="card card-outline card-primary border-round-2xl ">
       <div class="card-header text-center">
-        <a  class="h1"><b>Encaissement</b> TT</a>
+        <div class="ml-2 row d-flex justify-content-evenly"  ><h1>Encaissement</h1>
+          <img class="img-size-64 " src="assets/img/logo.png" >
+        </div>
       </div>
       <div class="card-body ">
         <p class="login-box-msg ">Sign in to start your session</p>
         <form (ngSubmit)="onSubmit()" >
-          <div class="input-group input-container mb-3">
-            <input type="text" class="form-control" placeholder="Username" [(ngModel)]="form.username" name="username" >
+          <div class="input-group  mb-3">
+            <input type="text" class="form-control border-round-left-xl" placeholder="Username" [(ngModel)]="form.username" name="username" >
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fa-solid fa-circle-user"></span>
               </div>
             </div>
           </div>
-          <div class="input-group input-container mb-3">
-            <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control " placeholder="Password" [(ngModel)]="form.password" name="password">
+          <div class="input-group  mb-3">
+            <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control border-round-left-xl" placeholder="Password" [(ngModel)]="form.password" name="password">
             <div class="input-group-append " (click)="togglePasswordVisibility()">
               <div [style.cursor]="'pointer'" class="input-group-text">
                 <span  class="fas" [ngClass]="{'fa-lock': !showPassword, 'fa-lock-open': showPassword}"></span>

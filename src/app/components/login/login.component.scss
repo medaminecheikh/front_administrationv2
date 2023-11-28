@@ -33,35 +33,4 @@
 }
 //input
 
-.input-container {
-  position: relative;
-  margin-bottom: 20px; /* Adjust as needed for your layout */
-}
-
-.input-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(240, 240, 240, 0.8); /* Calmer white background with some transparency */
-  filter: blur(20px); /* Blur effect */
-  z-index: -1;
-  border-radius: 10px; /* Adjust the border-radius to match your card */
-}
-
-.input-container input {
-  position: relative;
-  z-index: 2;
-  padding: 10px; /* Adjust as needed */
-  border: none; /* Remove default input border */
-  border-radius: 10px; /* Adjust to match your card */
-  color: #333; /* Text color, adjust as needed */
-}
-
-/* Additional styling for placeholder text if needed */
-.input-container input::placeholder {
-  color: #666; /* Adjust placeholder text color */
-}
 
