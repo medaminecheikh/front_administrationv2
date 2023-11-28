@@ -2,12 +2,12 @@
 
   <div class="login-box  ">
 
-    <div class="card card-outline card-primary ">
+    <div class="card card-outline card-primary border-round-2xl ">
       <div class="card-header text-center">
         <a  class="h1"><b>Encaissement</b> TT</a>
       </div>
-      <div class="card-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+      <div class="card-body ">
+        <p class="login-box-msg ">Sign in to start your session</p>
         <form (ngSubmit)="onSubmit()" >
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Username" [(ngModel)]="form.username" name="username" >
@@ -18,8 +18,8 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control" placeholder="Password" [(ngModel)]="form.password" name="password">
-            <div class="input-group-append" (click)="togglePasswordVisibility()">
+            <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control " placeholder="Password" [(ngModel)]="form.password" name="password">
+            <div class="input-group-append " (click)="togglePasswordVisibility()">
               <div [style.cursor]="'pointer'" class="input-group-text">
                 <span  class="fas" [ngClass]="{'fa-lock': !showPassword, 'fa-lock-open': showPassword}"></span>
               </div>
@@ -27,7 +27,7 @@
           </div>
 
             <div class="social-auth-links text-center mt-2 mb-3">
-              <button  class="btn btn-block btn-primary">
+              <button  class="btn btn-block btn-primary border-round-xl">
                  Login    <i class="fas fa-arrow-right-to-bracket "></i>
               </button>
             </div>

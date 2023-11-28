@@ -5,3 +5,29 @@
   background-repeat: no-repeat; /* Prevent background image from repeating */
   background-attachment: fixed; /* Keeps the background fixed while content scrolls */
 }
+
+//blur and transparent
+.card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.7); /* Increased transparency (last value) */
+  border-radius: 10px; /* Adjust the border-radius as needed */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Increased shadow with a lighter color */
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  filter: blur(15px); /* Increased blur intensity */
+  z-index: -1;
+}
+
+.card-body {
+  padding: 20px;
+  color: #333; /* Text color, adjust as needed */
+}
