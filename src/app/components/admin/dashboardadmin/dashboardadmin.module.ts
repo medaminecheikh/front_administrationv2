@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {DashboardadminRoutingModule} from './dashboardadmin-routing.module';
 import {DashboardadminComponent} from './dashboardadmin.component';
+import {NgChartsModule} from "ng2-charts";
 
 
 
@@ -10,9 +11,10 @@ import {DashboardadminComponent} from './dashboardadmin.component';
   declarations: [
     DashboardadminComponent
   ],
-  imports: [
-    CommonModule,
-    DashboardadminRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        DashboardadminRoutingModule,
+        NgChartsModule
+    ]
 })
 export class DashboardadminModule { }

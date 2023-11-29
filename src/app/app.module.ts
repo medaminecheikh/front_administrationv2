@@ -23,6 +23,7 @@ import {RippleModule} from "primeng/ripple";
 import {ConfirmationService} from "primeng/api";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {DialogService} from "primeng/dynamicdialog";
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {DialogService} from "primeng/dynamicdialog";
         ButtonModule,
         RippleModule,
         ConfirmDialogModule,
+        NgChartsModule,
 
     ],
   providers: [

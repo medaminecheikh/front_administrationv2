@@ -19,6 +19,7 @@ import {LayoutsModule} from "../../layouts/layouts/layouts.module";
     LayoutsModule,
 
 
+
   ]
 })
 export class AdminModule { }

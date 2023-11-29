@@ -8,6 +8,7 @@ import {UserService} from "../../../services/user.service";
 import {EttService} from "../../../services/ett.service";
 import {ToastrService} from "ngx-toastr";
 import {FactureService} from "../../../services/facture.service";
+import {ChartConfiguration, ChartOptions} from "chart.js";
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +28,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
   nbrEmploye: number = 0;
   nbrCaisse: number = 0;
 
+  title = 'ng2-charts-demo';
+
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July'
+    ],
+    datasets: [
+      {
+        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        label: 'Series A',
+        fill: true,
+        tension: 0.5,
+        borderColor: 'black',
+        backgroundColor: 'rgba(255,0,0,0.3)'
+      }
+    ]
+  };
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: false
+  };
+  public lineChartLegend = true;
   constructor(private authService: AuthService, private userService: UserService
     , private ettService: EttService,
               private toastr: ToastrService, private factureService: FactureService) {
