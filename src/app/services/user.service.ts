@@ -46,6 +46,10 @@ export class UserService {
   public getUserById(id:String):Observable<Utilisateur>{
     return this.http.get<Utilisateur>(this.host+"utilisateur/"+id);
   }
+
+  public getUserByZoneId(id: string): Observable<Utilisateur[]> {
+    return this.http.get<Utilisateur[]>(this.host + "utilisateurbyzone/" + id);
+  }
   public affectProfilToUser(idUser:String,idProfile:String){
     return this.http.put(this.host+"affecterProfiletoUser/"+idUser+"/"+idProfile,null);
   }
@@ -60,5 +64,8 @@ export class UserService {
   }
   public getUserBylogin(login:String):Observable<Utilisateur>{
     return this.http.get<Utilisateur>(this.host+"utilisateurlogin/"+login);
+  }
+  public getUserAll():Observable<Utilisateur[]>{
+    return this.http.get<Utilisateur[]>(this.host+"utilisateurs");
   }
 }

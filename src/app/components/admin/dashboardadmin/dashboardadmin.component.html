@@ -24,12 +24,12 @@
           <div class="small-box bg-info">
             <div class="inner">
               <h3>44</h3>
-              <p>User Registrations</p>
+              <p>Profils </p>
             </div>
             <div class="icon">
               <i class="fas fa-circle-info"></i>
             </div>
-            <a routerLink="/admin/user/dashboard" class="small-box-footer">More info <i
+            <a routerLink="/admin/profil/add" class="small-box-footer">More info <i
               class="fas fa-arrow-circle-right"></i></a>
           </div>
 
@@ -70,7 +70,7 @@
 
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>65</h3>
+              <h3>{{listUsersExpired.length}}</h3>
               <p>Utilisateur Expiré</p>
             </div>
             <div class="icon">
@@ -84,21 +84,105 @@
       </div>
 
       <br>
-      <div class="row">
-        <div class="col-md-12 d-flex justify-content-around">
-          <div class="col-4 card pb-0 card-outline card-danger border-round-2xl">
-            <div class="card-header "> <i class="card-title h5"> Pourcentage Employé</i></div>
-            <div class="chart">
-              <canvas baseChart
-                      [type]="'pie'"
-                      [datasets]="pieChartDatasets"
-                      [labels]="pieChartLabels"
-                      [options]="pieChartOptions"
-                      [plugins]="pieChartPlugins"
-                      [legend]="pieChartLegend"
-                      style="max-height: 350px;">
-              </canvas>
+      <div class="row ">
+        <div class="col-md-12 card card-outline blur card-blue border-round-2xl ">
+          <div class="card-header  "><p class=" text-center h4"><i class="fas fa-chart-simple mr-2"></i> Statistique des Employés</p></div>
+          <div class="d-flex justify-content-around py-4">
+            <div class="col-7 ">
+              <div class="chart my-auto">
+                <canvas id="MyChart" width="700">{{chartBars}}</canvas>
+              </div>
             </div>
+            <div class="col-4 ">
+              <div class="info-box  mb-3 bg-cyan-300 border-round-2xl shadow-3">
+                <span class="info-box-icon"><i class="fas fa-user-secret"></i></span>
+                <div class="info-box-content">
+                  <div class="row ">
+                    <div class="col-7 "><span class="info-box-text h5">Admin </span>
+                      <span class="info-box-number">{{listUsersAdmin.length}}</span></div>
+                    <div class="col-3 text-right">
+                      <div class="inner ">
+                        <h2>{{(listUsersAdmin.length*100)/listUsers.length |  number:'1.0-2' }}<sup style="font-size: 20px">%</sup></h2>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="info-box shadow-3  mb-3 bg-green-300 border-round-2xl">
+                <span class="info-box-icon"><i class="fas fa-user-astronaut "></i></span>
+                <div class="info-box-content">
+                  <div class="row ">
+                    <div class="col-7 "><span class="info-box-text h5"> Back-Office </span>
+                      <span class="info-box-number">{{listUsersBO.length}}</span></div>
+                    <div class="col-3 text-right">
+                      <div class="inner ">
+                        <h2>{{(listUsersBO.length * 100) / listUsers.length | number:'1.0-2' }}<sup style="font-size: 20px">%</sup></h2>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="info-box shadow-3 mb-3 bg-yellow-400 border-round-2xl">
+                <span class="info-box-icon"><i class="fas fa-cash-register"></i></span>
+                <div class="info-box-content">
+                  <div class="row ">
+                    <div class="col-7 "><span class="info-box-text h5">Front-Office </span>
+                      <span class="info-box-number">{{listUsersFO.length}}</span></div>
+                    <div class="col-3 text-right">
+                      <div class="inner ">
+                        <h2>{{((listUsersFO.length * 100) / listUsers.length)|  number:'1.0-2' }}<sup style="font-size: 20px">%</sup></h2>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-sm-3 col-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                  <h5 class="description-header">$35,210.43</h5>
+                  <span class="description-text">TOTAL REVENUE</span>
+                </div>
+
+              </div>
+
+              <div class="col-sm-3 col-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                  <h5 class="description-header">$35,210.43</h5>
+                  <span class="description-text">TOTAL COST</span>
+                </div>
+
+              </div>
+
+              <div class="col-sm-3 col-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                  <h5 class="description-header">$24,813.53</h5>
+                  <span class="description-text">TOTAL PROFIT</span>
+                </div>
+
+              </div>
+
+              <div class="col-sm-3 col-6">
+                <div class="description-block">
+                  <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                  <h5 class="description-header">1200</h5>
+                  <span class="description-text">GOAL COMPLETIONS</span>
+                </div>
+
+              </div>
+            </div>
+
           </div>
         </div>
 

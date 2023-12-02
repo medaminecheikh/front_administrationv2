@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   nbrEmploye: number = 0;
   nbrCaisse: number = 0;
 
-  title = 'ng2-charts-demo';
 
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: [
@@ -41,13 +40,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       'July'
     ],
     datasets: [
-      {
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
-        label: 'Series A',
+     {
+        data: [ 70, 30, 60, 50, 30, 90, 40 ],
+        label: 'Revenue',
         fill: true,
         tension: 0.5,
         borderColor: 'black',
-        backgroundColor: 'rgba(255,0,0,0.3)'
+        backgroundColor: 'rgba(87,171,220,0.78)'
       }
     ]
   };
