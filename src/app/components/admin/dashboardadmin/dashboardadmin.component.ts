@@ -12,6 +12,8 @@ import {Utilisateur} from "../../../modules/Utilisateur";
 import {Ett} from "../../../modules/Ett";
 import {catchError, lastValueFrom, Subscription} from "rxjs";
 import {AuthService} from "../../../services/auth/auth.service";
+import {ProfilService} from "../../../services/profil.service";
+import {Profil} from "../../../modules/Profil";
 
 
 @Component({
@@ -33,9 +35,12 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
   ettSubscription!: Subscription;
   subscriptions: Subscription[] = [];
   zone = new FormControl('');
+   listUsersMiss: Utilisateur[]=[];
+   listProfils: Profil[]=[];
 
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
+              private profilService: ProfilService,
               private authService: AuthService,
               private ettService: EttService,
               private router: Router, private formBuilder: FormBuilder,
@@ -54,7 +59,19 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllUsers();
     this.getUser();
+    this.getProfils();
 
+  }
+
+  getProfils() {
+    const sub = this.profilService.getAllProfiles().subscribe({
+      next: (profils) => {
+        this.listProfils = profils;
+      },
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
+    });
+    this.subscriptions.push(sub);
   }
 
   getUser() {
@@ -116,16 +133,15 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
   }
 
   getZones() {
-    this.zoneService.getZones().subscribe((zones) => {
+   const sub= this.zoneService.getZones().subscribe((zones) => {
       this.listZone = zones;
-      console.log(zones);
-
     }, (error) => {
       this.toastr.error('Could not get zones list !', 'Error');
       console.error(error);
     }, () => {
       this.createChart();
     });
+    this.subscriptions.push(sub);
   }
 
   private configChart(labels:any,actif:any,expire:any) {
@@ -156,12 +172,17 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
   }
 
   private getAllUsers() {
-    this.userService.getUserAll().subscribe((users) => {
+    const sub = this.userService.getUserAll().subscribe((users) => {
       this.listUsers = users;
+      this.listUsersMiss = users.filter(user => !user.profilUser || !user.ett);
       this.listUsersBO = users.filter(user => user.profilUser && user.profilUser.some(profil => profil.profil.nomP.includes('BO')));
-      this.listUsersFO=users.filter(user => user.profilUser && user.profilUser.some(profil => profil.profil.nomP.includes('FO')));
-      this.listUsersAdmin=users.filter(user => user.profilUser && user.profilUser.some(profil => profil.profil.nomP.includes('ADMIN')));
-      this.listUsersExpired=users.filter(values => values.estActif === 0 || values.is_EXPIRED === 1);
+      this.listUsersFO = users.filter(user => user.profilUser && user.profilUser.some(profil => profil.profil.nomP.includes('FO')));
+      this.listUsersAdmin = users.filter(user => user.profilUser && user.profilUser.some(profil => profil.profil.nomP.includes('ADMIN')));
+      this.listUsersExpired = users.filter(values => values.estActif === 0 || values.is_EXPIRED === 1);
+    }, error => {
+      console.error(error);
     });
+    this.subscriptions.push(sub);
   }
+
 }

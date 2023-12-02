@@ -23,13 +23,13 @@
         <div class="col-lg-3 col-6">
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>44</h3>
-              <p>Profils </p>
+              <h3>{{listProfils.length}}</h3>
+              <p>Profils créés</p>
             </div>
             <div class="icon">
               <i class="fas fa-circle-info"></i>
             </div>
-            <a routerLink="/admin/profil/add" class="small-box-footer">More info <i
+            <a routerLink="/admin/profil/add" class="small-box-footer">Créer Profil <i
               class="fas fa-arrow-circle-right"></i></a>
           </div>
 
@@ -55,8 +55,8 @@
 
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>150</h3>
-              <p>New Orders</p>
+              <h3>{{listUsersMiss.length}}</h3>
+              <p>Utilisateurs incomplets</p>
             </div>
             <div class="icon">
               <i class="fas fa-tools"></i>
@@ -167,8 +167,8 @@
               <div class="col-sm-3 col-6">
                 <div class="description-block border-right">
                   <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                  <h5 class="description-header">$24,813.53</h5>
-                  <span class="description-text">TOTAL PROFIT</span>
+                  <h5 class="description-header">{{listZone.length}}</h5>
+                  <span class="description-text">Nombre Zones</span>
                 </div>
 
               </div>
@@ -176,8 +176,8 @@
               <div class="col-sm-3 col-6">
                 <div class="description-block">
                   <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                  <h5 class="description-header">1200</h5>
-                  <span class="description-text">GOAL COMPLETIONS</span>
+                  <h5 class="description-header">{{listUsers.length}}</h5>
+                  <span class="description-text">TOTAL Employés</span>
                 </div>
 
               </div>
