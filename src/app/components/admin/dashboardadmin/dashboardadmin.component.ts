@@ -10,7 +10,7 @@ import {ToastrService} from "ngx-toastr";
 import {UserService} from "../../../services/user.service";
 import {Utilisateur} from "../../../modules/Utilisateur";
 import {Ett} from "../../../modules/Ett";
-import {catchError, lastValueFrom, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {AuthService} from "../../../services/auth/auth.service";
 import {ProfilService} from "../../../services/profil.service";
 import {Profil} from "../../../modules/Profil";
@@ -35,8 +35,8 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
   ettSubscription!: Subscription;
   subscriptions: Subscription[] = [];
   zone = new FormControl('');
-   listUsersMiss: Utilisateur[]=[];
-   listProfils: Profil[]=[];
+  listUsersMiss: Utilisateur[] = [];
+  listProfils: Profil[] = [];
 
   constructor(private zoneService: ZoneService,
               private dregionalService: DrService,
@@ -105,7 +105,7 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
       });
   }
 
- async createChart() {
+  async createChart() {
     let labels: string[] = [];
     let actif: number[] = [];
     let expire: number[] = [];
@@ -128,12 +128,12 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
         console.error(e);
       }
     }
-    this.configChart(labels,actif,expire);
+    this.configChart(labels, actif, expire);
 
   }
 
   getZones() {
-   const sub= this.zoneService.getZones().subscribe((zones) => {
+    const sub = this.zoneService.getZones().subscribe((zones) => {
       this.listZone = zones;
     }, (error) => {
       this.toastr.error('Could not get zones list !', 'Error');
@@ -144,7 +144,7 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub);
   }
 
-  private configChart(labels:any,actif:any,expire:any) {
+  private configChart(labels: any, actif: any, expire: any) {
     this.chartBars = new Chart("MyChart", {
       type: 'bar', //this denotes tha type of chart
 
@@ -183,6 +183,36 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
       console.error(error);
     });
     this.subscriptions.push(sub);
+  }
+
+  pourcentageUsers(): number {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    const thisMonth = this.listUsers.filter(value => {
+      const creationDate = new Date(value.date_CREATION);
+      return (
+        creationDate.getMonth() === currentMonth &&
+        creationDate.getFullYear() === currentYear
+      );
+    });
+
+    const lastMonth = this.listUsers.filter(value => {
+      const creationDate = new Date(value.date_CREATION);
+      const creationMonth = creationDate.getMonth();
+      const creationYear = creationDate.getFullYear();
+
+      // Check if the user was created in the previous month of the current year
+      return (
+        (creationYear === currentYear && creationMonth === currentMonth - 1 && currentMonth !== 0)
+      );
+    });
+
+    const totalUsers = thisMonth.length + lastMonth.length;
+
+    // Calculate the percentage
+    return totalUsers > 0 ? (lastMonth.length / totalUsers) * 100 : 0;
   }
 
 }
