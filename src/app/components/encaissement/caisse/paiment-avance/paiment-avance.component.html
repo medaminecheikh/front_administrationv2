@@ -410,8 +410,11 @@
                   <div class="overflow-y-auto smooth-scroll " style="max-height: 350px">
                     <p-timeline [value]="getSortedEncaissements(factureSelected?.encaissements || []) || []">
                       <ng-template pTemplate="marker" let-encaiss>
-                        <span class="custom-marker ">
+                        <span class="custom-marker " *ngIf="encaiss.etatEncaissement!=='DELETE'">
                            <i class="fas fa-check-circle text-green-600"></i>
+                        </span>
+                        <span class="custom-marker " *ngIf="encaiss.etatEncaissement==='DELETE'">
+                           <i class="fas fa-face-frown text-gray-600"></i>
                         </span>
                       </ng-template>
                       <ng-template pTemplate="content" let-encaiss>

@@ -103,7 +103,9 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       let montantOriginal = (facture.montant - (facture.montant * facture.solde / 100));
       let montantPaye = 0.000;
       facture.encaissements.forEach(value => {
-        montantPaye += value.montantEnc;
+        if (value.etatEncaissement.toUpperCase()!=='DELETE') {
+          montantPaye += value.montantEnc;
+        }
       })
       this.montantRestant = montantOriginal - montantPaye;
     } else {
@@ -193,7 +195,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       idEncaissement: [uuidv4().toString()],
       dateEnc: [new Date(), Validators.required],
       montantEnc: [null, [Validators.required, Validators.max(this.montantRestant || 0)]],
-      etatEncaissement: [''],
+      etatEncaissement: ['VALID'],
       numRecu: [uuidv4().slice(3, 18)],
       refFacture: [this.factureSelected?.refFacture || '', Validators.required],
       nappel: [this.factureSelected?.nappel || '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
