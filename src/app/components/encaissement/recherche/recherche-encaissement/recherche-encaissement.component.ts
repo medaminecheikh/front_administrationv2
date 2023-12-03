@@ -66,13 +66,13 @@ export class RechercheEncaissementComponent implements OnInit, OnDestroy {
   }
 
   sendSearch() {
-    const {refFacture, produit, montantEnc, modePaiement, identifiant, typeIdent, requet} = this.searchForm.value;
+    const {refFacture, produit, montantEnc, etatEncaissement, identifiant, typeIdent, requet} = this.searchForm.value;
     const page = this.page.value ?? 0;
     const size = this.size.value ?? 10;
     this.unsubscribeAll();
     if (requet === 'year') {
       this.subscriptions.push(
-        this.encaiService.searchYearEncaissement(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, page, size)
+        this.encaiService.searchYearEncaissement(produit, identifiant, etatEncaissement, typeIdent, montantEnc, refFacture, page, size)
           .subscribe(value => {
             this.display = value;
             const firstEncaiss = value[0]; // Assuming there's at least one facture in the list
@@ -82,7 +82,7 @@ export class RechercheEncaissementComponent implements OnInit, OnDestroy {
 
     } else if (requet === 'month') {
       this.subscriptions.push(
-        this.encaiService.searchMonthEncaissement(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, page, size)
+        this.encaiService.searchMonthEncaissement(produit, identifiant, etatEncaissement, typeIdent, montantEnc, refFacture, page, size)
           .subscribe(value => {
             this.display = value;
             const firstEncaiss = value[0]; // Assuming there's at least one facture in the list
@@ -91,7 +91,7 @@ export class RechercheEncaissementComponent implements OnInit, OnDestroy {
       );
     } else if (requet === 'week') {
       this.subscriptions.push(
-        this.encaiService.searchWeekEncaissement(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, page, size)
+        this.encaiService.searchWeekEncaissement(produit, identifiant, etatEncaissement, typeIdent, montantEnc, refFacture, page, size)
           .subscribe(value => {
             this.display = value;
             const firstEncaiss = value[0]; // Assuming there's at least one facture in the list
@@ -107,10 +107,10 @@ export class RechercheEncaissementComponent implements OnInit, OnDestroy {
       refFacture: [''],
       produit: [''],
       montantEnc: [null],
-      modePaiement: [''],
+      etatEncaissement: [''],
       identifiant: [''],
       typeIdent: [''],
-      requet: ['month']
+      requet: ['year']
     });
   }
 

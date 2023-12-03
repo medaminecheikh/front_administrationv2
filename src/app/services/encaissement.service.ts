@@ -15,6 +15,9 @@ export class EncaissementService {
   addEncaiss(encaissement: Encaissement): Observable<Encaissement> {
     return this.http.post<Encaissement>(`${this.baseUrl}/encaissement`, encaissement);
   }
+  updateEncaiss(encaissement: Encaissement): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/encaissementupdate`, encaissement);
+  }
 
   getEncaissById(id: string): Observable<Encaissement> {
     return this.http.get<Encaissement>(`${this.baseUrl}/encaissement/${id}`);
@@ -47,7 +50,7 @@ export class EncaissementService {
   searchYearEncaissement(
     produit: string,
     identifiant: string,
-    modePaiement: string,
+    etatEncaissement: string,
     typeIdent: string,
     montantEnc: number,
     refFacture: string,
@@ -57,7 +60,7 @@ export class EncaissementService {
     const params = new HttpParams()
       .set('produit', produit || '')
       .set('identifiant', identifiant || '')
-      .set('modePaiement', modePaiement || '')
+      .set('etatEncaissement', etatEncaissement || '')
       .set('typeIdent', typeIdent || '')
       .set('montantEnc', montantEnc ? montantEnc.toString() : '')
       .set('refFacture', refFacture || '')
@@ -70,7 +73,7 @@ export class EncaissementService {
   searchWeekEncaissement(
     produit: string,
     identifiant: string,
-    modePaiement: string,
+    etatEncaissement: string,
     typeIdent: string,
     montantEnc: number,
     refFacture: string,
@@ -80,7 +83,7 @@ export class EncaissementService {
     const params = new HttpParams()
       .set('produit', produit || '')
       .set('identifiant', identifiant || '')
-      .set('modePaiement', modePaiement || '')
+      .set('etatEncaissement', etatEncaissement || '')
       .set('typeIdent', typeIdent || '')
       .set('montantEnc', montantEnc ? montantEnc.toString() : '')
       .set('refFacture', refFacture || '')
@@ -93,7 +96,7 @@ export class EncaissementService {
   searchMonthEncaissement(
     produit: string,
     identifiant: string,
-    modePaiement: string,
+    etatEncaissement: string,
     typeIdent: string,
     montantEnc: number,
     refFacture: string,
@@ -103,7 +106,7 @@ export class EncaissementService {
     const params = new HttpParams()
       .set('produit', produit || '')
       .set('identifiant', identifiant || '')
-      .set('modePaiement', modePaiement || '')
+      .set('etatEncaissement', etatEncaissement || '')
       .set('typeIdent', typeIdent || '')
       .set('montantEnc', montantEnc ? montantEnc.toString() : '')
       .set('refFacture', refFacture || '')

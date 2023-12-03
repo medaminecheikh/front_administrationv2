@@ -389,8 +389,8 @@
 
               <div class="row mt-3">
 
-                <div class="col-12 table-responsive smooth-scroll">
-                  <table class="table table-striped">
+                <div class="col-12 table-responsive  smooth-scroll">
+                  <table class="table table-striped table-hover table-head-fixed">
                     <thead>
                     <tr>
                       <th>ID Client</th>
@@ -408,7 +408,7 @@
                       <td>{{ encaissement.dateEnc | date:"MM/dd/yyyy" }}</td>
                       <td><b>{{ encaissement.montantEnc | number: '1.3-3' }} <small class="ml-1"> TND</small></b><span
                         class="float-right">
-                        <button (click)="confirmDeleteEncaiss(encaissement.idEncaissement,j)" type="button"
+                        <button (click)="confirmDeleteEncaiss(encaissement,j)" type="button"
                                 class="btn  btn-tool bg-gradient-danger  "><i class="fas fa-trash-can"></i></button>
                       </span>
                       </td>
@@ -425,9 +425,20 @@
                       </span>
                       </td>
                     </tr>
+                    <tr *ngFor="let encaissement of encaissToDelete; let i = index">
+                      <td>{{ encaissement.identifiant }}</td>
+                      <td>{{ encaissement.numRecu  }}</td>
+                      <td>{{ encaissement.modePaiement | titlecase }}</td>
+                      <td>{{ encaissement.dateEnc | date:"MM/dd/yyyy" }}</td>
+                      <td><b>{{ encaissement.montantEnc | number: '1.3-3' }} <small class="ml-1"> TND</small></b>
+                        <small class="float-right text-sm">
+                        <p class="text-sm text-bold" style="font-size: 10px">X En Cours...</p>
+                      </small>
+                      </td>
+                    </tr>
 
                     <tr>
-                      <td colspan="5" class="text-center ">
+                      <td colspan="5" class="text-center table-head-fixed">
                         <button (click)="showDialog()" class="btn bg-gradient-maroon  col-2"
                                 [disabled]="factureForm.invalid"><i class="fa fa-shopping-basket"></i> Faire Paiement
                         </button>

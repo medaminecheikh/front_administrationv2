@@ -42,6 +42,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   encaissementForm?: FormGroup;
   encaissementsArray: Encaissement[] = [];
   encaissFactArray: Encaissement[] = [];
+  encaissToDelete: Encaissement[] = [];
   total: number = 0.000;
   selectedFacture?: InfoFacture;
   private montantSubscription?: Subscription;
@@ -73,7 +74,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private ettService: EttService
   ) {
-
+    this.getUser();
   }
 
   ngOnDestroy(): void {
@@ -89,7 +90,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getUser();
+
     this.initForm();
     this.initItems();
     this.initEncaissForm();
@@ -154,10 +155,15 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.factureForm.reset();
         this.patchFactureValues();
         this.updateRequest = true;
-        facture.encaissements.forEach(value => {
-          this.encaissFactArray.push(value);
-        });
         this.encaissementsArray = [];
+        this.encaissToDelete = [];
+        facture.encaissements.forEach(value => {
+
+          if (value.etatEncaissement==='DELETE') {
+            this.encaissToDelete.push(value);
+          }else {this.encaissFactArray.push(value);}
+        });
+
         console.log(facture)
       }
       this.disableFormControls();
@@ -340,7 +346,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       idEncaissement: [uuidv4().toString()],
       dateEnc: [new Date(), Validators.required],
       montantEnc: [null, [Validators.required, Validators.max(this.total - this.totalPaye)]],
-      etatEncaissement: [''],
+      etatEncaissement: ['VALID'],
       numRecu: [uuidv4().slice(3, 18)],
       refFacture: [this.factureForm?.get('refFacture')?.value || '', Validators.required],
       nappel: [this.factureForm?.get('nappel')?.value || '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
@@ -422,6 +428,19 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.subscriptions.push(valueChangesSubscription);
   }
 
+  ProssDeleteEncaiss(encaissement:Encaissement, i: number) {
+    encaissement.etatEncaissement = 'DELETE';
+    const upEncais = encaissement;
+    if (upEncais) {
+      this.encaissementService.updateEncaiss(upEncais).subscribe(() => {
+        this.removeEncaissFromArrayAndAddToDel(upEncais, i);
+      }, (error) => {
+        console.error(error);
+      }, () => {
+        this.calculateTotalMontant();
+      });
+    }
+  }
   deleteEncaiss(idEncaissement: string, i: number) {
     if (this.selectedFacture) {
       const idFac = this.selectedFacture.idFacture;
@@ -448,6 +467,14 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       this.encaissFactArray.splice(i, 1);
 
       this.toastr.info('Payment deleted successfully!', 'Info');
+    }
+  }
+  removeEncaissFromArrayAndAddToDel(encaiss:Encaissement,i: number) {
+    if (i >= 0 && i < this.encaissFactArray.length) {
+
+      this.encaissFactArray.splice(i, 1);
+      this.encaissToDelete.push(encaiss);
+      this.toastr.info('Payment deleted in progress!', 'Info');
     }
   }
 
@@ -477,7 +504,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     });
   }
 
-  confirmDeleteEncaiss(idEncaissement: string, j: number) {
+  confirmDeleteEncaiss(encaissement: Encaissement, j: number) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to proceed?',
       header: 'Delete Paiement',
@@ -487,7 +514,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       rejectButtonStyleClass: 'p-button-link text-danger',
       accept: () => {
         // Handle the accept action
-        this.deleteEncaiss(idEncaissement, j);
+        this.ProssDeleteEncaiss(encaissement, j);
 
       },
       reject: () => {
