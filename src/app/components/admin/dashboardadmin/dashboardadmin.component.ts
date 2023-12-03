@@ -79,10 +79,11 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
     if (name && name.username) {
       this.userSubscription = this.userService.getUserBylogin(name.username).subscribe(
         (value) => {
-          this.currentUser = value
+          this.currentUser = value;
         }
         , (error) => {
-          this.toastr.error('Could not get user detail !', 'Error')
+          this.toastr.error('Could not get user detail !', 'Error');
+          console.error(error);
         },
         () => {
           if (this.currentUser.ett) {
