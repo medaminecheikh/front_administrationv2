@@ -79,7 +79,7 @@
             <div class="icon">
               <i class="fas fa-coins "></i>
             </div>
-            <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a routerLink="/encaissement/caisse/avance" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
@@ -103,11 +103,8 @@
                   </p>
                   <div class="chart ">
 
-                    <canvas baseChart width="750" height="180"
-                            [type]="'line'"
-                            [data]="lineChartData"
-                            [options]="lineChartOptions"
-                            [legend]="lineChartLegend">
+                    <canvas  id="Chart" width="750" height="180">
+                      {{lineChartData}}
                     </canvas>
                   </div>
 
@@ -126,26 +123,26 @@
                   </div>
 
                   <div class="progress-group">
+                    <span class="progress-text">Facture en Retard</span>
+                    <span class="float-right"><b>{{listFactureRetard.length}}</b>/{{listyearlyFacture.length}}</span>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar bg-warning"  [style.width.%]="calculateProgressPercentage(listFactureRetard.length,listyearlyFacture.length)"></div>
+                    </div>
+                  </div>
+
+                  <div class="progress-group">
+                    Paiement Effectué
+                    <span class="float-right"><b>{{getPaimentAdd().length}}</b>/{{gettraceEncaissSemestre().length}}</span>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar bg-pink" [style.width.%]="calculateProgressPercentage(getPaimentAdd().length,gettraceEncaissSemestre().length)"></div>
+                    </div>
+                  </div>
+
+                  <div class="progress-group">
                     Paiement Supprimé
                     <span class="float-right"><b>{{getPaimentDel().length}}</b>/{{gettraceEncaissSemestre().length}}</span>
                     <div class="progress progress-sm">
                       <div class="progress-bar bg-danger" [style.width.%]="calculateProgressPercentage(getPaimentDel().length,gettraceEncaissSemestre().length)"></div>
-                    </div>
-                  </div>
-
-                  <div class="progress-group">
-                    <span class="progress-text">Facture Créée</span>
-                    <span class="float-right"><b>{{getfactureCree().length}}</b>/{{gettraceFactureSemestre().length}}</span>
-                    <div class="progress progress-sm">
-                      <div class="progress-bar bg-success"  [style.width.%]="calculateProgressPercentage(getfactureCree().length,gettraceFactureSemestre().length)"></div>
-                    </div>
-                  </div>
-
-                  <div class="progress-group">
-                    Send Inquiries
-                    <span class="float-right"><b>250</b>/500</span>
-                    <div class="progress progress-sm">
-                      <div class="progress-bar bg-warning" style="width: 50%"></div>
                     </div>
                   </div>
 
@@ -159,7 +156,7 @@
               <div class="row">
                 <div class="col-sm-3 col-6">
                   <div class="description-block border-right">
-                    <h5 class="description-header">$35,210.43</h5>
+                    <h5 class="description-header">TND {{totalRevenu() |number:'1.2-3'}}</h5>
                     <span class="description-text">TOTAL REVENUE</span>
                   </div>
 

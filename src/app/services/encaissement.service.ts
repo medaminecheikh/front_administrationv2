@@ -22,6 +22,9 @@ export class EncaissementService {
   getEncaissById(id: string): Observable<Encaissement> {
     return this.http.get<Encaissement>(`${this.baseUrl}/encaissement/${id}`);
   }
+  getEncaissThisYear(): Observable<Encaissement[]> {
+    return this.http.get<Encaissement[]>(`${this.baseUrl}/encaissement/thisyear`);
+  }
 
   getEncaissementByFacture(idFact: string): Observable<Encaissement[]> {
     return this.http.get<Encaissement[]>(`${this.baseUrl}/Byfacture/${idFact}`);
