@@ -55,7 +55,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
               private confirmationService: ConfirmationService,
               private authService: AuthService,
               private ettService: EttService) {
-
+    this.getUser();
   }
 
   ngOnDestroy(): void {
@@ -64,7 +64,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getUser();
+
     this.initEncaissForm();
     this.initSearchForm();
     this.sendSearch();
@@ -79,7 +79,8 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
           this.currentUser = value
         }
         , (error) => {
-          this.toastr.error('Could not get user detail !', 'Error')
+          this.toastr.error('Could not get user detail !', 'Error');
+          console.error(error);
         },
         () => {
           this.getEtt();

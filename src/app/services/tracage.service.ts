@@ -30,4 +30,13 @@ export class TracageService {
   addTracage(tracage: Tracage): Observable<void> {
     return this.http.post<void>(`${this.host}addtracage`, tracage);
   }
+  getTracagebyencaissement(): Observable<Tracage[]> {
+    return this.http.get<Tracage[]>(`${this.host}tracagesencaisssement`);
+  }
+  getTracagebyfacture(): Observable<Tracage[]> {
+    return this.http.get<Tracage[]>(`${this.host}tracagesfacture`);
+  }
+  getTracagebycaisse(): Observable<Tracage[]> {
+    return this.http.get<Tracage[]>(`${this.host}tracagescaisse`);
+  }
 }

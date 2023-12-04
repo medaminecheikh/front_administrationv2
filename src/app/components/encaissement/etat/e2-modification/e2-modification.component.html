@@ -1,1 +1,126 @@
-<p>e2-modification works!</p>
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <div class="row ">
+            <h1 class="m-0">Traçage Factures</h1>
+
+          </div>
+
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/encaissement/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Etat Factures</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-hands-helping"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Operations</span>
+              <span class="info-box-number">{{listTrace.length |number}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2 mb-3" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-face-tired"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Suppressions</span>
+              <span class="info-box-number">{{delete |number}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2 mb-3" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-plus-circle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Creations</span>
+              <span class="info-box-number">{{add |number}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2 mb-3" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tools"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Modifications</span>
+              <span class="info-box-number">{{update |number}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card col-12 border-round-xl mt-3" style="height: 600px">
+          <div style="overflow-x: auto; max-width: 100%;">
+            <p-table [value]="listTrace"
+                     [paginator]="true"
+                     [rows]="10"
+                     [showCurrentPageReport]="true"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Operations"
+                     [rowHover]="true"
+                     [rowsPerPageOptions]="[10, 25, 50]"
+                     responsiveLayout="stack" [tableStyle]="{'min-width': '55rem'}">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="object" style="width: 16.66%">Object
+                    <p-sortIcon field="object"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="typeOp" style="width: 16.66%">Operation
+                    <p-sortIcon field="typeOp"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="browser" style="width: 16.66%">Browser
+                    <p-sortIcon field="browser"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="ip" style="width: 16.66%">IP
+                    <p-sortIcon field="ip"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="time" style="width: 16.66%">Time
+                    <p-sortIcon field="time"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="utilisateur.login" style="width: 16.66%">Compte
+                    <p-sortIcon field="utilisateur.login"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-trace>
+                <tr >
+                  <td><span
+                    class="flex justify-content-around mr-5 text-bold">{{trace.object}}</span>
+                  </td>
+                  <td><span class="flex justify-content-around mr-5 text-bold">{{trace.typeOp}}</span>
+                  </td>
+                  <td>
+                    <span class="flex justify-content-around mr-5 ">{{trace.browser}}</span>
+                  </td>
+                  <td>
+                    <span class="flex justify-content-around mr-5 ">{{trace.ip}}</span>
+                  </td>
+                  <td>
+                    <span class="flex justify-content-around mr-5 ">{{trace.time}}</span>
+                  </td>
+                  <td>
+                    <span class="flex justify-content-around mr-5 ">{{trace.utilisateur.login}}</span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

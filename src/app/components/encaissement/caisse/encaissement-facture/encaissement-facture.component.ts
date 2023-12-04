@@ -159,7 +159,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.encaissToDelete = [];
         facture.encaissements.forEach(value => {
 
-          if (value.etatEncaissement==='DELETE') {
+          if (value.etatEncaissement.toUpperCase()==='DELETE') {
             this.encaissToDelete.push(value);
           }else {this.encaissFactArray.push(value);}
         });
@@ -547,7 +547,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
     // Calculate sum for encaissFactArray
     for (const encaissement of this.encaissFactArray) {
-      totalMontant += encaissement.montantEnc;
+      if (encaissement.etatEncaissement.toUpperCase()!=='DELETE') {
+        totalMontant += encaissement.montantEnc;
+      }
     }
 
     this.totalPaye = totalMontant;
@@ -653,6 +655,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.encaissementsArray = [];
+    this.encaissToDelete = [];
     this.encaissementForm?.reset();
     if (this.selectedFacture) {
       this.calculMontantRestant(this.selectedFacture);
