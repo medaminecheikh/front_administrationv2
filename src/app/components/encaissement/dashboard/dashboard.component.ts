@@ -10,6 +10,8 @@ import {ToastrService} from "ngx-toastr";
 import {FactureService} from "../../../services/facture.service";
 import {ChartConfiguration, ChartOptions} from "chart.js";
 import {formatDate} from "@angular/common";
+import {TracageService} from "../../../services/tracage.service";
+import {Tracage} from "../../../modules/Tracage";
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +19,7 @@ import {formatDate} from "@angular/common";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   currentUser!: Utilisateur;
   ett!: Ett;
   userSubscription!: Subscription;
@@ -26,20 +29,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   listFactureRetard: InfoFacture[] = [];
   listFactureFinished: InfoFacture[] = [];
   listFactureCorrect: InfoFacture[] = [];
+  listTraceencaiss: Tracage[] = [];
+  listTracefacture: Tracage[] = [];
   nbrEmploye: number = 0;
   nbrCaisse: number = 0;
 
 
   public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July'
-    ],
+    labels: this.getSemestre(),
     datasets: [
       {
         data: [70, 30, 60, 50, 30, 90, 40],
@@ -58,9 +55,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService, private userService: UserService
     , private ettService: EttService,
-              private toastr: ToastrService, private factureService: FactureService) {
+              private toastr: ToastrService,
+              private factureService: FactureService, private tracageService: TracageService) {
     this.getUser();
     this.getYearlyFacture();
+    this.getTraceencaiss();
+    this.getTraceFacture();
   }
 
   ngOnInit(): void {
@@ -85,6 +85,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  getTraceencaiss() {
+    this.tracageService.getTracagebyencaissement().subscribe({
+      next: value => {
+        this.listTraceencaiss = value;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
+
+  getTraceFacture() {
+    this.tracageService.getTracagebyfacture().subscribe({
+      next: value => this.listTracefacture = value,
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
 
   getUser() {
     const name = this.authService.getCurrentUser()
@@ -123,7 +142,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.factureService.getYearlyFactures().subscribe((value) => {
         this.listyearlyFacture = value;
-
+        this.listFactureFinished = value.filter(value => this.amountPaied(value) == this.montantafterdiscount(value));
         this.listFactureRetard = value.filter(value1 => this.factureRetard(value1));
         this.listFactureCorrect = value.filter(value1 => !this.factureRetard(value1));
 
@@ -134,6 +153,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     );
 
+  }
+
+  getSemestre(): string[] {
+    const months1 = ['January', 'February', 'March', 'April', 'May', 'June'];
+
+    const months2 = ['July', 'August', 'September', 'October', 'November', 'December'];
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+
+    if (currentMonth <= 6) {
+      return months1;
+    } else
+      // Return the current half-year
+      return months2;
   }
 
 
@@ -204,6 +237,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return 0; // Unknown periode, return 0 payments
   }
 
+  amountPaied(facture: InfoFacture): number {
+    let somme = 0;
+    facture.encaissements.forEach(value => {
+      somme += value.montantEnc;
+    });
+    return somme;
+  }
 
   montantafterdiscount(facture: InfoFacture): number {
     if (facture) {
@@ -213,4 +253,48 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  gettraceEncaissSemestre() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+
+    if (currentMonth <= 6) {
+      return this.listTraceencaiss.filter(value => {
+        const parsedDate: Date = new Date(value.time);
+        return parsedDate.getMonth() <= 6;
+      });
+    } else {
+      return this.listTraceencaiss.filter(value => {
+        const parsedDate: Date = new Date(value.time);
+        return parsedDate.getMonth() > 6;
+      });
+    }
+  }
+
+  gettraceFactureSemestre() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+
+    if (currentMonth <= 6) {
+      return this.listTracefacture.filter(value => {
+        const parsedDate: Date = new Date(value.time);
+        return parsedDate.getMonth() <= 6;
+      });
+    } else {
+      return this.listTracefacture.filter(value => {
+        const parsedDate: Date = new Date(value.time);
+        return parsedDate.getMonth() > 6;
+      });
+    }
+  }
+
+  getPaimentDel() {
+    return this.gettraceEncaissSemestre().filter(value => value.typeOp.toUpperCase()==="DELETE");
+  }
+
+  getfactureCree() {
+    return this.gettraceFactureSemestre().filter(value => value.typeOp.toUpperCase() === "ADD");
+  }
+  calculateProgressPercentage(other: number, total: number) {
+    return Math.round((other / total) * 100);
+  }
 }
