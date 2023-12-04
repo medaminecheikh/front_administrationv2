@@ -32,9 +32,8 @@ export class TracageService {
     // Assign gathered information to the tracage object
       tracage.browser = navigator.userAgent;
 
-
       // Send the tracage object through HTTP POST request
-     return this.http.post<void>(`${this.host}/addtracage`, tracage);
+     return this.http.post<void>(`${this.host}addtracage`, tracage);
   }
 
 

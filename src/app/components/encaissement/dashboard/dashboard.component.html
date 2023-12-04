@@ -43,7 +43,7 @@
 
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
+              <h3>{{((listFactureCorrect.length*100)/listyearlyFacture.length) |number:'1.0-0'}}<sup style="font-size: 20px">%</sup></h3>
               <p>Pourcentage Payé</p>
             </div>
             <div class="icon">
@@ -73,11 +73,11 @@
 
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>65</h3>
-              <p>Statistique</p>
+              <h3>{{listFactureRetard.length|number}}</h3>
+              <p>Paiement en Retard</p>
             </div>
             <div class="icon">
-              <i class="fas fa-chart-simple "></i>
+              <i class="fas fa-coins "></i>
             </div>
             <a class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
@@ -91,7 +91,7 @@
         <div class="col-md-12">
           <div class="card card-outline card-blue border-round-2xl">
             <div class="card-header">
-              <h5 class="text-center">Rapport Récapitulatif Mensuel</h5>
+              <h5 class="text-center">Rapport Récapitulatif Semestriel</h5>
 
             </div>
 
