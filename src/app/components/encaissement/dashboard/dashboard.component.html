@@ -156,7 +156,7 @@
               <div class="row">
                 <div class="col-sm-3 col-6">
                   <div class="description-block border-right">
-                    <h5 class="description-header">TND {{totalRevenu() |number:'1.2-3'}}</h5>
+                    <h5 class="description-header"> {{totalRevenu() |number:'1.2-2'}}</h5>
                     <span class="description-text">TOTAL REVENUE</span>
                   </div>
 
@@ -164,16 +164,16 @@
 
                 <div class="col-sm-3 col-6">
                   <div class="description-block border-right">
-                    <h5 class="description-header">$10,390.90</h5>
-                    <span class="description-text">TOTAL COST</span>
+                    <h5 class="description-header">{{estime |number:'1.2-2'}}</h5>
+                    <span class="description-text">TOTAL Estimé</span>
                   </div>
 
                 </div>
 
                 <div class="col-sm-3 col-6">
                   <div class="description-block border-right">
-                    <h5 class="description-header">$24,813.53</h5>
-                    <span class="description-text">TOTAL PROFIT</span>
+                    <h5 class="description-header">{{totalRevenu() - estime |number:'1.2-2'}}</h5>
+                    <span class="description-text">Difference</span>
                   </div>
 
                 </div>

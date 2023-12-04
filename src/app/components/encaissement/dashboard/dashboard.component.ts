@@ -39,10 +39,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   public lineChartData:any
-  public lineChartOptions: ChartOptions<'line'> = {
-    responsive: true
-  };
+
   public lineChartLegend = true;
+   estime: number=0;
 
   constructor(private authService: AuthService, private userService: UserService
     , private ettService: EttService,
@@ -208,6 +207,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (currentPeriod === 0) {
           currentPeriod += 1;
         }
+        this.totatEstime(tranche * currentPeriod);
         return totalPaye < tranche * currentPeriod;
       }
 
@@ -215,7 +215,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  totatEstime(s:number) {
+    this.estime += s;
+  }
   calculateNumberOfPayments(years: number, periode: string): number {
     if ("MENSUEL" === periode.toUpperCase()) {
       return Math.floor(years * 12); // Assuming monthly payments
