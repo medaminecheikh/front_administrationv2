@@ -17,6 +17,8 @@ import {catchError, forkJoin, map, retry, Subscription, switchMap, throwError} f
 import {AuthService} from "../../../../services/auth/auth.service";
 import {EttService} from "../../../../services/ett.service";
 import {CaisseService} from "../../../../services/caisse.service";
+import {TracageService} from "../../../../services/tracage.service";
+import {Tracage} from "../../../../modules/Tracage";
 
 interface EventItem {
   status?: string;
@@ -52,7 +54,7 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private factureService: FactureService,
               private encaissementService: EncaissementService,
-              private confirmationService: ConfirmationService,
+              private tracageService: TracageService,
               private authService: AuthService,
               private ettService: EttService) {
     this.getUser();
@@ -233,7 +235,15 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
       this.toastr.warning("Paiement incorrect !", "Warning");
       return;
     }
-
+    const trace: Tracage = {
+      utilisateur: this.currentUser,
+      object: "ENCAISSEMENT",
+      typeOp: "ADD",
+      idTrace: 0,
+      browser: '',
+      time: '',
+      ip: ''
+    };
     const encaissement = this.encaissementForm.value;
     const facture = this.factureSelected;
     const idCaisse = this.currentUser?.caisse?.idCaisse;
@@ -279,13 +289,19 @@ export class PaimentAvanceComponent implements OnInit, OnDestroy {
           this.toastr.error("Process has failed !", "Error");
         },
         () => {
+          this.saveTrace(trace);
           this.initEncaissForm();
         }
       );
 
   }
 
-
+  saveTrace(trace:Tracage) {
+    this.tracageService.addTracage(trace).subscribe(value => {
+    }, error => {
+      console.error(error);
+    });
+  }
   payAll() {
     if (this.montantRestant != 0.000) {
       this.encaissementForm?.get('montantEnc')?.setValue(this.montantRestant)

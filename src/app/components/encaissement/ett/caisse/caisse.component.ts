@@ -13,6 +13,8 @@ import {Ett} from "../../../../modules/Ett";
 import {catchError, map, of, Subscription, switchMap, throwError} from "rxjs";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {ConfirmationService} from "primeng/api";
+import {Tracage} from "../../../../modules/Tracage";
+import {TracageService} from "../../../../services/tracage.service";
 
 @Component({
   selector: 'app-caisse',
@@ -36,7 +38,7 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
   constructor(
     private zoneService: ZoneService,
-    private dregionalService: DrService,
+    private tracageService: TracageService,
     private authService: AuthService,
     private ettService: EttService,
     private router: Router,
@@ -46,11 +48,12 @@ export class CaisseComponent implements OnInit, OnDestroy {
     private caisseService: CaisseService,
     private confirmationService: ConfirmationService
   ) {
+    this.getUser();
   }
 
   ngOnInit(): void {
     this.initializeForm();
-    this.getUser();
+
 
 
   }
@@ -60,7 +63,12 @@ export class CaisseComponent implements OnInit, OnDestroy {
     this.ettSubscription.unsubscribe();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
+  saveTrace(trace:Tracage) {
+    this.tracageService.addTracage(trace).subscribe(value => {
+    }, error => {
+      console.error(error);
+    });
+  }
   getUser() {
     const name = this.authService.getCurrentUser()
     if (name && name.username) {
@@ -149,9 +157,18 @@ export class CaisseComponent implements OnInit, OnDestroy {
       const caisse = this.caisseForm.value;
       const user = this.userselected;
       const ettid = this.ett.idEtt;
-
+      const trace: Tracage = {
+        utilisateur: this.currentUser,
+        object: "CAISSE",
+        typeOp: "ADD",
+        idTrace: 0,
+        browser: '',
+        time: '',
+        ip: ''
+      };
       const sub1 = this.caisseService.addCaisse(caisse).pipe(
         switchMap((response) => {
+          this.saveTrace(trace);
           const idCaisse = response.idCaisse;
           let observableChain = of(null);
 
@@ -235,9 +252,19 @@ export class CaisseComponent implements OnInit, OnDestroy {
   }
 
   deleteCaisse(caisseId: string): void {
+    const trace: Tracage = {
+      utilisateur: this.currentUser,
+      object: "CAISSE",
+      typeOp: "DELETE",
+      idTrace: 0,
+      browser: '',
+      time: '',
+      ip: ''
+    };
     const sub = this.caisseService.deleteCaisse(caisseId).subscribe(() => {
       // Call the searchCaisse() method to refresh the list of caisses
       this.searchCaisse();
+      this.saveTrace(trace);
     }, error => () => {
     }, () => {
       this.getEtt();
@@ -271,6 +298,15 @@ export class CaisseComponent implements OnInit, OnDestroy {
   }
 
   updateCaisse() {
+    const trace: Tracage = {
+      utilisateur: this.currentUser,
+      object: "CAISSE",
+      typeOp: "UPDATE",
+      idTrace: 0,
+      browser: '',
+      time: '',
+      ip: ''
+    };
     const caisse = this.caisseForm.value;
     const oldUser = this.updateselectedCaisse?.login;
     const sub1 = this.caisseService.updateCaisse(caisse).subscribe(
@@ -289,8 +325,10 @@ export class CaisseComponent implements OnInit, OnDestroy {
 
         }
       }, (error) => {
-        this.toastr.error("Update failed ", "Error")
+        this.toastr.error("Update failed ", "Error");
+        console.error(error);
       }, () => {
+        this.saveTrace(trace);
         // Success
         this.router.navigate(['encaissement/ett/caisse']).then(() => {
           // Reload the current page

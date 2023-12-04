@@ -27,6 +27,8 @@ import {Utilisateur} from "../../../../modules/Utilisateur";
 import {Ett} from "../../../../modules/Ett";
 import {EttService} from "../../../../services/ett.service";
 import {AuthService} from "../../../../services/auth/auth.service";
+import {TracageService} from "../../../../services/tracage.service";
+import {Tracage} from "../../../../modules/Tracage";
 
 @Component({
   selector: 'app-encaissement-facture',
@@ -67,6 +69,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
               private userService: UserService,
+              private tracageService: TracageService,
               private factureService: FactureService,
               private encaissementService: EncaissementService,
               private dialogService: DialogService,
@@ -159,9 +162,11 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
         this.encaissToDelete = [];
         facture.encaissements.forEach(value => {
 
-          if (value.etatEncaissement.toUpperCase()==='DELETE') {
+          if (value.etatEncaissement.toUpperCase() === 'DELETE') {
             this.encaissToDelete.push(value);
-          }else {this.encaissFactArray.push(value);}
+          } else {
+            this.encaissFactArray.push(value);
+          }
         });
 
         console.log(facture)
@@ -275,7 +280,10 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     const today = this.today;
     this.factureForm = this.formBuilder.group({
       idFacture: [uuidv4().toString()],
-      refFacture: [{ value: uuidv4().slice(3, 18).toString(), disabled: true }, [Validators.required, this.noWhitespaceStartorEnd]],
+      refFacture: [{
+        value: uuidv4().slice(3, 18).toString(),
+        disabled: true
+      }, [Validators.required, this.noWhitespaceStartorEnd]],
       produit: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       montant: [null, [Validators.required, Validators.min(1)]],
       solde: [null, [Validators.min(0), Validators.max(100)]],
@@ -428,12 +436,25 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     this.subscriptions.push(valueChangesSubscription);
   }
 
-  ProssDeleteEncaiss(encaissement:Encaissement, i: number) {
+  ProssDeleteEncaiss(encaissement: Encaissement, i: number) {
     encaissement.etatEncaissement = 'DELETE';
     const upEncais = encaissement;
+    const trace: Tracage = {
+      utilisateur: this.currentUser,
+      object: "ENCAISSEMENT",
+      typeOp: "UPDATE",
+      idTrace: 0,
+      browser: '',
+      time: '',
+      ip: ''
+    };
     if (upEncais) {
       this.encaissementService.updateEncaiss(upEncais).subscribe(() => {
         this.removeEncaissFromArrayAndAddToDel(upEncais, i);
+        this.tracageService.addTracage(trace).subscribe(value => {
+        }, error => {
+          console.error(error);
+        });
       }, (error) => {
         console.error(error);
       }, () => {
@@ -441,6 +462,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   deleteEncaiss(idEncaissement: string, i: number) {
     if (this.selectedFacture) {
       const idFac = this.selectedFacture.idFacture;
@@ -469,7 +491,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       this.toastr.info('Payment deleted successfully!', 'Info');
     }
   }
-  removeEncaissFromArrayAndAddToDel(encaiss:Encaissement,i: number) {
+
+  removeEncaissFromArrayAndAddToDel(encaiss: Encaissement, i: number) {
     if (i >= 0 && i < this.encaissFactArray.length) {
 
       this.encaissFactArray.splice(i, 1);
@@ -523,14 +546,31 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     });
   }
 
+  saveTrace(trace:Tracage) {
+    this.tracageService.addTracage(trace).subscribe(value => {
+    }, error => {
+      console.error(error);
+    });
+  }
   deleteFacture(facId: string): void {
+    const trace: Tracage = {
+      utilisateur: this.currentUser,
+      object: "FACTURE",
+      typeOp: "DELETE",
+      idTrace: 0,
+      browser: '',
+      time: '',
+      ip: ''
+    };
+
     this.factureService.deleteFacture(facId).subscribe(() => {
+      this.saveTrace(trace);
       // Call the searchCaisse() method to refresh the list of caisses
       this.reloadpage();
 
     }, (error) => {
       this.toastr.error('Facture delete failed.', 'Error');
-
+      console.error(error);
     }, () => {
 
       this.toastr.success('Facture deleted successfully.', 'Success');
@@ -547,7 +587,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
     // Calculate sum for encaissFactArray
     for (const encaissement of this.encaissFactArray) {
-      if (encaissement.etatEncaissement.toUpperCase()!=='DELETE') {
+      if (encaissement.etatEncaissement.toUpperCase() !== 'DELETE') {
         totalMontant += encaissement.montantEnc;
       }
     }
@@ -560,9 +600,19 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       if (this.factureForm.valid) {
         const facture = this.factureForm.value;
         const idCaisse = this.currentUser?.caisse?.idCaisse;
+        const trace: Tracage = {
+          utilisateur: this.currentUser,
+          object: "FACTURE",
+          typeOp: "ADD",
+          idTrace: 0,
+          browser: '',
+          time: '',
+          ip: ''
+        };
         this.factureService.addFacture(facture).subscribe(
           (value) => {
             const idFact = value.idFacture;
+            this.saveTrace(trace);
             this.handleEncaissements(facture.idFacture, idCaisse);
           },
           (error) => {
@@ -581,10 +631,20 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       if (this.updateRequest && (this.factureForm.valid || this.factureForm.disabled)) {
         const facture = this.factureForm.value;
         const idCaisse = this.currentUser?.caisse?.idCaisse;
+        const trace2: Tracage = {
+          utilisateur: this.currentUser,
+          object: "FACTURE",
+          typeOp: "UPDATE",
+          idTrace: 0,
+          browser: '',
+          time: '',
+          ip: ''
+        };
         this.factureService.updateFacture(facture).subscribe(
           () => {
+            this.saveTrace(trace2);
             if (this.encaissementsArray.length > 0 && facture.idFacture) {
-              this.handleEncaissements(facture.idFacture,idCaisse);
+              this.handleEncaissements(facture.idFacture, idCaisse);
             }
           },
           (error) => {
@@ -597,7 +657,15 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
   handleEncaissements(factureId: string, idCaisse: string) {
     console.info("this.encaissementsArray", this.encaissementsArray);
-
+    const trace: Tracage = {
+      utilisateur: this.currentUser,
+      object: "ENCAISSEMENT",
+      typeOp: "ADD",
+      idTrace: 0,
+      browser: '',
+      time: '',
+      ip: ''
+    };
     const observables = this.encaissementsArray.map((value) =>
       this.encaissementService.addEncaiss(value).pipe(
         switchMap((encaissement) =>
@@ -631,17 +699,20 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
     forkJoin(observables).subscribe(
       (responses) => {
-        console.warn(responses);
+        for (let i = 0; i < this.encaissementsArray.length; i++) {
+          this.saveTrace(trace);
+        }
         this.handleSuccess('Facture added successfully.');
         this.encaissFactArray.push(...this.encaissementsArray);
         this.resetForm();
+
+
       },
       (error) => {
         this.handleError('Payment creation failed!', error);
       }
     );
   }
-
 
 
   handleError(message: string, error: any) {

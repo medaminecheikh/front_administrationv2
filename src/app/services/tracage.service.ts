@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Tracage} from "../modules/Tracage";
 import {Observable} from "rxjs";
@@ -28,8 +28,16 @@ export class TracageService {
   }
 
   addTracage(tracage: Tracage): Observable<void> {
-    return this.http.post<void>(`${this.host}addtracage`, tracage);
+    // Get browser information
+    // Assign gathered information to the tracage object
+      tracage.browser = navigator.userAgent;
+
+
+      // Send the tracage object through HTTP POST request
+     return this.http.post<void>(`${this.host}/addtracage`, tracage);
   }
+
+
   getTracagebyencaissement(): Observable<Tracage[]> {
     return this.http.get<Tracage[]>(`${this.host}tracagesencaisssement`);
   }
