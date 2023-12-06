@@ -1,1 +1,110 @@
-<p>paiement works!</p>
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <div class="row ">
+            <h1 class="m-0">Gestion Paiement</h1>
+
+          </div>
+
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/encaissement/dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Gestion Paiement</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-hands-helping"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Demande</span>
+              <span class="info-box-number">{{listEncaissement.length |number}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2 mb-3" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-face-tired"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text"> Montant</span>
+              <span class="info-box-number">{{delete |number:"1.2-2"}} TND</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2 mb-3" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shop"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Caisse</span>
+              <span class="info-box-number">{{ett?.caisses?.length ?? 0 |number:"1.0-0"}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box border-round-xl shadow-2 mb-3" style="background-color: rgba(195,214,255,0.5);">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tools"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Modifications</span>
+              <span class="info-box-number"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card col-12 border-round-xl mt-3">
+          <p-table
+            [paginator]="true"
+            [value]="listEncaissement"
+            [rows]="20"
+            selectionMode="single"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            styleClass="">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="identifiant" style="width:20%">ID
+                  <p-sortIcon field="identifiant"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numRecu" style="width:20%">Reçu
+                  <p-sortIcon field="numRecu"></p-sortIcon>
+                </th>
+                <th pSortableColumn="refFacture" style="width:20%">Ref Facture
+                  <p-sortIcon field="refFacture"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dateEnc" style="width:20%">Date
+                  <p-sortIcon field="dateEnc"></p-sortIcon>
+                </th>
+                <th pSortableColumn="montantEnc" style="width:20%">Montant
+                  <p-sortIcon field="montantEnc"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-encaiss>
+              <tr   >
+                <td>{{ encaiss.identifiant }}</td>
+                <td>{{ encaiss.numRecu }}</td>
+                <td>{{ encaiss.refFacture }}</td>
+                <td>{{ encaiss.dateEnc |date:'yyyy-MM-dd' }}</td>
+                <td>{{ encaiss.montantEnc |number:"1.2-2" }} TND</td>
+
+
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
