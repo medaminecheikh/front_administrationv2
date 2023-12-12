@@ -216,4 +216,24 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
     return totalUsers > 0 ? (lastMonth.length / totalUsers) * 100 : 0;
   }
 
+  calculDr():number {
+    let dr = 0;
+
+    for(const drs of this.listZone) {
+      dr += drs.dregionals.length;
+    }
+    return dr;
+  }
+
+  calculEtt() {
+
+    let etts = 0;
+    for (const zone1 of this.listZone) {
+      zone1.dregionals.forEach(value => {
+        etts += value.etts.length
+      });
+    }
+
+    return etts;
+  }
 }

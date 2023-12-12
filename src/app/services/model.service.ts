@@ -7,7 +7,7 @@ import {Model} from "../modules/Model";
   providedIn: 'root'
 })
 export class ModelService {
-  private readonly host = 'http://localhost:8088/POS';
+  private readonly host = 'http://localhost:8088';
 
   constructor(private http: HttpClient) {}
 

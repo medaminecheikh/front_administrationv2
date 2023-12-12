@@ -7,7 +7,7 @@ import {Encaissement} from "../modules/Encaissement";
   providedIn: 'root'
 })
 export class EncaissementService {
-  private baseUrl = 'http://localhost:8088/POS';
+  private baseUrl = 'http://localhost:8088';
 
   constructor(private http: HttpClient) {
   }

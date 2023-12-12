@@ -7,7 +7,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
   providedIn: 'root'
 })
 export class UserService {
-  host = "http://localhost:8088/POS/";
+  host = "http://localhost:8088/";
   constructor(private http: HttpClient) { }
   public searchUserpage(kw: string, nom: string, prenom: string, actif:string, page: number, size: number):Observable<Utilisateur[]>{
     const params = new HttpParams()
@@ -57,7 +57,7 @@ export class UserService {
     return this.http.delete(this.host+"deleteUser/"+idUser);
   }
   public removeProfil(idUser:String,idProfil:String){
-    return this.http.put(this.host+"removeProfile/"+idUser+"/"+idProfil,null);
+    return this.http.delete(this.host+"removeProfile/"+idUser+"/"+idProfil);
   }
   public affecterUserToEtt(idUser: String, idEtt: String): Observable<any> {
     return this.http.put(`${this.host}affecterUserToEtt/${idUser}/${idEtt}`, {});

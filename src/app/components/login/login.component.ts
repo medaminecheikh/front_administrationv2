@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit{
 
       },
       (error) => {
+        console.error(error);
         if (error.status === 401) {
           this.toastr.error('Login ou mot de passe incorrect.', 'error');
           this.errorMessage = "Login ou mot de passe incorrect";

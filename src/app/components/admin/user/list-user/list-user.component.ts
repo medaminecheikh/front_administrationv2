@@ -355,6 +355,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
 
         }, (err) => {
           // Revert all sends and show error message
+          console.error(err);
           this.toastr.error('Une erreur s\'est produite lors de la modification de l\'utilisateur.');
           for (const request of requests) {
             request.subscribe(() => {
@@ -521,5 +522,20 @@ export class ListUserComponent implements OnInit, OnDestroy {
 
       }
     }
+  }
+
+  deleteUser() {
+    if (this.utilisateurUpdate?.idUser) {
+      this.userService.deleteUser(this.utilisateurUpdate?.idUser).subscribe({
+        error: err => {
+          console.error(err);
+        },
+        next: value => {
+          this.refresh()
+        }
+      });
+    }
+
+
   }
 }

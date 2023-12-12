@@ -8,7 +8,7 @@ import {InfoFacture} from "../modules/InfoFacture";
 })
 export class FactureService {
 
-  private baseUrl = 'http://localhost:8088/POS';
+  private baseUrl = 'http://localhost:8088';
 
   constructor(private http: HttpClient) {
   }

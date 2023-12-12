@@ -48,7 +48,7 @@
             <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shop"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Caisse</span>
-              <span class="info-box-number">{{ett?.caisses?.length ?? 0 |number:"1.0-0"}}</span>
+              <span class="info-box-number">{{caisse}}</span>
             </div>
           </div>
         </div>
@@ -57,21 +57,18 @@
             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tools"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Modifications</span>
-              <span class="info-box-number"></span>
+              <span class="info-box-number">{{listEncaissement.length}}</span>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="card col-12 border-round-xl mt-3">
+        <div class="card col-12 border-round-xl mt-3" style="overflow-x: auto; max-width: 100%;">
           <p-table
-            [paginator]="true"
             [value]="listEncaissement"
-            [rows]="20"
-            selectionMode="single"
-            [tableStyle]="{ 'min-width': '50rem' }"
-            [rowsPerPageOptions]="[10, 25, 50]"
-            styleClass="">
+            [rowHover]="true"
+            responsiveLayout="stack"
+            [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="identifiant" style="width:20%">ID
@@ -89,22 +86,28 @@
                 <th pSortableColumn="montantEnc" style="width:20%">Montant
                   <p-sortIcon field="montantEnc"></p-sortIcon>
                 </th>
+                <th></th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-encaiss>
-              <tr   >
+              <tr >
                 <td>{{ encaiss.identifiant }}</td>
                 <td>{{ encaiss.numRecu }}</td>
                 <td>{{ encaiss.refFacture }}</td>
                 <td>{{ encaiss.dateEnc |date:'yyyy-MM-dd' }}</td>
                 <td>{{ encaiss.montantEnc |number:"1.2-2" }} TND</td>
-
+                <td class="d-flex justify-content-around">
+                  <button class="btn btn-outline-warning "
+                          (click)="annulerEncaise(encaiss)">Annuler</button>
+                  <button class="btn btn-outline-danger "
+                          (click)="deleteEncaise(encaiss)">Delete</button></td>
 
               </tr>
             </ng-template>
           </p-table>
         </div>
       </div>
+
     </div>
   </div>
 </div>

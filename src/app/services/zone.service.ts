@@ -7,7 +7,7 @@ import { Zone } from '../modules/Zone';
   providedIn: 'root'
 })
 export class ZoneService {
-  host = "http://localhost:8088/POS/";
+  host = "http://localhost:8088/";
   constructor(private http: HttpClient) { }
   getZones(): Observable<Zone[]> {
     return this.http.get<Zone[]>(`${this.host}zones`);

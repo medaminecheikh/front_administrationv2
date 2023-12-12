@@ -40,7 +40,7 @@
 
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{pourcentageUsers()}}<sup style="font-size: 20px">%</sup></h3>
+              <h3>{{pourcentageUsers()| number:'1.0-1'}}<sup style="font-size: 20px">%</sup></h3>
               <p>Bounce Rate</p>
             </div>
             <div class="icon">
@@ -99,11 +99,11 @@
                 <span class="info-box-icon"><i class="fas fa-user-secret"></i></span>
                 <div class="info-box-content">
                   <div class="row ">
-                    <div class="col-6 "><span class="info-box-text ">Admin </span>
+                    <div class="col-7 "><span class="info-box-text ">Admin </span>
                       <span class="info-box-number ">{{listUsersAdmin.length}}</span></div>
-                    <div class="col-6 ">
-                      <div class="inner text-right">
-                        <h2>{{(listUsersAdmin.length * 100) / listUsers.length |  number:'1.0-2' }}<sup
+                    <div class="col-5 p-0 text-right">
+                      <div class="inner p-0 text-right">
+                        <h2>{{(listUsersAdmin.length * 100) / listUsers.length |  number:'1.0-0' }}<sup
                           style="font-size: 20px">%</sup></h2>
 
                       </div>
@@ -116,13 +116,13 @@
                 <span class="info-box-icon"><i class="fas fa-user-astronaut "></i></span>
                 <div class="info-box-content">
                   <div class="row ">
-                    <div class="col-6 "><span class="info-box-text "> Back-Office </span>
+                    <div class="col-7 "><span class="info-box-text  "> Back-Office </span>
                       <span class="info-box-number ">{{listUsersBO.length}}
                       </span>
                     </div>
-                    <div class="col-6 text-right">
+                    <div class="col-5 p-0 text-right">
                       <div class="inner ">
-                        <h2>{{(listUsersBO.length * 100) / listUsers.length | number:'1.0-2' }}<sup
+                        <h2>{{(listUsersBO.length * 100) / listUsers.length | number:'1.0-0' }}<sup
                           style="font-size: 20px">%</sup></h2>
 
                       </div>
@@ -135,11 +135,11 @@
                 <span class="info-box-icon"><i class="fas fa-cash-register"></i></span>
                 <div class="info-box-content">
                   <div class="row ">
-                    <div class="col-6 "><span class="info-box-text ">Front-Office </span>
+                    <div class="col-7 "><span class="info-box-text ">Front-Office </span>
                       <span class="info-box-number">{{listUsersFO.length}}</span></div>
-                    <div class="col-6 text-right">
+                    <div class="col-5 p-0 text-right">
                       <div class="inner ">
-                        <h2>{{((listUsersFO.length * 100) / listUsers.length)|  number:'1.0-2' }}<sup
+                        <h2>{{((listUsersFO.length * 100) / listUsers.length)|  number:'1.0-0' }}<sup
                           style="font-size: 20px">%</sup></h2>
 
                       </div>
@@ -154,34 +154,34 @@
             <div class="row">
               <div class="col-sm-3 col-6">
                 <div class="description-block border-right">
-                  <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                  <h5 class="description-header">$35,210.43</h5>
-                  <span class="description-text">TOTAL REVENUE</span>
-                </div>
-
-              </div>
-
-              <div class="col-sm-3 col-6">
-                <div class="description-block border-right">
-                  <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                  <h5 class="description-header">$35,210.43</h5>
-                  <span class="description-text">Nombre Operations</span>
-                </div>
-
-              </div>
-
-              <div class="col-sm-3 col-6">
-                <div class="description-block border-right">
-                  <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                  <span class="description-percentage "><i class="fas fa-globe"></i> </span>
                   <h5 class="description-header">{{listZone.length}}</h5>
-                  <span class="description-text">Nombre Zones</span>
+                  <span class="description-text"> Nombre Zones</span>
+                </div>
+
+              </div>
+
+              <div class="col-sm-3 col-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage "><i class="fas fa-city"></i> </span>
+                  <h5 class="description-header ">{{calculDr()}}</h5>
+                  <span class="description-text">D.Regionals</span>
+                </div>
+
+              </div>
+
+              <div class="col-sm-3 col-6">
+                <div class="description-block border-right">
+                  <span class="description-percentage "><i class="fas fa-shop"></i> </span>
+                  <h5 class="description-header">{{calculEtt()}}</h5>
+                  <span class="description-text">Espaces TT</span>
                 </div>
 
               </div>
 
               <div class="col-sm-3 col-6">
                 <div class="description-block">
-                  <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                  <span class="description-percentage "><i class="fas fa-user-tie"></i> </span>
                   <h5 class="description-header">{{listUsers.length}}</h5>
                   <span class="description-text">TOTAL Employés</span>
                 </div>

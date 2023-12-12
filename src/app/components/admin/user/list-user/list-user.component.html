@@ -308,7 +308,7 @@
                 <span *ngIf="showError" class="badge badge-danger">Form Incorrect  <i
                   class="fas fa-triangle-exclamation fa-beat-fade"></i></span>
 
-                <button type="button" class="btn mx-1 border-round-xl btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate">
+                <button type="button" (click)="deleteUser()" class="btn mx-1 border-round-xl btn-tool bg-gradient-danger" [disabled]="!utilisateurUpdate">
                   <i class="far fa-trash-alt"></i>
                 </button>
                 |
