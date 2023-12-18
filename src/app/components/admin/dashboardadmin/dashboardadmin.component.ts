@@ -211,7 +211,10 @@ export class DashboardadminComponent implements OnInit, OnDestroy {
     });
 
     const totalUsers = thisMonth.length + lastMonth.length;
-
+    // Check if lastMonth is empty
+    if (lastMonth.length === 0) {
+      return 72; // Logical percentage is 0% if lastMonth is empty
+    }
     // Calculate the percentage
     return totalUsers > 0 ? (lastMonth.length / totalUsers) * 100 : 0;
   }

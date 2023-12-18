@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {InfoFacture} from "../modules/InfoFacture";
+import {Encaissement} from "../modules/Encaissement";
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,14 @@ export class FactureService {
 
   private baseUrl = 'http://localhost:8088';
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   addFacture(facture: InfoFacture): Observable<InfoFacture> {
     return this.http.post<InfoFacture>(`${this.baseUrl}/facture`, facture);
   }
-
+  addListEncaissToFacture(encaissments: Encaissement[],factureId:string): Observable<InfoFacture[]> {
+    return this.http.post<InfoFacture[]>(`${this.baseUrl}/affectlistencaissement/tofacture/${factureId}`, encaissments);
+  }
   findAllFactures(identifiant: string, ref: string, apl: number, page: number, size: number): Observable<InfoFacture[]> {
     const params = {
       identifiant: identifiant,
@@ -84,6 +86,29 @@ export class FactureService {
     return this.http.get<InfoFacture[]>(`${this.baseUrl}/factures/searchPageFactures`, { params });
   }
 
+  getAllPagesFacture(produit: string,
+                     refFacture: string,
+                     compteFacturation: string,
+                     identifiant: string,
+                     montant: string,
+                     solde: string,
+                     status: string,
+                     page: number,
+                     size: number
+  ): Observable<InfoFacture[]> {
+    const params = new HttpParams()
+      .set('produit', produit || '')
+      .set('refFacture', refFacture || '')
+      .set('compteFacturation', compteFacturation || '')
+      .set('identifiant', identifiant || '')
+      .set('montant', montant || '')
+      .set('solde', solde || '')
+      .set('status', status || '')
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<InfoFacture[]>(`${this.baseUrl}/factures/getallbypageFactures`, { params });
+  }
   getMonthlyFactures(): Observable<InfoFacture[]> {
     const url = `${this.baseUrl}/factures/monthlyFactures`;
     return this.http.get<InfoFacture[]>(url);

@@ -79,20 +79,13 @@ export class PaiementComponent implements OnInit, OnDestroy {
   }
 
   getList(ett: Ett) {
-    if (ett && ett.caisses && ett.caisses.length !== 0) {
-      // Create an observable for each caisse
-      const observables = ett?.caisses.map(value =>
-        this.encaissementService.getEncaissementByCaisse(value.idCaisse)
-      );
-
-      // Use concatMap to process observables sequentially
-      from(observables).pipe(
-        concatMap((observable: Observable<Encaissement[]>) => observable)
+   this.encaissementService.getEncaissThisYear(
       ).subscribe(
-        (result: Encaissement[]) => {
+        (result) => {
           // Filter and add Encaissement objects
           const filteredResults = result.filter(value => value?.etatEncaissement === 'DELETE') as Encaissement[];
           this.listEncaissement.push(...filteredResults);
+          console.log(filteredResults);
         },
         error => {
           console.error(error);
@@ -103,7 +96,7 @@ export class PaiementComponent implements OnInit, OnDestroy {
         }
       );
     }
-  }
+
 
   getdelete() {
     this.listEncaissement.forEach(value => this.delete += value.montantEnc);

@@ -14,11 +14,11 @@ import {
   debounceTime,
   EMPTY,
   finalize,
-  forkJoin,
+  forkJoin, from,
   retry,
   Subscription,
   switchMap,
-  throwError
+  throwError, toArray
 } from "rxjs";
 import {InfoFacture} from "../../../../modules/InfoFacture";
 import {Encaissement} from "../../../../modules/Encaissement";
@@ -168,10 +168,9 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
             this.encaissFactArray.push(value);
           }
         });
-
+        this.disableFormControls();
         console.log(facture)
       }
-      this.disableFormControls();
       this.calculateTotalMontant();
     });
   }
@@ -280,10 +279,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     const today = this.today;
     this.factureForm = this.formBuilder.group({
       idFacture: [uuidv4().toString()],
-      refFacture: [{
-        value: uuidv4().slice(3, 18).toString(),
-        disabled: true
-      }, [Validators.required, this.noWhitespaceStartorEnd]],
+      refFacture: [uuidv4().slice(3, 18).toString(), [Validators.required, this.noWhitespaceStartorEnd]],
       produit: ['', [Validators.required, this.noWhitespaceStartorEnd]],
       montant: [null, [Validators.required, Validators.min(1)]],
       solde: [null, [Validators.min(0), Validators.max(100)]],
@@ -546,12 +542,13 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     });
   }
 
-  saveTrace(trace:Tracage) {
+  saveTrace(trace: Tracage) {
     this.tracageService.addTracage(trace).subscribe(value => {
     }, error => {
       console.error(error);
     });
   }
+
   deleteFacture(facId: string): void {
     const trace: Tracage = {
       utilisateur: this.currentUser,
@@ -657,6 +654,7 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
 
   handleEncaissements(factureId: string, idCaisse: string) {
     console.info("this.encaissementsArray", this.encaissementsArray);
+    const encArray = this.encaissementsArray;
     const trace: Tracage = {
       utilisateur: this.currentUser,
       object: "ENCAISSEMENT",
@@ -666,50 +664,39 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
       time: '',
       ip: ''
     };
-    const observables = this.encaissementsArray.map((value) =>
-      this.encaissementService.addEncaiss(value).pipe(
-        switchMap((encaissement) =>
-          this.factureService.affectEncaissementToFacture(factureId, encaissement.idEncaissement).pipe(
-            catchError((factureError) => {
-              // Handle error specific to affectEncaissementToFacture call
-              console.error('Error affecting encaissement to facture:', factureError);
-              this.toastr.error('Error affecting encaissement to facture.', 'Error');
-              return throwError(factureError);
-            }),
-            switchMap(() =>
-              this.encaissementService.affectEncaisseToCaisse(encaissement.idEncaissement, idCaisse).pipe(
-                catchError((error) => {
-                  this.toastr.error('Operation failed.', 'Error');
-                  console.error(error);
-                  return throwError(error);
-                }),
-                retry(2) // Retry the observable up to 2 more times in case of error
-              )
-            )
-          )
-        ),
-        catchError((error) => {
-          this.toastr.error('Payment creation failed.', 'Error');
-          console.error(error);
-          return throwError(error);
-        }),
-        retry(1) // Retry the observable up to 1 more time in case of error
-      )
-    );
 
-    forkJoin(observables).subscribe(
-      (responses) => {
-        for (let i = 0; i < this.encaissementsArray.length; i++) {
-          this.saveTrace(trace);
-        }
-        this.handleSuccess('Facture added successfully.');
-        this.encaissFactArray.push(...this.encaissementsArray);
-        this.resetForm();
-
-
-      },
-      (error) => {
-        this.handleError('Payment creation failed!', error);
+    this.encaissementService.addAllEncaiss(encArray).pipe(
+      catchError(error => {
+        this.handleError('Error saving encaissements.', error);
+        return throwError(error); // Propagate the error
+      }),
+      concatMap((encaissements: Encaissement[]) =>
+        this.factureService.addListEncaissToFacture(encArray, factureId).pipe(
+          catchError(error => {
+            this.handleError('Error adding encaissements to facture.', error);
+            return throwError(error); // Propagate the error
+          })
+        )
+      ),
+      concatMap(() => forkJoin(encArray.map((value) =>
+        this.encaissementService.affectEncaisseToCaisse(value.idEncaissement, idCaisse).pipe(
+          catchError(error => {
+            this.handleError('Error affecting encaissement to caisse.', error);
+            return throwError(error); // Propagate the error
+          })
+        )
+      ))),
+    ).subscribe({
+        next: () => {
+          this.handleSuccess('Facture added successfully.');
+          this.encaissFactArray.push(...this.encaissementsArray);
+          this.resetForm();
+          for (let i = 0; i < this.encaissementsArray.length; i++) {
+            this.saveTrace(trace);
+          }
+        }, error: (error) => {
+          this.handleError('Operation failed!', error);
+        }, complete: () => {}
       }
     );
   }
@@ -720,7 +707,8 @@ export class EncaissementFactureComponent implements OnInit, OnDestroy {
     console.error(error);
   }
 
-  handleSuccess(message: string) {
+  handleSuccess(message: string
+  ) {
     this.toastr.success(message, 'Success');
   }
 

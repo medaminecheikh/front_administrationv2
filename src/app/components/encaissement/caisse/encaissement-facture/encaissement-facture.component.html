@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Encaissement </h1>
+          <h1 class="m-0">Gestion Facture </h1>
         </div>
 
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a routerLink="/encaissement/dashboard">Home</a></li>
-            <li class="breadcrumb-item active">Encaissement</li>
+            <li class="breadcrumb-item active">Gestion facture</li>
           </ol>
         </div>
       </div>
@@ -338,7 +338,7 @@
                           <div class="col-sm-3" >
                             <select [formControl]="dureePaiment" [disabled]="updateRequest"
                                     class="form-control form-control-sm col-auto form-control-border border-width-1">
-                              <option *ngIf="updateRequest" >{{factureForm.get('datLimPai')?.value}}</option>
+                              <option *ngIf="updateRequest" >{{factureForm.get('datLimPai')?.value | date:"yyyy-MM-dd"}}</option>
                               <option *ngIf="!updateRequest" value="1">1 année</option>
                               <option *ngIf="!updateRequest" value="2">2 années</option>
                               <option *ngIf="!updateRequest" value="3">3 années</option>

@@ -14,6 +14,7 @@ import {TracageService} from "../../../services/tracage.service";
 import {Tracage} from "../../../modules/Tracage";
 import {Encaissement} from "../../../modules/Encaissement";
 import {EncaissementService} from "../../../services/encaissement.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -38,13 +39,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   nbrCaisse: number = 0;
 
 
-  public lineChartData:any
+  public lineChartData: any
 
   public lineChartLegend = true;
-   estime: number=0;
+  estime: number = 0;
 
   constructor(private authService: AuthService, private userService: UserService
-    , private ettService: EttService,
+            , private ettService: EttService,
+              private router: Router,
               private toastr: ToastrService,
               private factureService: FactureService,
               private encaissementService: EncaissementService, private tracageService: TracageService) {
@@ -125,7 +127,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   calculNbrEmploye() {
-    this.nbrEmploye = this.ett.utilisateurs.length;
+    this.nbrEmploye = this.ett.utilisateurs.filter(user =>
+      user.profilUser.some(profilUser => profilUser.profil.nomP === "FO")
+    ).length;
     this.nbrCaisse = this.ett.caisses.length;
   }
 
@@ -215,9 +219,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  totatEstime(s:number) {
+  totatEstime(s: number) {
     this.estime += s;
   }
+
   calculateNumberOfPayments(years: number, periode: string): number {
     if ("MENSUEL" === periode.toUpperCase()) {
       return Math.floor(years * 12); // Assuming monthly payments
@@ -345,12 +350,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   totalRevenu() {
-    let totat=0;
+    let totat = 0;
     this.getSemEncaissement().forEach(value => {
-      totat += value;})
+      totat += value;
+    })
     return totat;
   }
-  updateChartData(encaiss:Encaissement[]) {
+
+  updateChartData(encaiss: Encaissement[]) {
 
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
@@ -361,27 +368,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
       data[month] += value.montantEnc;
     });
 
-    const info= currentMonth <= 5 ? data.slice(0, 6) : data.slice(6, 12);
+    const info = currentMonth <= 5 ? data.slice(0, 6) : data.slice(6, 12);
     this.lineChartData = new Chart("Chart", {
-      type:'line',
+      type: 'line',
       data:
-    {
-      labels: this.getSemestre(),
-        datasets:
-      [
         {
-          data: info,
-          label: 'Revenue',
-          fill: true,
-          tension: 0.5,
-          borderColor: 'black',
-          backgroundColor: 'rgba(87, 220, 171, 0.78)'
-        }
-      ],
-    }, options: {
-        responsive:true
+          labels: this.getSemestre(),
+          datasets:
+            [
+              {
+                data: info,
+                label: 'Revenue',
+                fill: true,
+                tension: 0.5,
+                borderColor: 'black',
+                backgroundColor: 'rgba(87, 220, 171, 0.78)'
+              }
+            ],
+        }, options: {
+        responsive: true
       },
 
     });
   }
+
 }

@@ -16,20 +16,20 @@ import {FonctionService} from "../../../../services/fonction.service";
   templateUrl: './list-profil.component.html',
   styleUrls: ['./list-profil.component.scss']
 })
-export class ListProfilComponent implements OnInit{
+export class ListProfilComponent implements OnInit {
   profilForm !: FormGroup;
   profil!: Profil;
-  profils: Profil[]=[];
-  showError:boolean =false;
-  functions:Fonctionalite[]=[];
-  models:Model[]=[] ;
-  selectedModel !:Model | undefined;
+  profils: Profil[] = [];
+  showError: boolean = false;
+  functions: Fonctionalite[] = [];
+  models: Model[] = [];
+  selectedModel !: Model | undefined;
   treeData: TreeNode[] = [];
-  selectedFonc :Fonctionalite[]=[];
+  selectedFonc: Fonctionalite[] = [];
   selectedItems: TreeNode[] = [];
-  model= new FormControl();
-  desc:string='';
-  keyword:string='';
+  model = new FormControl();
+  desc: string = '';
+  keyword: string = '';
   userPage: Page = {
     totalPages: 0,
     totalElements: 0,
@@ -45,10 +45,11 @@ export class ListProfilComponent implements OnInit{
   pages: number[] = [];
   profilUpdate!: Profil | null;
 
-  constructor(private profilService:ProfilService,
-              private router: Router,private formBuilder: FormBuilder,
-              private toastr: ToastrService,private modelService:ModelService,
-              private foncService:FonctionService) {}
+  constructor(private profilService: ProfilService,
+              private router: Router, private formBuilder: FormBuilder,
+              private toastr: ToastrService, private modelService: ModelService,
+              private foncService: FonctionService) {
+  }
 
 
   ngOnInit(): void {
@@ -58,7 +59,6 @@ export class ListProfilComponent implements OnInit{
     this.getAllFonctions();
     this.subscribeToModelChanges();
   }
-
 
 
   selectNodes(nodes: TreeNode[], selectedFonctions: Fonctionalite[]) {
@@ -98,6 +98,7 @@ export class ListProfilComponent implements OnInit{
       }
     }
   }
+
   onSelectionModel() {
     const id = this.model.value;
     this.selectedModel = this.models.find(model => model.idModel === id)
@@ -110,6 +111,7 @@ export class ListProfilComponent implements OnInit{
       console.log(this.selectedItems)
     }
   }
+
   private expandRecursive(node: TreeNode, isExpand: boolean) {
     node.expanded = isExpand;
     if (node.children) {
@@ -118,11 +120,13 @@ export class ListProfilComponent implements OnInit{
       });
     }
   }
+
   expandAll() {
     this.treeData.forEach((node) => {
       this.expandRecursive(node, true);
     });
   }
+
   onSelectedItemsChange() {
     this.selectedFonc = this.selectedItems
       .filter(item => !this.selectedModel?.fonctions.some(fonc => fonc.idFonc === item.data.idFonc))
@@ -133,19 +137,22 @@ export class ListProfilComponent implements OnInit{
     const value = control.value || '';
     const trimmedValue = value.trim();
     const isValid = value === trimmedValue;
-    return isValid ? null : { whitespace: true };
+    return isValid ? null : {whitespace: true};
   }
+
   Clear() {
-    this.selectedModel=undefined;
-    this.profilUpdate=null;
+    this.selectedModel = undefined;
+    this.profilUpdate = null;
     this.profilForm.reset();
 
   }
 
   refresh() {
-
+    this.router.navigate(['admin/profil/list']).then(() => {
+      // Reload the current page
+      location.reload();
+    });
   }
-
 
 
   updatePages() {
@@ -187,7 +194,7 @@ export class ListProfilComponent implements OnInit{
   }
 
   searchProfils() {
-    this.profilService.searchPageProfils(this.keyword.toUpperCase(), this.desc,this.page, this.size)
+    this.profilService.searchPageProfils(this.keyword.toUpperCase(), this.desc, this.page, this.size)
       .subscribe(data => {
         this.profils = data;
         console.log(this.profils)
@@ -201,11 +208,10 @@ export class ListProfilComponent implements OnInit{
   }
 
   resetFilter() {
-    this.keyword='';
-    this.desc='';
-    this.size=5;
+    this.keyword = '';
+    this.desc = '';
+    this.size = 5;
   }
-
 
 
   updateProfil() {
@@ -215,12 +221,12 @@ export class ListProfilComponent implements OnInit{
 
   onRowDoubleClick(profil: Profil) {
 
-    this.profilUpdate=profil;
+    this.profilUpdate = profil;
     this.profilForm.patchValue({
       nomP: profil.nomP,
       des_P: profil.des_P,
     });
-    this.selectedModel=profil.model;
+    this.selectedModel = profil.model;
 
   }
 
@@ -229,12 +235,14 @@ export class ListProfilComponent implements OnInit{
       this.models = data;
     });
   }
+
   private initializeProfilForm(): void {
     this.profilForm = this.formBuilder.group({
       nomP: ['', [Validators.maxLength(30), this.noWhitespaceStartorEnd]],
       des_P: ['', [Validators.maxLength(100), this.noWhitespaceStartorEnd]]
     });
   }
+
   subscribeToModelChanges() {
     this.model.valueChanges.subscribe(value => {
       if (value === null || value === "null") {
@@ -322,5 +330,16 @@ export class ListProfilComponent implements OnInit{
       // Expand all nodes in the tree
       this.expandAll();
     });
+  }
+
+  deleteP() {
+    if (this.profilUpdate && this.profilUpdate?.idProfil) {
+      this.profilService.deleteProfile(this.profilUpdate?.idProfil).subscribe({
+        next: value => {
+          this.refresh()
+        },
+        error: err => console.error(err)
+      });
+    }
   }
 }

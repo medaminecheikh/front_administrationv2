@@ -15,6 +15,9 @@ export class EncaissementService {
   addEncaiss(encaissement: Encaissement): Observable<Encaissement> {
     return this.http.post<Encaissement>(`${this.baseUrl}/encaissement`, encaissement);
   }
+  addAllEncaiss(encaissement: Encaissement[]): Observable<Encaissement[]> {
+    return this.http.post<Encaissement[]>(`${this.baseUrl}/addlistencaissement`, encaissement);
+  }
   updateEncaiss(encaissement: Encaissement): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/encaissementupdate`, encaissement);
   }
