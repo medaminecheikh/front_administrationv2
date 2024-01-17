@@ -9,7 +9,7 @@ import {Encaissement} from "../modules/Encaissement";
 })
 export class FactureService {
 
-  private baseUrl = 'http://localhost:8088';
+  private baseUrl = 'http://localhost:9999/MICROFACTURE';
 
   constructor(private http: HttpClient) {}
 

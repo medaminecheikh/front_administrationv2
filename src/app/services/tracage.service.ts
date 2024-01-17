@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class TracageService {
-  host = "http://localhost:8088/";
+  host = "http://localhost:9999/MICROADMIN/";
   constructor(private http: HttpClient) { }
   getTracages(
     idUser: string,

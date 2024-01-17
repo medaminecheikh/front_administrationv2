@@ -10,7 +10,7 @@ import {TokenStorageService} from "./token-storage.service";
 })
 export class AuthService {
 
-  host = "http://localhost:8088/auth/";
+  host = "http://localhost:9999/MICROADMIN/auth/";
 
   private currentUserSubject: BehaviorSubject<CurrentUser | null>;
   public currentUser: Observable<CurrentUser | null>;

@@ -8,7 +8,7 @@ import {Caisse} from "../modules/Caisse";
 })
 export class CaisseService {
 
-  private baseUrl = 'http://localhost:8088/caisse';
+  private baseUrl = 'http://localhost:9999/MICROADMIN/caisse';
 
   constructor(private http: HttpClient) { }
 

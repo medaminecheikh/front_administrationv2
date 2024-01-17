@@ -7,7 +7,7 @@ import {Ett} from "../modules/Ett";
   providedIn: 'root'
 })
 export class EttService {
-  private baseUrl = 'http://localhost:8088';
+  private baseUrl = 'http://localhost:9999/MICROADMIN';
   constructor(private http: HttpClient) { }
 
   getAllEtts(): Observable<Ett[]> {

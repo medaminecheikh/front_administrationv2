@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class DrService {
-  private baseUrl = 'http://localhost:8088';
+  private baseUrl = 'http://localhost:9999/MICROADMIN';
   constructor(private http: HttpClient) { }
 
   public getAllDregionals(): Observable<Dregional[]> {

@@ -7,7 +7,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
   providedIn: 'root'
 })
 export class UserService {
-  host = "http://localhost:8088/";
+  host = "http://localhost:9999/MICROADMIN/";
   constructor(private http: HttpClient) { }
   public searchUserpage(kw: string, nom: string, prenom: string, actif:string, page: number, size: number):Observable<Utilisateur[]>{
     const params = new HttpParams()

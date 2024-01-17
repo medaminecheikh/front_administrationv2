@@ -7,7 +7,7 @@ import {Fonctionalite} from "../modules/Fonctionalite";
   providedIn: 'root'
 })
 export class FonctionService {
-  private baseUrl = 'http://localhost:8088';
+  private baseUrl = 'http://localhost:9999/MICROADMIN';
 
   constructor(private http: HttpClient) { }
 
