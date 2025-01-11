@@ -1,5 +1,12 @@
 # Front-Administration app
 
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.6.
 
 ## Development server
