@@ -50,7 +50,11 @@ The **Billing Web App** is designed to streamline billing operations and manage 
 ![Employee Dashboard](src/assets/realisation/dashemp.png)
 
 ### Account Management
-![Account Management](https://github.com/medaminecheikh/front_administrationv2/tree/main/src/assets/realisation/account_management.png)
+![Account Management](src/assets/realisation/CreeUserError.png)
+![Account Management](src/assets/realisation/CreeProfil.png)
+![Account Management](src/assets/realisation/searchupdateUser.png)
+
+
 
 ### Billing Management
 ![Billing Management](https://github.com/medaminecheikh/front_administrationv2/tree/main/src/assets/realisation/billing_management.png)
