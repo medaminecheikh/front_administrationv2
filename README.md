@@ -43,6 +43,12 @@ The **Billing Web App** is designed to streamline billing operations and manage 
 ### Login Page
 ![Login](src/assets/realisation/loginError.png)
 
+
+### Billing Management
+![Billing Management](src/assets/realisation/creeFacture.png)
+![Billing Management](src/assets/realisation/fairePaiement.png)
+![Billing Management](src/assets/realisation/infoRechecheEnc.png)
+
 ### Manager Dashboard
 ![Manager Dashboard](src/assets/realisation/dashadmin.png)
 
@@ -56,10 +62,6 @@ The **Billing Web App** is designed to streamline billing operations and manage 
 
 
 
-### Billing Management
-![Billing Management](src/assets/realisation/creeFacture.png)
-![Billing Management](src/assets/realisation/fairePaiement.png)
-![Billing Management](src/assets/realisation/infoRechecheEnc.png)
 
 ---
 
