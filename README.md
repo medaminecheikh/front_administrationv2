@@ -1,4 +1,4 @@
-# Billing and staff Management Web App
+# Billing and Staff Management Web App
 
 
 [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
