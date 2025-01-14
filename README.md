@@ -60,6 +60,9 @@ The **Billing Web App** is designed to streamline billing operations and manage 
 ![Account Management](src/assets/realisation/CreeProfil.png)
 ![Account Management](src/assets/realisation/searchupdateUser.png)
 
+### Activities Logs
+![Management](src/assets/realisation/TraceEncais.png)
+![Management](src/assets/realisation/TraceFacture.png)
 
 
 
