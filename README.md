@@ -57,7 +57,9 @@ The **Billing Web App** is designed to streamline billing operations and manage 
 
 
 ### Billing Management
-![Billing Management](https://github.com/medaminecheikh/front_administrationv2/tree/main/src/assets/realisation/billing_management.png)
+![Billing Management](src/assets/realisation/creeFacture.png)
+![Billing Management](src/assets/realisation/fairePaiement.png)
+![Billing Management](src/assets/realisation/infoRechecheEnc.png)
 
 ---
 
