@@ -1,4 +1,4 @@
-# Billing Web App
+# Billing and staff Management Web App
 
 
 [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
@@ -7,6 +7,53 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=medaminecheikh_front_administrationv2&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=medaminecheikh_front_administrationv2)
+
+
+## About
+
+The **Billing Web App** is designed to streamline billing operations and manage staff effectively. It features two primary user roles:
+1. **Manager:** Oversee accounts, assign access, and manage staff.
+2. **Employee:** Handle billing tasks efficiently through a dedicated dashboard.
+
+---
+
+## Features
+
+### Manager Dashboard
+- **Account Management:** Create, update, or delete user accounts.
+- **Access Control:** Grant permissions to other accounts.
+- **Activity Monitoring:** Track staff activities and billing performance.
+
+### Employee Dashboard
+- **Billing Management:** Manage bills by adding, updating, or tracking their status.
+- **Task View:** View assigned tasks and completed billing history.
+
+---
+
+## Tech Stack
+- **Frontend:** Angular
+- **Backend:** Spring Boot (Microservices Architecture)
+- **Authentication:** JWT (JSON Web Token)
+- **Database:** PostgreSQL
+
+---
+
+## Interfaces
+
+### Manager Dashboard
+![Manager Dashboard](src/assets/realisation/dashadmin.png)
+
+### Employee Dashboard
+![Employee Dashboard](https://github.com/medaminecheikh/front_administrationv2/tree/main/src/assets/realisation/employee_dashboard.png)
+
+### Account Management
+![Account Management](https://github.com/medaminecheikh/front_administrationv2/tree/main/src/assets/realisation/account_management.png)
+
+### Billing Management
+![Billing Management](https://github.com/medaminecheikh/front_administrationv2/tree/main/src/assets/realisation/billing_management.png)
+
+---
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.6.
 
